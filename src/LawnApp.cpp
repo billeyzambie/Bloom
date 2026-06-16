@@ -1742,12 +1742,13 @@ void LawnApp::LoadingThreadProc()
 	TodStringListLoad("properties/ZombatarTOS.txt");
 	TodStringListLoad("properties/FrameworkStrings.txt");
 
-	HMODULE aMod = LoadLibraryA("mods/ExampleMod.dll");
+	std::string aFileName = "ExampleMod.dll";
+	HMODULE aMod = LoadLibraryA(("mods/" + aFileName).c_str());
 	if (aMod)
 	{
-		auto aModInitFunction = (void(*)())GetProcAddress(aMod, "ModInit");
+		auto aModInitFunction = (void (*)(const std::string *))GetProcAddress(aMod, "ModInit");
 		if (aModInitFunction)
-			aModInitFunction();
+			aModInitFunction(&aFileName);
 		else
 			std::cout << "ModInit function not found" << std::endl;
 	}

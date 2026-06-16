@@ -26,3 +26,8 @@ void OnGameStart()
 		aPlant->Die();
 	};
 }
+
+void Quack()
+{
+	std::cout << "Quack";
+}
