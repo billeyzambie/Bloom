@@ -63,6 +63,7 @@
 #if LAWN_DEBUG_TOOLS
 #include "Lawn/ResoddedFramework/DebuggerWindow.h"
 #endif
+#include <iostream>
 
 //Do not edit this. - Electr0Gunner
 Version LawnApp::gResoddedVersion(1, 0, 0, 990);
@@ -1740,6 +1741,16 @@ void LawnApp::LoadingThreadProc()
 	TodStringListLoad("properties/LawnStrings.txt");
 	TodStringListLoad("properties/ZombatarTOS.txt");
 	TodStringListLoad("properties/FrameworkStrings.txt");
+
+	HMODULE aMod = LoadLibraryA("mods/ExampleMod.dll");
+	if (aMod)
+	{
+		auto aModInitFunction = (void(*)())GetProcAddress(aMod, "ModInit");
+		if (aModInitFunction)
+			aModInitFunction();
+		else
+			std::cout << "ModInit function not found" << std::endl;
+	}
 
 	if (mTitleScreen)
 	{

@@ -1,6 +1,7 @@
 #include "LawnApp.h"
 #include "Resources.h"
 #include "Sexy.TodLib/TodStringFile.h"
+#include "Bloom/BillDebug.hpp"
 
 using namespace Sexy;
 
@@ -20,7 +21,9 @@ int main(int argc, char **argv)
 		(!Sexy::FileExists("properties/resources.xml") && Sexy::FileExists("../properties/resources.xml")) ? ".." : ".";
 
 	gLawnApp->Init();
+	OnGameStart();
 	gLawnApp->Start();
+
 
 	gLawnApp->Shutdown();
 	if (gLawnApp)

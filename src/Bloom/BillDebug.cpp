@@ -1,0 +1,28 @@
+#include "BillDebug.hpp"
+#include "Events.hpp"
+#include "EventContext.hpp"
+#include "../LawnApp.h"
+#include "../Lawn/Board.h"
+#include "../Sexy.TodLib/TodFoley.h"
+#include <iostream>
+
+void OnGameStart()
+{
+	Events::PLANT_EATEN += [](PlantEatenContext &theContext) {
+		auto *aPlant = theContext.mEatenPlant;
+
+		int aPosX = aPlant->mX + aPlant->mWidth / 2;
+		int aPosY = aPlant->mY + aPlant->mHeight / 2;
+		int aDamageRangeFlags = aPlant->GetDamageRangeFlags(PlantWeapon::WEAPON_PRIMARY);
+
+		aPlant->mApp->PlayFoley(FoleyType::FOLEY_CHERRYBOMB);
+		aPlant->mApp->PlayFoley(FoleyType::FOLEY_JUICY);
+
+		aPlant->mBoard->KillAllZombiesInRadius(aPlant->mRow, aPosX, aPosY, 115, 1, true, aDamageRangeFlags);
+
+		aPlant->mApp->AddTodParticle(aPosX, aPosY, (int)RenderLayer::RENDER_LAYER_TOP, ParticleEffect::PARTICLE_POWIE);
+		aPlant->mBoard->ShakeBoard(3, -4);
+
+		aPlant->Die();
+	};
+}

@@ -122,3 +122,5 @@ foreach(DLL ${DLLS_TO_COPY})
             "${EXPORT_DIR}"
     )
 endforeach()
+
+target_link_libraries(LawnProject PRIVATE Bloom)

@@ -1,5 +1,6 @@
 # CMakeLists.txt
 cmake_minimum_required(VERSION 3.28 FATAL_ERROR)
+
 project(ResoddedFramework LANGUAGES C CXX)
 
 # Enable Hot Reload for MSVC compilers if supported.
@@ -9,6 +10,7 @@ if(MSVC AND WIN32 AND NOT MSVC_VERSION VERSION_LESS 142)
 endif()
 
 if(MSVC)
+    #set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:RELEASE>:Release>")
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>") # a stupid fix
 
     # Prevent PDB access conflicts when multiple CL.EXE instances compile in parallel.
@@ -31,6 +33,11 @@ set(CMAKE_CXX_EXTENSIONS ON)
 set(CMAKE_USE_FOLDERS ON)
 
 include(cmake/UserConfig.cmake)
+
+add_compile_definitions(CMAKE_CXX_COMPILER="${CMAKE_CXX_COMPILER}")
+add_compile_definitions(CMAKE_CXX_COMPILER_VERSION="${CMAKE_CXX_COMPILER_VERSION}")
+add_compile_definitions(CMAKE_C_COMPILER="${CMAKE_C_COMPILER}")
+add_compile_definitions(CMAKE_C_COMPILER_VERSION="${CMAKE_C_COMPILER_VERSION}")
 
 add_subdirectory(src/ImageLib)
 add_subdirectory(src/PakLib)

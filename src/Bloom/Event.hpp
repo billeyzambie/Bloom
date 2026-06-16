@@ -8,40 +8,42 @@ template <class ContextT> class Event
 	using ContextFunctionPointer = void (*)(ContextT &);
 
   private:
-	std::vector<ContextFunctionPointer> mFuncPtrs;
+	std::vector<ContextFunctionPointer> mFunctionPointers;
 
   public:
-	ContextFunctionPointer operator+=(ContextFunctionPointer theFuncPtr)
+	ContextFunctionPointer operator+=(ContextFunctionPointer theFunctionPointer)
 	{
-		for (size_t i = 0; i < mFuncPtrs.size(); i++)
+		for (size_t i = 0; i < mFunctionPointers.size(); i++)
 		{
-			auto &aFuncPtr = mFuncPtrs[i];
-			if (!aFuncPtr)
+			auto &aFunctionPointer = mFunctionPointers[i];
+			if (!aFunctionPointer)
 			{
-				aFuncPtr = theFuncPtr;
-				return theFuncPtr;
+				aFunctionPointer = theFunctionPointer;
+				return theFunctionPointer;
 			}
 		}
-		mFuncPtrs.push_back(theFuncPtr);
-		return theFuncPtr;
+		mFunctionPointers.push_back(theFunctionPointer);
+		return theFunctionPointer;
 	}
 
-	ContextFunctionPointer operator-=(ContextFunctionPointer theFuncPtr)
+	ContextFunctionPointer operator-=(ContextFunctionPointer theFunctionPointer)
 	{
-		for (auto &aFuncPtr : mFuncPtrs)
+		for (auto &aFunctionPointer : mFunctionPointers)
 		{
-			if (aFuncPtr == theFuncPtr)
-				aFuncPtr = nullptr;
+			if (aFunctionPointer == theFunctionPointer)
+				aFunctionPointer = nullptr;
 		}
-		return theFuncPtr;
+		return theFunctionPointer;
 	}
 
 	void Execute(ContextT &theContext) const
 	{
-		for (const auto &aFuncPtr : mFuncPtrs)
+		for (const auto &aFunctionPointer : mFunctionPointers)
 		{
-			if (aFuncPtr)
-				aFuncPtr(theContext);
+			if (aFunctionPointer)
+				aFunctionPointer(theContext);
+			if (theContext.mCanceled)
+				break;
 		}
 	}
 };

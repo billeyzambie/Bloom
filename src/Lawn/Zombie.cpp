@@ -19,6 +19,7 @@
 #include "../Sexy.TodLib/Reanimator.h"
 #include "../Sexy.TodLib/Attachment.h"
 #include "../Sexy.TodLib/TodParticle.h"
+#include "../Bloom/Events.hpp"
 
 ZombieDefinition gZombieDefs[NUM_ZOMBIE_TYPES] = {
 	{ZOMBIE_NORMAL, REANIM_ZOMBIE, 1, 1, 1, 4000, "ZOMBIE"},
@@ -7173,6 +7174,8 @@ void Zombie::StartMindControlled()
 
 void Zombie::EatPlant(Plant *thePlant)
 {
+	int anOriginalPlantHealth = thePlant->mPlantHealth;
+
 	if (mZombiePhase == ZombiePhase::PHASE_DANCER_DANCING_IN)
 	{
 		mPhaseCounter = 1;
@@ -7256,6 +7259,14 @@ void Zombie::EatPlant(Plant *thePlant)
 
 	if (thePlant->mPlantHealth <= 0)
 	{
+		PlantEatenContext aContext{false, thePlant, this};
+		Events::PLANT_EATEN.Execute(aContext);
+		if (aContext.mCanceled)
+		{
+			thePlant->mPlantHealth = anOriginalPlantHealth;
+			return;
+		}
+
 		mApp->PlaySample(SOUND_GULP);
 
 		mBoard->mPlantsEaten++;

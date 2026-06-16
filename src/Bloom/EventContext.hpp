@@ -1,6 +1,11 @@
 #pragma once
 
-struct EventContext
+#include "../Lawn/Plant.h"
+#include "../Lawn/Zombie.h"
+
+struct PlantEatenContext
 {
-	bool mCanceled = false;
+	bool mCanceled;
+	Plant *mEatenPlant;
+	Zombie *mEaterZombie;
 };
