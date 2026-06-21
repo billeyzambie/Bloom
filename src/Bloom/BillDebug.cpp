@@ -1,6 +1,6 @@
-#include "BillDebug.hpp"
-#include "Events.hpp"
-#include "EventContext.hpp"
+#include "BillDebug.h"
+#include "Events.h"
+#include "EventContexts.h"
 #include "../LawnApp.h"
 #include "../Lawn/Board.h"
 #include "../Sexy.TodLib/TodFoley.h"
@@ -29,5 +29,5 @@ void OnGameStart()
 
 void Quack()
 {
-	std::cout << "Quack";
+	std::cout << "Quack!" << std::endl;
 }

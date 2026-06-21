@@ -1,9 +1,10 @@
 #pragma once
 
-#include "EventContext.hpp"
+#include "EventContexts.h"
 #include <vector>
+#include "Bloom.h"
 
-template <class ContextT> class Event
+template <class ContextT> class BLOOM_API Event
 {
 	using ContextFunctionPointer = void (*)(ContextT &);
 
@@ -36,7 +37,7 @@ template <class ContextT> class Event
 		return theFunctionPointer;
 	}
 
-	void Execute(ContextT &theContext) const
+	ContextT &Execute(ContextT &theContext) const
 	{
 		for (const auto &aFunctionPointer : mFunctionPointers)
 		{
@@ -45,5 +46,18 @@ template <class ContextT> class Event
 			if (theContext.mCanceled)
 				break;
 		}
+		return theContext;
+	}
+
+	ContextT Execute(ContextT &&theContext) const
+	{
+		for (const auto &aFunctionPointer : mFunctionPointers)
+		{
+			if (aFunctionPointer)
+				aFunctionPointer(theContext);
+			if (theContext.mCanceled)
+				break;
+		}
+		return theContext;
 	}
 };

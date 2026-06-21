@@ -2,11 +2,12 @@
 #define __POINT_H__
 
 #include "Common.h"
+#include "../Bloom/Bloom.h"
 
 namespace Sexy
 {
 
-template <class _T> class TPoint
+template <class _T> class BLOOM_API TPoint
 {
   public:
 	_T mX;

@@ -2,13 +2,14 @@
 
 #include "../ConstEnums.h"
 #include "../SexyAppFramework/Graphics.h"
+#include "Bloom.h"
 
 using namespace Sexy;
 
 class LawnApp;
 class Board;
 
-class GameObject
+class BLOOM_API GameObject
 {
   public:
 	LawnApp *mApp;

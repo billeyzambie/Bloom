@@ -1,8 +1,8 @@
 #pragma once
 
-#include "RegistryTypeHolder.hpp"
-#include "ChunkedList.hpp"
-#include "BloomType.hpp"
+#include "RegistryTypeHolder.h"
+#include "ChunkedList.h"
+#include "BloomType.h"
 
 template <class T> class Registry
 {

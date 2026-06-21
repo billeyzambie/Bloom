@@ -1,4 +1,4 @@
-#include "Identifier.hpp"
+#include "Identifier.h"
 
 Identifier::Identifier(std::string theModName, std::string theTypeName)
 	: mModName(std::move(theModName)),

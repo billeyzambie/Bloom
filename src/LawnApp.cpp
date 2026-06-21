@@ -1230,17 +1230,17 @@ void LawnApp::Init()
 	
 	// [SETUP] - Here you (can) add a link that contains the LATEST version of your mod. I recommend Github as it's free and easy to setup. (And you are probably using it now)
 
-	UpdateChecker::gUpdateHost =
-		"https://raw.githubusercontent.com/LawnProject/ResoddedFramework/refs/heads/main/LawnVersion.txt";
-
-	UpdateChecker::Check();
-
-	if (UpdateChecker::gIsOutdated)
-		TodTraceAndLog("[LawnProject] - OUTDATED: Current Version: %s | Latest Version: %s", gVersion.toString().c_str(),
-			   UpdateChecker::gLatestVersion.toString().c_str());
-	else
-		TodTraceAndLog("[LawnProject] - UP TO DATE: Version : %s", gVersion.toString().c_str());
-
+//	UpdateChecker::gUpdateHost =
+//		"https://raw.githubusercontent.com/LawnProject/ResoddedFramework/refs/heads/main/LawnVersion.txt";
+//
+//	UpdateChecker::Check();
+//
+//	if (UpdateChecker::gIsOutdated)
+//		TodTraceAndLog("[LawnProject] - OUTDATED: Current Version: %s | Latest Version: %s", gVersion.toString().c_str(),
+//			   UpdateChecker::gLatestVersion.toString().c_str());
+//	else
+//		TodTraceAndLog("[LawnProject] - UP TO DATE: Version : %s", gVersion.toString().c_str());
+//
 
 #if SEXY_CRASH_HANDLER
 	gSEHCatcher.mSubmitHost = "https://github.com/LawnProject/ResoddedFramework";
@@ -1742,6 +1742,8 @@ void LawnApp::LoadingThreadProc()
 	TodStringListLoad("properties/ZombatarTOS.txt");
 	TodStringListLoad("properties/FrameworkStrings.txt");
 
+	std::cout << std::endl;
+
 	std::string aFileName = "ExampleMod.dll";
 	HMODULE aMod = LoadLibraryA(("mods/" + aFileName).c_str());
 	if (aMod)
@@ -1752,6 +1754,8 @@ void LawnApp::LoadingThreadProc()
 		else
 			std::cout << "ModInit function not found" << std::endl;
 	}
+
+	std::cout << std::endl;
 
 	if (mTitleScreen)
 	{

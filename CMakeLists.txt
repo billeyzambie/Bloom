@@ -34,10 +34,7 @@ set(CMAKE_USE_FOLDERS ON)
 
 include(cmake/UserConfig.cmake)
 
-add_compile_definitions(CMAKE_CXX_COMPILER="${CMAKE_CXX_COMPILER}")
-add_compile_definitions(CMAKE_CXX_COMPILER_VERSION="${CMAKE_CXX_COMPILER_VERSION}")
-add_compile_definitions(CMAKE_C_COMPILER="${CMAKE_C_COMPILER}")
-add_compile_definitions(CMAKE_C_COMPILER_VERSION="${CMAKE_C_COMPILER_VERSION}")
+add_compile_definitions(BLOOM_EXPORT)
 
 add_subdirectory(src/ImageLib)
 add_subdirectory(src/PakLib)

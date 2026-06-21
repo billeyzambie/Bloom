@@ -124,7 +124,7 @@ enum MagnetItemType
 	MAGNET_ITEM_PICK_AXE
 };
 
-class MagnetItem
+class BLOOM_API MagnetItem
 {
   public:
 	float mPosX;
@@ -139,7 +139,7 @@ class Zombie;
 class Reanimation;
 class TodParticleSystem;
 
-class Plant : public GameObject
+class BLOOM_API Plant : public GameObject
 {
   public:
 	SeedType mSeedType;

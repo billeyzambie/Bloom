@@ -1,6 +1,7 @@
 #ifndef __GRAPHICS_H__
 #define __GRAPHICS_H__
 
+#include "../Bloom/Bloom.h"
 #include "Common.h"
 #include "Rect.h"
 #include "Color.h"
@@ -16,7 +17,7 @@ class Transform;
 
 const int MAX_TEMP_SPANS = 8192;
 
-struct Edge
+struct BLOOM_API Edge
 {
 	double mX;
 	double mDX;
@@ -26,7 +27,7 @@ struct Edge
 
 class Graphics;
 
-class GraphicsState
+class BLOOM_API GraphicsState
 {
   public:
 	static Image mStaticImage;
@@ -53,7 +54,7 @@ class GraphicsState
 
 typedef std::list<GraphicsState> GraphicsStateList;
 
-class Graphics : public GraphicsState
+class BLOOM_API Graphics : public GraphicsState
 {
   public:
 	enum
@@ -221,7 +222,7 @@ class Graphics : public GraphicsState
 	}
 };
 
-class GraphicsAutoState
+class BLOOM_API GraphicsAutoState
 {
   public:
 	Graphics *mG;

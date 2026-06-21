@@ -6,10 +6,12 @@
 
 #include <list>
 
+#include "../Bloom/Bloom.h"
+
 namespace Sexy
 {
 
-template <class _T> class TRect
+template <class _T> class BLOOM_API TRect
 {
   public:
 	_T mX;

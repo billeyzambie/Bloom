@@ -1,0 +1,7 @@
+// Hint files help the Visual Studio IDE interpret Visual C++ identifiers
+// such as names of functions and macros.
+// For more information see https://go.microsoft.com/fwlink/?linkid=865984
+#define BLOOM_API __declspec(dllexport)
+#define BLOOM_API __declspec(dllimport)
+#define BLOOM_GLOBAL __declspec(dllexport) inline
+#define BLOOM_API __declspec(dllimport) extern

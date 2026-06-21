@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Sexy.TodLib/TodDebug.h"
-#include "PatchHolder.hpp"
+#include "PatchHolder.h"
 
 template <class T> class RegistryTypeHolder
 {

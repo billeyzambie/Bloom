@@ -2,8 +2,7 @@
 
 #include <vector>
 #include <type_traits>
-#include "BloomType.hpp"
-#include "Patch.hpp"
+#include "Patch.h"
 
 template <class T> class PatchHolder
 {

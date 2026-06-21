@@ -9,7 +9,7 @@
 namespace Sexy
 {
 
-struct Span
+struct BLOOM_API Span
 {
 	int mY;
 	int mX;
@@ -24,7 +24,7 @@ enum AnimType
 	AnimType_Loop
 };
 
-struct AnimInfo
+struct BLOOM_API AnimInfo
 {
 	AnimType mAnimType;
 	int mFrameDelay; // 1/100s
@@ -46,7 +46,7 @@ class SexyMatrix3;
 class SysFont;
 class TriVertex;
 
-class Image
+class BLOOM_API Image
 {
 	friend class Sexy::SysFont;
 

@@ -3,7 +3,7 @@
 
 #include "GameObject.h"
 #include "../GameConstants.h"
-#include "System/PlayerInfo.h"
+#include "System/Zombatar.h"
 
 #define MAX_ZOMBIE_FOLLOWERS 4
 #define NUM_BOBSLED_FOLLOWERS 3
@@ -78,7 +78,7 @@ class Plant;
 class Reanimation;
 class TodParticleSystem;
 class Zombatar;
-class Zombie : public GameObject
+class BLOOM_API Zombie : public GameObject
 {
   public:
 	enum

@@ -80,13 +80,34 @@ endforeach()
 
 set(EXPORT_DIR "${CMAKE_SOURCE_DIR}/Export")
 
+if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+    set(ARCHITECTURE "x64")
+else()
+    set(ARCHITECTURE "x86")
+endif()
+
 set_target_properties(${PROJECT_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${EXPORT_DIR}"
     RUNTIME_OUTPUT_DIRECTORY_DEBUG "${EXPORT_DIR}"
     RUNTIME_OUTPUT_DIRECTORY_RELEASE "${EXPORT_DIR}"
     RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${EXPORT_DIR}"
     RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${EXPORT_DIR}"
+    ARCHIVE_OUTPUT_DIRECTORY "${EXPORT_DIR}"
 )
+
+set(MDK_DIR "${EXPORT_DIR}/mdk")
+
+set(BLOOM_API_FOLDER "${MDK_DIR}/bloomapi")
+
+set(COPY_DOTLIB_TO "${BLOOM_API_FOLDER}/bin/${CMAKE_BUILD_TYPE}${ARCHITECTURE}")
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${EXPORT_DIR}/${PROJECT_NAME}.lib"
+            "${COPY_DOTLIB_TO}/${PROJECT_NAME}.lib"
+    )
+
+#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${EXPORT_DIR}")
 
 # Assets
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
@@ -99,11 +120,7 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 )
 # DLL
 
-if (CMAKE_SIZEOF_VOID_P EQUAL 8)
-    set(THIRDPARTY_DIR "${CMAKE_SOURCE_DIR}/thirdparty/x64")
-else()
-    set(THIRDPARTY_DIR "${CMAKE_SOURCE_DIR}/thirdparty/x86")
-endif()
+set(THIRDPARTY_DIR "${CMAKE_SOURCE_DIR}/thirdparty/${ARCHITECTURE}")
 
 set(DLLS_TO_COPY
     bass.dll
@@ -123,4 +140,50 @@ foreach(DLL ${DLLS_TO_COPY})
     )
 endforeach()
 
-target_link_libraries(LawnProject PRIVATE Bloom)
+set(LIBS_TO_COPY
+    bass.lib
+    avcodec.lib
+    avdevice.lib
+    avformat.lib
+    avutil.lib
+    swresample.lib
+    swscale.lib
+)
+
+foreach(LIB ${LIBS_TO_COPY})
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${THIRDPARTY_DIR}/${LIB}"
+            "${MDK_DIR}/thirdparty/${ARCHITECTURE}/${LIB}"
+    )
+endforeach()
+
+set(HEADERS_TO_COPY
+    "Bloom/Bloom.h"
+    "Bloom/EventContexts.h"
+    "Bloom/Events.h"
+    "Bloom/Event.h"
+    "Lawn/GameObject.h"
+    "Lawn/Plant.h"
+    "Lawn/Zombie.h"
+    "Lawn/System/Zombatar.h"
+    "SexyAppFramework/Common.h"
+    "SexyAppFramework/Rect.h"
+    "SexyAppFramework/Color.h"
+    "SexyAppFramework/Graphics.h"
+    "SexyAppFramework/Image.h"
+    "SexyAppFramework/Point.h"
+    "SexyAppFramework/TriVertex.h"
+    "ConstEnums.h"
+    "GameConstants.h"
+)
+
+foreach(HEADER ${HEADERS_TO_COPY})
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${CMAKE_SOURCE_DIR}/src/${HEADER}"
+            "${BLOOM_API_FOLDER}/include/${HEADER}"
+    )
+endforeach()
+
+target_link_libraries(${PROJECT_NAME} PRIVATE Bloom)

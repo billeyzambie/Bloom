@@ -8,6 +8,10 @@
 #include "../../ConstEnums.h"
 #include <json.hpp>
 
+#include "Bloom.h"
+
+#include "Zombatar.h"
+
 class PottedPlant
 {
   public:
@@ -37,28 +41,6 @@ class PottedPlant
 
   public:
 	void InitializePottedPlant(SeedType theSeedType);
-};
-
-class Zombatar
-{
-  public:
-	int mSkinColor;
-	int mClothes;
-	int mClothesColor;
-	int mTidbits;
-	int mTidbitsColor;
-	int mAccessories;
-	int mAccessoriesColor;
-	int mFacialHair;
-	int mFacialHairColor;
-	int mHair;
-	int mHairColor;
-	int mEyewear;
-	int mEyewearColor;
-	int mHat;
-	int mHatColor;
-	int mBackdrop;
-	int mBackdropColor;
 };
 
 class ProfileSyncer
