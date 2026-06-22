@@ -1,4 +1,4 @@
-project(Bloom)
+project(BloomLib)
 
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/*.c"
@@ -22,7 +22,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 foreach(FILE_PATH IN LISTS SOURCES)
     get_filename_component(EXT "${FILE_PATH}" EXT)
-    file(RELATIVE_PATH REL_PATH "${CMAKE_SOURCE_DIR}/src/Bloom" "${FILE_PATH}")
+    file(RELATIVE_PATH REL_PATH "${CMAKE_SOURCE_DIR}/src/BloomLib" "${FILE_PATH}")
 
     get_filename_component(FOLDER_PATH "${REL_PATH}" PATH)
     string(REPLACE "/" "\\" FOLDER_PATH "${FOLDER_PATH}")

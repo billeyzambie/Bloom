@@ -159,10 +159,10 @@ foreach(LIB ${LIBS_TO_COPY})
 endforeach()
 
 set(HEADERS_TO_COPY
-    "Bloom/Bloom.h"
-    "Bloom/EventContexts.h"
-    "Bloom/Events.h"
-    "Bloom/Event.h"
+    "BloomLib/Bloom.h"
+    "BloomLib/EventContexts.h"
+    "BloomLib/Events.h"
+    "BloomLib/Event.h"
     "Lawn/GameObject.h"
     "Lawn/Plant.h"
     "Lawn/Zombie.h"
@@ -186,4 +186,4 @@ foreach(HEADER ${HEADERS_TO_COPY})
     )
 endforeach()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Bloom)
+target_link_libraries(${PROJECT_NAME} PRIVATE BloomLib)

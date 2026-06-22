@@ -1,7 +1,7 @@
 #ifndef __TRIVERTEX_H__
 #define __TRIVERTEX_H__
 
-#include "../Bloom/Bloom.h"
+#include "../BloomLib/Bloom.h"
 
 namespace Sexy
 {

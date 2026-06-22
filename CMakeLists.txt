@@ -1,7 +1,7 @@
 # CMakeLists.txt
 cmake_minimum_required(VERSION 3.28 FATAL_ERROR)
 
-project(ResoddedFramework LANGUAGES C CXX)
+project(Bloom LANGUAGES C CXX)
 
 # Enable Hot Reload for MSVC compilers if supported.
 if(MSVC AND WIN32 AND NOT MSVC_VERSION VERSION_LESS 142)
@@ -9,7 +9,8 @@ if(MSVC AND WIN32 AND NOT MSVC_VERSION VERSION_LESS 142)
     add_compile_options($<$<CONFIG:Debug>:/ZI>)
 endif()
 
-#if(MSVC) windows only for now
+#windows only for now
+#if(MSVC) 
     #set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:RELEASE>:Release>")
     #set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>") # a stupid fix
 
@@ -41,7 +42,7 @@ add_compile_definitions(BLOOM_EXPORT)
 
 add_subdirectory(src/ImageLib)
 add_subdirectory(src/PakLib)
+add_subdirectory(src/BloomLib)
 add_subdirectory(src/SexyAppFramework)
 
 add_subdirectory(src/Lawn)
-add_subdirectory(src/Bloom)

@@ -6,7 +6,7 @@
 
 #include <list>
 
-#include "../Bloom/Bloom.h"
+#include "../BloomLib/Bloom.h"
 
 namespace Sexy
 {

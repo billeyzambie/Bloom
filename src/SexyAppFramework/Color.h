@@ -2,7 +2,7 @@
 #define __COLOR_H__
 
 #include "Common.h"
-#include "../Bloom/Bloom.h"
+#include "../BloomLib/Bloom.h"
 
 namespace Sexy
 {

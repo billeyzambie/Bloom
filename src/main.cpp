@@ -1,7 +1,7 @@
 #include "LawnApp.h"
 #include "Resources.h"
 #include "Sexy.TodLib/TodStringFile.h"
-#include "Bloom/BillDebug.h"
+#include "BloomLib/BillDebug.h"
 
 using namespace Sexy;
 

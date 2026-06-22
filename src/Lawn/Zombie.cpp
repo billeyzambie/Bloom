@@ -19,7 +19,7 @@
 #include "../Sexy.TodLib/Reanimator.h"
 #include "../Sexy.TodLib/Attachment.h"
 #include "../Sexy.TodLib/TodParticle.h"
-#include "../Bloom/Events.h"
+#include "../BloomLib/Events.h"
 
 ZombieDefinition gZombieDefs[NUM_ZOMBIE_TYPES] = {
 	{ZOMBIE_NORMAL, REANIM_ZOMBIE, 1, 1, 1, 4000, "ZOMBIE"},

@@ -1,7 +1,7 @@
 #ifndef __GRAPHICS_H__
 #define __GRAPHICS_H__
 
-#include "../Bloom/Bloom.h"
+#include "../BloomLib/Bloom.h"
 #include "Common.h"
 #include "Rect.h"
 #include "Color.h"
