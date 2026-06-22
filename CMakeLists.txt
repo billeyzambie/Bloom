@@ -9,13 +9,16 @@ if(MSVC AND WIN32 AND NOT MSVC_VERSION VERSION_LESS 142)
     add_compile_options($<$<CONFIG:Debug>:/ZI>)
 endif()
 
-if(MSVC)
+#if(MSVC) windows only for now
     #set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:RELEASE>:Release>")
-    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>") # a stupid fix
+    #set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>") # a stupid fix
 
     # Prevent PDB access conflicts when multiple CL.EXE instances compile in parallel.
-    add_compile_options(/FS)
-endif()
+add_compile_options(/FS)
+add_compile_options($<$<CONFIG:Debug>:/MDd>)
+add_compile_options($<$<CONFIG:Release>:/MD>)
+
+#endif()
 
 option(GITHUB_ACTIONS "Building in GitHub Actions" OFF)
 
