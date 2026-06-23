@@ -1,6 +1,5 @@
 #include "BillDebug.h"
 #include "Events.h"
-#include "EventContexts.h"
 #include "../LawnApp.h"
 #include "../Lawn/Board.h"
 #include "../Sexy.TodLib/TodFoley.h"
@@ -8,7 +7,7 @@
 
 void OnGameStart()
 {
-	Events::PLANT_EATEN += [](PlantEatenContext &theContext) {
+	Events::Subscribe(+[](PlantEatenContext &theContext) {
 		auto *aPlant = theContext.mEatenPlant;
 
 		int aPosX = aPlant->mX + aPlant->mWidth / 2;
@@ -24,7 +23,7 @@ void OnGameStart()
 		aPlant->mBoard->ShakeBoard(3, -4);
 
 		aPlant->Die();
-	};
+	});
 }
 
 void Quack()

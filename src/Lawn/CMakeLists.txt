@@ -160,7 +160,7 @@ endforeach()
 
 set(HEADERS_TO_COPY
     "BloomLib/Bloom.h"
-    "BloomLib/EventContexts.h"
+    "BloomLib/PlantEatenContext.h"
     "BloomLib/Events.h"
     "BloomLib/Event.h"
     "Lawn/GameObject.h"

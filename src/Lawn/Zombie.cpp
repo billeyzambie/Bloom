@@ -19,7 +19,7 @@
 #include "../Sexy.TodLib/Reanimator.h"
 #include "../Sexy.TodLib/Attachment.h"
 #include "../Sexy.TodLib/TodParticle.h"
-#include "../BloomLib/Events.h"
+#include "../BloomLib/Event.h"
 
 ZombieDefinition gZombieDefs[NUM_ZOMBIE_TYPES] = {
 	{ZOMBIE_NORMAL, REANIM_ZOMBIE, 1, 1, 1, 4000, "ZOMBIE"},
@@ -7259,7 +7259,7 @@ void Zombie::EatPlant(Plant *thePlant)
 
 	if (thePlant->mPlantHealth <= 0)
 	{
-		if (Events::PLANT_EATEN.Execute({false, thePlant, this}).mCanceled)
+		if (Event<PlantEatenContext>::Execute({false, thePlant, this}).mCanceled)
 		{
 			thePlant->mPlantHealth = anOriginalPlantHealth;
 			return;

@@ -1,17 +1,59 @@
 #pragma once
 
-#include "EventContexts.h"
+#include "PlantEatenContext.h"
 #include <vector>
 #include "Bloom.h"
 
 template <class ContextT> class BLOOM_API Event
 {
-	using ContextFunctionPointer = void (*)(ContextT &);
+  public:
+	using ContextFunctionPointer = Transformer<ContextT>;
 
   private:
 	std::vector<ContextFunctionPointer> mFunctionPointers;
+	Event() = default;
+
+	ContextT &MExecute(ContextT &theContext) const
+	{
+		for (const auto &aFunctionPointer : mFunctionPointers)
+		{
+			if (aFunctionPointer)
+				aFunctionPointer(theContext);
+			if (theContext.mCanceled)
+				break;
+		}
+		return theContext;
+	}
+
+	ContextT MExecute(ContextT &&theContext) const
+	{
+		for (const auto &aFunctionPointer : mFunctionPointers)
+		{
+			if (aFunctionPointer)
+				aFunctionPointer(theContext);
+			if (theContext.mCanceled)
+				break;
+		}
+		return theContext;
+	}
 
   public:
+	static Event &GetInstance()
+	{
+		static Event anInstance;
+		return anInstance;
+	}
+
+	static ContextT &Execute(ContextT &theContext)
+	{
+		return GetInstance().MExecute(theContext);
+	}
+
+	static ContextT Execute(ContextT &&theContext)
+	{
+		return GetInstance().MExecute(std::move(theContext));
+	}
+
 	ContextFunctionPointer operator+=(ContextFunctionPointer theFunctionPointer)
 	{
 		for (size_t i = 0; i < mFunctionPointers.size(); i++)
@@ -36,28 +78,6 @@ template <class ContextT> class BLOOM_API Event
 		}
 		return theFunctionPointer;
 	}
-
-	ContextT &Execute(ContextT &theContext) const
-	{
-		for (const auto &aFunctionPointer : mFunctionPointers)
-		{
-			if (aFunctionPointer)
-				aFunctionPointer(theContext);
-			if (theContext.mCanceled)
-				break;
-		}
-		return theContext;
-	}
-
-	ContextT Execute(ContextT &&theContext) const
-	{
-		for (const auto &aFunctionPointer : mFunctionPointers)
-		{
-			if (aFunctionPointer)
-				aFunctionPointer(theContext);
-			if (theContext.mCanceled)
-				break;
-		}
-		return theContext;
-	}
 };
+
+#include "Events.h"
