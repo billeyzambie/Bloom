@@ -8,11 +8,11 @@
 #include "../../ConstEnums.h"
 #include <json.hpp>
 
-#include "Bloom.h"
+#include "../BloomLib/Bloom.h"
 
 #include "Zombatar.h"
 
-class PottedPlant
+class BLOOM_API PottedPlant
 {
   public:
 	enum FacingDirection
@@ -43,7 +43,7 @@ class PottedPlant
 	void InitializePottedPlant(SeedType theSeedType);
 };
 
-class ProfileSyncer
+class BLOOM_API ProfileSyncer
 {
   public:
 	bool mReading;
@@ -66,7 +66,7 @@ class ProfileSyncer
 	template <typename T, size_t N> 
 	void SyncArrayFromSize(const std::string &theName, T (&theArray)[N], int theRealSize);
 };
-class PlayerInfo
+class BLOOM_API PlayerInfo
 {
   public:
 	SexyString mName;

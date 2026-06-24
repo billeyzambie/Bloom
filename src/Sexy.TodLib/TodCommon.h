@@ -5,6 +5,8 @@
 #include "../SexyAppFramework/ResourceManager.h"
 #include "TodDebug.h"
 
+#include "../BloomLib/Bloom.h"
+
 struct TodAllocator;
 namespace Sexy
 {
@@ -21,20 +23,20 @@ using namespace Sexy;
 
 // #################################################################################################### //
 
-struct TodWeightedArray
+struct BLOOM_API TodWeightedArray
 {
 	uintptr_t mItem;
 	int mWeight;
 };
 
-struct TodWeightedGridArray
+struct BLOOM_API TodWeightedGridArray
 {
 	int mX;
 	int mY;
 	int mWeight;
 };
 
-class TodSmoothArray
+class BLOOM_API TodSmoothArray
 {
   public:
 	uintptr_t mItem;
@@ -43,23 +45,22 @@ class TodSmoothArray
 	float mSecondLastPicked;
 };
 
-template <typename T>
-T TodPickFromArray(const T *theArray, int theCount)
+template <typename T> T TodPickFromArray(const T *theArray, int theCount)
 {
 	TOD_ASSERT(theCount > 0);
 	return theArray[Sexy::Rand(theCount)];
 }
 
-uintptr_t TodPickFromWeightedArray(const TodWeightedArray *theArray, int theCount);
-TodWeightedArray *TodPickArrayItemFromWeightedArray(const TodWeightedArray *theArray, int theCount);
-TodWeightedGridArray *TodPickFromWeightedGridArray(const TodWeightedGridArray *theArray, int theCount);
-float TodCalcSmoothWeight(float aWeight, float aLastPicked, float aSecondLastPicked);
-void TodUpdateSmoothArrayPick(TodSmoothArray *theArray, int theCount, int thePickIndex);
-uintptr_t TodPickFromSmoothArray(TodSmoothArray *theArray, int theCount);
+BLOOM_API uintptr_t TodPickFromWeightedArray(const TodWeightedArray *theArray, int theCount);
+BLOOM_API TodWeightedArray *TodPickArrayItemFromWeightedArray(const TodWeightedArray *theArray, int theCount);
+BLOOM_API TodWeightedGridArray *TodPickFromWeightedGridArray(const TodWeightedGridArray *theArray, int theCount);
+BLOOM_API float TodCalcSmoothWeight(float aWeight, float aLastPicked, float aSecondLastPicked);
+BLOOM_API void TodUpdateSmoothArrayPick(TodSmoothArray *theArray, int theCount, int thePickIndex);
+BLOOM_API uintptr_t TodPickFromSmoothArray(TodSmoothArray *theArray, int theCount);
 
 // #################################################################################################### //
 
-class TodResourceManager : public ResourceManager
+class BLOOM_API TodResourceManager : public ResourceManager
 {
   public:
 	bool FindFontPath(Font *theFont, std::string *thePath);
@@ -69,66 +70,66 @@ class TodResourceManager : public ResourceManager
 	bool TodLoadResources(const std::string &theGroup);
 };
 
-bool TodLoadResources(const std::string &theGroup);
-bool TodLoadNextResource();
-void TodAddImageToMap(SharedImageRef *theImage, const std::string &thePath);
-bool TodFindImagePath(Image *theImage, std::string *thePath);
-bool TodFindFontPath(Font *theFont, std::string *thePath);
+BLOOM_API bool TodLoadResources(const std::string &theGroup);
+BLOOM_API bool TodLoadNextResource();
+BLOOM_API void TodAddImageToMap(SharedImageRef *theImage, const std::string &thePath);
+BLOOM_API bool TodFindImagePath(Image *theImage, std::string *thePath);
+BLOOM_API bool TodFindFontPath(Font *theFont, std::string *thePath);
 
 // #################################################################################################### //
 
-float TodCurveQuad(float theTime);
-float TodCurveInvQuad(float theTime);
-float TodCurveS(float theTime);
-float TodCurveInvQuadS(float theTime);
-float TodCurveBounce(float theTime);
-float TodCurveQuadS(float theTime);
-float TodCurveCubic(float theTime);
-float TodCurveInvCubic(float theTime);
-float TodCurveCubicS(float theTime);
-float TodCurvePoly(float theTime, float thePoly);
-float TodCurveInvPoly(float theTime, float thePoly);
-float TodCurvePolyS(float theTime, float thePoly);
-float TodCurveCircle(float theTime);
-float TodCurveInvCircle(float theTime);
-float TodCurveEvaluate(float theTime, float thePositionStart, float thePositionEnd, TodCurves theCurve);
-float TodCurveEvaluateClamped(float theTime, float thePositionStart, float thePositionEnd, TodCurves theCurve);
-float TodAnimateCurveFloatTime(float theTimeStart,
+BLOOM_API float TodCurveQuad(float theTime);
+BLOOM_API float TodCurveInvQuad(float theTime);
+BLOOM_API float TodCurveS(float theTime);
+BLOOM_API float TodCurveInvQuadS(float theTime);
+BLOOM_API float TodCurveBounce(float theTime);
+BLOOM_API float TodCurveQuadS(float theTime);
+BLOOM_API float TodCurveCubic(float theTime);
+BLOOM_API float TodCurveInvCubic(float theTime);
+BLOOM_API float TodCurveCubicS(float theTime);
+BLOOM_API float TodCurvePoly(float theTime, float thePoly);
+BLOOM_API float TodCurveInvPoly(float theTime, float thePoly);
+BLOOM_API float TodCurvePolyS(float theTime, float thePoly);
+BLOOM_API float TodCurveCircle(float theTime);
+BLOOM_API float TodCurveInvCircle(float theTime);
+BLOOM_API float TodCurveEvaluate(float theTime, float thePositionStart, float thePositionEnd, TodCurves theCurve);
+BLOOM_API float TodCurveEvaluateClamped(float theTime, float thePositionStart, float thePositionEnd, TodCurves theCurve);
+BLOOM_API float TodAnimateCurveFloatTime(float theTimeStart,
 							   float theTimeEnd,
 							   float theTimeAge,
 							   float thePositionStart,
 							   float thePositionEnd,
 							   TodCurves theCurve);
-float TodAnimateCurveFloat(
+BLOOM_API float TodAnimateCurveFloat(
 	int theTimeStart, int theTimeEnd, int theTimeAge, float thePositionStart, float thePositionEnd, TodCurves theCurve);
-int TodAnimateCurve(
+BLOOM_API int TodAnimateCurve(
 	int theTimeStart, int theTimeEnd, int theTimeAge, int thePositionStart, int thePositionEnd, TodCurves theCurve);
 
-void TodScaleTransformMatrix(SexyMatrix3 &m, float x, float y, float theScaleX, float theScaleY);
-void TodScaleRotateTransformMatrix(SexyMatrix3 &m, float x, float y, float rad, float theScaleX, float theScaleY);
-void SexyMatrix3ExtractScale(const SexyMatrix3 &m, float &theScaleX, float &theScaleY);
-void SexyMatrix3Translation(SexyMatrix3 &m, float x, float y);
-void SexyMatrix3Transpose(const SexyMatrix3 &m, SexyMatrix3 &r);					  // r = m ^ T
-void SexyMatrix3Inverse(const SexyMatrix3 &m, SexyMatrix3 &r);						  // r = m ^ -1
-void SexyMatrix3Multiply(SexyMatrix3 &m, const SexyMatrix3 &l, const SexyMatrix3 &r); // m = l ¡Á r
-bool TodIsPointInPolygon(const SexyVector2 *thePolygonPoint,
+BLOOM_API void TodScaleTransformMatrix(SexyMatrix3 &m, float x, float y, float theScaleX, float theScaleY);
+BLOOM_API void TodScaleRotateTransformMatrix(SexyMatrix3 &m, float x, float y, float rad, float theScaleX, float theScaleY);
+BLOOM_API void SexyMatrix3ExtractScale(const SexyMatrix3 &m, float &theScaleX, float &theScaleY);
+BLOOM_API void SexyMatrix3Translation(SexyMatrix3 &m, float x, float y);
+BLOOM_API void SexyMatrix3Transpose(const SexyMatrix3 &m, SexyMatrix3 &r);					  // r = m ^ T
+BLOOM_API void SexyMatrix3Inverse(const SexyMatrix3 &m, SexyMatrix3 &r);						  // r = m ^ -1
+BLOOM_API void SexyMatrix3Multiply(SexyMatrix3 &m, const SexyMatrix3 &l, const SexyMatrix3 &r); // m = l ¡Á r
+BLOOM_API bool TodIsPointInPolygon(const SexyVector2 *thePolygonPoint,
 						 int theNumberPolygonPoints,
 						 const SexyVector2 &theCheckPoint);
 
-void TodDrawString(Graphics *g,
+BLOOM_API void TodDrawString(Graphics *g,
 				   const SexyString &theText,
 				   int thePosX,
 				   int thePosY,
 				   Font *theFont,
 				   const Color &theColor,
 				   DrawStringJustification theJustification);
-void TodDrawStringMatrix(
+BLOOM_API void TodDrawStringMatrix(
 	Graphics *g, const Font *theFont, const SexyMatrix3 &theMatrix, const SexyString &theString, const Color &theColor);
-void TodDrawImageScaledF(Graphics *g, Image *theImage, float thePosX, float thePosY, float theScaleX, float theScaleY);
-void TodDrawImageCenterScaledF(
+BLOOM_API void TodDrawImageScaledF(Graphics *g, Image *theImage, float thePosX, float thePosY, float theScaleX, float theScaleY);
+BLOOM_API void TodDrawImageCenterScaledF(
 	Graphics *g, Image *theImage, float thePosX, float thePosY, float theScaleX, float theScaleY);
-void TodDrawImageCelF(Graphics *g, Image *theImageStrip, float thePosX, float thePosY, int theCelCol, int theCelRow);
-void TodDrawImageCelScaled(Graphics *g,
+BLOOM_API void TodDrawImageCelF(Graphics *g, Image *theImageStrip, float thePosX, float thePosY, int theCelCol, int theCelRow);
+BLOOM_API void TodDrawImageCelScaled(Graphics *g,
 						   Image *theImageStrip,
 						   int thePosX,
 						   int thePosY,
@@ -136,7 +137,7 @@ void TodDrawImageCelScaled(Graphics *g,
 						   int theCelRow,
 						   float theScaleX,
 						   float theScaleY);
-void TodDrawImageCelScaledF(Graphics *g,
+BLOOM_API void TodDrawImageCelScaledF(Graphics *g,
 							Image *theImageStrip,
 							float thePosX,
 							float thePosY,
@@ -144,37 +145,37 @@ void TodDrawImageCelScaledF(Graphics *g,
 							int theCelRow,
 							float theScaleX,
 							float theScaleY);
-void TodDrawImageCelCenterScaledF(Graphics *g, Image *theImageStrip, float thePosX, float thePosY, int theCelCol, int theCelRow, float theScaleX, float theScaleY);
-void TodBltMatrix(Graphics *g,
+BLOOM_API void TodDrawImageCelCenterScaledF(Graphics *g, Image *theImageStrip, float thePosX, float thePosY, int theCelCol, int theCelRow, float theScaleX, float theScaleY);
+BLOOM_API void TodBltMatrix(Graphics *g,
 				  Image *theImage,
 				  const SexyMatrix3 &theTransform,
 				  const Rect &theClipRect,
 				  const Color &theColor,
 				  int theDrawMode,
 				  const Rect &theSrcRect);
-void TodMarkImageForSanding(Image *theImage);
-void TodSandImageIfNeeded(Image *theImage);
-void FixPixelsOnAlphaEdgeForBlending(Image *theImage);
-uint32_t AverageNearByPixels(MemoryImage *theImage, uint32_t *thePixel, int x, int y);
-void Tod_SWTri_AddAllDrawTriFuncs();
+BLOOM_API void TodMarkImageForSanding(Image *theImage);
+BLOOM_API void TodSandImageIfNeeded(Image *theImage);
+BLOOM_API void FixPixelsOnAlphaEdgeForBlending(Image *theImage);
+BLOOM_API uint32_t AverageNearByPixels(MemoryImage *theImage, uint32_t *thePixel, int x, int y);
+BLOOM_API void Tod_SWTri_AddAllDrawTriFuncs();
 
-SexyString TodReplaceString(const SexyString &theText,
+BLOOM_API SexyString TodReplaceString(const SexyString &theText,
 							const SexyString &theStringToFind,
 							const SexyString &theStringToSubstitute);
-SexyString TodReplaceNumberString(const SexyString &theText, const SexyString &theStringToFind, int theNumber);
-int TodSnprintf(char *theBuffer, int theSize, const char *theFormat, ...);
-int TodVsnprintf(char *theBuffer, int theSize, const char *theFormat, va_list theArgList);
+BLOOM_API SexyString TodReplaceNumberString(const SexyString &theText, const SexyString &theStringToFind, int theNumber);
+BLOOM_API int TodSnprintf(char *theBuffer, int theSize, const char *theFormat, ...);
+BLOOM_API int TodVsnprintf(char *theBuffer, int theSize, const char *theFormat, va_list theArgList);
 
-TodAllocator *FindGlobalAllocator(int theSize);
-void FreeGlobalAllocators();
+BLOOM_API TodAllocator *FindGlobalAllocator(int theSize);
+BLOOM_API void FreeGlobalAllocators();
 
-SexyString TodGetCurrentLevelName();
-bool TodHasUsedCheatKeys();
-bool TodAppCloseRequest();
+BLOOM_API SexyString TodGetCurrentLevelName();
+BLOOM_API bool TodHasUsedCheatKeys();
+BLOOM_API bool TodAppCloseRequest();
 
 //====================================================================================================//
-int RandRangeInt(int theMin, int theMax);
-float RandRangeFloat(float theMin, float theMax);
+BLOOM_API int RandRangeInt(int theMin, int theMax);
+BLOOM_API float RandRangeFloat(float theMin, float theMax);
 inline char ClampByte(char theNum, char theMin, char theMax)
 {
 	return theNum <= theMin ? theMin : theNum >= theMax ? theMax : theNum;
@@ -204,10 +205,10 @@ inline bool FloatApproxEqual(float theFloatVal1, float theFloatVal2)
 	return fabs(theFloatVal1 - theFloatVal2) < FLT_EPSILON;
 }
 
-Color GetFlashingColor(int theCounter, int theFlashTime);
-int ColorComponentMultiply(int theColor1, int theColor2);
-Color ColorsMultiply(const Color &theColor1, const Color &theColor2);
-Color ColorAdd(const Color &theColor1, const Color &theColor2);
+BLOOM_API Color GetFlashingColor(int theCounter, int theFlashTime);
+BLOOM_API int ColorComponentMultiply(int theColor1, int theColor2);
+BLOOM_API Color ColorsMultiply(const Color &theColor1, const Color &theColor2);
+BLOOM_API Color ColorAdd(const Color &theColor1, const Color &theColor2);
 
 inline unsigned int GetBit(int theIdx)
 {

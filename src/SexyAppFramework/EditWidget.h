@@ -9,7 +9,7 @@ namespace Sexy
 class Font;
 class EditListener;
 
-class EditWidget : public Widget
+class BLOOM_API EditWidget : public Widget
 {
   public:
 	enum
@@ -27,7 +27,7 @@ class EditWidget : public Widget
 	SexyString mPasswordDisplayString;
 	Font *mFont;
 
-	struct WidthCheck
+	struct BLOOM_API WidthCheck
 	{
 		Font *mFont;
 		int mWidth;

@@ -1,10 +1,12 @@
 #ifndef __INSETS_H__
 #define __INSETS_H__
 
+#include "../BloomLib/Bloom.h"
+
 namespace Sexy
 {
 
-class Insets
+class BLOOM_API Insets
 {
   public:
 	int mLeft;

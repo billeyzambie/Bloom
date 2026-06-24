@@ -13,7 +13,7 @@ class Graphics;
 };
 using namespace Sexy;
 
-class LawnMower
+class BLOOM_API LawnMower
 {
   public:
 	LawnApp *mApp;

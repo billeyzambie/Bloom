@@ -9,7 +9,7 @@ namespace Sexy
 class InternetManager;
 class BetaSupport;
 
-class SexyApp : public SexyAppBase
+class BLOOM_API SexyApp : public SexyAppBase
 {
   public:
 	InternetManager *mInternetManager;
@@ -74,7 +74,7 @@ class SexyApp : public SexyAppBase
 
 };
 
-extern SexyApp *gSexyApp;
+extern BLOOM_API SexyApp *gSexyApp;
 
 }; // namespace Sexy
 

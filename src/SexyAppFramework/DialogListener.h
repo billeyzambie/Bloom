@@ -1,10 +1,12 @@
 #ifndef __DIALOGLISTENER_H__
 #define __DIALOGLISTENER_H__
 
+#include "../BloomLib/Bloom.h"
+
 namespace Sexy
 {
 
-class DialogListener
+class BLOOM_API DialogListener
 {
   public:
 	virtual void DialogButtonPress(int theDialogId, int theButtonId)

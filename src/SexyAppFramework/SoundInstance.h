@@ -6,7 +6,7 @@
 namespace Sexy
 {
 
-class SoundInstance
+class BLOOM_API SoundInstance
 {
   public:
 	SoundInstance()

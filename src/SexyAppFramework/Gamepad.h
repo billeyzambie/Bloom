@@ -4,6 +4,8 @@
 
 #include <SDL3/SDL_gamepad.h>
 
+#include "../BloomLib/Bloom.h"
+
 #define MAX_GAMEPADS 4
 
 namespace Sexy
@@ -28,7 +30,7 @@ namespace Sexy
 		BUTTON_COUNT = SDL_GAMEPAD_BUTTON_COUNT
 	};
 
-	class Gamepad
+	class BLOOM_API Gamepad
 	{
 		  public:
 			float mWeight;

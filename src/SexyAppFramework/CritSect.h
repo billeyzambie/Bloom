@@ -4,12 +4,14 @@
 #include "Common.h"
 #include <mutex>
 
+#include "../BloomLib/Bloom.h"
+
 class CritSync;
 
 namespace Sexy
 {
 
-class CritSect
+class BLOOM_API CritSect
 {
   private:
 	std::recursive_mutex mCriticalSection;

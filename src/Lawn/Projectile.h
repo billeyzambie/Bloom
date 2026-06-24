@@ -12,16 +12,16 @@ class Graphics;
 };
 using namespace Sexy;
 
-class ProjectileDefinition
+class BLOOM_API ProjectileDefinition
 {
   public:
 	ProjectileType mProjectileType;
 	int mImageRow;
 	int mDamage;
 };
-extern ProjectileDefinition gProjectileDefinition[NUM_PROJECTILES];
+extern BLOOM_API ProjectileDefinition gProjectileDefinition[NUM_PROJECTILES];
 
-class Projectile : public GameObject
+class BLOOM_API Projectile : public GameObject
 {
   public:
 	int mFrame;

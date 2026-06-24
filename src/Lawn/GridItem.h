@@ -13,7 +13,7 @@ namespace Sexy
 class Graphics;
 };
 
-class MotionTrailFrame
+class BLOOM_API MotionTrailFrame
 {
   public:
 	float mPosX;
@@ -21,7 +21,7 @@ class MotionTrailFrame
 	float mAnimTime;
 };
 
-class GridItem
+class BLOOM_API GridItem
 {
   public:
 	LawnApp *mApp;

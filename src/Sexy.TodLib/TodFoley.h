@@ -126,7 +126,7 @@ enum FoleyType
 	NUM_FOLEY
 };
 
-class FoleyParams
+class BLOOM_API FoleyParams
 {
   public:
 	FoleyType mFoleyType;
@@ -135,16 +135,16 @@ class FoleyParams
 	unsigned int mFoleyFlags;
 };
 
-void TodFoleyInitialize(FoleyParams *theFoleyParamArray, int theFoleyParamArraySize);
-void TodFoleyDispose();
-FoleyParams *LookupFoley(FoleyType theFoleyType);
+BLOOM_API void TodFoleyInitialize(FoleyParams *theFoleyParamArray, int theFoleyParamArraySize);
+BLOOM_API void TodFoleyDispose();
+BLOOM_API FoleyParams *LookupFoley(FoleyType theFoleyType);
 
-extern int gFoleyParamArraySize;
-extern FoleyParams *gFoleyParamArray;
+extern BLOOM_API int gFoleyParamArraySize;
+extern BLOOM_API FoleyParams *gFoleyParamArray;
 
-extern FoleyParams gLawnFoleyParamArray[(int)FoleyType::NUM_FOLEY];
+extern BLOOM_API FoleyParams gLawnFoleyParamArray[(int)FoleyType::NUM_FOLEY];
 
-class TodSoundInstance : public OpenALSoundInstance
+class BLOOM_API TodSoundInstance : public OpenALSoundInstance
 {
 	friend class TodFoley;
 
@@ -158,7 +158,7 @@ class TodSoundInstance : public OpenALSoundInstance
 	void SetSoundPosition(int thePosition);
 };
 
-class FoleyInstance
+class BLOOM_API FoleyInstance
 {
   public:
 	SoundInstance *mInstance;
@@ -171,7 +171,7 @@ class FoleyInstance
 	FoleyInstance();
 };
 
-class FoleyTypeData
+class BLOOM_API FoleyTypeData
 {
   public:
 	FoleyInstance mFoleyInstances[MAX_FOLEY_INSTANCES];
@@ -181,7 +181,7 @@ class FoleyTypeData
 	FoleyTypeData();
 };
 
-class TodFoley
+class BLOOM_API TodFoley
 {
   public:
 	FoleyTypeData mFoleyTypeData[MAX_FOLEY_TYPES];
@@ -197,9 +197,9 @@ class TodFoley
 	void RehookupSoundWithMusicVolume();
 };
 
-void SoundSystemReleaseFinishedInstances(TodFoley *theSoundSystem);
-bool SoundSystemHasFoleyPlayedTooRecently(TodFoley *theSoundSystem, FoleyType theFoleyType);
-FoleyInstance *SoundSystemFindInstance(TodFoley *theSoundSystem, FoleyType theFoleyType);
-FoleyInstance *SoundSystemGetFreeInstanceIndex(TodFoley *theSoundSystem, FoleyType theFoleyType);
+BLOOM_API void SoundSystemReleaseFinishedInstances(TodFoley *theSoundSystem);
+BLOOM_API bool SoundSystemHasFoleyPlayedTooRecently(TodFoley *theSoundSystem, FoleyType theFoleyType);
+BLOOM_API FoleyInstance *SoundSystemFindInstance(TodFoley *theSoundSystem, FoleyType theFoleyType);
+BLOOM_API FoleyInstance *SoundSystemGetFreeInstanceIndex(TodFoley *theSoundSystem, FoleyType theFoleyType);
 
 #endif

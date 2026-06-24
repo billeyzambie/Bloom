@@ -27,7 +27,7 @@ typedef std::map<SexyString, SexyString> XMLParamMap;
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-class ResourceManager
+class BLOOM_API ResourceManager
 {
   protected:
 	enum ResType
@@ -37,7 +37,7 @@ class ResourceManager
 		ResType_Font
 	};
 
-	struct BaseRes
+	struct BLOOM_API BaseRes
 	{
 		ResType mType;
 		std::string mId;
@@ -54,7 +54,7 @@ class ResourceManager
 		}
 	};
 
-	struct ImageRes : public BaseRes
+	struct BLOOM_API ImageRes : public BaseRes
 	{
 		SharedImageRef mImage;
 		std::string mAlphaImage;
@@ -79,7 +79,7 @@ class ResourceManager
 		virtual void DeleteResource();
 	};
 
-	struct SoundRes : public BaseRes
+	struct BLOOM_API SoundRes : public BaseRes
 	{
 		int mSoundId;
 		double mVolume;
@@ -92,7 +92,7 @@ class ResourceManager
 		virtual void DeleteResource();
 	};
 
-	struct FontRes : public BaseRes
+	struct BLOOM_API FontRes : public BaseRes
 	{
 		Font *mFont;
 		Image *mImage;
@@ -224,7 +224,7 @@ class ResourceManager
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-struct ResourceManagerException : public std::exception
+struct BLOOM_API ResourceManagerException : public std::exception
 {
 	std::string what;
 	ResourceManagerException(const std::string &theWhat) : what(theWhat)

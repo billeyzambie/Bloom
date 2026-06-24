@@ -1,10 +1,12 @@
 #ifndef __FLAGS_H__
 #define __FLAGS_H__
 
+#include "../BloomLib/Bloom.h"
+
 namespace Sexy
 {
 
-class FlagsMod
+class BLOOM_API FlagsMod
 {
   public:
 	int mAddFlags;
@@ -28,7 +30,7 @@ inline int GetModFlags(int theFlags, const FlagsMod &theFlagMod)
 	return (theFlags | theFlagMod.mAddFlags) & ~theFlagMod.mRemoveFlags;
 }
 
-class ModalFlags
+class BLOOM_API ModalFlags
 {
   public:
 	int mOverFlags;
@@ -48,7 +50,7 @@ class ModalFlags
 	}
 };
 
-class AutoModalFlags
+class BLOOM_API AutoModalFlags
 {
   public:
 	ModalFlags *mModalFlags;

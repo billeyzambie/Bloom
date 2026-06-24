@@ -5,6 +5,8 @@
 #include "../SexyAppFramework/Graphics.h"
 #include "../SexyAppFramework/EditWidget.h"
 
+#include "../BloomLib/Bloom.h"
+
 using namespace Sexy;
 
 class LawnApp;
@@ -19,7 +21,7 @@ class DialogButton;
 class CheckboxListener;
 } // namespace Sexy
 
-class LawnEditWidget : public EditWidget
+class BLOOM_API LawnEditWidget : public EditWidget
 {
   public:
 	Dialog *mDialog;
@@ -33,7 +35,7 @@ class LawnEditWidget : public EditWidget
 	virtual void KeyChar(SexyChar theChar);
 };
 
-class LawnScrollbar : public Widget
+class BLOOM_API LawnScrollbar : public Widget
 {
   public:
 	LawnApp *mApp;
@@ -60,17 +62,17 @@ class LawnScrollbar : public Widget
 };
 
 
-bool ModInRange(int theNumber, int theMod, int theRange = 0);
-bool GridInRange(int x1, int y1, int x2, int y2, int theRangeX = 1, int theRangeY = 1);
+BLOOM_API bool ModInRange(int theNumber, int theMod, int theRange = 0);
+BLOOM_API bool GridInRange(int x1, int y1, int x2, int y2, int theRangeX = 1, int theRangeY = 1);
 
-void TileImageHorizontally(Graphics *g, Image *theImage, int theX, int theY, int theWidth);
-void TileImageVertically(Graphics *g, Image *theImage, int theX, int theY, int theHeight);
+BLOOM_API void TileImageHorizontally(Graphics *g, Image *theImage, int theX, int theY, int theWidth);
+BLOOM_API void TileImageVertically(Graphics *g, Image *theImage, int theX, int theY, int theHeight);
 
-Checkbox *MakeNewCheckbox(int theId, CheckboxListener *theListener, bool theDefault);
-LawnEditWidget *CreateEditWidget(int theId, EditListener *theListener, Dialog *theDialog);
-void DrawEditBox(Graphics *g, EditWidget *theWidget);
+BLOOM_API Checkbox *MakeNewCheckbox(int theId, CheckboxListener *theListener, bool theDefault);
+BLOOM_API LawnEditWidget *CreateEditWidget(int theId, EditListener *theListener, Dialog *theDialog);
+BLOOM_API void DrawEditBox(Graphics *g, EditWidget *theWidget);
 
-std::string GetSavedGameName(GameMode theGameMode, int theProfileId);
-int GetCurrentDaysSince2000();
+BLOOM_API std::string GetSavedGameName(GameMode theGameMode, int theProfileId);
+BLOOM_API int GetCurrentDaysSince2000();
 
 #endif

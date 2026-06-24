@@ -1,9 +1,11 @@
 #ifndef __RATIO_H__
 #define __RATIO_H__
 
+#include "../BloomLib/Bloom.h"
+
 namespace Sexy
 {
-struct Ratio
+struct BLOOM_API Ratio
 {
 	Ratio();
 	Ratio(int theNumerator, int theDenominator);

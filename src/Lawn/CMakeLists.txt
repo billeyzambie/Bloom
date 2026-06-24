@@ -158,6 +158,7 @@ foreach(LIB ${LIBS_TO_COPY})
     )
 endforeach()
 
+#kinda stupid
 set(HEADERS_TO_COPY
     "BloomLib/Bloom.h"
     "BloomLib/PlantEatenContext.h"
@@ -166,7 +167,14 @@ set(HEADERS_TO_COPY
     "Lawn/GameObject.h"
     "Lawn/Plant.h"
     "Lawn/Zombie.h"
+    "Lawn/Projectile.h"
+    "Lawn/Coin.h"
+    "Lawn/LawnMower.h"
+    "Lawn/GridItem.h"
+    "Lawn/System/PlayerInfo.h"
     "Lawn/System/Zombatar.h"
+    "Lawn/Board.h"
+    "Lawn/LawnCommon.h"
     "SexyAppFramework/Common.h"
     "SexyAppFramework/Rect.h"
     "SexyAppFramework/Color.h"
@@ -174,8 +182,33 @@ set(HEADERS_TO_COPY
     "SexyAppFramework/Image.h"
     "SexyAppFramework/Point.h"
     "SexyAppFramework/TriVertex.h"
+    "SexyAppFramework/SexyApp.h"
+    "SexyAppFramework/SexyAppBase.h"
+    "SexyAppFramework/Version.h"
+    "SexyAppFramework/Gamepad.h"
+    "SexyAppFramework/ButtonListener.h"
+    "SexyAppFramework/DialogListener.h"
+    "SexyAppFramework/Buffer.h"
+    "SexyAppFramework/CritSect.h"
+    "SexyAppFramework/SharedImage.h"
+    "SexyAppFramework/Ratio.h"
+    "SexyAppFramework/WidgetContainer.h"
+    "SexyAppFramework/Widget.h"
+    "SexyAppFramework/EditWidget.h"
+    "SexyAppFramework/Insets.h"
+    "SexyAppFramework/KeyCodes.h"
+    "SexyAppFramework/Flags.h"
+    "SexyAppFramework/ResourceManager.h"
+    "SexyAppFramework/OpenALSoundInstance.h"
+    "SexyAppFramework/SoundInstance.h"
+    "Sexy.TodLib/DataArray.h"
+    "Sexy.TodLib/TodDebug.h"
+    "Sexy.TodLib/TodCommon.h"
+    "Sexy.TodLib/TodFoley.h"
+    "LawnApp.h"
     "ConstEnums.h"
     "GameConstants.h"
+    "Resources.h"
 )
 
 foreach(HEADER ${HEADERS_TO_COPY})

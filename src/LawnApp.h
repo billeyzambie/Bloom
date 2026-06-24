@@ -3,6 +3,7 @@
 
 #include "ConstEnums.h"
 #include "SexyAppFramework/SexyApp.h"
+#include "../BloomLib/Bloom.h"
 
 class Achievements;
 class Board;
@@ -47,7 +48,7 @@ using namespace Sexy;
 typedef std::list<ButtonWidget *> ButtonList;
 typedef std::list<Image *> ImageList;
 
-class LevelStats
+class BLOOM_API LevelStats
 {
   public:
 	int mUnusedLawnMowers;
@@ -63,7 +64,7 @@ class LevelStats
 	}
 };
 
-class LawnApp : public SexyApp
+class BLOOM_API LawnApp : public SexyApp
 {
   public:
 	Board *mBoard;
@@ -914,27 +915,27 @@ class LawnApp : public SexyApp
 
 /// @brief Get the current level name, used for logging
 /// @return Level name
-SexyString LawnGetCurrentLevelName();
+BLOOM_API SexyString LawnGetCurrentLevelName();
 
 /// @brief Did the game request to shutdown
 /// @return True if we have requested a shutdown, false otherwise
-bool LawnGetCloseRequest();
+BLOOM_API bool LawnGetCloseRequest();
 
 /// @brief Did we use Cheat Keys
 /// @return True if we used any Cheat Keys, false otherwise
-bool LawnHasUsedCheatKeys();
+BLOOM_API bool LawnHasUsedCheatKeys();
 
 /// @brief External function that calls the BetaSubmit
-void BetaSubmitFunc();
+BLOOM_API void BetaSubmitFunc();
 
-extern bool (*gAppCloseRequest)();
-extern bool (*gAppHasUsedCheatKeys)();
-extern SexyString (*gGetCurrentLevelName)();
+extern BLOOM_API bool (*gAppCloseRequest)();
+extern BLOOM_API bool (*gAppHasUsedCheatKeys)();
+extern BLOOM_API SexyString (*gGetCurrentLevelName)();
 
-extern bool gIsPartnerBuild;
-extern bool gFastMo;
-extern bool gSlowMo;
-extern LawnApp *gLawnApp;
-extern int gSlowMoCounter;
+extern BLOOM_API bool gIsPartnerBuild;
+extern BLOOM_API bool gFastMo;
+extern BLOOM_API bool gSlowMo;
+extern BLOOM_API LawnApp *gLawnApp;
+extern BLOOM_API int gSlowMoCounter;
 
 #endif // __LAWNAPP_H__

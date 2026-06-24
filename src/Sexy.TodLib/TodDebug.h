@@ -5,7 +5,9 @@
 #include <Windows.h>
 #endif
 
-class TodHesitationBracket
+#include "../BloomLib/Bloom.h"
+
+class BLOOM_API TodHesitationBracket
 {
   public:
 	char mMessage[256];
@@ -27,25 +29,25 @@ class TodHesitationBracket
 	}
 };
 
-void TodLog(const char *theFormat, ...);
-void TodLogString(const char *theMsg);
-void TodTrace(const char *theFormat, ...);
-void TodTraceMemory();
-void TodTraceAndLog(const char *theFormat, ...);
-void TodTraceWithoutSpamming(const char *theFormat, ...);
-void TodHesitationTrace(...);
+BLOOM_API void TodLog(const char *theFormat, ...);
+BLOOM_API void TodLogString(const char *theMsg);
+BLOOM_API void TodTrace(const char *theFormat, ...);
+BLOOM_API void TodTraceMemory();
+BLOOM_API void TodTraceAndLog(const char *theFormat, ...);
+BLOOM_API void TodTraceWithoutSpamming(const char *theFormat, ...);
+BLOOM_API void TodHesitationTrace(...);
 #if defined(_WIN32) && defined(SEXY_CRASH_HANDLER)
-void TodReportError(LPEXCEPTION_POINTERS exceptioninfo, const char *theMessage);
-long __stdcall TodUnhandledExceptionFilter(LPEXCEPTION_POINTERS exceptioninfo);
+BLOOM_API void TodReportError(LPEXCEPTION_POINTERS exceptioninfo, const char *theMessage);
+BLOOM_API long __stdcall TodUnhandledExceptionFilter(LPEXCEPTION_POINTERS exceptioninfo);
 #endif
-void TodAssertFailed(const char *theCondition, const char *theFile, int theLine, const char *theMsg = "", ...);
-void TodErrorMessageBox(const char *theMessage, const char *theTitle);
+BLOOM_API void TodAssertFailed(const char *theCondition, const char *theFile, int theLine, const char *theMsg = "", ...);
+BLOOM_API void TodErrorMessageBox(const char *theMessage, const char *theTitle);
 
-void *TodMalloc(int theSize);
-void TodFree(void *theBlock);
-void TodAssertInitForApp();
+BLOOM_API void *TodMalloc(int theSize);
+BLOOM_API void TodFree(void *theBlock);
+BLOOM_API void TodAssertInitForApp();
 
-extern void (*gBetaSubmitFunc)();
+extern BLOOM_API void (*gBetaSubmitFunc)();
 
 #ifndef WIN32
 #define SexyDebuggerCheck() false //The best i can do till i see linux support

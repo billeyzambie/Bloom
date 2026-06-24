@@ -4,12 +4,14 @@
 #include <string>
 #include "Common.h"
 
+#include "../BloomLib/Bloom.h"
+
 namespace Sexy
 {
 
 typedef std::vector<uint8_t> ByteVector;
 
-class Buffer
+class BLOOM_API Buffer
 {
   public:
 	ByteVector mData;

@@ -4,7 +4,7 @@
 
 namespace Sexy
 {
-	class Version
+	class BLOOM_API Version
 	{
 	  public:
 		Version();

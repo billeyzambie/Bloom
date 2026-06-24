@@ -95,7 +95,7 @@ namespace Sexy
 		KEYCODE_SCROLL,
 	};
 
-	KeyCode GetKeyCodeFromName(const std::string &theKeyName);
-	KeyCode GetKeyCodeFromSDLKeycode(const SDL_Keycode key);
-	const std::string GetKeyNameFromCode(const KeyCode &theKeyCode);
-} // namespace Sexy
+	BLOOM_API KeyCode GetKeyCodeFromName(const std::string &theKeyName);
+	BLOOM_API KeyCode GetKeyCodeFromSDLKeycode(const SDL_Keycode key);
+	BLOOM_API const std::string GetKeyNameFromCode(const KeyCode &theKeyCode);
+} // namespace Sexy 

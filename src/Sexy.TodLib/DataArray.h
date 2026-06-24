@@ -6,6 +6,8 @@
 #include "TodDebug.h"
 #include "TodCommon.h"
 
+#include "../BloomLib/Bloom.h"
+
 enum
 {
 	DATA_ARRAY_INDEX_MASK = 65535,
@@ -15,10 +17,10 @@ enum
 	DATA_ARRAY_KEY_FIRST = 1
 };
 
-template <typename T> class DataArray
+template <typename T> class BLOOM_API DataArray
 {
   public:
-	class DataArrayItem
+	class BLOOM_API DataArrayItem
 	{
 	  public:
 		T mItem;

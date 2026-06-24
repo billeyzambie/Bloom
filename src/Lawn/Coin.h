@@ -11,7 +11,7 @@ class Graphics;
 }
 using namespace Sexy;
 
-class Coin : public GameObject
+class BLOOM_API Coin : public GameObject
 {
   public:
 	float mPosX;

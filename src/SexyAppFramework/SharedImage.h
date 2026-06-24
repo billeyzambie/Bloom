@@ -3,6 +3,8 @@
 
 #include "Common.h"
 
+#include "../BloomLib/Bloom.h"
+
 namespace Sexy
 {
 
@@ -10,7 +12,7 @@ class Image;
 class GPUImage;
 class MemoryImage;
 
-class SharedImage
+class BLOOM_API SharedImage
 {
   public:
 	GPUImage *mImage;
@@ -21,7 +23,7 @@ class SharedImage
 
 typedef std::map<std::pair<std::string, std::string>, SharedImage> SharedImageMap;
 
-class SharedImageRef
+class BLOOM_API SharedImageRef
 {
   public:
 	SharedImage *mSharedImage;

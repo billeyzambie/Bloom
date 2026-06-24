@@ -7,7 +7,7 @@
 
 void OnGameStart()
 {
-	Events::Subscribe(+[](PlantEatenContext &theContext) {
+	/*Events::Subscribe(+[](PlantEatenContext &theContext) {
 		auto *aPlant = theContext.mEatenPlant;
 
 		int aPosX = aPlant->mX + aPlant->mWidth / 2;
@@ -23,7 +23,7 @@ void OnGameStart()
 		aPlant->mBoard->ShakeBoard(3, -4);
 
 		aPlant->Die();
-	});
+	});*/
 }
 
 void Quack()

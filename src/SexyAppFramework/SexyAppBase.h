@@ -57,7 +57,7 @@ class ImGuiManager;
 
 class ResourceManager;
 
-class WidgetSafeDeleteInfo
+class BLOOM_API WidgetSafeDeleteInfo
 {
   public:
 	int mUpdateAppDepth;
@@ -159,7 +159,7 @@ enum SexyMessageBoxFlags
 	MESSAGEBOX_YES_NO = MESSAGEBOX_BTN_YES | MESSAGEBOX_BTN_NO,
 };
 
-class SexyAppBase : public ButtonListener, public DialogListener
+class BLOOM_API SexyAppBase : public ButtonListener, public DialogListener
 {
   public:
 	uint32_t mRandSeed;
@@ -632,7 +632,7 @@ class SexyAppBase : public ButtonListener, public DialogListener
 	virtual bool AppCanRestore();
 };
 
-extern SexyAppBase *gSexyAppBase;
+extern BLOOM_API SexyAppBase *gSexyAppBase;
 
 }; // namespace Sexy
 

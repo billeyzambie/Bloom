@@ -51,14 +51,14 @@ class Image;
 class MTRand;
 } // namespace Sexy
 
-class HitResult
+class BLOOM_API HitResult
 {
   public:
 	void *mObject;
 	GameObjectType mObjectType;
 };
 
-class RenderItem
+class BLOOM_API RenderItem
 {
   public:
 	RenderObjectType mRenderObjectType;
@@ -78,9 +78,9 @@ class RenderItem
 		int mBoardGridY;
 	};
 };
-bool RenderItemSortFunc(const RenderItem &theItem1, const RenderItem &theItem2);
+BLOOM_API bool RenderItemSortFunc(const RenderItem &theItem1, const RenderItem &theItem2);
 
-struct ZombiePicker
+struct BLOOM_API ZombiePicker
 {
 	int mZombieCount;
 	int mZombiePoints;
@@ -88,10 +88,10 @@ struct ZombiePicker
 	int mAllWavesZombieTypeCount[NUM_ZOMBIE_TYPES];
 };
 
-void ZombiePickerInitForWave(ZombiePicker *theZombiePicker);
-void ZombiePickerInit(ZombiePicker *theZombiePicker);
+BLOOM_API void ZombiePickerInitForWave(ZombiePicker *theZombiePicker);
+BLOOM_API void ZombiePickerInit(ZombiePicker *theZombiePicker);
 
-struct PlantsOnLawn
+struct BLOOM_API PlantsOnLawn
 {
 	Plant *mUnderPlant;
 	Plant *mPumpkinPlant;
@@ -99,13 +99,13 @@ struct PlantsOnLawn
 	Plant *mNormalPlant;
 };
 
-struct BungeeDropGrid
+struct BLOOM_API BungeeDropGrid
 {
 	TodWeightedGridArray mGridArray[MAX_GRID_SIZE_X * MAX_GRID_SIZE_Y];
 	int mGridArrayCount;
 };
 
-class Board : public Widget, public ButtonListener
+class BLOOM_API Board : public Widget, public ButtonListener
 {
   public:
 	LawnApp *mApp;
@@ -1261,13 +1261,13 @@ class Board : public Widget, public ButtonListener
 	/// @return True if the ZombieType can only be spawned by other Zombies, false otherwise
 	static bool IsZombieTypeSpawnedOnly(ZombieType theZombieType);
 };
-extern bool gShownMoreSunTutorial;
+extern BLOOM_API bool gShownMoreSunTutorial;
 
 /// @brief Get how much do 2 Rectangles overlap
 /// @param rect1 The first Rectangle
 /// @param rect2 The second Rectangle
 /// @return The maximum overlap between the 2 Rectangles
-int GetRectOverlap(const Rect &rect1, const Rect &rect2);
+BLOOM_API int GetRectOverlap(const Rect &rect1, const Rect &rect2);
 
 /// @brief Does the Circle overlap the Rectangle
 /// @param theCircleX The circle's X coordinate
@@ -1275,9 +1275,9 @@ int GetRectOverlap(const Rect &rect1, const Rect &rect2);
 /// @param theRadius The circle's radius
 /// @param theRect The Rectangle
 /// @return True if the Rectangle and The Circle overlap, false otherwise
-bool GetCircleRectOverlap(int theCircleX, int theCircleY, int theRadius, const Rect &theRect);
+BLOOM_API bool GetCircleRectOverlap(int theCircleX, int theCircleY, int theRadius, const Rect &theRect);
 
 /// @brief Setup the Board's flags for the Player
-void BoardInitForPlayer();
+BLOOM_API void BoardInitForPlayer();
 
 #endif // __BOARD_H__

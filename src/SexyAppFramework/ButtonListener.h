@@ -1,10 +1,12 @@
 #ifndef __BUTTONLISTENER_H__
 #define __BUTTONLISTENER_H__
 
+#include "../BloomLib/Bloom.h"
+
 namespace Sexy
 {
 
-class ButtonListener
+class BLOOM_API ButtonListener
 {
   public:
 	virtual void ButtonPress(int theId)

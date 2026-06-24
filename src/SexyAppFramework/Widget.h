@@ -15,7 +15,7 @@ class WidgetManager;
 
 typedef std::vector<Color> ColorVector;
 
-class Widget : public WidgetContainer
+class BLOOM_API Widget : public WidgetContainer
 {
   public:
 	bool mVisible;

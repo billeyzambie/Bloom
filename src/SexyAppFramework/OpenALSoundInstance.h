@@ -4,12 +4,14 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 
+#include "../BloomLib/Bloom.h"
+
 namespace Sexy
 {
 
 class OpenALSoundManager;
 
-class OpenALSoundInstance : public SoundInstance
+class BLOOM_API OpenALSoundInstance : public SoundInstance
 {
 	friend class OpenALSoundManager;
 

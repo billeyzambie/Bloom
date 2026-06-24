@@ -14,7 +14,7 @@ class WidgetManager;
 
 typedef std::list<Widget *> WidgetList;
 
-class WidgetContainer
+class BLOOM_API WidgetContainer
 {
   public:
 	WidgetList mWidgets;
