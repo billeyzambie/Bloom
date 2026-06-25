@@ -4,7 +4,7 @@
 #include <type_traits>
 #include "Patch.h"
 
-template <class T> class PatchHolder
+template <class T> class BLOOM_API PatchHolder
 {
 	template <class U> friend class RegistryTypeHolder;
 

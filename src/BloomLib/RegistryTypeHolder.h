@@ -3,7 +3,7 @@
 #include "../Sexy.TodLib/TodDebug.h"
 #include "PatchHolder.h"
 
-template <class T> class RegistryTypeHolder
+template <class T> class BLOOM_API RegistryTypeHolder
 {
   private:
 	T *mType = nullptr;
@@ -34,16 +34,16 @@ template <class T> class RegistryTypeHolder
 		return Get();
 	}
 
-	T *Supply()
+	std::tuple<T *, T *> Supply()
 	{
 		TOD_ASSERT(!mType)
 		if (mType)
-			return nullptr;
+			return {nullptr, nullptr};
 
 		auto *aPatchHolder = new PatchHolder<T>(mSupplier);
 
 		mType = aPatchHolder->mCurrent;
 
-		return mType;
+		return {aPatchHolder->mCurrent, aPatchHolder->mOriginal};
 	}
 };

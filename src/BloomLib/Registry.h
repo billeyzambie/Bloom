@@ -33,8 +33,11 @@ template <class T> class Registry
 
 		for (int i = 0; i < mNextId; i++)
 		{
-			auto *aT = mHolders[i].Supply();
-			mTypes.push_back(aT);
+			auto [aCurrent, anOriginal] = mHolders[i].Supply();
+
+			aCurrent->mNumericalId = anOriginal->mNumericalId = i;
+
+			mTypes.push_back(aCurrent);
 		}
 
 		mFrozen = true;

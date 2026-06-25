@@ -1,7 +1,10 @@
 #pragma once
 
 #include <string>
-class Identifier final
+
+#include "Bloom.h"
+
+class BLOOM_API Identifier final
 {
 	friend std::hash<Identifier>;
 private:
@@ -16,8 +19,7 @@ public:
 	//bool operator==(const Identifier& theOther) const = default;
 };
 
-template<>
-struct std::hash<Identifier>
+template<> struct BLOOM_API std::hash<Identifier>
 {
 	std::size_t operator()(const Identifier& theIdentifier) const noexcept
 	{

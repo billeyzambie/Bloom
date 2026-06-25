@@ -3,7 +3,7 @@
 #include "Identifier.h"
 #include <iostream>
 
-template <class T> class Patch
+template <class T> class BLOOM_API Patch
 {
   public:
 	const Identifier mId;
