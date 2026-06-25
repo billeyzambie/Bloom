@@ -6,6 +6,8 @@
 #include "../../Sexy.TodLib/DataArray.h"
 #include "../../SexyAppFramework/Dialog.h"
 
+#include "../StoreItemType.h"
+
 using namespace Sexy;
 
 #define MAX_PAGE_SPOTS 8
@@ -58,7 +60,7 @@ class StoreScreen : public Dialog
 	StoreScreen(LawnApp *theApp);
 	virtual ~StoreScreen();
 
-	OldStoreItem GetStoreItemType(int theSpotIndex);
+	const StoreItemType *GetStoreItemType(int theSpotIndex);
 	bool IsFullVersionOnly(OldStoreItem theStoreItem);
 	static bool IsPottedPlant(OldStoreItem theStoreItem);
 	bool IsComingSoon(OldStoreItem theStoreItem);

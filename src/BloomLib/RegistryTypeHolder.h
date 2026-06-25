@@ -18,20 +18,30 @@ template <class T> class BLOOM_API RegistryTypeHolder
 	}
 	RegistryTypeHolder(const RegistryTypeHolder &theCopied) = delete;
 
-	const T *Get() const
+	const T *TryGet() const
 	{
-		TOD_ASSERT(mType != nullptr, "RegistryTypeHolder unwrapped before it got registered")
 		return mType;
 	}
 
+	const T &Get() const
+	{
+		TOD_ASSERT(mType != nullptr, "RegistryTypeHolder unwrapped before it got registered")
+		return *mType;
+	}
+
 	operator const T *() const
+	{
+		return TryGet();
+	}
+
+	operator const T &() const
 	{
 		return Get();
 	}
 
 	const T *operator->() const
 	{
-		return Get();
+		return TryGet();
 	}
 
 	std::tuple<T *, T *> Supply()

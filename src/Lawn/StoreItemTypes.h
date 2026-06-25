@@ -10,7 +10,7 @@ extern BLOOM_API const RegistryTypeHolder<StoreItemType> &GATLING_PEA;
 extern BLOOM_API const RegistryTypeHolder<StoreItemType> &TWIN_SUNFLOWER;
 extern BLOOM_API const RegistryTypeHolder<StoreItemType> &GLOOM_SHROOM;
 extern BLOOM_API const RegistryTypeHolder<StoreItemType> &CATTAIL;
-extern BLOOM_API const RegistryTypeHolder<StoreItemType> &WINTERMELON;
+extern BLOOM_API const RegistryTypeHolder<StoreItemType> &WINTER_MELON;
 extern BLOOM_API const RegistryTypeHolder<StoreItemType> &GOLD_MAGNET;
 extern BLOOM_API const RegistryTypeHolder<StoreItemType> &SPIKEROCK;
 extern BLOOM_API const RegistryTypeHolder<StoreItemType> &COB_CANNON;

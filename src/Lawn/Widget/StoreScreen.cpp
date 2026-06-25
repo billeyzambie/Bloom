@@ -21,17 +21,20 @@
 #include "../../SexyAppFramework/ImageFont.h"
 #include "../../SexyAppFramework/WidgetManager.h"
 
-static OldStoreItem gStoreItemSpots[NUM_STORE_PAGES][MAX_PAGE_SPOTS] = {
-	{STORE_ITEM_PACKET_UPGRADE, STORE_ITEM_POOL_CLEANER, STORE_ITEM_RAKE, STORE_ITEM_ROOF_CLEANER,
-	 STORE_ITEM_PLANT_GATLINGPEA, STORE_ITEM_PLANT_TWINSUNFLOWER, STORE_ITEM_PLANT_GLOOMSHROOM,
-	 STORE_ITEM_PLANT_CATTAIL},
-	{STORE_ITEM_PLANT_SPIKEROCK, STORE_ITEM_PLANT_GOLD_MAGNET, STORE_ITEM_PLANT_WINTERMELON, STORE_ITEM_PLANT_COBCANNON,
-	 STORE_ITEM_PLANT_IMITATER, STORE_ITEM_FIRSTAID, STORE_ITEM_INVALID, STORE_ITEM_INVALID},
-	{STORE_ITEM_POTTED_MARIGOLD_1, STORE_ITEM_POTTED_MARIGOLD_2, STORE_ITEM_POTTED_MARIGOLD_3,
-	 STORE_ITEM_GOLD_WATERINGCAN, STORE_ITEM_FERTILIZER, STORE_ITEM_BUG_SPRAY, STORE_ITEM_PHONOGRAPH,
-	 STORE_ITEM_GARDENING_GLOVE},
-	{STORE_ITEM_MUSHROOM_GARDEN, STORE_ITEM_AQUARIUM_GARDEN, STORE_ITEM_WHEEL_BARROW, STORE_ITEM_STINKY_THE_SNAIL,
-	 STORE_ITEM_TREE_OF_WISDOM, STORE_ITEM_TREE_FOOD, STORE_ITEM_INVALID, STORE_ITEM_INVALID}};
+#include "../StoreItemTypes.h"
+
+static std::array<const RegistryTypeHolder<StoreItemType> *, MAX_PAGE_SPOTS> gStoreItemSpots[NUM_STORE_PAGES] = {
+	{&StoreItemTypes::PACKET_UPGRADE, &StoreItemTypes::POOL_CLEANER, &StoreItemTypes::RAKE, &StoreItemTypes::ROOF_CLEANER,
+	 &StoreItemTypes::GATLING_PEA, &StoreItemTypes::TWIN_SUNFLOWER, &StoreItemTypes::GLOOM_SHROOM,
+	 &StoreItemTypes::CATTAIL},
+	{&StoreItemTypes::SPIKEROCK, &StoreItemTypes::GOLD_MAGNET, &StoreItemTypes::WINTER_MELON, &StoreItemTypes::COB_CANNON,
+	 &StoreItemTypes::IMITATER, &StoreItemTypes::FIRST_AID, nullptr,
+	 nullptr},
+	{&StoreItemTypes::POTTED_MARIGOLD_1, &StoreItemTypes::POTTED_MARIGOLD_2, &StoreItemTypes::POTTED_MARIGOLD_3,
+	 &StoreItemTypes::GOLD_WATERING_CAN, &StoreItemTypes::FERTILIZER, &StoreItemTypes::BUG_SPRAY, &StoreItemTypes::PHONOGRAPH,
+	 &StoreItemTypes::GARDENING_GLOVE},
+	{&StoreItemTypes::MUSHROOM_GARDEN, &StoreItemTypes::AQUARIUM_GARDEN, &StoreItemTypes::WHEEL_BARROW, &StoreItemTypes::STINKY_THE_SNAIL, &StoreItemTypes::TREE_OF_WISDOM, &StoreItemTypes::TREE_FOOD,
+	 nullptr, nullptr}};
 
 StoreScreenOverlay::StoreScreenOverlay(StoreScreen *theParent)
 {
@@ -139,19 +142,19 @@ StoreScreen::~StoreScreen()
 		delete mOverlayWidget;
 }
 
-OldStoreItem StoreScreen::GetStoreItemType(int theSpotIndex)
+const StoreItemType *StoreScreen::GetStoreItemType(int theSpotIndex)
 {
 	if (mPage < NUM_STORE_PAGES && theSpotIndex < MAX_PAGE_SPOTS)
 	{
 		if (mPage == STORE_PAGE_SLOT_UPGRADES && theSpotIndex == 6 && mApp->IsTrialStageLocked())
 		{
-			return STORE_ITEM_PVZ;
+			return StoreItemTypes::PLANTS_VS_ZOMBIES;
 		}
-		return gStoreItemSpots[mPage][theSpotIndex];
+		return *gStoreItemSpots[mPage][theSpotIndex];
 	}
 
 	TOD_ASSERT();
-	return STORE_ITEM_INVALID;
+	return nullptr;
 }
 
 bool StoreScreen::IsFullVersionOnly(OldStoreItem theStoreItem)
@@ -481,10 +484,10 @@ void StoreScreen::Draw(Graphics *g)
 	{
 		for (int i = 0; i < MAX_PAGE_SPOTS; i++)
 		{
-			OldStoreItem aStoreItem = GetStoreItemType(i);
-			if (aStoreItem != STORE_ITEM_INVALID)
+			auto *aStoreItem = GetStoreItemType(i);
+			if (aStoreItem)
 			{
-				DrawItem(g, i, aStoreItem);
+				DrawItem(g, i, *aStoreItem);
 			}
 		}
 	}
@@ -548,16 +551,16 @@ void StoreScreen::UpdateMouse()
 	bool aShowFinger = false;
 	for (int aItemPos = 0; aItemPos < MAX_PAGE_SPOTS; aItemPos++)
 	{
-		OldStoreItem aItemType = GetStoreItemType(aItemPos);
-		if (aItemType != STORE_ITEM_INVALID && !IsItemUnavailable(aItemType))
+		auto *aItemType = GetStoreItemType(aItemPos);
+		if (aItemType && !IsItemUnavailable(*aItemType))
 		{
 			int aItemX, aItemY;
 			GetStorePosition(aItemPos, aItemX, aItemY);
 			if (Rect(aItemX, aItemY, 50, 87).Contains(aMouseX, aMouseY))
 			{
-				mMouseOverItem = aItemType;
+				mMouseOverItem = *aItemType;
 				int aMessageIndex = -1;
-				switch (aItemType)
+				switch (*aItemType)
 				{
 				case STORE_ITEM_PLANT_GATLINGPEA:
 					aMessageIndex = 2000;
@@ -658,8 +661,8 @@ void StoreScreen::UpdateMouse()
 					SetBubbleText(aMessageIndex, 100, false);
 				else
 					mBubbleCountDown = 100;
-				if (IsFullVersionOnly(aItemType) ||
-					(!IsItemSoldOut(aItemType) && !IsItemUnavailable(aItemType) && !IsComingSoon(aItemType)))
+				if (IsFullVersionOnly(*aItemType) ||
+					(!IsItemSoldOut(*aItemType) && !IsItemUnavailable(*aItemType) && !IsComingSoon(*aItemType)))
 					aShowFinger = true;
 				break;
 			}
@@ -1230,14 +1233,14 @@ void StoreScreen::MouseDown(int x, int y, int theClickCount)
 		return;
 	for (int aItemPos = 0; aItemPos < MAX_PAGE_SPOTS; aItemPos++)
 	{
-		OldStoreItem aItemType = GetStoreItemType(aItemPos);
-		if (aItemType == STORE_ITEM_INVALID)
+		auto *aItemType = GetStoreItemType(aItemPos);
+		if (!aItemType)
 			continue;
 		int aItemX, aItemY;
 		GetStorePosition(aItemPos, aItemX, aItemY);
 		if (Rect(aItemX, aItemY, 50, 87).Contains(x, y))
 		{
-			if (IsFullVersionOnly(aItemType))
+			if (IsFullVersionOnly(*aItemType))
 			{
 				mWaitForDialog = true;
 				mApp->LawnMessageBox(DIALOG_MESSAGE,
@@ -1248,7 +1251,7 @@ void StoreScreen::MouseDown(int x, int y, int theClickCount)
 									 BUTTONS_FOOTER);
 				mWaitForDialog = false;
 			}
-			else if (aItemType == STORE_ITEM_PVZ)
+			else if (aItemType == StoreItemTypes::PLANTS_VS_ZOMBIES)
 			{
 				mWaitForDialog = true;
 				int aResult = mApp->LawnMessageBox(DIALOG_MESSAGE,
@@ -1266,8 +1269,8 @@ void StoreScreen::MouseDown(int x, int y, int theClickCount)
 					#endif
 				}
 			}
-			else if (!IsItemSoldOut(aItemType) && !IsItemUnavailable(aItemType) && !IsComingSoon(aItemType))
-				PurchaseItem(aItemType);
+			else if (!IsItemSoldOut(*aItemType) && !IsItemUnavailable(*aItemType) && !IsComingSoon(*aItemType))
+				PurchaseItem(*aItemType);
 			break;
 		}
 	}

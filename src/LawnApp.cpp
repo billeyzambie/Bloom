@@ -65,6 +65,8 @@
 #endif
 #include <iostream>
 
+#include "Lawn/Registries.h"
+
 //Do not edit this. - Electr0Gunner
 Version LawnApp::gResoddedVersion(1, 0, 0, 990);
 
@@ -1756,6 +1758,8 @@ void LawnApp::LoadingThreadProc()
 	}
 
 	std::cout << std::endl;
+
+	Registries::STORE_ITEMS.Freeze();
 
 	if (mTitleScreen)
 	{

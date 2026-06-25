@@ -6,7 +6,7 @@ StoreItemType::StoreItemType(std::string theModName, std::string theTypeName)
 {
 }
 
-StoreItemType::operator OldStoreItem()
+StoreItemType::operator OldStoreItem() const
 {
 	return (OldStoreItem)GetNumericalId();
 }

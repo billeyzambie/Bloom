@@ -1,5 +1,4 @@
 #include "StoreItemTypes.h"
-#include "StoreItemType.h"
 #include "Registries.h"
 
 namespace StoreItemTypes
