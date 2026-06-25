@@ -21,7 +21,7 @@
 #include "../../SexyAppFramework/ImageFont.h"
 #include "../../SexyAppFramework/WidgetManager.h"
 
-static StoreItem gStoreItemSpots[NUM_STORE_PAGES][MAX_PAGE_SPOTS] = {
+static OldStoreItem gStoreItemSpots[NUM_STORE_PAGES][MAX_PAGE_SPOTS] = {
 	{STORE_ITEM_PACKET_UPGRADE, STORE_ITEM_POOL_CLEANER, STORE_ITEM_RAKE, STORE_ITEM_ROOF_CLEANER,
 	 STORE_ITEM_PLANT_GATLINGPEA, STORE_ITEM_PLANT_TWINSUNFLOWER, STORE_ITEM_PLANT_GLOOMSHROOM,
 	 STORE_ITEM_PLANT_CATTAIL},
@@ -139,7 +139,7 @@ StoreScreen::~StoreScreen()
 		delete mOverlayWidget;
 }
 
-StoreItem StoreScreen::GetStoreItemType(int theSpotIndex)
+OldStoreItem StoreScreen::GetStoreItemType(int theSpotIndex)
 {
 	if (mPage < NUM_STORE_PAGES && theSpotIndex < MAX_PAGE_SPOTS)
 	{
@@ -154,7 +154,7 @@ StoreItem StoreScreen::GetStoreItemType(int theSpotIndex)
 	return STORE_ITEM_INVALID;
 }
 
-bool StoreScreen::IsFullVersionOnly(StoreItem theStoreItem)
+bool StoreScreen::IsFullVersionOnly(OldStoreItem theStoreItem)
 {
 	if (!mApp->IsTrialStageLocked())
 		return false;
@@ -165,13 +165,13 @@ bool StoreScreen::IsFullVersionOnly(StoreItem theStoreItem)
 	return theStoreItem == STORE_ITEM_PLANT_TWINSUNFLOWER;
 }
 
-bool StoreScreen::IsPottedPlant(StoreItem theStoreItem)
+bool StoreScreen::IsPottedPlant(OldStoreItem theStoreItem)
 {
 	return theStoreItem == STORE_ITEM_POTTED_MARIGOLD_1 || theStoreItem == STORE_ITEM_POTTED_MARIGOLD_2 ||
 		   theStoreItem == STORE_ITEM_POTTED_MARIGOLD_3;
 }
 
-bool StoreScreen::IsComingSoon(StoreItem theStoreItem)
+bool StoreScreen::IsComingSoon(OldStoreItem theStoreItem)
 {
 	if (IsFullVersionOnly(theStoreItem))
 		return true;
@@ -186,7 +186,7 @@ bool StoreScreen::IsComingSoon(StoreItem theStoreItem)
 	return false;
 }
 
-bool StoreScreen::IsItemSoldOut(StoreItem theStoreItem)
+bool StoreScreen::IsItemSoldOut(OldStoreItem theStoreItem)
 {
 	PlayerInfo *aPlayer = mApp->mPlayerInfo;
 	if (theStoreItem == STORE_ITEM_INVALID)
@@ -206,7 +206,7 @@ bool StoreScreen::IsItemSoldOut(StoreItem theStoreItem)
 		return aPlayer->mPurchases[theStoreItem];
 }
 
-bool StoreScreen::IsItemUnavailable(StoreItem theStoreItem)
+bool StoreScreen::IsItemUnavailable(OldStoreItem theStoreItem)
 {
 	if (mEasyBuyingCheat)
 		return false;
@@ -279,7 +279,7 @@ void StoreScreen::GetStorePosition(int theSpotIndex, int &thePosX, int &thePosY)
 	}
 }
 
-void StoreScreen::DrawItemIcon(Graphics *g, int theItemPosition, StoreItem theItemType, bool theIsForHighlight)
+void StoreScreen::DrawItemIcon(Graphics *g, int theItemPosition, OldStoreItem theItemType, bool theIsForHighlight)
 {
 	if (theIsForHighlight)
 	{
@@ -389,7 +389,7 @@ void StoreScreen::DrawItemIcon(Graphics *g, int theItemPosition, StoreItem theIt
 	g->SetColorizeImages(false);
 }
 
-void StoreScreen::DrawItem(Graphics *g, int theItemPosition, StoreItem theItemType)
+void StoreScreen::DrawItem(Graphics *g, int theItemPosition, OldStoreItem theItemType)
 {
 	if (IsItemUnavailable(theItemType))
 		return;
@@ -481,7 +481,7 @@ void StoreScreen::Draw(Graphics *g)
 	{
 		for (int i = 0; i < MAX_PAGE_SPOTS; i++)
 		{
-			StoreItem aStoreItem = GetStoreItemType(i);
+			OldStoreItem aStoreItem = GetStoreItemType(i);
 			if (aStoreItem != STORE_ITEM_INVALID)
 			{
 				DrawItem(g, i, aStoreItem);
@@ -548,7 +548,7 @@ void StoreScreen::UpdateMouse()
 	bool aShowFinger = false;
 	for (int aItemPos = 0; aItemPos < MAX_PAGE_SPOTS; aItemPos++)
 	{
-		StoreItem aItemType = GetStoreItemType(aItemPos);
+		OldStoreItem aItemType = GetStoreItemType(aItemPos);
 		if (aItemType != STORE_ITEM_INVALID && !IsItemUnavailable(aItemType))
 		{
 			int aItemX, aItemY;
@@ -941,7 +941,7 @@ void StoreScreen::KeyChar(SexyChar theChar)
 		AdvanceCrazyDaveDialog();
 }
 
-int StoreScreen::GetItemCost(StoreItem theStoreItem)
+int StoreScreen::GetItemCost(OldStoreItem theStoreItem)
 {
 	if (theStoreItem == STORE_ITEM_BONUS_LAWN_MOWER)
 		return gLawnApp->mPlayerInfo->mPurchases[STORE_ITEM_BONUS_LAWN_MOWER] ? 500 : 200;
@@ -1011,12 +1011,12 @@ int StoreScreen::GetItemCost(StoreItem theStoreItem)
 	}
 }
 
-bool StoreScreen::CanAffordItem(StoreItem theStoreItem)
+bool StoreScreen::CanAffordItem(OldStoreItem theStoreItem)
 {
 	return mApp->mPlayerInfo->mCoins >= GetItemCost(theStoreItem);
 }
 
-void StoreScreen::PurchaseItem(StoreItem theStoreItem)
+void StoreScreen::PurchaseItem(OldStoreItem theStoreItem)
 {
 	mApp->SetCursor(CURSOR_POINTER);
 	mBubbleCountDown = 0;
@@ -1134,7 +1134,7 @@ void StoreScreen::PurchaseItem(StoreItem theStoreItem)
 			}
 			else
 			{
-				TOD_ASSERT(theStoreItem >= STORE_ITEM_PLANT_GATLINGPEA && theStoreItem < (StoreItem)MAX_PURCHASES);
+				TOD_ASSERT(theStoreItem >= STORE_ITEM_PLANT_GATLINGPEA && theStoreItem < (OldStoreItem)MAX_PURCHASES);
 				mApp->mPlayerInfo->mPurchases[theStoreItem] = 1;
 			}
 
@@ -1230,7 +1230,7 @@ void StoreScreen::MouseDown(int x, int y, int theClickCount)
 		return;
 	for (int aItemPos = 0; aItemPos < MAX_PAGE_SPOTS; aItemPos++)
 	{
-		StoreItem aItemType = GetStoreItemType(aItemPos);
+		OldStoreItem aItemType = GetStoreItemType(aItemPos);
 		if (aItemType == STORE_ITEM_INVALID)
 			continue;
 		int aItemX, aItemY;

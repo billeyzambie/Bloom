@@ -38,7 +38,7 @@ class StoreScreen : public Dialog
 	int mAmbientSpeechCountDown;
 	int mPreviousAmbientSpeechIndex;
 	StorePages mPage;
-	StoreItem mMouseOverItem;
+	OldStoreItem mMouseOverItem;
 	int mHatchTimer;
 	bool mHatchOpen;
 	int mShakeX;
@@ -58,15 +58,15 @@ class StoreScreen : public Dialog
 	StoreScreen(LawnApp *theApp);
 	virtual ~StoreScreen();
 
-	StoreItem GetStoreItemType(int theSpotIndex);
-	bool IsFullVersionOnly(StoreItem theStoreItem);
-	static bool IsPottedPlant(StoreItem theStoreItem);
-	bool IsComingSoon(StoreItem theStoreItem);
-	bool IsItemSoldOut(StoreItem theStoreItem);
-	bool IsItemUnavailable(StoreItem theStoreItem);
+	OldStoreItem GetStoreItemType(int theSpotIndex);
+	bool IsFullVersionOnly(OldStoreItem theStoreItem);
+	static bool IsPottedPlant(OldStoreItem theStoreItem);
+	bool IsComingSoon(OldStoreItem theStoreItem);
+	bool IsItemSoldOut(OldStoreItem theStoreItem);
+	bool IsItemUnavailable(OldStoreItem theStoreItem);
 	static void GetStorePosition(int theSpotIndex, int &thePosX, int &thePosY);
-	void DrawItemIcon(Graphics *g, int theItemPosition, StoreItem theItemType, bool theIsForHighlight);
-	void DrawItem(Graphics *g, int theItemPosition, StoreItem theItemType);
+	void DrawItemIcon(Graphics *g, int theItemPosition, OldStoreItem theItemType, bool theIsForHighlight);
+	void DrawItem(Graphics *g, int theItemPosition, OldStoreItem theItemType);
 	virtual void Draw(Graphics *g);
 	virtual void DrawOverlay(Graphics *g);
 	void SetBubbleText(int theCrazyDaveMessage, int theTime, bool theClickToContinue);
@@ -80,9 +80,9 @@ class StoreScreen : public Dialog
 	bool IsPageShown(StorePages thePage);
 	virtual void ButtonDepress(int theId);
 	virtual void KeyChar(SexyChar theChar);
-	static int GetItemCost(StoreItem theStoreItem);
-	bool CanAffordItem(StoreItem theStoreItem);
-	void PurchaseItem(StoreItem theStoreItem);
+	static int GetItemCost(OldStoreItem theStoreItem);
+	bool CanAffordItem(OldStoreItem theStoreItem);
+	void PurchaseItem(OldStoreItem theStoreItem);
 	void AdvanceCrazyDaveDialog();
 	virtual void MouseDown(int x, int y, int theClickCount);
 	void EnableButtons(bool theEnable);
