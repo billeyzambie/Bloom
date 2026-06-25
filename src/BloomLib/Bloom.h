@@ -8,5 +8,7 @@
 #define BLOOM_GLOBAL extern __declspec(dllimport)
 #endif
 
+constexpr char *PVZ = "pvz";
+
 template<typename T>
 using Transformer = void (*)(T &);

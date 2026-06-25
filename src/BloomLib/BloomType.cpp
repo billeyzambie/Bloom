@@ -1,6 +1,8 @@
 #include "BloomType.h"
+#include <iostream>
 
-BloomType::BloomType(Identifier theIdentifier) : mIdentifier(std::move(theIdentifier))
+BloomType::BloomType(std::string theModName, std::string theTypeName) 
+	: mIdentifier(std::move(theModName), std::move(theTypeName))
 {
 }
 

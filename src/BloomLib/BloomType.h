@@ -7,15 +7,16 @@ class BLOOM_API BloomType
 	template <class T> friend class Registry;
 
   private:
-	int mNumericalId;
+	int mNumericalId = -1;
 
   public:
 	const Identifier mIdentifier;
-	BloomType(Identifier theIdentifier);
+	BloomType(std::string theModName, std::string theTypeName);
 	virtual ~BloomType()
 	{
 	}
+	BloomType(const BloomType &theCopied) = delete;
 	int GetNumericalId() const;
-	virtual void CopyFrom(const BloomType & theOther) = 0;
-	BloomType &operator=(const BloomType &youForgotTheAmpersandAfterTheAuto) = delete;
+	virtual void CopyFrom(const BloomType &theOther) = 0;
+	BloomType &operator=(const BloomType &theCopied) = delete;
 };
