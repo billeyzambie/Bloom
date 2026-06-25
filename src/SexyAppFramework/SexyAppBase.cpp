@@ -1102,7 +1102,7 @@ std::string SexyAppBase::GetProductVersionDLL(const std::string &thePath)
 	// Dynamically Load Version.dll
 	typedef DWORD(APIENTRY * GetFileVersionInfoSizeFunc)(LPSTR lptstrFilename, LPDWORD lpdwHandle);
 	typedef BOOL(APIENTRY * GetFileVersionInfoFunc)(LPSTR lptstrFilename, DWORD dwHandle, DWORD dwLen, LPVOID lpData);
-	typedef BOOL(APIENTRY * VerQueryValueFunc)(const LPVOID pBlock, LPSTR lpSubBlock, LPVOID *lplpBuffer, PUINT puLen);
+	typedef BOOL(APIENTRY * VerQueryValueFunc)(const LPVOID pBlock, LPCSTR lpSubBlock, LPVOID *lplpBuffer, PUINT puLen);
 
 	static GetFileVersionInfoSizeFunc aGetFileVersionInfoSizeFunc = NULL;
 	static GetFileVersionInfoFunc aGetFileVersionInfoFunc = NULL;

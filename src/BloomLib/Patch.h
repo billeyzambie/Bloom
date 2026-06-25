@@ -6,7 +6,7 @@
 template <class T> class BLOOM_API Patch
 {
   public:
-	const Identifier mId;
+	Identifier mId;
 	void (*mConsumer)(T &);
 	void operator()(T &theT) const
 	{

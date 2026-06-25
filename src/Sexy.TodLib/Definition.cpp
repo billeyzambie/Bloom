@@ -382,7 +382,7 @@ bool DefReadFromCacheFlag(void *&theReadPtr, uint32_t *theFlag)
 	return true;
 }
 
-bool DefReadFromCacheString(void *&theReadPtr, char **theString)
+bool DefReadFromCacheString(void *&theReadPtr, const char **theString)
 {
 	uint32_t aLen;
 	SMemR(theReadPtr, &aLen, sizeof(uint32_t));
@@ -440,7 +440,7 @@ bool DefMapReadFromCache(void *&theReadPtr, DefMap *theDefMap, void *theDefiniti
 	for (DefField *aField = theDefMap->mMapFields; *aField->mFieldName != '\0'; aField++)
 	{
 		bool aSucceed = true;
-		void *aDest = (void *)((uintptr_t)theDefinition + aField->mFieldOffset);
+		const void *aDest = (void *)((uintptr_t)theDefinition + aField->mFieldOffset);
 		switch (aField->mFieldType)
 		{
 		case DefFieldType::DT_ENUM:
@@ -454,7 +454,7 @@ bool DefMapReadFromCache(void *&theReadPtr, DefMap *theDefMap, void *theDefiniti
 			aSucceed = DefReadFromCacheFlag(theReadPtr, (uint32_t *)aDest);
 			break;
 		case DefFieldType::DT_STRING:
-			aSucceed = DefReadFromCacheString(theReadPtr, (char **)aDest);
+			aSucceed = DefReadFromCacheString(theReadPtr, (const char **)aDest);
 			break;
 		case DefFieldType::DT_VECTOR2:
 			aSucceed = DefReadFromCacheVector2(theReadPtr, (SexyVector2 *)aDest);
@@ -646,7 +646,7 @@ void DefinitionFillWithDefaults(DefMap *theDefMap, void *theDefinition)
 	memset(theDefinition, NULL, theDefMap->mDefSize); // Initialize theDefinition to 0.
 	for (DefField *aField = theDefMap->mMapFields; *aField->mFieldName != '\0'; aField++) // Iterate through each member variable of theDefinition
 		if (aField->mFieldType == DefFieldType::DT_STRING) 
-			*(char **)((uintptr_t)theDefinition + aField->mFieldOffset) = ""; // Assign all char* member variables to pointers to empty character arrays.
+			*(const char **)((uintptr_t)theDefinition + aField->mFieldOffset) = ""; // Assign all char* member variables to pointers to empty character arrays.
 }
 
 void DefinitionXmlError(XMLParser *theXmlParser, const char *theFormat, ...)

@@ -14,6 +14,7 @@ public:
 	std::string mTypeName;
 	Identifier(std::string theModName, std::string theObjectName);
 	Identifier(const Identifier& theOther) = default;
+	Identifier &operator=(const Identifier& theOther) = default;
 	Identifier(Identifier&& theOther) = default;
 	std::string AsString() const;
 	//bool operator==(const Identifier& theOther) const = default;
