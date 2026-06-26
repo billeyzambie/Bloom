@@ -150,14 +150,20 @@ const StoreItemType *StoreScreen::GetStoreItemType(int theSpotIndex)
 		{
 			return StoreItemTypes::PLANTS_VS_ZOMBIES;
 		}
-		return *gStoreItemSpots[mPage][theSpotIndex];
+
+		auto *aResult = gStoreItemSpots[mPage][theSpotIndex];
+
+		if (aResult)
+			return *aResult;
+
+		return nullptr;
 	}
 
 	TOD_ASSERT();
 	return nullptr;
 }
 
-bool StoreScreen::IsFullVersionOnly(OldStoreItem theStoreItem)
+bool StoreScreen::IsFullVersionOnly(OldStoreItemType theStoreItem)
 {
 	if (!mApp->IsTrialStageLocked())
 		return false;
@@ -168,13 +174,13 @@ bool StoreScreen::IsFullVersionOnly(OldStoreItem theStoreItem)
 	return theStoreItem == STORE_ITEM_PLANT_TWINSUNFLOWER;
 }
 
-bool StoreScreen::IsPottedPlant(OldStoreItem theStoreItem)
+bool StoreScreen::IsPottedPlant(OldStoreItemType theStoreItem)
 {
 	return theStoreItem == STORE_ITEM_POTTED_MARIGOLD_1 || theStoreItem == STORE_ITEM_POTTED_MARIGOLD_2 ||
 		   theStoreItem == STORE_ITEM_POTTED_MARIGOLD_3;
 }
 
-bool StoreScreen::IsComingSoon(OldStoreItem theStoreItem)
+bool StoreScreen::IsComingSoon(OldStoreItemType theStoreItem)
 {
 	if (IsFullVersionOnly(theStoreItem))
 		return true;
@@ -189,7 +195,7 @@ bool StoreScreen::IsComingSoon(OldStoreItem theStoreItem)
 	return false;
 }
 
-bool StoreScreen::IsItemSoldOut(OldStoreItem theStoreItem)
+bool StoreScreen::IsItemSoldOut(OldStoreItemType theStoreItem)
 {
 	PlayerInfo *aPlayer = mApp->mPlayerInfo;
 	if (theStoreItem == STORE_ITEM_INVALID)
@@ -209,7 +215,7 @@ bool StoreScreen::IsItemSoldOut(OldStoreItem theStoreItem)
 		return aPlayer->mPurchases[theStoreItem];
 }
 
-bool StoreScreen::IsItemUnavailable(OldStoreItem theStoreItem)
+bool StoreScreen::IsItemUnavailable(OldStoreItemType theStoreItem)
 {
 	if (mEasyBuyingCheat)
 		return false;
@@ -282,7 +288,7 @@ void StoreScreen::GetStorePosition(int theSpotIndex, int &thePosX, int &thePosY)
 	}
 }
 
-void StoreScreen::DrawItemIcon(Graphics *g, int theItemPosition, OldStoreItem theItemType, bool theIsForHighlight)
+void StoreScreen::DrawItemIcon(Graphics *g, int theItemPosition, OldStoreItemType theItemType, bool theIsForHighlight)
 {
 	if (theIsForHighlight)
 	{
@@ -392,7 +398,7 @@ void StoreScreen::DrawItemIcon(Graphics *g, int theItemPosition, OldStoreItem th
 	g->SetColorizeImages(false);
 }
 
-void StoreScreen::DrawItem(Graphics *g, int theItemPosition, OldStoreItem theItemType)
+void StoreScreen::DrawItem(Graphics *g, int theItemPosition, OldStoreItemType theItemType)
 {
 	if (IsItemUnavailable(theItemType))
 		return;
@@ -944,7 +950,7 @@ void StoreScreen::KeyChar(SexyChar theChar)
 		AdvanceCrazyDaveDialog();
 }
 
-int StoreScreen::GetItemCost(OldStoreItem theStoreItem)
+int StoreScreen::GetItemCost(OldStoreItemType theStoreItem)
 {
 	if (theStoreItem == STORE_ITEM_BONUS_LAWN_MOWER)
 		return gLawnApp->mPlayerInfo->mPurchases[STORE_ITEM_BONUS_LAWN_MOWER] ? 500 : 200;
@@ -1014,12 +1020,12 @@ int StoreScreen::GetItemCost(OldStoreItem theStoreItem)
 	}
 }
 
-bool StoreScreen::CanAffordItem(OldStoreItem theStoreItem)
+bool StoreScreen::CanAffordItem(OldStoreItemType theStoreItem)
 {
 	return mApp->mPlayerInfo->mCoins >= GetItemCost(theStoreItem);
 }
 
-void StoreScreen::PurchaseItem(OldStoreItem theStoreItem)
+void StoreScreen::PurchaseItem(OldStoreItemType theStoreItem)
 {
 	mApp->SetCursor(CURSOR_POINTER);
 	mBubbleCountDown = 0;
@@ -1137,7 +1143,7 @@ void StoreScreen::PurchaseItem(OldStoreItem theStoreItem)
 			}
 			else
 			{
-				TOD_ASSERT(theStoreItem >= STORE_ITEM_PLANT_GATLINGPEA && theStoreItem < (OldStoreItem)MAX_PURCHASES);
+				TOD_ASSERT(theStoreItem >= STORE_ITEM_PLANT_GATLINGPEA && theStoreItem < (OldStoreItemType)MAX_PURCHASES);
 				mApp->mPlayerInfo->mPurchases[theStoreItem] = 1;
 			}
 

@@ -10,6 +10,7 @@ class BLOOM_API StoreItemType : public BloomType
 	int mCost = 500;
 	PatchHolder<StoreItemType> *mPatchHolder;
 	StoreItemType(std::string theModName, std::string theTypeName);
-	operator OldStoreItem() const;
+	operator OldStoreItemType() const;
 	virtual void CopyFrom(const BloomType &theOther);
 };
+

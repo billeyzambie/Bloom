@@ -2458,7 +2458,7 @@ SexyString LawnApp::GetCrazyDaveText(int theMessageIndex)
 	SexyString aMessage = StrFormat("[CRAZY_DAVE_%d]", theMessageIndex);
 	aMessage = TodReplaceString(aMessage, "{PLAYER_NAME}", mPlayerInfo->mName);
 	aMessage = TodReplaceString(aMessage, "{MONEY}", GetMoneyString(mPlayerInfo->mCoins));
-	int aCost = StoreScreen::GetItemCost(OldStoreItem::STORE_ITEM_PACKET_UPGRADE);
+	int aCost = StoreScreen::GetItemCost(OldStoreItemType::STORE_ITEM_PACKET_UPGRADE);
 	aMessage = TodReplaceString(aMessage, "{UPGRADE_COST}", GetMoneyString(aCost));
 	return aMessage;
 }

@@ -48,7 +48,7 @@ const auto &SPIKEROCK = Registries::STORE_ITEMS.Register([]() {
 
 const auto &COB_CANNON = Registries::STORE_ITEMS.Register([]() {
 	auto *aStoreItemType = new StoreItemType(PVZ, "cob_cannon");
-	aStoreItemType->mCost = 200;
+	aStoreItemType->mCost = 2000;
 	return aStoreItemType;
 });
 

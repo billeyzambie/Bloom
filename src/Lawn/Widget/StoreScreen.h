@@ -40,7 +40,7 @@ class StoreScreen : public Dialog
 	int mAmbientSpeechCountDown;
 	int mPreviousAmbientSpeechIndex;
 	StorePages mPage;
-	OldStoreItem mMouseOverItem;
+	OldStoreItemType mMouseOverItem;
 	int mHatchTimer;
 	bool mHatchOpen;
 	int mShakeX;
@@ -61,14 +61,14 @@ class StoreScreen : public Dialog
 	virtual ~StoreScreen();
 
 	const StoreItemType *GetStoreItemType(int theSpotIndex);
-	bool IsFullVersionOnly(OldStoreItem theStoreItem);
-	static bool IsPottedPlant(OldStoreItem theStoreItem);
-	bool IsComingSoon(OldStoreItem theStoreItem);
-	bool IsItemSoldOut(OldStoreItem theStoreItem);
-	bool IsItemUnavailable(OldStoreItem theStoreItem);
+	bool IsFullVersionOnly(OldStoreItemType theStoreItem);
+	static bool IsPottedPlant(OldStoreItemType theStoreItem);
+	bool IsComingSoon(OldStoreItemType theStoreItem);
+	bool IsItemSoldOut(OldStoreItemType theStoreItem);
+	bool IsItemUnavailable(OldStoreItemType theStoreItem);
 	static void GetStorePosition(int theSpotIndex, int &thePosX, int &thePosY);
-	void DrawItemIcon(Graphics *g, int theItemPosition, OldStoreItem theItemType, bool theIsForHighlight);
-	void DrawItem(Graphics *g, int theItemPosition, OldStoreItem theItemType);
+	void DrawItemIcon(Graphics *g, int theItemPosition, OldStoreItemType theItemType, bool theIsForHighlight);
+	void DrawItem(Graphics *g, int theItemPosition, OldStoreItemType theItemType);
 	virtual void Draw(Graphics *g);
 	virtual void DrawOverlay(Graphics *g);
 	void SetBubbleText(int theCrazyDaveMessage, int theTime, bool theClickToContinue);
@@ -82,9 +82,9 @@ class StoreScreen : public Dialog
 	bool IsPageShown(StorePages thePage);
 	virtual void ButtonDepress(int theId);
 	virtual void KeyChar(SexyChar theChar);
-	static int GetItemCost(OldStoreItem theStoreItem);
-	bool CanAffordItem(OldStoreItem theStoreItem);
-	void PurchaseItem(OldStoreItem theStoreItem);
+	static int GetItemCost(OldStoreItemType theStoreItem);
+	bool CanAffordItem(OldStoreItemType theStoreItem);
+	void PurchaseItem(OldStoreItemType theStoreItem);
 	void AdvanceCrazyDaveDialog();
 	virtual void MouseDown(int x, int y, int theClickCount);
 	void EnableButtons(bool theEnable);

@@ -6,9 +6,9 @@ StoreItemType::StoreItemType(std::string theModName, std::string theTypeName)
 {
 }
 
-StoreItemType::operator OldStoreItem() const
+StoreItemType::operator OldStoreItemType() const
 {
-	return (OldStoreItem)GetNumericalId();
+	return (OldStoreItemType)GetNumericalId();
 }
 
 void StoreItemType::CopyFrom(const BloomType &theOther)
