@@ -68,7 +68,7 @@ class StoreScreen : public Dialog
 	bool IsItemUnavailable(OldStoreItemType theStoreItem);
 	static void GetStorePosition(int theSpotIndex, int &thePosX, int &thePosY);
 	void DrawItemIcon(Graphics *g, int theItemPosition, OldStoreItemType theItemType, bool theIsForHighlight);
-	void DrawItem(Graphics *g, int theItemPosition, OldStoreItemType theItemType);
+	void DrawItem(Graphics *g, int theItemPosition, const StoreItemType &theItemType);
 	virtual void Draw(Graphics *g);
 	virtual void DrawOverlay(Graphics *g);
 	void SetBubbleText(int theCrazyDaveMessage, int theTime, bool theClickToContinue);
@@ -82,9 +82,9 @@ class StoreScreen : public Dialog
 	bool IsPageShown(StorePages thePage);
 	virtual void ButtonDepress(int theId);
 	virtual void KeyChar(SexyChar theChar);
-	static int GetItemCost(OldStoreItemType theStoreItem);
-	bool CanAffordItem(OldStoreItemType theStoreItem);
-	void PurchaseItem(OldStoreItemType theStoreItem);
+	//static int GetItemCost(OldStoreItemType theStoreItem);
+	bool CanAffordItem(const StoreItemType &theStoreItem);
+	void PurchaseItem(const StoreItemType &theStoreItem);
 	void AdvanceCrazyDaveDialog();
 	virtual void MouseDown(int x, int y, int theClickCount);
 	void EnableButtons(bool theEnable);

@@ -13,6 +13,22 @@ class Image;
 
 class PlayerInfo;
 
+struct BLOOM_API StoreItemAttributes
+{
+	int mCost = 0;
+	Sexy::Image *nIcon = nullptr;
+	int mDrawOffsetX = 0;
+	int mDrawOffsetY = 0;
+};
+
+class StoreItemType;
+
+struct BLOOM_API StoreItemModifierContext
+{
+	const StoreItemType &mStoreItemType;
+	const PlayerInfo &mPlayerInfo;
+};
+
 class BLOOM_API StoreItemType final : public BloomType
 {
   public:
@@ -26,18 +42,5 @@ class BLOOM_API StoreItemType final : public BloomType
 	);
 	operator OldStoreItemType() const;
 	virtual void CopyFrom(const BloomType &theOther);
-};
-
-struct BLOOM_API StoreItemAttributes
-{
-	int mCost = 0;
-	Sexy::Image *nIcon = nullptr;
-	int mDrawOffsetX = 0;
-	int mDrawOffsetY = 0;
-};
-
-struct BLOOM_API StoreItemModifierContext
-{
-	const StoreItemType &mStoreItemType;
-	const PlayerInfo &mPlayerInfo;
+	int GetCost() const;
 };

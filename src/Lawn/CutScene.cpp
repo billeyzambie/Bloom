@@ -14,7 +14,6 @@
 #include "Widget/LawnDialog.h"
 #include "Widget/GameButton.h"
 #include "System/PlayerInfo.h"
-#include "Widget/StoreScreen.h"
 #include "Widget/ChallengeScreen.h"
 #include "../Sexy.TodLib/TodFoley.h"
 #include "Widget/SeedChooserScreen.h"
@@ -25,6 +24,8 @@
 #include "../Sexy.TodLib/TodStringFile.h"
 #include "../SexyAppFramework/PerfTimer.h"
 #include "../SexyAppFramework/WidgetManager.h"
+
+#include "StoreItemTypes.h"
 
 static const int TimePanRightStart = 1500;
 static const int TimePanRightEnd = 3500;
@@ -627,7 +628,7 @@ bool CutScene::IsScrolledLeftAtStart()
 
 bool CutScene::CanGetPacketUpgrade()
 {
-	int aCost = StoreScreen::GetItemCost(OldStoreItemType::STORE_ITEM_PACKET_UPGRADE);
+	int aCost = StoreItemTypes::PACKET_UPGRADE->GetCost();
 
 	return mApp->mPlayerInfo->mPurchases[OldStoreItemType::STORE_ITEM_PACKET_UPGRADE] == 0 &&
 		   mApp->mPlayerInfo->mCoins >= aCost && mApp->mPlayerInfo->mDidntPurchasePacketUpgrade < 2;
@@ -635,7 +636,7 @@ bool CutScene::CanGetPacketUpgrade()
 
 bool CutScene::CanGetSecondPacketUpgrade()
 {
-	int aCost = StoreScreen::GetItemCost(OldStoreItemType::STORE_ITEM_PACKET_UPGRADE);
+	int aCost = StoreItemTypes::PACKET_UPGRADE->GetCost();
 
 	return mApp->mPlayerInfo->mPurchases[OldStoreItemType::STORE_ITEM_PACKET_UPGRADE] == 1 &&
 		   mApp->mPlayerInfo->mCoins >= aCost && mApp->mPlayerInfo->mDidntPurchasePacketUpgrade < 2;
@@ -643,7 +644,7 @@ bool CutScene::CanGetSecondPacketUpgrade()
 
 bool CutScene::CanGetPacketUpgrade(int theUpgradeIndex)
 {
-	int aCost = StoreScreen::GetItemCost(OldStoreItemType::STORE_ITEM_PACKET_UPGRADE);
+	int aCost = StoreItemTypes::PACKET_UPGRADE->GetCost();
 
 	return mApp->mPlayerInfo->mPurchases[OldStoreItemType::STORE_ITEM_PACKET_UPGRADE] ==
 			   theUpgradeIndex &&
@@ -1592,7 +1593,7 @@ void CutScene::AdvanceCrazyDaveDialog(bool theJustSkipping)
 	}
 	if ((aMessageIndex == 1503 || aMessageIndex == 1553) && !theJustSkipping)
 	{
-		int aCost = StoreScreen::GetItemCost(OldStoreItemType::STORE_ITEM_PACKET_UPGRADE);
+		int aCost = StoreItemTypes::PACKET_UPGRADE->GetCost();
 		int aNumPackets = mApp->mPlayerInfo->mPurchases[(int)OldStoreItemType::STORE_ITEM_PACKET_UPGRADE];
 		SexyString aBodyString = TodReplaceNumberString("[UPGRADE_DIALOG_BODY]", "{SLOTS}", aNumPackets + 1);
 		SexyString aAmountString = mApp->GetMoneyString(aCost);

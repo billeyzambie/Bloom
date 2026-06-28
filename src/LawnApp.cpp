@@ -67,6 +67,8 @@
 
 #include "Lawn/Registries.h"
 
+#include "Lawn/StoreItemTypes.h"
+
 //Do not edit this. - Electr0Gunner
 Version LawnApp::gResoddedVersion(1, 0, 0, 990);
 
@@ -2458,7 +2460,7 @@ SexyString LawnApp::GetCrazyDaveText(int theMessageIndex)
 	SexyString aMessage = StrFormat("[CRAZY_DAVE_%d]", theMessageIndex);
 	aMessage = TodReplaceString(aMessage, "{PLAYER_NAME}", mPlayerInfo->mName);
 	aMessage = TodReplaceString(aMessage, "{MONEY}", GetMoneyString(mPlayerInfo->mCoins));
-	int aCost = StoreScreen::GetItemCost(OldStoreItemType::STORE_ITEM_PACKET_UPGRADE);
+	int aCost = StoreItemTypes::PACKET_UPGRADE->GetCost();
 	aMessage = TodReplaceString(aMessage, "{UPGRADE_COST}", GetMoneyString(aCost));
 	return aMessage;
 }

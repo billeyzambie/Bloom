@@ -27,3 +27,8 @@ void StoreItemType::CopyFrom(const BloomType &theOther)
 
 	mAttributes = anOther.mAttributes;
 }
+
+int StoreItemType::GetCost() const
+{
+	return mAttributes.mCost;
+}

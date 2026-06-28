@@ -33,7 +33,8 @@ static std::array<const RegistryTypeHolder<StoreItemType> *, MAX_PAGE_SPOTS> gSt
 	{&StoreItemTypes::POTTED_MARIGOLD_1, &StoreItemTypes::POTTED_MARIGOLD_2, &StoreItemTypes::POTTED_MARIGOLD_3,
 	 &StoreItemTypes::GOLD_WATERING_CAN, &StoreItemTypes::FERTILIZER, &StoreItemTypes::BUG_SPRAY, &StoreItemTypes::PHONOGRAPH,
 	 &StoreItemTypes::GARDENING_GLOVE},
-	{&StoreItemTypes::MUSHROOM_GARDEN, &StoreItemTypes::AQUARIUM_GARDEN, &StoreItemTypes::WHEEL_BARROW, &StoreItemTypes::STINKY_THE_SNAIL, &StoreItemTypes::TREE_OF_WISDOM, &StoreItemTypes::TREE_FOOD,
+	{&StoreItemTypes::MUSHROOM_GARDEN, &StoreItemTypes::AQUARIUM_GARDEN, &StoreItemTypes::WHEEL_BARROW,
+	 &StoreItemTypes::STINKY_THE_SNAIL, &StoreItemTypes::TREE_OF_WISDOM, &StoreItemTypes::TREE_FOOD,
 	 nullptr, nullptr}};
 
 StoreScreenOverlay::StoreScreenOverlay(StoreScreen *theParent)
@@ -398,7 +399,7 @@ void StoreScreen::DrawItemIcon(Graphics *g, int theItemPosition, OldStoreItemTyp
 	g->SetColorizeImages(false);
 }
 
-void StoreScreen::DrawItem(Graphics *g, int theItemPosition, OldStoreItemType theItemType)
+void StoreScreen::DrawItem(Graphics *g, int theItemPosition, const StoreItemType &theItemType)
 {
 	if (IsItemUnavailable(theItemType))
 		return;
@@ -410,7 +411,7 @@ void StoreScreen::DrawItem(Graphics *g, int theItemPosition, OldStoreItemType th
 	if (theItemType != STORE_ITEM_PVZ)
 	{
 		g->DrawImage(Sexy::IMAGE_STORE_PRICETAG, aPosX - 3, aPosY + 70);
-		SexyString aCostString = LawnApp::GetMoneyString(GetItemCost(theItemType));
+		SexyString aCostString = LawnApp::GetMoneyString(theItemType.GetCost());
 		TodDrawString(g, aCostString, aPosX + 23, aPosY + 85, Sexy::FONT_BRIANNETOD12, Color::Black, DS_ALIGN_CENTER);
 	}
 	if (IsComingSoon(theItemType))
@@ -950,82 +951,82 @@ void StoreScreen::KeyChar(SexyChar theChar)
 		AdvanceCrazyDaveDialog();
 }
 
-int StoreScreen::GetItemCost(OldStoreItemType theStoreItem)
+//int StoreScreen::GetItemCost(OldStoreItemType theStoreItem)
+//{
+//	if (theStoreItem == STORE_ITEM_BONUS_LAWN_MOWER)
+//		return gLawnApp->mPlayerInfo->mPurchases[STORE_ITEM_BONUS_LAWN_MOWER] ? 500 : 200;
+//	switch (theStoreItem)
+//	{
+//	case STORE_ITEM_PLANT_GATLINGPEA:
+//		return 500;
+//	case STORE_ITEM_PLANT_TWINSUNFLOWER:
+//		return 500;
+//	case STORE_ITEM_PLANT_GLOOMSHROOM:
+//		return 750;
+//	case STORE_ITEM_PLANT_CATTAIL:
+//		return 1000;
+//	case STORE_ITEM_PLANT_WINTERMELON:
+//		return 1000;
+//	case STORE_ITEM_PLANT_GOLD_MAGNET:
+//		return 300;
+//	case STORE_ITEM_PLANT_SPIKEROCK:
+//		return 750;
+//	case STORE_ITEM_PLANT_COBCANNON:
+//		return 2000;
+//	case STORE_ITEM_PLANT_IMITATER:
+//		return 3000;
+//	case STORE_ITEM_POTTED_MARIGOLD_1:
+//		return 250;
+//	case STORE_ITEM_POTTED_MARIGOLD_2:
+//		return 250;
+//	case STORE_ITEM_POTTED_MARIGOLD_3:
+//		return 250;
+//	case STORE_ITEM_GOLD_WATERINGCAN:
+//		return 1000;
+//	case STORE_ITEM_FERTILIZER:
+//		return 75;
+//	case STORE_ITEM_BUG_SPRAY:
+//		return 100;
+//	case STORE_ITEM_PHONOGRAPH:
+//		return 1500;
+//	case STORE_ITEM_GARDENING_GLOVE:
+//		return 100;
+//	case STORE_ITEM_MUSHROOM_GARDEN:
+//		return 3000;
+//	case STORE_ITEM_WHEEL_BARROW:
+//		return 20;
+//	case STORE_ITEM_STINKY_THE_SNAIL:
+//		return 300;
+//	case STORE_ITEM_PACKET_UPGRADE: {
+//		int aPurchase = gLawnApp->mPlayerInfo->mPurchases[STORE_ITEM_PACKET_UPGRADE];
+//		return aPurchase == 0 ? 75 : aPurchase == 1 ? 500 : aPurchase == 2 ? 2000 : 8000;
+//	}
+//	case STORE_ITEM_POOL_CLEANER:
+//		return 100;
+//	case STORE_ITEM_ROOF_CLEANER:
+//		return 300;
+//	case STORE_ITEM_RAKE:
+//		return 20;
+//	case STORE_ITEM_AQUARIUM_GARDEN:
+//		return 3000;
+//	case STORE_ITEM_TREE_OF_WISDOM:
+//		return 1000;
+//	case STORE_ITEM_TREE_FOOD:
+//		return 250;
+//	case STORE_ITEM_FIRSTAID:
+//		return 200;
+//	default:
+//		TOD_ASSERT();
+//		return 0;
+//	}
+//}
+
+bool StoreScreen::CanAffordItem(const StoreItemType &theStoreItem)
 {
-	if (theStoreItem == STORE_ITEM_BONUS_LAWN_MOWER)
-		return gLawnApp->mPlayerInfo->mPurchases[STORE_ITEM_BONUS_LAWN_MOWER] ? 500 : 200;
-	switch (theStoreItem)
-	{
-	case STORE_ITEM_PLANT_GATLINGPEA:
-		return 500;
-	case STORE_ITEM_PLANT_TWINSUNFLOWER:
-		return 500;
-	case STORE_ITEM_PLANT_GLOOMSHROOM:
-		return 750;
-	case STORE_ITEM_PLANT_CATTAIL:
-		return 1000;
-	case STORE_ITEM_PLANT_WINTERMELON:
-		return 1000;
-	case STORE_ITEM_PLANT_GOLD_MAGNET:
-		return 300;
-	case STORE_ITEM_PLANT_SPIKEROCK:
-		return 750;
-	case STORE_ITEM_PLANT_COBCANNON:
-		return 2000;
-	case STORE_ITEM_PLANT_IMITATER:
-		return 3000;
-	case STORE_ITEM_POTTED_MARIGOLD_1:
-		return 250;
-	case STORE_ITEM_POTTED_MARIGOLD_2:
-		return 250;
-	case STORE_ITEM_POTTED_MARIGOLD_3:
-		return 250;
-	case STORE_ITEM_GOLD_WATERINGCAN:
-		return 1000;
-	case STORE_ITEM_FERTILIZER:
-		return 75;
-	case STORE_ITEM_BUG_SPRAY:
-		return 100;
-	case STORE_ITEM_PHONOGRAPH:
-		return 1500;
-	case STORE_ITEM_GARDENING_GLOVE:
-		return 100;
-	case STORE_ITEM_MUSHROOM_GARDEN:
-		return 3000;
-	case STORE_ITEM_WHEEL_BARROW:
-		return 20;
-	case STORE_ITEM_STINKY_THE_SNAIL:
-		return 300;
-	case STORE_ITEM_PACKET_UPGRADE: {
-		int aPurchase = gLawnApp->mPlayerInfo->mPurchases[STORE_ITEM_PACKET_UPGRADE];
-		return aPurchase == 0 ? 75 : aPurchase == 1 ? 500 : aPurchase == 2 ? 2000 : 8000;
-	}
-	case STORE_ITEM_POOL_CLEANER:
-		return 100;
-	case STORE_ITEM_ROOF_CLEANER:
-		return 300;
-	case STORE_ITEM_RAKE:
-		return 20;
-	case STORE_ITEM_AQUARIUM_GARDEN:
-		return 3000;
-	case STORE_ITEM_TREE_OF_WISDOM:
-		return 1000;
-	case STORE_ITEM_TREE_FOOD:
-		return 250;
-	case STORE_ITEM_FIRSTAID:
-		return 200;
-	default:
-		TOD_ASSERT();
-		return 0;
-	}
+	return mApp->mPlayerInfo->mCoins >= theStoreItem.GetCost();
 }
 
-bool StoreScreen::CanAffordItem(OldStoreItemType theStoreItem)
-{
-	return mApp->mPlayerInfo->mCoins >= GetItemCost(theStoreItem);
-}
-
-void StoreScreen::PurchaseItem(OldStoreItemType theStoreItem)
+void StoreScreen::PurchaseItem(const StoreItemType &theStoreItem)
 {
 	mApp->SetCursor(CURSOR_POINTER);
 	mBubbleCountDown = 0;
@@ -1060,7 +1061,7 @@ void StoreScreen::PurchaseItem(OldStoreItemType theStoreItem)
 
 		if (aComfirmResult == ID_OK)
 		{
-			mApp->mPlayerInfo->AddCoins(-GetItemCost(theStoreItem));
+			mApp->mPlayerInfo->AddCoins(-theStoreItem.GetCost());
 			if (theStoreItem == STORE_ITEM_PACKET_UPGRADE)
 			{
 				++mApp->mPlayerInfo->mPurchases[theStoreItem];

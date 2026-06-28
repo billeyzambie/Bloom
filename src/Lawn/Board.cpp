@@ -9,7 +9,6 @@
 #include "System/PopDRMComm.h"
 #include "System/TypingCheck.h"
 #include "System/Achievements.h"
-#include "Widget/StoreScreen.h"
 #include "Widget/AwardScreen.h"
 #include "../Sexy.TodLib/Trail.h"
 #include "Widget/ChallengeScreen.h"
@@ -31,6 +30,8 @@
 #include "../SexyAppFramework/ButtonWidget.h"
 #include "../SexyAppFramework/WidgetManager.h"
 #include "../SexyAppFramework/SoundInstance.h"
+
+#include "StoreItemTypes.h"
 
 #define SEXY_PERF_ENABLED
 #include "../SexyAppFramework/PerfTimer.h"
@@ -10420,7 +10421,7 @@ void Board::DropLootPiece(int thePosX, int thePosY, int theDropFactor)
 	if (mApp->IsFirstTimeAdventureMode() && mLevel == 11)
 	{
 		int aMoney = Coin::GetCoinValue(CoinType::COIN_GOLD) * mLawnMowers.mSize;
-		int aCost = StoreScreen::GetItemCost(OldStoreItemType::STORE_ITEM_PACKET_UPGRADE);
+		int aCost = StoreItemTypes::PACKET_UPGRADE->GetCost();
 		aMoney += mApp->mPlayerInfo->mCoins + CountCoinsBeingCollected();
 		if (Coin::GetCoinValue(aCoinType) + aMoney >= aCost)
 		{
