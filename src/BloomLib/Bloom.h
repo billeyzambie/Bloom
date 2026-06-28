@@ -9,6 +9,3 @@
 #endif
 
 constexpr auto PVZ = "pvz";
-
-template<typename T>
-using Transformer = void (*)(T &);

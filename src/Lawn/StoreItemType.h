@@ -2,15 +2,42 @@
 
 #include "../BloomLib/BloomType.h"
 #include "../BloomLib/PatchHolder.h"
+#include "../BloomLib/EventList.h"
+
 #include "../ConstEnums.h"
 
-class BLOOM_API StoreItemType : public BloomType
+namespace Sexy
+{
+class Image;
+}
+
+class PlayerInfo;
+
+class BLOOM_API StoreItemType final : public BloomType
 {
   public:
-	int mCost = 500;
+	StoreItemAttributes mAttributeBaseValues;
+	StoreItemAttributes mAttributes;
+	EventList<void (*)(const StoreItemModifierContext &, StoreItemAttributes &)> mModifiers;
 	PatchHolder<StoreItemType> *mPatchHolder;
-	StoreItemType(std::string theModName, std::string theTypeName);
+	StoreItemType(
+		std::string theModName, std::string theTypeName,
+		const StoreItemAttributes &theAttributes
+	);
 	operator OldStoreItemType() const;
 	virtual void CopyFrom(const BloomType &theOther);
 };
 
+struct BLOOM_API StoreItemAttributes
+{
+	int mCost = 0;
+	Sexy::Image *nIcon = nullptr;
+	int mDrawOffsetX = 0;
+	int mDrawOffsetY = 0;
+};
+
+struct BLOOM_API StoreItemModifierContext
+{
+	const StoreItemType &mStoreItemType;
+	const PlayerInfo &mPlayerInfo;
+};

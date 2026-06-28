@@ -2,7 +2,7 @@
 
 #include "PlantEatenContext.h"
 #include <vector>
-#include "Bloom.h"
+#include "BillFunctional.h"
 
 template <class ContextT> class BLOOM_API Event
 {
