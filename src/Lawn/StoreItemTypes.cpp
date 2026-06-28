@@ -1,6 +1,8 @@
 #include "StoreItemTypes.h"
 #include "Registries.h"
 
+#include "System/PlayerInfo.h"
+
 namespace StoreItemTypes
 {
 
@@ -155,6 +157,13 @@ const auto &PACKET_UPGRADE = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 75;
 	auto *aStoreItemType = new StoreItemType(PVZ, "packet_upgrade", anAttributes);
+
+	aStoreItemType->mModifiers.Add([](StoreItemModifierContext &theContext) {
+		int aPurchase = theContext.mPlayerInfo.mPurchases[STORE_ITEM_PACKET_UPGRADE];
+		int aTargetPrice = aPurchase == 0 ? 75 : aPurchase == 1 ? 500 : aPurchase == 2 ? 2000 : 8000;
+		theContext.mAttributes.mCost *= aTargetPrice / 75.0f;
+	});
+
 	return aStoreItemType;
 });
 

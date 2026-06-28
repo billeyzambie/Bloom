@@ -2,19 +2,26 @@
 
 #include "RegistryTypeHolder.h"
 #include "ChunkedList.h"
-#include "BloomType.h"
+#include "Bloom.h"
 
-template <class T> class Registry
+class LawnApp;
+
+class BLOOM_API IRegistry
 {
-	ChunkedList<RegistryTypeHolder<T>, 128> mHolders;
+  public:
+	virtual void Freeze() = 0;
+	virtual void Update(const LawnApp &theLawnApp) = 0;
+};
+
+template <class T> class BLOOM_API Registry : public IRegistry
+{
+	ChunkedList<RegistryTypeHolder<T>, 64> mHolders;
 	std::vector<T *> mTypes;
 	int mNextId = 0;
 	bool mFrozen = false;
 
   public:
-	Registry()
-	{
-	}
+	Registry() = default;
 	const RegistryTypeHolder<T> &Register(T *(*theSupplier)())
 	{
 		int anId = mNextId++;
@@ -41,5 +48,12 @@ template <class T> class Registry
 		}
 
 		mFrozen = true;
+	}
+	void Update(const LawnApp &theLawnApp)
+	{
+		for (auto aType : mTypes)
+		{
+			aType->Update(theLawnApp);
+		}
 	}
 };

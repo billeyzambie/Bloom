@@ -8,10 +8,12 @@
 
 enum class EventPriority
 {
-	LOWEST = -2,
+	LOWEST = -3,
+	LOWER = -2,
 	LOW = -1,
-	DEFAULT,
+	DEFAULT = 0,
 	HIGH,
+	HIGHER,
 	HIGHEST
 };
 
@@ -25,7 +27,7 @@ template <typename T> class BLOOM_API EventList
   public:
 	struct Element
 	{
-		T mT;
+		Transformer<T> mTransformer;
 		EventPriority mPriority;
 		bool operator==(const Element &theOther) const = default;
 	};
@@ -37,6 +39,10 @@ template <typename T> class BLOOM_API EventList
   public:
 	EventList() = default;
 
+	void Add(Transformer<T> theTransformer, EventPriority thePriority = EventPriority::DEFAULT)
+	{
+		Add({theTransformer, thePriority});
+	}
 	void Add(const Element &theElement)
 	{
 		mElements.push_back(theElement);
@@ -45,10 +51,10 @@ template <typename T> class BLOOM_API EventList
 		else
 			mLowestPriorityEverAdded = theElement.mPriority;
 	}
-	void Remove(const T &theT)
+	void Remove(const Transformer<T> &theTransformer)
 	{
 		auto anElement = std::find(mElements.begin(), mElements.end(),
-			[&](Element &theElement) { return theElement.mT == theT; }
+			[&](Element &theElement) { return theElement.mTransformer == theTransformer; }
 		);
 		mElements.erase(anElement);
 	}
@@ -58,5 +64,13 @@ template <typename T> class BLOOM_API EventList
 			[&](const Element &theLambdaElement) { return theLambdaElement == theElement; }
 		);
 		mElements.erase(anElement);
+	}
+	std::vector<Element>::iterator begin()
+	{
+		return mElements.begin();
+	}
+	std::vector<Element>::iterator end()
+	{
+		return mElements.end();
 	}
 };

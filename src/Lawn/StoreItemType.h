@@ -11,6 +11,7 @@ namespace Sexy
 class Image;
 }
 
+class LawnApp;
 class PlayerInfo;
 
 struct BLOOM_API StoreItemAttributes
@@ -26,7 +27,9 @@ class StoreItemType;
 struct BLOOM_API StoreItemModifierContext
 {
 	const StoreItemType &mStoreItemType;
+	const LawnApp &mLawnApp;
 	const PlayerInfo &mPlayerInfo;
+	StoreItemAttributes &mAttributes;
 };
 
 class BLOOM_API StoreItemType final : public BloomType
@@ -34,7 +37,7 @@ class BLOOM_API StoreItemType final : public BloomType
   public:
 	StoreItemAttributes mAttributeBaseValues;
 	StoreItemAttributes mAttributes;
-	EventList<void (*)(const StoreItemModifierContext &, StoreItemAttributes &)> mModifiers;
+	EventList<StoreItemModifierContext> mModifiers;
 	PatchHolder<StoreItemType> *mPatchHolder;
 	StoreItemType(
 		std::string theModName, std::string theTypeName,
@@ -43,4 +46,5 @@ class BLOOM_API StoreItemType final : public BloomType
 	operator OldStoreItemType() const;
 	virtual void CopyFrom(const BloomType &theOther);
 	int GetCost() const;
+	void Update(const LawnApp &theLawnApp);
 };

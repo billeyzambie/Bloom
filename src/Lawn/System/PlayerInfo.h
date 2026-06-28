@@ -5,6 +5,7 @@
 #define MAX_NUM_ZOMBATARS 100
 #define PURCHASE_COUNT_OFFSET 1000
 
+#include "../SexyAppFramework/Common.h"
 #include "../../ConstEnums.h"
 #include <json.hpp>
 

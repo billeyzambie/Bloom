@@ -1686,6 +1686,11 @@ void LawnApp::UpdateFrames()
 			mBoard->ProcessDeleteQueue();
 		}
 
+		for (auto *aRegistry : Registries::REGISTRIES)
+		{
+			aRegistry->Update(*this);
+		}
+
 		SexyApp::UpdateFrames();
 
 		mMusic->MusicUpdate();
