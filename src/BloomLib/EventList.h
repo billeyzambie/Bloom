@@ -22,6 +22,9 @@ template <class T> bool SortByEventPriority(const T &theT, const T &theOtherT)
 	return theT.mPriority < theOtherT.mPriority;
 }
 
+template<class T>
+concept IsEventCancellable = requires(T theT) { theT.mCanceled; };
+
 template <typename T> class BLOOM_API EventList
 {
   public:
@@ -71,8 +74,11 @@ template <typename T> class BLOOM_API EventList
 		for (auto &anElement : mElements)
 		{
 			anElement.mTransformer(theContext);
-			if (theContext.mCanceled)
-				break;
+			if constexpr (IsEventCancellable<T>) 
+			{
+				if (theContext.mCanceled)
+					break;
+			}
 		}
 		return theContext;
 	}
@@ -81,8 +87,11 @@ template <typename T> class BLOOM_API EventList
 		for (auto &anElement : mElements)
 		{
 			anElement.mTransformer(theContext);
-			if (theContext.mCanceled)
-				break;
+			if constexpr (IsEventCancellable<T>)
+			{
+				if (theContext.mCanceled)
+					break;
+			}
 		}
 		return theContext;
 	}

@@ -26,7 +26,6 @@ class StoreItemType;
 
 struct BLOOM_API StoreItemModifierContext
 {
-	bool mCanceled;
 	const StoreItemType &mStoreItemType;
 	const LawnApp &mLawnApp;
 	const PlayerInfo &mPlayerInfo;

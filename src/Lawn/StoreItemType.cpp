@@ -13,7 +13,9 @@ StoreItemType::StoreItemType(
 
 StoreItemType::operator OldStoreItemType() const
 {
-	return (OldStoreItemType)GetNumericalId();
+	int aNumId = GetNumericalId();
+	TOD_ASSERT(aNumId < OldStoreItemType::NUM_STORE_ITEM_MAX, "Unhandled modded StoreItemType");
+	return (OldStoreItemType)aNumId;
 }
 
 void StoreItemType::CopyFrom(const BloomType &theOther)
@@ -38,7 +40,7 @@ void StoreItemType::Update(const LawnApp &theLawnApp)
 {
 	mAttributes = mAttributeBaseValues;
 
-	StoreItemModifierContext aContext{false, *this, theLawnApp, *theLawnApp.mPlayerInfo, mAttributes};
+	StoreItemModifierContext aContext{*this, theLawnApp, *theLawnApp.mPlayerInfo, mAttributes};
 	
 	mModifiers.Fire(aContext);
 }
