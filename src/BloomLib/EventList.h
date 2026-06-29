@@ -39,38 +39,51 @@ template <typename T> class BLOOM_API EventList
   public:
 	EventList() = default;
 
-	void Add(Transformer<T> theTransformer, EventPriority thePriority = EventPriority::DEFAULT)
+	Transformer<T> Add(Transformer<T> theTransformer, EventPriority thePriority = EventPriority::DEFAULT)
 	{
-		Add({theTransformer, thePriority});
+		return Add({theTransformer, thePriority});
 	}
-	void Add(const Element &theElement)
+	Transformer<T> Add(const Element &theElement)
 	{
 		mElements.push_back(theElement);
 		if (theElement.mPriority >= mLowestPriorityEverAdded)
 			std::sort(mElements.begin(), mElements.end(), SortByEventPriority<Element>);
 		else
 			mLowestPriorityEverAdded = theElement.mPriority;
+		return theElement.mTransformer;
 	}
-	void Remove(const Transformer<T> &theTransformer)
+	Transformer<T> Remove(const Transformer<T> &theTransformer)
 	{
-		auto anElement = std::find(mElements.begin(), mElements.end(),
+		auto anElement = std::find_if(mElements.begin(), mElements.end(),
 			[&](Element &theElement) { return theElement.mTransformer == theTransformer; }
 		);
 		mElements.erase(anElement);
+		return theTransformer;
 	}
-	void Remove(const Element &theElement)
+	Transformer<T> Remove(const Element &theElement)
 	{
-		auto anElement = std::find(mElements.begin(), mElements.end(),
-			[&](const Element &theLambdaElement) { return theLambdaElement == theElement; }
-		);
+		auto anElement = std::find(mElements.begin(), mElements.end(), theElement);
 		mElements.erase(anElement);
+		return theElement.mTransformer;
 	}
-	std::vector<Element>::iterator begin()
+	T &Fire(T &theContext) const
 	{
-		return mElements.begin();
+		for (auto &anElement : mElements)
+		{
+			anElement.mTransformer(theContext);
+			if (theContext.mCanceled)
+				break;
+		}
+		return theContext;
 	}
-	std::vector<Element>::iterator end()
+	T Fire(T &&theContext) const
 	{
-		return mElements.end();
+		for (auto &anElement : mElements)
+		{
+			anElement.mTransformer(theContext);
+			if (theContext.mCanceled)
+				break;
+		}
+		return theContext;
 	}
 };

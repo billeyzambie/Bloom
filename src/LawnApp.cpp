@@ -1766,7 +1766,10 @@ void LawnApp::LoadingThreadProc()
 
 	std::cout << std::endl;
 
-	Registries::STORE_ITEMS.Freeze();
+	for (auto *aRegistry : Registries::REGISTRIES)
+	{
+		aRegistry->Freeze();
+	}
 
 	if (mTitleScreen)
 	{

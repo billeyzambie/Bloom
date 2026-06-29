@@ -159,7 +159,7 @@ const auto &PACKET_UPGRADE = Registries::STORE_ITEMS.Register([]() {
 	auto *aStoreItemType = new StoreItemType(PVZ, "packet_upgrade", anAttributes);
 
 	aStoreItemType->mModifiers.Add([](StoreItemModifierContext &theContext) {
-		int aPurchase = theContext.mPlayerInfo.mPurchases[STORE_ITEM_PACKET_UPGRADE];
+		int aPurchase = theContext.mPlayerInfo.mPurchases[PACKET_UPGRADE.Get()];
 		int aTargetPrice = aPurchase == 0 ? 75 : aPurchase == 1 ? 500 : aPurchase == 2 ? 2000 : 8000;
 		theContext.mAttributes.mCost *= aTargetPrice / 75.0f;
 	});

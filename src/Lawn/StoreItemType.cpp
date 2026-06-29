@@ -38,9 +38,7 @@ void StoreItemType::Update(const LawnApp &theLawnApp)
 {
 	mAttributes = mAttributeBaseValues;
 
-	StoreItemModifierContext aContext{*this, theLawnApp, *theLawnApp.mPlayerInfo, mAttributes};
-	for (auto &anElement : mModifiers)
-	{
-		anElement.mTransformer(aContext);
-	}
+	StoreItemModifierContext aContext{false, *this, theLawnApp, *theLawnApp.mPlayerInfo, mAttributes};
+	
+	mModifiers.Fire(aContext);
 }

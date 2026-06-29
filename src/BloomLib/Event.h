@@ -1,41 +1,14 @@
 #pragma once
 
-#include "PlantEatenContext.h"
-#include <vector>
 #include "BillFunctional.h"
+#include "EventList.h"
+#include "PlantEatenContext.h"
 
-template <class ContextT> class BLOOM_API Event
+template <class T> class BLOOM_API Event
 {
-  public:
-	using ContextFunctionPointer = Transformer<ContextT>;
-
   private:
-	std::vector<ContextFunctionPointer> mFunctionPointers;
+	EventList<T> mSubscriptions;
 	Event() = default;
-
-	ContextT &MExecute(ContextT &theContext) const
-	{
-		for (const auto &aFunctionPointer : mFunctionPointers)
-		{
-			if (aFunctionPointer)
-				aFunctionPointer(theContext);
-			if (theContext.mCanceled)
-				break;
-		}
-		return theContext;
-	}
-
-	ContextT MExecute(ContextT &&theContext) const
-	{
-		for (const auto &aFunctionPointer : mFunctionPointers)
-		{
-			if (aFunctionPointer)
-				aFunctionPointer(theContext);
-			if (theContext.mCanceled)
-				break;
-		}
-		return theContext;
-	}
 
   public:
 	static Event &GetInstance()
@@ -44,39 +17,23 @@ template <class ContextT> class BLOOM_API Event
 		return anInstance;
 	}
 
-	static ContextT &Execute(ContextT &theContext)
+	static T &Fire(T &theContext)
 	{
-		return GetInstance().MExecute(theContext);
+		return GetInstance().mSubscriptions.Fire(theContext);
 	}
 
-	static ContextT Execute(ContextT &&theContext)
+	static T Fire(T &&theContext)
 	{
-		return GetInstance().MExecute(std::move(theContext));
+		return GetInstance().mSubscriptions.Fire(std::move(theContext));
 	}
 
-	ContextFunctionPointer operator+=(ContextFunctionPointer theFunctionPointer)
+	Transformer<T> Add(Transformer<T> theTransformer, EventPriority thePriority = EventPriority::DEFAULT)
 	{
-		for (size_t i = 0; i < mFunctionPointers.size(); i++)
-		{
-			auto &aFunctionPointer = mFunctionPointers[i];
-			if (!aFunctionPointer)
-			{
-				aFunctionPointer = theFunctionPointer;
-				return theFunctionPointer;
-			}
-		}
-		mFunctionPointers.push_back(theFunctionPointer);
-		return theFunctionPointer;
+		return mSubscriptions.Add({theTransformer, thePriority});
 	}
-
-	ContextFunctionPointer operator-=(ContextFunctionPointer theFunctionPointer)
+	Transformer<T> Remove(const Transformer<T> &theTransformer)
 	{
-		for (auto &aFunctionPointer : mFunctionPointers)
-		{
-			if (aFunctionPointer == theFunctionPointer)
-				aFunctionPointer = nullptr;
-		}
-		return theFunctionPointer;
+		return mSubscriptions.Remove(theTransformer);
 	}
 };
 

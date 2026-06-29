@@ -7259,7 +7259,7 @@ void Zombie::EatPlant(Plant *thePlant)
 
 	if (thePlant->mPlantHealth <= 0)
 	{
-		if (Event<PlantEatenContext>::Execute({false, thePlant, this}).mCanceled)
+		if (Event<PlantEatenContext>::Fire({false, thePlant, this}).mCanceled)
 		{
 			thePlant->mPlantHealth = anOriginalPlantHealth;
 			return;
