@@ -21,7 +21,7 @@
 #include "../../SexyAppFramework/ImageFont.h"
 #include "../../SexyAppFramework/WidgetManager.h"
 
-#include "../StoreItemTypes.h"
+#include "../StoreItem/StoreItemTypes.h"
 
 static std::array<const RegistryTypeHolder<StoreItemType> *, MAX_PAGE_SPOTS> gStoreItemSpots[NUM_STORE_PAGES] = {
 	{&StoreItemTypes::PACKET_UPGRADE, &StoreItemTypes::POOL_CLEANER, &StoreItemTypes::RAKE, &StoreItemTypes::ROOF_CLEANER,
@@ -289,7 +289,7 @@ void StoreScreen::GetStorePosition(int theSpotIndex, int &thePosX, int &thePosY)
 	}
 }
 
-void StoreScreen::DrawItemIcon(Graphics *g, int theItemPosition, OldStoreItemType theItemType, bool theIsForHighlight)
+void StoreScreen::DrawItemIcon(Graphics *g, int theItemPosition, const StoreItemType &theItemType, bool theIsForHighlight)
 {
 	if (theIsForHighlight)
 	{
@@ -300,100 +300,103 @@ void StoreScreen::DrawItemIcon(Graphics *g, int theItemPosition, OldStoreItemTyp
 
 	int aPosX, aPosY;
 	GetStorePosition(theItemPosition, aPosX, aPosY);
-	if (theItemType == STORE_ITEM_PACKET_UPGRADE)
-	{
-		g->SetColor(Color(255, 255, 255, 32));
-		g->DrawImage(Sexy::IMAGE_STORE_PACKETUPGRADE, aPosX - 7, aPosY + 7);
-		if (theIsForHighlight)
-		{
-			g->SetDrawMode(Graphics::DRAWMODE_NORMAL);
-			g->SetColorizeImages(false);
-		}
-		int aNumSlots = mApp->mPlayerInfo->mPurchases[STORE_ITEM_PACKET_UPGRADE] + 7;
-		aNumSlots = std::clamp(aNumSlots, 7, 10);
-		SexyString aSlotText = TodReplaceNumberString("[STORE_UPGRADE_SLOTS]", "{SLOTS}", aNumSlots);
-		Rect aRect(aPosX, aPosY + 6, 55, 70);
-		TodDrawStringWrapped(
-			g, aSlotText, aRect, Sexy::FONT_HOUSEOFTERROR16, Color::White, DS_ALIGN_CENTER_VERTICAL_MIDDLE);
-	}
-	else if (theItemType == STORE_ITEM_POOL_CLEANER)
-	{
-		g->DrawImage(Sexy::IMAGE_ICON_POOLCLEANER, aPosX + 1, aPosY + 7);
-	}
-	else if (theItemType == STORE_ITEM_RAKE)
-	{
-		g->DrawImage(Sexy::IMAGE_ICON_RAKE, aPosX - 5, aPosY + 10);
-	}
-	else if (theItemType == STORE_ITEM_ROOF_CLEANER)
-	{
-		g->DrawImage(Sexy::IMAGE_ICON_ROOFCLEANER, aPosX, aPosY + 28);
-	}
-	else if (theItemType == STORE_ITEM_PLANT_IMITATER)
-	{
-		g->DrawImage(Sexy::IMAGE_IMITATERSEED, aPosX, aPosY);
-	}
-	else if (theItemType == STORE_ITEM_MUSHROOM_GARDEN)
-	{
-		g->DrawImage(Sexy::IMAGE_STORE_MUSHROOMGARDENICON, aPosX - 8, aPosY + 2);
-	}
-	else if (theItemType == STORE_ITEM_AQUARIUM_GARDEN)
-	{
-		g->DrawImage(Sexy::IMAGE_STORE_AQUARIUMGARDENICON, aPosX - 8, aPosY + 2);
-	}
-	else if (theItemType == STORE_ITEM_TREE_OF_WISDOM)
-	{
-		g->DrawImage(Sexy::IMAGE_STORE_TREEOFWISDOMICON, aPosX - 8, aPosY + 2);
-	}
-	else if (theItemType == STORE_ITEM_FIRSTAID)
-	{
-		g->DrawImage(Sexy::IMAGE_STORE_FIRSTAIDWALLNUTICON, aPosX - 1, aPosY + 13);
-	}
-	else if (theItemType == STORE_ITEM_PVZ)
-	{
-		g->DrawImage(Sexy::IMAGE_STORE_PVZICON, aPosX, aPosY - 9);
-	}
-	else if (theItemType == STORE_ITEM_TREE_FOOD)
-	{
-		g->DrawImage(Sexy::IMAGE_TREEFOOD, aPosX - 8, aPosY - 2);
-	}
-	else if (theItemType == STORE_ITEM_STINKY_THE_SNAIL)
-	{
-		g->DrawImage(Sexy::IMAGE_REANIM_STINKY_TURN3, aPosX - 24, aPosY + 14);
-	}
-	else if (theItemType == STORE_ITEM_GOLD_WATERINGCAN)
-	{
-		g->DrawImage(Sexy::IMAGE_WATERINGCANGOLD, aPosX - 14, aPosY - 4);
-	}
-	else if (theItemType == STORE_ITEM_FERTILIZER)
-	{
-		g->DrawImage(Sexy::IMAGE_FERTILIZER, aPosX - 11, aPosY - 2);
-		TodDrawString(g, "x5", aPosX + 56, aPosY + 62, Sexy::FONT_HOUSEOFTERROR16, Color::White, DS_ALIGN_RIGHT);
-	}
-	else if (theItemType == STORE_ITEM_PHONOGRAPH)
-	{
-		g->DrawImage(Sexy::IMAGE_PHONOGRAPH, aPosX - 12, aPosY + 3);
-	}
-	else if (theItemType == STORE_ITEM_BUG_SPRAY)
-	{
-		g->DrawImage(Sexy::IMAGE_BUG_SPRAY, aPosX - 12, aPosY + 3);
-		TodDrawString(g, "x5", aPosX + 56, aPosY + 62, Sexy::FONT_HOUSEOFTERROR16, Color::White, DS_ALIGN_RIGHT);
-	}
-	else if (theItemType == STORE_ITEM_GARDENING_GLOVE)
-	{
-		g->DrawImage(Sexy::IMAGE_ZEN_GARDENGLOVE, aPosX - 12, aPosY + 3);
-	}
-	else if (theItemType == STORE_ITEM_WHEEL_BARROW)
-	{
-		g->DrawImage(Sexy::IMAGE_ZEN_WHEELBARROW, aPosX - 12, aPosY + 3);
-	}
-	else if (IsPottedPlant(theItemType))
-	{
-		mApp->mZenGarden->DrawPottedPlantIcon(g, aPosX, aPosY, &mPottedPlantSpecs);
-	}
-	else
-	{
-		DrawSeedPacket(g, aPosX, aPosY, (SeedType)(theItemType + 40), SEED_NONE, 0, 255, false, false);
-	}
+
+	theItemType.Draw(this, g, aPosX, aPosY, theIsForHighlight);
+
+	//if (theItemType == STORE_ITEM_PACKET_UPGRADE)
+	//{
+	//	g->SetColor(Color(255, 255, 255, 32));
+	//	g->DrawImage(Sexy::IMAGE_STORE_PACKETUPGRADE, aPosX - 7, aPosY + 7);
+	//	if (theIsForHighlight)
+	//	{
+	//		g->SetDrawMode(Graphics::DRAWMODE_NORMAL);
+	//		g->SetColorizeImages(false);
+	//	}
+	//	int aNumSlots = mApp->mPlayerInfo->mPurchases[STORE_ITEM_PACKET_UPGRADE] + 7;
+	//	aNumSlots = std::clamp(aNumSlots, 7, 10);
+	//	SexyString aSlotText = TodReplaceNumberString("[STORE_UPGRADE_SLOTS]", "{SLOTS}", aNumSlots);
+	//	Rect aRect(aPosX, aPosY + 6, 55, 70);
+	//	TodDrawStringWrapped(g, aSlotText, aRect, Sexy::FONT_HOUSEOFTERROR16, Color::White,
+	//						 DS_ALIGN_CENTER_VERTICAL_MIDDLE);
+	//}
+	//else if (theItemType == STORE_ITEM_POOL_CLEANER)
+	//{
+	//	g->DrawImage(Sexy::IMAGE_ICON_POOLCLEANER, aPosX + 1, aPosY + 7);
+	//}
+	//else if (theItemType == STORE_ITEM_RAKE)
+	//{
+	//	g->DrawImage(Sexy::IMAGE_ICON_RAKE, aPosX - 5, aPosY + 10);
+	//}
+	//else if (theItemType == STORE_ITEM_ROOF_CLEANER)
+	//{
+	//	g->DrawImage(Sexy::IMAGE_ICON_ROOFCLEANER, aPosX, aPosY + 28);
+	//}
+	//else if (theItemType == STORE_ITEM_PLANT_IMITATER)
+	//{
+	//	g->DrawImage(Sexy::IMAGE_IMITATERSEED, aPosX, aPosY);
+	//}
+	//else if (theItemType == STORE_ITEM_MUSHROOM_GARDEN)
+	//{
+	//	g->DrawImage(Sexy::IMAGE_STORE_MUSHROOMGARDENICON, aPosX - 8, aPosY + 2);
+	//}
+	//else if (theItemType == STORE_ITEM_AQUARIUM_GARDEN)
+	//{
+	//	g->DrawImage(Sexy::IMAGE_STORE_AQUARIUMGARDENICON, aPosX - 8, aPosY + 2);
+	//}
+	//else if (theItemType == STORE_ITEM_TREE_OF_WISDOM)
+	//{
+	//	g->DrawImage(Sexy::IMAGE_STORE_TREEOFWISDOMICON, aPosX - 8, aPosY + 2);
+	//}
+	//else if (theItemType == STORE_ITEM_FIRSTAID)
+	//{
+	//	g->DrawImage(Sexy::IMAGE_STORE_FIRSTAIDWALLNUTICON, aPosX - 1, aPosY + 13);
+	//}
+	//else if (theItemType == STORE_ITEM_PVZ)
+	//{
+	//	g->DrawImage(Sexy::IMAGE_STORE_PVZICON, aPosX, aPosY - 9);
+	//}
+	//else if (theItemType == STORE_ITEM_TREE_FOOD)
+	//{
+	//	g->DrawImage(Sexy::IMAGE_TREEFOOD, aPosX - 8, aPosY - 2);
+	//}
+	//else if (theItemType == STORE_ITEM_STINKY_THE_SNAIL)
+	//{
+	//	g->DrawImage(Sexy::IMAGE_REANIM_STINKY_TURN3, aPosX - 24, aPosY + 14);
+	//}
+	//else if (theItemType == STORE_ITEM_GOLD_WATERINGCAN)
+	//{
+	//	g->DrawImage(Sexy::IMAGE_WATERINGCANGOLD, aPosX - 14, aPosY - 4);
+	//}
+	//else if (theItemType == STORE_ITEM_FERTILIZER)
+	//{
+	//	g->DrawImage(Sexy::IMAGE_FERTILIZER, aPosX - 11, aPosY - 2);
+	//	TodDrawString(g, "x5", aPosX + 56, aPosY + 62, Sexy::FONT_HOUSEOFTERROR16, Color::White, DS_ALIGN_RIGHT);
+	//}
+	//else if (theItemType == STORE_ITEM_PHONOGRAPH)
+	//{
+	//	g->DrawImage(Sexy::IMAGE_PHONOGRAPH, aPosX - 12, aPosY + 3);
+	//}
+	//else if (theItemType == STORE_ITEM_BUG_SPRAY)
+	//{
+	//	g->DrawImage(Sexy::IMAGE_BUG_SPRAY, aPosX - 12, aPosY + 3);
+	//	TodDrawString(g, "x5", aPosX + 56, aPosY + 62, Sexy::FONT_HOUSEOFTERROR16, Color::White, DS_ALIGN_RIGHT);
+	//}
+	//else if (theItemType == STORE_ITEM_GARDENING_GLOVE)
+	//{
+	//	g->DrawImage(Sexy::IMAGE_ZEN_GARDENGLOVE, aPosX - 12, aPosY + 3);
+	//}
+	//else if (theItemType == STORE_ITEM_WHEEL_BARROW)
+	//{
+	//	g->DrawImage(Sexy::IMAGE_ZEN_WHEELBARROW, aPosX - 12, aPosY + 3);
+	//}
+	//else if (IsPottedPlant(theItemType))
+	//{
+	//	mApp->mZenGarden->DrawPottedPlantIcon(g, aPosX, aPosY, &mPottedPlantSpecs);
+	//}
+	//else
+	//{
+	//	DrawSeedPacket(g, aPosX, aPosY, (SeedType)(theItemType + 40), SEED_NONE, 0, 255, false, false);
+	//}
 
 	g->SetDrawMode(Graphics::DRAWMODE_NORMAL);
 	g->SetColorizeImages(false);

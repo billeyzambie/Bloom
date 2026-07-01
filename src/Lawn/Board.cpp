@@ -31,7 +31,7 @@
 #include "../SexyAppFramework/WidgetManager.h"
 #include "../SexyAppFramework/SoundInstance.h"
 
-#include "StoreItemTypes.h"
+#include "StoreItem/StoreItemTypes.h"
 
 #define SEXY_PERF_ENABLED
 #include "../SexyAppFramework/PerfTimer.h"

@@ -2374,6 +2374,8 @@ bool Sexy::ExtractLoadingSoundsResources(ResourceManager *theManager)
 	return true;
 }
 
+void *Sexy::RESOURCE_NONE = nullptr;
+
 static void *gResources[] = {&IMAGE_ALMANAC_INDEXBACK,
 							 &IMAGE_ALMANAC_PLANTBACK,
 							 &IMAGE_ALMANAC_ZOMBIEBACK,
@@ -3253,7 +3255,7 @@ static void *gResources[] = {&IMAGE_ALMANAC_INDEXBACK,
 							 &SOUND_FINALFANFARE,
 							 &SOUND_CRAZYDAVESCREAM,
 							 &SOUND_CRAZYDAVESCREAM2,
-							 nullptr};
+							 &RESOURCE_NONE};
 
 Image *Sexy::LoadImageById(ResourceManager *theManager, int theId)
 {

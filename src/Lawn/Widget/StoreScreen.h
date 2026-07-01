@@ -6,7 +6,7 @@
 #include "../../Sexy.TodLib/DataArray.h"
 #include "../../SexyAppFramework/Dialog.h"
 
-#include "../StoreItemType.h"
+#include "../StoreItem/StoreItemType.h"
 
 using namespace Sexy;
 
@@ -67,7 +67,7 @@ class StoreScreen : public Dialog
 	bool IsItemSoldOut(OldStoreItemType theStoreItem);
 	bool IsItemUnavailable(OldStoreItemType theStoreItem);
 	static void GetStorePosition(int theSpotIndex, int &thePosX, int &thePosY);
-	void DrawItemIcon(Graphics *g, int theItemPosition, OldStoreItemType theItemType, bool theIsForHighlight);
+	void DrawItemIcon(Graphics *g, int theItemPosition, const StoreItemType &theItemType, bool theIsForHighlight);
 	void DrawItem(Graphics *g, int theItemPosition, const StoreItemType &theItemType);
 	virtual void Draw(Graphics *g);
 	virtual void DrawOverlay(Graphics *g);

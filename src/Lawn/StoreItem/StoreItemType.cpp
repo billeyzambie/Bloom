@@ -1,6 +1,8 @@
 #include "StoreItemType.h"
 #include "../Sexy.TodLib/TodDebug.h"
 #include "../LawnApp.h";
+#include "../SexyAppFramework/Graphics.h"
+#include "../Sexy.TodLib/TodCommon.h"
 
 StoreItemType::StoreItemType(
 	std::string theModName, std::string theTypeName,
@@ -41,6 +43,25 @@ void StoreItemType::Update(const LawnApp &theLawnApp)
 	mAttributes = mAttributeBaseValues;
 
 	StoreItemModifierContext aContext{*this, theLawnApp, *theLawnApp.mPlayerInfo, mAttributes};
-	
+
 	mModifiers.Fire(aContext);
+}
+
+void StoreItemType::Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int thePosX, int thePosY, bool theIsForHighlight) const
+{
+	Sexy::ResourceId aResourceId = mAttributes.mIcon;
+
+	Sexy::Image *anIcon = Sexy::GetImageById(aResourceId);
+
+	if (anIcon)
+		g->DrawImage(anIcon, thePosX + mAttributes.mDrawOffsetX, thePosY + mAttributes.mDrawOffsetY);
+	
+	int aCount = mAttributes.mBuyCount;
+
+	if (aCount != 1)
+	{
+		std::string aCountLabel = "x";
+		aCountLabel += aCount;
+		TodDrawString(g, aCountLabel, thePosX + 56, thePosX + 62, Sexy::FONT_HOUSEOFTERROR16, Color::White, DS_ALIGN_RIGHT);
+	}
 }

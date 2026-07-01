@@ -5,19 +5,23 @@
 #include "../BloomLib/EventList.h"
 
 #include "../ConstEnums.h"
+#include "../Resources.h"
 
 namespace Sexy
 {
 class Image;
+class Graphics;
 }
 
 class LawnApp;
 class PlayerInfo;
+class StoreScreen;
 
 struct BLOOM_API StoreItemAttributes
 {
 	int mCost = 0;
-	Sexy::Image *nIcon = nullptr;
+	int mBuyCount = 1;
+	Sexy::ResourceId mIcon = Sexy::ResourceId::RESOURCE_ID_MAX;
 	int mDrawOffsetX = 0;
 	int mDrawOffsetY = 0;
 };
@@ -32,7 +36,7 @@ struct BLOOM_API StoreItemModifierContext
 	StoreItemAttributes &mAttributes;
 };
 
-class BLOOM_API StoreItemType final : public BloomType
+class BLOOM_API StoreItemType : public BloomType
 {
   public:
 	StoreItemAttributes mAttributeBaseValues;
@@ -44,7 +48,8 @@ class BLOOM_API StoreItemType final : public BloomType
 		const StoreItemAttributes &theAttributes
 	);
 	operator OldStoreItemType() const;
-	virtual void CopyFrom(const BloomType &theOther);
+	virtual void CopyFrom(const BloomType &theOther) override;
 	int GetCost() const;
 	void Update(const LawnApp &theLawnApp);
+	virtual void Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int thePosX, int thePosY, bool theIsForHighlight) const;
 };

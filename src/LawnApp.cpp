@@ -67,7 +67,7 @@
 
 #include "Lawn/Registries.h"
 
-#include "Lawn/StoreItemTypes.h"
+#include "Lawn/StoreItem/StoreItemTypes.h"
 
 //Do not edit this. - Electr0Gunner
 Version LawnApp::gResoddedVersion(1, 0, 0, 990);
@@ -1686,7 +1686,7 @@ void LawnApp::UpdateFrames()
 			mBoard->ProcessDeleteQueue();
 		}
 
-		for (auto *aRegistry : Registries::REGISTRIES)
+		for (IRegistry *aRegistry : Registries::REGISTRIES)
 		{
 			aRegistry->Update(*this);
 		}
@@ -1766,11 +1766,6 @@ void LawnApp::LoadingThreadProc()
 
 	std::cout << std::endl;
 
-	for (auto *aRegistry : Registries::REGISTRIES)
-	{
-		aRegistry->Freeze();
-	}
-
 	if (mTitleScreen)
 	{
 		mTitleScreen->mLoaderScreenIsLoaded = true;
@@ -1833,6 +1828,12 @@ void LawnApp::LoadingThreadProc()
 
 	GetNumPreloadingTasks();
 	LoadGroup("LoadingSounds", 54);
+
+	for (IRegistry *aRegistry : Registries::REGISTRIES)
+	{
+		aRegistry->Freeze();
+	}
+
 	TodHesitationTrace("finished loading");
 }
 

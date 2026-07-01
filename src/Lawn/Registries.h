@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../BloomLib/Registry.h"
-#include "StoreItemType.h"
+#include "StoreItem/StoreItemType.h"
 
 namespace Registries
 {

@@ -25,7 +25,7 @@
 #include "../SexyAppFramework/PerfTimer.h"
 #include "../SexyAppFramework/WidgetManager.h"
 
-#include "StoreItemTypes.h"
+#include "StoreItem/StoreItemTypes.h"
 
 static const int TimePanRightStart = 1500;
 static const int TimePanRightEnd = 3500;
