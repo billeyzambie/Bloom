@@ -2,10 +2,10 @@
 
 #include "StoreItemType.h"
 
-class BLOOM_API PacketUpgradeStoreItemType : public StoreItemType
+class BLOOM_API PottedPlantStoreItemType : public StoreItemType
 {
   public:
-	PacketUpgradeStoreItemType(
+	PottedPlantStoreItemType(
 		std::string theModName, std::string theTypeName,
 		const StoreItemAttributes &theAttributes
 	);

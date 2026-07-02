@@ -9,7 +9,7 @@ StoreItemType::StoreItemType(
 	const StoreItemAttributes &theAttributes
 ) 
 	: BloomType(std::move(theModName), std::move(theTypeName)),
-	mAttributeBaseValues(theAttributes)
+	mAttributeBaseValues(theAttributes), mAttributes(theAttributes)
 {
 }
 
@@ -61,7 +61,7 @@ void StoreItemType::Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int the
 	if (aCount != 1)
 	{
 		std::string aCountLabel = "x";
-		aCountLabel += aCount;
-		TodDrawString(g, aCountLabel, thePosX + 56, thePosX + 62, Sexy::FONT_HOUSEOFTERROR16, Color::White, DS_ALIGN_RIGHT);
+		aCountLabel += std::to_string(aCount);
+		TodDrawString(g, aCountLabel, thePosX + 56, thePosY + 62, Sexy::FONT_HOUSEOFTERROR16, Color::White, DS_ALIGN_RIGHT);
 	}
 }

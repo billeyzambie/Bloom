@@ -2,6 +2,7 @@
 #include "../Registries.h"
 #include "PacketUpgradeStoreItemType.h"
 #include "SeedPacketStoreItemType.h"
+#include "PottedPlantStoreItemType.h"
 
 #include "../System/PlayerInfo.h"
 
@@ -90,22 +91,22 @@ const auto &BONUS_LAWN_MOWER = Registries::STORE_ITEMS.Register([]() {
 const auto &POTTED_MARIGOLD_1 = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 250;
-	auto *aStoreItemType = new StoreItemType(PVZ, "potted_marigold_1", anAttributes);
-	return aStoreItemType;
+	auto *aStoreItemType = new PottedPlantStoreItemType(PVZ, "potted_marigold_1", anAttributes);
+	return (StoreItemType *)aStoreItemType;
 });
 
 const auto &POTTED_MARIGOLD_2 = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 250;
-	auto *aStoreItemType = new StoreItemType(PVZ, "potted_marigold_2", anAttributes);
-	return aStoreItemType;
+	auto *aStoreItemType = new PottedPlantStoreItemType(PVZ, "potted_marigold_2", anAttributes);
+	return (StoreItemType *)aStoreItemType;
 });
 
 const auto &POTTED_MARIGOLD_3 = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 250;
-	auto *aStoreItemType = new StoreItemType(PVZ, "potted_marigold_3", anAttributes);
-	return aStoreItemType;
+	auto *aStoreItemType = new PottedPlantStoreItemType(PVZ, "potted_marigold_3", anAttributes);
+	return (StoreItemType *)aStoreItemType;
 });
 
 const auto &GOLD_WATERING_CAN = Registries::STORE_ITEMS.Register([]() {
@@ -124,6 +125,7 @@ const auto &FERTILIZER = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mDrawOffsetX = -11;
 	anAttributes.mDrawOffsetY = -2;
 	anAttributes.mIcon = Sexy::IMAGE_FERTILIZER_ID;
+	anAttributes.mBuyCount = 5;
 	auto *aStoreItemType = new StoreItemType(PVZ, "fertilizer", anAttributes);
 	return aStoreItemType;
 });
@@ -134,6 +136,7 @@ const auto &BUG_SPRAY = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mDrawOffsetX = -12;
 	anAttributes.mDrawOffsetY = 3;
 	anAttributes.mIcon = Sexy::IMAGE_BUG_SPRAY_ID;
+	anAttributes.mBuyCount = 5;
 	auto *aStoreItemType = new StoreItemType(PVZ, "bug_spray", anAttributes);
 	return aStoreItemType;
 });
