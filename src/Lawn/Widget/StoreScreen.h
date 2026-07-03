@@ -63,9 +63,9 @@ class StoreScreen : public Dialog
 	const StoreItemType *GetStoreItemType(int theSpotIndex);
 	bool IsFullVersionOnly(OldStoreItemType theStoreItem);
 	static bool IsPottedPlant(OldStoreItemType theStoreItem);
-	bool IsComingSoon(OldStoreItemType theStoreItem);
-	bool IsItemSoldOut(OldStoreItemType theStoreItem);
-	bool IsItemUnavailable(OldStoreItemType theStoreItem);
+	bool IsComingSoon(const StoreItemType &theStoreItem);
+	bool IsItemSoldOut(const StoreItemType &theStoreItem);
+	bool IsItemUnavailable(const StoreItemType &theStoreItem);
 	static void GetStorePosition(int theSpotIndex, int &thePosX, int &thePosY);
 	void DrawItemIcon(Graphics *g, int theItemPosition, const StoreItemType &theItemType, bool theIsForHighlight);
 	void DrawItem(Graphics *g, int theItemPosition, const StoreItemType &theItemType);

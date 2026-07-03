@@ -1,6 +1,6 @@
 #include "StoreItemType.h"
 #include "../Sexy.TodLib/TodDebug.h"
-#include "../LawnApp.h";
+#include "../LawnApp.h"
 #include "../SexyAppFramework/Graphics.h"
 #include "../Sexy.TodLib/TodCommon.h"
 

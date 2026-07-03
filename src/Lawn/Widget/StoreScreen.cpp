@@ -181,98 +181,27 @@ bool StoreScreen::IsPottedPlant(OldStoreItemType theStoreItem)
 		   theStoreItem == STORE_ITEM_POTTED_MARIGOLD_3;
 }
 
-bool StoreScreen::IsComingSoon(OldStoreItemType theStoreItem)
+bool StoreScreen::IsComingSoon(const StoreItemType &theStoreItem)
 {
-	if (IsFullVersionOnly(theStoreItem))
-		return true;
-	else if (theStoreItem == STORE_ITEM_WHEEL_BARROW)
-		return !mApp->mPlayerInfo->mPurchases[STORE_ITEM_MUSHROOM_GARDEN] &&
-			   !mApp->mPlayerInfo->mPurchases[STORE_ITEM_AQUARIUM_GARDEN];
-	else if (IsPottedPlant(theStoreItem))
-		return !mApp->HasFinishedAdventure();
-	else if (theStoreItem == STORE_ITEM_TREE_FOOD)
-		return !mApp->mPlayerInfo->mPurchases[STORE_ITEM_TREE_OF_WISDOM] ||
-			   mApp->mPlayerInfo->mPurchases[STORE_ITEM_TREE_FOOD] < PURCHASE_COUNT_OFFSET;
-	return false;
+	return IsFullVersionOnly(theStoreItem) || theStoreItem.mAttributes.mComingSoon;
 }
 
-bool StoreScreen::IsItemSoldOut(OldStoreItemType theStoreItem)
+bool StoreScreen::IsItemSoldOut(const StoreItemType &theStoreItem)
 {
-	PlayerInfo *aPlayer = mApp->mPlayerInfo;
-	if (theStoreItem == STORE_ITEM_INVALID)
-		return false;
-	else if (theStoreItem == STORE_ITEM_PACKET_UPGRADE)
-		return aPlayer->mPurchases[STORE_ITEM_PACKET_UPGRADE] >= 4;
-	else if (theStoreItem == STORE_ITEM_FERTILIZER || theStoreItem == STORE_ITEM_BUG_SPRAY)
-		return aPlayer->mPurchases[theStoreItem] - PURCHASE_COUNT_OFFSET > 15;
-	else if (theStoreItem == STORE_ITEM_TREE_FOOD)
-		return aPlayer->mPurchases[STORE_ITEM_TREE_FOOD] - PURCHASE_COUNT_OFFSET > 10;
-	else if (theStoreItem == STORE_ITEM_BONUS_LAWN_MOWER)
-		return aPlayer->mPurchases[STORE_ITEM_BONUS_LAWN_MOWER] >= 2;
-	else if (IsPottedPlant(theStoreItem))
-		return mApp->mZenGarden->IsZenGardenFull(true) ||
-			   aPlayer->mPurchases[theStoreItem] == GetCurrentDaysSince2000();
-	else
-		return aPlayer->mPurchases[theStoreItem];
+	return theStoreItem.mAttributes.mSoldOut;
 }
 
-bool StoreScreen::IsItemUnavailable(OldStoreItemType theStoreItem)
+bool StoreScreen::IsItemUnavailable(const StoreItemType &theStoreItem)
 {
 	if (mEasyBuyingCheat)
 		return false;
 
-	/*
-    if (mApp->HasFinishedAdventure())
-        return true;
+	if (mApp->IsTrialStageLocked() &&
+		(theStoreItem == STORE_ITEM_ROOF_CLEANER || theStoreItem == STORE_ITEM_PLANT_GLOOMSHROOM ||
+		 theStoreItem == STORE_ITEM_PLANT_CATTAIL))
+		return true;
 
-    bool aTrialStageLocked = mApp->IsTrialStageLocked();
-    int aCurrentLevel = mApp->mPlayerInfo->mLevel;
-    if (theStoreItem == STORE_ITEM_ROOF_CLEANER)
-    {
-        return aTrialStageLocked || aCurrentLevel < 42;
-    }
-    else if (theStoreItem == STORE_ITEM_PLANT_GLOOMSHROOM || theStoreItem == STORE_ITEM_PLANT_CATTAIL)
-    {
-        return aTrialStageLocked || aCurrentLevel < 35;
-    }
-    else if (theStoreItem == STORE_ITEM_PLANT_SPIKEROCK || theStoreItem == STORE_ITEM_PLANT_GOLD_MAGNET)
-    {
-        return aCurrentLevel < 41;
-    }
-
-    return 
-        theStoreItem != STORE_ITEM_PLANT_WINTERMELON && 
-        theStoreItem != STORE_ITEM_PLANT_COBCANNON &&
-        theStoreItem != STORE_ITEM_PLANT_IMITATER && 
-        theStoreItem != STORE_ITEM_FIRSTAID;
-    */
-
-	if (theStoreItem == STORE_ITEM_ROOF_CLEANER)
-	{
-		return mApp->IsTrialStageLocked() || (!mApp->HasFinishedAdventure() && mApp->mPlayerInfo->GetLevel() < 42);
-	}
-	if (theStoreItem == STORE_ITEM_PLANT_GLOOMSHROOM)
-	{
-		return mApp->IsTrialStageLocked() || (!mApp->HasFinishedAdventure() && mApp->mPlayerInfo->GetLevel() < 35);
-	}
-	if (theStoreItem == STORE_ITEM_PLANT_CATTAIL)
-	{
-		return mApp->IsTrialStageLocked() || (!mApp->HasFinishedAdventure() && mApp->mPlayerInfo->GetLevel() < 35);
-	}
-	if (theStoreItem == STORE_ITEM_PLANT_SPIKEROCK)
-	{
-		return !mApp->HasFinishedAdventure() && mApp->mPlayerInfo->GetLevel() < 41;
-	}
-	if (theStoreItem == STORE_ITEM_PLANT_GOLD_MAGNET)
-	{
-		return !mApp->HasFinishedAdventure() && mApp->mPlayerInfo->GetLevel() < 41;
-	}
-	if (theStoreItem == STORE_ITEM_PLANT_WINTERMELON || theStoreItem == STORE_ITEM_PLANT_COBCANNON ||
-		theStoreItem == STORE_ITEM_PLANT_IMITATER || theStoreItem == STORE_ITEM_FIRSTAID)
-	{
-		return !mApp->HasFinishedAdventure();
-	}
-	return false;
+	return theStoreItem.mAttributes.mUnavailable;
 }
 
 void StoreScreen::GetStorePosition(int theSpotIndex, int &thePosX, int &thePosY)

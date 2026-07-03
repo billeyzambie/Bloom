@@ -2536,7 +2536,7 @@ bool LawnApp::HasBeatenChallenge(GameMode theGameMode)
 	return mPlayerInfo->mChallengeRecords[aChallengeIndex] > 0;
 }
 
-bool LawnApp::HasFinishedAdventure()
+bool LawnApp::HasFinishedAdventure() const
 {
 	return mPlayerInfo && mPlayerInfo->mFinishedAdventure > 0;
 }

@@ -687,7 +687,7 @@ class BLOOM_API LawnApp : public SexyApp
 
 	/// @brief Have we finished Adventure Mode
 	/// @return True if we finished Adventure atleast once, false otherwise
-	bool HasFinishedAdventure();
+	bool HasFinishedAdventure() const;
 
 	/// @brief Is the first time we play Adventure Mode
 	/// @return True if this is our first playthrough of Adventure Mode, false otherwise

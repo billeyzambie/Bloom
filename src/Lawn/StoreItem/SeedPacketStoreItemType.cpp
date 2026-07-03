@@ -5,11 +5,13 @@
 #include "../Widget/StoreScreen.h"
 #include "../Sexy.TodLib/TodStringFile.h"
 #include "../SeedPacket.h"
+#include "StoreItemModifiers.h"
 
 SeedPacketStoreItemType::SeedPacketStoreItemType(std::string theModName, std::string theTypeName,
 													   const StoreItemAttributes &theAttributes)
 	: StoreItemType(std::move(theModName), std::move(theTypeName), theAttributes)
 {
+	mModifiers.Add(StoreItemModifiers::SoldOutAfterOnePurchase);
 }
 
 void SeedPacketStoreItemType::Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int thePosX, int thePosY,

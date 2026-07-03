@@ -2,6 +2,8 @@
 
 #include "StoreItemType.h"
 
+BLOOM_API void PottedPlantSoldOut(StoreItemModifierContext &theContext);
+
 class BLOOM_API PottedPlantStoreItemType : public StoreItemType
 {
   public:

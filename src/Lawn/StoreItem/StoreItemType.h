@@ -17,35 +17,34 @@ class LawnApp;
 class PlayerInfo;
 class StoreScreen;
 
-struct BLOOM_API StoreItemAttributes
-{
-	int mCost = 0;
-	int mBuyCount = 1;
-	Sexy::ResourceId mIcon = Sexy::ResourceId::RESOURCE_ID_MAX;
-	int mDrawOffsetX = 0;
-	int mDrawOffsetY = 0;
-};
-
-class StoreItemType;
-
-struct BLOOM_API StoreItemModifierContext
-{
-	const StoreItemType &mStoreItemType;
-	const LawnApp &mLawnApp;
-	const PlayerInfo &mPlayerInfo;
-	StoreItemAttributes &mAttributes;
-};
-
 class BLOOM_API StoreItemType : public BloomType
 {
   public:
-	StoreItemAttributes mAttributeBaseValues;
-	StoreItemAttributes mAttributes;
-	EventList<StoreItemModifierContext> mModifiers;
+	struct BLOOM_API Attributes
+	{
+		int mCost = 0;
+		int mBuyCount = 1;
+		Sexy::ResourceId mIcon = Sexy::ResourceId::RESOURCE_ID_MAX;
+		int mDrawOffsetX = 0;
+		int mDrawOffsetY = 0;
+		bool mUnavailable = false;
+		bool mSoldOut = false;
+		bool mComingSoon = false;
+	};
+	struct BLOOM_API ModifierContext
+	{
+		const StoreItemType &mStoreItemType;
+		const LawnApp &mLawnApp;
+		const PlayerInfo &mPlayerInfo;
+		StoreItemType::Attributes &mAttributes;
+	};
+	Attributes mAttributeBaseValues;
+	Attributes mAttributes;
+	EventList<ModifierContext> mModifiers;
 	PatchHolder<StoreItemType> *mPatchHolder;
 	StoreItemType(
 		std::string theModName, std::string theTypeName,
-		const StoreItemAttributes &theAttributes
+		const Attributes &theAttributes
 	);
 	operator OldStoreItemType() const;
 	virtual void CopyFrom(const BloomType &theOther) override;
@@ -53,3 +52,6 @@ class BLOOM_API StoreItemType : public BloomType
 	void Update(const LawnApp &theLawnApp);
 	virtual void Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int thePosX, int thePosY, bool theIsForHighlight) const;
 };
+
+typedef StoreItemType::Attributes StoreItemAttributes;
+typedef StoreItemType::ModifierContext StoreItemModifierContext;
