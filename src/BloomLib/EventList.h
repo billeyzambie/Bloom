@@ -19,7 +19,7 @@ enum class EventPriority
 
 template <class T> bool SortByEventPriority(const T &theT, const T &theOtherT)
 {
-	return theT.mPriority < theOtherT.mPriority;
+	return theT.mPriority > theOtherT.mPriority;
 }
 
 template<class T>
@@ -37,7 +37,6 @@ template <typename T> class BLOOM_API EventList
 
   private:
 	std::vector<Element> mElements;
-	EventPriority mLowestPriorityEverAdded = EventPriority::HIGHEST;
 
   public:
 	EventList() = default;
@@ -49,10 +48,7 @@ template <typename T> class BLOOM_API EventList
 	Transformer<T> Add(const Element &theElement)
 	{
 		mElements.push_back(theElement);
-		if (theElement.mPriority >= mLowestPriorityEverAdded)
-			std::sort(mElements.begin(), mElements.end(), SortByEventPriority<Element>);
-		else
-			mLowestPriorityEverAdded = theElement.mPriority;
+		std::stable_sort(mElements.begin(), mElements.end(), SortByEventPriority<Element>);
 		return theElement.mTransformer;
 	}
 	Transformer<T> Remove(const Transformer<T> &theTransformer)
@@ -60,13 +56,15 @@ template <typename T> class BLOOM_API EventList
 		auto anElement = std::find_if(mElements.begin(), mElements.end(),
 			[&](Element &theElement) { return theElement.mTransformer == theTransformer; }
 		);
-		mElements.erase(anElement);
+		if (anElement != mElements.end())
+			mElements.erase(anElement);
 		return theTransformer;
 	}
 	Transformer<T> Remove(const Element &theElement)
 	{
 		auto anElement = std::find(mElements.begin(), mElements.end(), theElement);
-		mElements.erase(anElement);
+		if (anElement != mElements.end())
+			mElements.erase(anElement);
 		return theElement.mTransformer;
 	}
 	T &Fire(T &theContext) const
