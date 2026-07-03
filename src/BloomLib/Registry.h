@@ -24,9 +24,10 @@ template <class T> class BLOOM_API Registry : public IRegistry
 	Registry() = default;
 	const RegistryTypeHolder<T> &Register(T *(*theSupplier)())
 	{
-		int anId = mNextId++;
+		TOD_ASSERT(!mFrozen, "Type registered too late");
 		if (!mFrozen)
 		{
+			int anId = mNextId++;
 			mHolders.EnsureIndex(anId);
 			mHolders[anId] = {theSupplier};
 			return mHolders[anId];
@@ -51,7 +52,7 @@ template <class T> class BLOOM_API Registry : public IRegistry
 	}
 	void Update(const LawnApp &theLawnApp)
 	{
-		for (auto aType : mTypes)
+		for (auto *aType : mTypes)
 		{
 			aType->Update(theLawnApp);
 		}
