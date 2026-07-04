@@ -1,21 +1,27 @@
 #pragma once
 
 #include "Identifier.h"
+#include "BillFunctional.h"
 #include <iostream>
 
 template <class T> class BLOOM_API Patch
 {
   public:
+	struct Context
+	{
+		T &theT;
+		T::Attributes &theAttributes;
+	};
 	Identifier mId;
-	void (*mConsumer)(T &);
+	Transformer<Context> mContextTransformer;
 	void operator()(T &theT) const
 	{
-		std::cout << mId.mModName << ":" << mId.mTypeName << std::endl;
-		mConsumer(theT);
+		Context aContext{theT, theT.mAttributeBaseValues};
+		mContextTransformer(aContext);
 	}
 
-	Patch(Identifier theId, void (*theConsumer)(T &)) 
-		: mId(std::move(theId)), mConsumer(theConsumer)
+	Patch(Identifier theId, Transformer<Context> theContextTransformer) 
+		: mId(std::move(theId)), mContextTransformer(theContextTransformer)
 	{
 	}
 };
