@@ -18,7 +18,11 @@ SeedPacketStoreItemType::SeedPacketStoreItemType(std::string theModName, std::st
 void SeedPacketStoreItemType::Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int thePosX, int thePosY,
 									  bool theIsForHighlight) const
 {
-	DrawSeedPacket(g, thePosX, thePosY, mSeedType, SEED_NONE, 0, 255, false, false);
+	if (!theIsForHighlight)
+		DrawSeedPacket(g, thePosX, thePosY, mSeedType, SEED_NONE, 0, 255, false, false);
+	else 
+		g->DrawImage(Sexy::IMAGE_SEEDPACKETFLASH, thePosX, thePosY);
+
 	StoreItemType::Draw(theStoreScreen, g, thePosX, thePosY, theIsForHighlight);
 }
 

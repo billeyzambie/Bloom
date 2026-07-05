@@ -40,7 +40,7 @@ class StoreScreen : public Dialog
 	int mAmbientSpeechCountDown;
 	int mPreviousAmbientSpeechIndex;
 	StorePages mPage;
-	OldStoreItemType mMouseOverItem;
+	const StoreItemType *mMouseOverItem;
 	int mHatchTimer;
 	bool mHatchOpen;
 	int mShakeX;

@@ -66,7 +66,7 @@ StoreScreen::StoreScreen(LawnApp *theApp)
 	mAmbientSpeechCountDown = 200;
 	mPreviousAmbientSpeechIndex = -1;
 	mPage = STORE_PAGE_SLOT_UPGRADES;
-	mMouseOverItem = STORE_ITEM_INVALID;
+	mMouseOverItem = nullptr;
 	mHatchTimer = 0;
 	mShakeX = 0;
 	mShakeY = 0;
@@ -371,16 +371,9 @@ void StoreScreen::DrawItem(Graphics *g, int theItemPosition, const StoreItemType
 		TodDrawStringWrapped(
 			g, "[SOLD_OUT]", aRect, Sexy::FONT_HOUSEOFTERROR16, Color(255, 0, 0), DS_ALIGN_CENTER_VERTICAL_MIDDLE);
 	}
-	else if (mMouseOverItem == theItemType)
+	else if (mMouseOverItem == &theItemType)
 	{
-		if (theItemType >= 0 && theItemType <= 8)
-		{
-			g->DrawImage(Sexy::IMAGE_SEEDPACKETFLASH, aPosX, aPosY);
-		}
-		else
-		{
-			DrawItemIcon(g, theItemPosition, theItemType, true);
-		}
+		DrawItemIcon(g, theItemPosition, theItemType, true);
 	}
 }
 
@@ -488,7 +481,7 @@ void StoreScreen::SetBubbleText(int theCrazyDaveMessage, int theTime, bool theCl
 
 void StoreScreen::UpdateMouse()
 {
-	mMouseOverItem = STORE_ITEM_INVALID;
+	mMouseOverItem = nullptr;
 	if (mStoreTime < 120 || mBubbleClickToContinue || mHatchTimer > 0 || mWaitForDialog || mInCutscene)
 		return;
 	int aMouseX = mApp->mWidgetManager->mLastMouseX - mX, aMouseY = mApp->mWidgetManager->mLastMouseY - mY;
@@ -502,9 +495,9 @@ void StoreScreen::UpdateMouse()
 			GetStorePosition(aItemPos, aItemX, aItemY);
 			if (Rect(aItemX, aItemY, 50, 87).Contains(aMouseX, aMouseY))
 			{
-				mMouseOverItem = *aItemType;
+				mMouseOverItem = aItemType;
 				int aMessageIndex = -1;
-				switch (*aItemType)
+				if (aItemType) switch (aItemType->GetNumericalId())
 				{
 				case STORE_ITEM_PLANT_GATLINGPEA:
 					aMessageIndex = 2000;
@@ -598,7 +591,7 @@ void StoreScreen::UpdateMouse()
 					aMessageIndex = 2034;
 					break;
 				default:
-					TOD_ASSERT();
+					//TOD_ASSERT();
 					break;
 				}
 				if (mApp->mCrazyDaveMessageIndex != aMessageIndex)
