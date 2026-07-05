@@ -404,4 +404,18 @@ const auto &PLANTS_VS_ZOMBIES = Registries::STORE_ITEMS.Register([]() {
 	return aStoreItemType;
 });
 
+#if INCLUDE_TEST_STORE_ITEM
+const auto &CUSTOM_TEST = Registries::STORE_ITEMS.Register([]() {
+	StoreItemAttributes anAttributes;
+	anAttributes.mCost = 200;
+	anAttributes.mDrawOffsetX = -1;
+	anAttributes.mDrawOffsetY = 13;
+	anAttributes.mIcon = Sexy::IMAGE_BRAIN_ID;
+	auto *aStoreItemType = new StoreItemType(PVZ, "custom_test", anAttributes);
+	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
+	aStoreItemType->mOnPurchase.Add(OnPurchaseSetPurchasesTo<1>);
+	return aStoreItemType;
+});
+#endif
+
 } // namespace StoreItemTypes

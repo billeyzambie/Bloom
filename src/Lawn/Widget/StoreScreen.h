@@ -61,8 +61,8 @@ class StoreScreen : public Dialog
 	virtual ~StoreScreen();
 
 	const StoreItemType *GetStoreItemType(int theSpotIndex);
-	bool IsFullVersionOnly(OldStoreItemType theStoreItem);
-	static bool IsPottedPlant(OldStoreItemType theStoreItem);
+	bool IsFullVersionOnly(const StoreItemType &theStoreItem);
+	//static bool IsPottedPlant(OldStoreItemType theStoreItem);
 	bool IsComingSoon(const StoreItemType &theStoreItem);
 	bool IsItemSoldOut(const StoreItemType &theStoreItem);
 	bool IsItemUnavailable(const StoreItemType &theStoreItem);

@@ -35,7 +35,12 @@ static std::array<const RegistryTypeHolder<StoreItemType> *, MAX_PAGE_SPOTS> gSt
 	 &StoreItemTypes::GARDENING_GLOVE},
 	{&StoreItemTypes::MUSHROOM_GARDEN, &StoreItemTypes::AQUARIUM_GARDEN, &StoreItemTypes::WHEEL_BARROW,
 	 &StoreItemTypes::STINKY_THE_SNAIL, &StoreItemTypes::TREE_OF_WISDOM, &StoreItemTypes::TREE_FOOD,
-	 nullptr, nullptr}};
+#if INCLUDE_TEST_STORE_ITEM
+	 &StoreItemTypes::CUSTOM_TEST,
+#else
+	 nullptr,
+#endif
+	 nullptr}};
 
 StoreScreenOverlay::StoreScreenOverlay(StoreScreen *theParent)
 {
@@ -164,7 +169,7 @@ const StoreItemType *StoreScreen::GetStoreItemType(int theSpotIndex)
 	return nullptr;
 }
 
-bool StoreScreen::IsFullVersionOnly(OldStoreItemType theStoreItem)
+bool StoreScreen::IsFullVersionOnly(const StoreItemType &theStoreItem)
 {
 	if (!mApp->IsTrialStageLocked())
 		return false;
@@ -175,11 +180,11 @@ bool StoreScreen::IsFullVersionOnly(OldStoreItemType theStoreItem)
 	return theStoreItem == STORE_ITEM_PLANT_TWINSUNFLOWER;
 }
 
-bool StoreScreen::IsPottedPlant(OldStoreItemType theStoreItem)
-{
-	return theStoreItem == STORE_ITEM_POTTED_MARIGOLD_1 || theStoreItem == STORE_ITEM_POTTED_MARIGOLD_2 ||
-		   theStoreItem == STORE_ITEM_POTTED_MARIGOLD_3;
-}
+//bool StoreScreen::IsPottedPlant(OldStoreItemType theStoreItem)
+//{
+//	return theStoreItem == STORE_ITEM_POTTED_MARIGOLD_1 || theStoreItem == STORE_ITEM_POTTED_MARIGOLD_2 ||
+//		   theStoreItem == STORE_ITEM_POTTED_MARIGOLD_3;
+//}
 
 bool StoreScreen::IsComingSoon(const StoreItemType &theStoreItem)
 {
@@ -1000,87 +1005,84 @@ void StoreScreen::PurchaseItem(const StoreItemType &theStoreItem)
 
 			theStoreItem.mOnPurchase.Fire(aContext);
 
-			if (false) 
-			{
-				if (theStoreItem == STORE_ITEM_PACKET_UPGRADE)
-				{
-					++mApp->mPlayerInfo->mPurchases[theStoreItem];
-					SexyString aDialogLines = StrFormat(TodStringTranslate("[NOW_YOU_CAN_CHOOSE_X_SEEDS]").c_str(),
-														6 + mApp->mPlayerInfo->mPurchases[theStoreItem]);
-					Dialog *aDialog = mApp->DoDialog(DIALOG_UPGRADED, true, "[MORE_SLOTS]", aDialogLines,
-													 "[DIALOG_BUTTON_OK]", BUTTONS_FOOTER);
-					mWaitForDialog = true;
-					aDialog->WaitForResult(true);
-					mWaitForDialog = false;
-
-					if (mApp->mBoard)
-					{
-						mApp->mBoard->mSeedBank->UpdateWidth();
-					}
-				}
-				else if (theStoreItem == STORE_ITEM_BONUS_LAWN_MOWER)
-				{
-					mApp->mPlayerInfo->mPurchases[theStoreItem]++;
-				}
-				else if (theStoreItem == STORE_ITEM_RAKE)
-				{
-					mApp->mPlayerInfo->mPurchases[theStoreItem] = 3;
-				}
-				else if (theStoreItem == STORE_ITEM_STINKY_THE_SNAIL)
-				{
-					mApp->mPlayerInfo->mPurchases[theStoreItem] = time(nullptr);
-				}
-				else if (theStoreItem == STORE_ITEM_FERTILIZER || theStoreItem == STORE_ITEM_BUG_SPRAY)
-				{
-					if (mApp->mPlayerInfo->mPurchases[theStoreItem] < PURCHASE_COUNT_OFFSET)
-					{
-						mApp->mPlayerInfo->mPurchases[theStoreItem] = PURCHASE_COUNT_OFFSET;
-					}
-					mApp->mPlayerInfo->mPurchases[theStoreItem] += 5;
-				}
-				else if (theStoreItem == STORE_ITEM_TREE_FOOD)
-				{
-					if (mApp->mPlayerInfo->mPurchases[theStoreItem] < PURCHASE_COUNT_OFFSET)
-					{
-						mApp->mPlayerInfo->mPurchases[theStoreItem] = PURCHASE_COUNT_OFFSET;
-					}
-					mApp->mPlayerInfo->mPurchases[theStoreItem]++;
-				}
-				else if (theStoreItem == STORE_ITEM_TREE_OF_WISDOM)
-				{
-					mApp->mPlayerInfo->mPurchases[theStoreItem] = 1;
-					mApp->mPlayerInfo->mChallengeRecords[GAMEMODE_TREE_OF_WISDOM] = 1;
-
-					LawnDialog *aDialog = (LawnDialog *)mApp->DoDialog(
-						DIALOG_STORE_PURCHASE, true, "[VISIT_TREE_HEADER]", "[VISIT_TREE_BODY]", "", BUTTONS_YES_NO);
-					aDialog->mLawnYesButton->SetLabel("[DIALOG_BUTTON_YES]");
-					aDialog->mLawnNoButton->SetLabel("[DIALOG_BUTTON_NO]");
-
-					mWaitForDialog = true;
-					int aResult = aDialog->WaitForResult(true);
-					mWaitForDialog = false;
-
-					if (aResult == ID_OK)
-					{
-						mGoToTreeNow = true;
-						mResult = aResult;
-					}
-				}
-				else if (IsPottedPlant(theStoreItem))
-				{
-					mApp->mZenGarden->AddPottedPlant(&mPottedPlantSpecs);
-					mPottedPlantSpecs.InitializePottedPlant(SEED_MARIGOLD);
-					mPottedPlantSpecs.mDrawVariation =
-						(DrawVariation)RandRangeInt(VARIATION_MARIGOLD_WHITE, VARIATION_MARIGOLD_LIGHT_GREEN);
-					mApp->mPlayerInfo->mPurchases[theStoreItem] = GetCurrentDaysSince2000();
-				}
-				else
-				{
-					TOD_ASSERT(theStoreItem >= STORE_ITEM_PLANT_GATLINGPEA &&
-							   theStoreItem < (OldStoreItemType)MAX_PURCHASES);
-					mApp->mPlayerInfo->mPurchases[theStoreItem] = 1;
-				}
-			}
+			//if (theStoreItem == STORE_ITEM_PACKET_UPGRADE)
+			//{
+			//	++mApp->mPlayerInfo->mPurchases[theStoreItem];
+			//	SexyString aDialogLines = StrFormat(TodStringTranslate("[NOW_YOU_CAN_CHOOSE_X_SEEDS]").c_str(),
+			//										6 + mApp->mPlayerInfo->mPurchases[theStoreItem]);
+			//	Dialog *aDialog = mApp->DoDialog(DIALOG_UPGRADED, true, "[MORE_SLOTS]", aDialogLines,
+			//									 "[DIALOG_BUTTON_OK]", BUTTONS_FOOTER);
+			//	mWaitForDialog = true;
+			//	aDialog->WaitForResult(true);
+			//	mWaitForDialog = false;
+			//
+			//	if (mApp->mBoard)
+			//	{
+			//		mApp->mBoard->mSeedBank->UpdateWidth();
+			//	}
+			//}
+			//else if (theStoreItem == STORE_ITEM_BONUS_LAWN_MOWER)
+			//{
+			//	mApp->mPlayerInfo->mPurchases[theStoreItem]++;
+			//}
+			//else if (theStoreItem == STORE_ITEM_RAKE)
+			//{
+			//	mApp->mPlayerInfo->mPurchases[theStoreItem] = 3;
+			//}
+			//else if (theStoreItem == STORE_ITEM_STINKY_THE_SNAIL)
+			//{
+			//	mApp->mPlayerInfo->mPurchases[theStoreItem] = time(nullptr);
+			//}
+			//else if (theStoreItem == STORE_ITEM_FERTILIZER || theStoreItem == STORE_ITEM_BUG_SPRAY)
+			//{
+			//	if (mApp->mPlayerInfo->mPurchases[theStoreItem] < PURCHASE_COUNT_OFFSET)
+			//	{
+			//		mApp->mPlayerInfo->mPurchases[theStoreItem] = PURCHASE_COUNT_OFFSET;
+			//	}
+			//	mApp->mPlayerInfo->mPurchases[theStoreItem] += 5;
+			//}
+			//else if (theStoreItem == STORE_ITEM_TREE_FOOD)
+			//{
+			//	if (mApp->mPlayerInfo->mPurchases[theStoreItem] < PURCHASE_COUNT_OFFSET)
+			//	{
+			//		mApp->mPlayerInfo->mPurchases[theStoreItem] = PURCHASE_COUNT_OFFSET;
+			//	}
+			//	mApp->mPlayerInfo->mPurchases[theStoreItem]++;
+			//}
+			//else if (theStoreItem == STORE_ITEM_TREE_OF_WISDOM)
+			//{
+			//	mApp->mPlayerInfo->mPurchases[theStoreItem] = 1;
+			//	mApp->mPlayerInfo->mChallengeRecords[GAMEMODE_TREE_OF_WISDOM] = 1;
+			//
+			//	LawnDialog *aDialog = (LawnDialog *)mApp->DoDialog(
+			//		DIALOG_STORE_PURCHASE, true, "[VISIT_TREE_HEADER]", "[VISIT_TREE_BODY]", "", BUTTONS_YES_NO);
+			//	aDialog->mLawnYesButton->SetLabel("[DIALOG_BUTTON_YES]");
+			//	aDialog->mLawnNoButton->SetLabel("[DIALOG_BUTTON_NO]");
+			//
+			//	mWaitForDialog = true;
+			//	int aResult = aDialog->WaitForResult(true);
+			//	mWaitForDialog = false;
+			//
+			//	if (aResult == ID_OK)
+			//	{
+			//		mGoToTreeNow = true;
+			//		mResult = aResult;
+			//	}
+			//}
+			//else if (IsPottedPlant(theStoreItem))
+			//{
+			//	mApp->mZenGarden->AddPottedPlant(&mPottedPlantSpecs);
+			//	mPottedPlantSpecs.InitializePottedPlant(SEED_MARIGOLD);
+			//	mPottedPlantSpecs.mDrawVariation =
+			//		(DrawVariation)RandRangeInt(VARIATION_MARIGOLD_WHITE, VARIATION_MARIGOLD_LIGHT_GREEN);
+			//	mApp->mPlayerInfo->mPurchases[theStoreItem] = GetCurrentDaysSince2000();
+			//}
+			//else
+			//{
+			//	TOD_ASSERT(theStoreItem >= STORE_ITEM_PLANT_GATLINGPEA &&
+			//			   theStoreItem < (OldStoreItemType)MAX_PURCHASES);
+			//	mApp->mPlayerInfo->mPurchases[theStoreItem] = 1;
+			//}
 
 			if (theStoreItem == STORE_ITEM_FIRSTAID)
 			{

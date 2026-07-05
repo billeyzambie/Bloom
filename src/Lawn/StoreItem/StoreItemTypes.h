@@ -3,6 +3,8 @@
 #include "StoreItemType.h"
 #include "../BloomLib/RegistryTypeHolder.h"
 
+#define INCLUDE_TEST_STORE_ITEM false
+
 namespace StoreItemTypes
 {
 
@@ -37,5 +39,7 @@ extern BLOOM_API const RegistryTypeHolder<StoreItemType> &TREE_OF_WISDOM;
 extern BLOOM_API const RegistryTypeHolder<StoreItemType> &TREE_FOOD;
 extern BLOOM_API const RegistryTypeHolder<StoreItemType> &FIRST_AID;
 extern BLOOM_API const RegistryTypeHolder<StoreItemType> &PLANTS_VS_ZOMBIES;
-
+#if INCLUDE_TEST_STORE_ITEM
+extern BLOOM_API const RegistryTypeHolder<StoreItemType> &CUSTOM_TEST;
+#endif
 }
