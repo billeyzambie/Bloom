@@ -20,4 +20,9 @@ void UnavailableUntilAdventureFinished(StoreItemModifierContext &theContext)
 		theContext.mAttributes.mUnavailable = true;
 }
 
+void OnPurchaseSetPurchasesToCurrentTime(StoreItemPurchaseContext& theContext)
+{
+	theContext.mPurchases = time(nullptr);
+}
+
 } // namespace StoreItemModifiers

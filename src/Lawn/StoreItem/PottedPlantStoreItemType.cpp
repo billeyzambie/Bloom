@@ -22,11 +22,23 @@ PottedPlantStoreItemType::PottedPlantStoreItemType(std::string theModName, std::
 {
 	mModifiers.Add(StoreItemModifiers::ComingSoonUntilAdventureFinished);
 	mModifiers.Add(PottedPlantSoldOut);
+	mOnPurchase.Add([](StoreItemPurchaseContext &theContext) {
+		auto *aStoreScreen = theContext.mStoreScreen;
+		if (aStoreScreen)
+		{
+			theContext.mApp.mZenGarden->AddPottedPlant(&aStoreScreen->mPottedPlantSpecs);
+			aStoreScreen->mPottedPlantSpecs.InitializePottedPlant(SEED_MARIGOLD);
+			aStoreScreen->mPottedPlantSpecs.mDrawVariation =
+				(DrawVariation)RandRangeInt(VARIATION_MARIGOLD_WHITE, VARIATION_MARIGOLD_LIGHT_GREEN);
+			theContext.mPurchases = GetCurrentDaysSince2000();
+		}
+	});
 }
 
 void PottedPlantStoreItemType::Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int thePosX, int thePosY,
 								   bool theIsForHighlight) const
 {
-	theStoreScreen->mApp->mZenGarden->DrawPottedPlantIcon(g, thePosX, thePosY, &theStoreScreen->mPottedPlantSpecs);
+	if (theStoreScreen)
+		theStoreScreen->mApp->mZenGarden->DrawPottedPlantIcon(g, thePosX, thePosY, &theStoreScreen->mPottedPlantSpecs);
 	StoreItemType::Draw(theStoreScreen, g, thePosX, thePosY, theIsForHighlight);
 }

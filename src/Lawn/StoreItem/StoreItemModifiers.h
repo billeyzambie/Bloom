@@ -25,8 +25,31 @@ template <int theLevel> void UnavailableBelowLevel(StoreItemModifierContext &the
 		theContext.mAttributes.mUnavailable = true;
 }
 
-void BLOOM_API SoldOutAfterOnePurchase(StoreItemModifierContext &theContext);
-void BLOOM_API ComingSoonUntilAdventureFinished(StoreItemModifierContext &theContext);
-void BLOOM_API UnavailableUntilAdventureFinished(StoreItemModifierContext &theContext);
+BLOOM_API void SoldOutAfterOnePurchase(StoreItemModifierContext &theContext);
+BLOOM_API void ComingSoonUntilAdventureFinished(StoreItemModifierContext &theContext);
+BLOOM_API void UnavailableUntilAdventureFinished(StoreItemModifierContext &theContext);
+
+template <int theCount> void OnPurchaseSetPurchasesTo(StoreItemPurchaseContext &theContext)
+{
+	theContext.mPurchases = theCount;
+}
+
+template <int theCount> void OnPurchaseIncrementPurchasesBy(StoreItemPurchaseContext &theContext)
+{
+	theContext.mPurchases += theCount;
+}
+
+template <int theCount> void OnPurchaseIncrementPurchasesByIncludingPurchaseCountOffset(StoreItemPurchaseContext &theContext)
+{
+	//what on earth even is purchase count offset, something to solve later i guess
+	if (theContext.mPurchases < PURCHASE_COUNT_OFFSET)
+	{
+		theContext.mPurchases = PURCHASE_COUNT_OFFSET;
+	}
+	theContext.mPurchases += theCount;
+}
+
+
+BLOOM_API void OnPurchaseSetPurchasesToCurrentTime(StoreItemPurchaseContext &theContext);
 
 } // namespace StoreItemModifiers

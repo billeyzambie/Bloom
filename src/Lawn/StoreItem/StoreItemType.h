@@ -38,10 +38,19 @@ class BLOOM_API StoreItemType : public BloomType
 		const PlayerInfo &mPlayerInfo;
 		StoreItemType::Attributes &mAttributes;
 	};
+	struct BLOOM_API PurchaseContext
+	{
+		bool mCanceled;
+		const StoreItemType &mStoreItemType;
+		StoreScreen *mStoreScreen;
+		LawnApp &mApp;
+		int &mPurchases;
+	};
+	PatchHolder<StoreItemType> *mPatchHolder;
 	Attributes mAttributeBaseValues;
 	Attributes mAttributes;
 	EventList<ModifierContext> mModifiers;
-	PatchHolder<StoreItemType> *mPatchHolder;
+	EventList<PurchaseContext> mOnPurchase;
 	StoreItemType(
 		std::string theModName, std::string theTypeName,
 		const Attributes &theAttributes
@@ -55,3 +64,4 @@ class BLOOM_API StoreItemType : public BloomType
 
 typedef StoreItemType::Attributes StoreItemAttributes;
 typedef StoreItemType::ModifierContext StoreItemModifierContext;
+typedef StoreItemType::PurchaseContext StoreItemPurchaseContext;
