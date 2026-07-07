@@ -12,7 +12,7 @@
 void PottedPlantSoldOut(StoreItemModifierContext &theContext)
 {
 	if (theContext.mLawnApp.mZenGarden->IsZenGardenFull(true) ||
-		theContext.mPlayerInfo.mPurchases[theContext.mStoreItemType] == GetCurrentDaysSince2000())
+		theContext.mPlayerInfo.GetStoreItemData(theContext.mStoreItemType).mPurchases == GetCurrentDaysSince2000())
 		theContext.mAttributes.mSoldOut = true;
 }
 
@@ -30,7 +30,7 @@ PottedPlantStoreItemType::PottedPlantStoreItemType(std::string theModName, std::
 			aStoreScreen->mPottedPlantSpecs.InitializePottedPlant(SEED_MARIGOLD);
 			aStoreScreen->mPottedPlantSpecs.mDrawVariation =
 				(DrawVariation)RandRangeInt(VARIATION_MARIGOLD_WHITE, VARIATION_MARIGOLD_LIGHT_GREEN);
-			theContext.mPurchases = GetCurrentDaysSince2000();
+			theContext.mStoreItemData.mPurchases = GetCurrentDaysSince2000();
 		}
 	});
 }

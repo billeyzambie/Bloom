@@ -21,7 +21,7 @@ void PacketUpgradeStoreItemType::Draw(StoreScreen *theStoreScreen, Sexy::Graphic
 		g->SetDrawMode(Sexy::Graphics::DRAWMODE_NORMAL);
 		g->SetColorizeImages(false);
 	}
-	int aNumSlots = theStoreScreen->mApp->mPlayerInfo->mPurchases[STORE_ITEM_PACKET_UPGRADE] + 7;
+	int aNumSlots = theStoreScreen->mApp->mPlayerInfo->GetStoreItemData(*this).mPurchases + 7;
 	aNumSlots = std::clamp(aNumSlots, 7, 10);
 	SexyString aSlotText = TodReplaceNumberString("[STORE_UPGRADE_SLOTS]", "{SLOTS}", aNumSlots);
 	Sexy::Rect aRect(thePosX, thePosY + 6, 55, 70);

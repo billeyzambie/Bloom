@@ -31,6 +31,8 @@
 #include "../Sexy.TodLib/TodStringFile.h"
 #include "../SexyAppFramework/WidgetManager.h"
 
+#include "StoreItem/StoreItemTypes.h"
+
 int gZombieWaves[NUM_LEVELS] = {
 	4,	6,	8,	10, 8,	10, 20, 10, 20, 20, 10, 20, 10, 20, 10, 10, 20, 10, 20, 20, 10, 20, 20, 30, 20,
 	20, 30, 20, 30, 30, 10, 20, 10, 20, 20, 10, 20, 10, 20, 20, 10, 20, 20, 30, 20, 20, 30, 20, 30, 30,
@@ -5329,7 +5331,7 @@ void Challenge::TreeOfWisdomInit()
 		mApp->mPlayerInfo->mChallengeRecords[mApp->GetCurrentChallengeIndex()] = 1;
 	int aTreeSize = ClampInt(TreeOfWisdomGetSize(), 1, 50);
 	aReanimTree->PlayReanim(StrFormat("anim_grow%d", aTreeSize).c_str(), REANIM_PLAY_ONCE_AND_HOLD, 0, 18.0f);
-	if (aTreeSize == 1 && mApp->mPlayerInfo->mPurchases[STORE_ITEM_TREE_FOOD] < PURCHASE_COUNT_OFFSET)
+	if (aTreeSize == 1 && mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::TREE_FOOD).mPurchases < PURCHASE_COUNT_OFFSET)
 	{
 		aReanimTree->mFrameCount += aReanimTree->mFrameStart;
 		aReanimTree->mFrameStart = 0;
@@ -5399,7 +5401,7 @@ void Challenge::TreeOfWisdomFertilize()
 	aTreeFood->mGridItemState = GRIDITEM_STATE_ZEN_TOOL_FERTILIZER;
 
 	mApp->PlayFoley(FOLEY_FERTILIZER);
-	mApp->mPlayerInfo->mPurchases[STORE_ITEM_TREE_FOOD]--;
+	mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::TREE_FOOD).mPurchases--;
 	mChallengeState = STATECHALLENGE_NORMAL;
 	mBoard->ClearCursor();
 }

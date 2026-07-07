@@ -792,11 +792,12 @@ void DebuggerWindow::DrawSaveFileTab()
             for (int i=0;i<NUM_STORE_ITEM_MAX;i++)
             {
                 ImGui::PushID(i);
-                ImGui::InputInt(StrFormat("Item %d",i).c_str(),&pi->mPurchases[i]);
+                ImGui::InputInt(StrFormat("Item %d",i).c_str(),&pi->mStoreItemData[i].mPurchases);
                 ImGui::PopID();
             }
             if (ImGui::Button("Buy All"))
-                for(int i=0;i<NUM_STORE_ITEM_MAX;i++) pi->mPurchases[i]=std::max(pi->mPurchases[i],1);
+                for(int i=0;i<NUM_STORE_ITEM_MAX;i++) 
+                    pi->mStoreItemData[i].mPurchases = std::max(pi->mStoreItemData[i].mPurchases, 1);
             ImGui::EndTabItem();
         }
         ImGui::EndTabBar();

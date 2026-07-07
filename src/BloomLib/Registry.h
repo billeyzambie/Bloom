@@ -52,9 +52,17 @@ template <class T> class BLOOM_API Registry : public IRegistry
 	}
 	void Update(const LawnApp &theLawnApp)
 	{
-		for (auto *aType : mTypes)
+		for (T *aType : mTypes)
 		{
 			aType->Update(theLawnApp);
 		}
+	}
+	const T *const *begin() const
+	{
+		return &mTypes[0];
+	}
+	const T *const *end() const
+	{
+		return &mTypes[mTypes.size() - 1] + 1;
 	}
 };

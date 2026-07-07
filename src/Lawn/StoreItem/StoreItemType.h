@@ -17,6 +17,8 @@ class LawnApp;
 class PlayerInfo;
 class StoreScreen;
 
+class StoreItem;
+
 class BLOOM_API StoreItemType : public BloomType
 {
   public:
@@ -36,6 +38,7 @@ class BLOOM_API StoreItemType : public BloomType
 		const StoreItemType &mStoreItemType;
 		const LawnApp &mLawnApp;
 		const PlayerInfo &mPlayerInfo;
+		const StoreItem &mStoreItemData;
 		StoreItemType::Attributes &mAttributes;
 	};
 	struct BLOOM_API PurchaseContext
@@ -44,7 +47,7 @@ class BLOOM_API StoreItemType : public BloomType
 		const StoreItemType &mStoreItemType;
 		StoreScreen *mStoreScreen;
 		LawnApp &mApp;
-		int &mPurchases;
+		StoreItem &mStoreItemData;
 	};
 	PatchHolder<StoreItemType> *mPatchHolder;
 	Attributes mAttributeBaseValues;

@@ -16,6 +16,8 @@
 #include "../Sexy.TodLib/Reanimator.h"
 #include "../Sexy.TodLib/Attachment.h"
 
+#include "StoreItem/StoreItemTypes.h"
+
 Coin::Coin()
 {
 }
@@ -1172,15 +1174,15 @@ void Coin::Collect()
 		mBoard->mChocolateCollected++;
 		mApp->AddTodParticle(mPosX + 30.0f, mPosY + 30.0f, mRenderOrder + 1, ParticleEffect::PARTICLE_PRESENT_PICKUP);
 
-		if (mApp->mPlayerInfo->mPurchases[(int)OldStoreItemType::STORE_ITEM_CHOCOLATE] < PURCHASE_COUNT_OFFSET)
+		if (mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).mPurchases < PURCHASE_COUNT_OFFSET)
 		{
 			mBoard->DisplayAdvice(
 				"[ADVICE_FOUND_CHOCOLATE]", MessageStyle::MESSAGE_STYLE_HINT_TALL_FAST, AdviceType::ADVICE_NONE);
-			mApp->mPlayerInfo->mPurchases[(int)OldStoreItemType::STORE_ITEM_CHOCOLATE] = PURCHASE_COUNT_OFFSET + 1;
+			mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).mPurchases = PURCHASE_COUNT_OFFSET + 1;
 		}
 		else
 		{
-			mApp->mPlayerInfo->mPurchases[(int)OldStoreItemType::STORE_ITEM_CHOCOLATE]++;
+			mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).mPurchases++;
 		}
 
 		mDisappearCounter = 0;

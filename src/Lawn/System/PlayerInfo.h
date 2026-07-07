@@ -5,11 +5,15 @@
 #define MAX_NUM_ZOMBATARS 100
 #define PURCHASE_COUNT_OFFSET 1000
 
+#include <memory>
+
 #include "../SexyAppFramework/Common.h"
 #include "../../ConstEnums.h"
 #include <json.hpp>
 
 #include "../BloomLib/Bloom.h"
+
+#include "../StoreItem/StoreItem.h"
 
 #include "Zombatar.h"
 
@@ -77,7 +81,7 @@ class BLOOM_API PlayerInfo
 	int mCoins;
 	int mFinishedAdventure;
 	int mChallengeRecords[NUM_GAME_MODES];
-	int mPurchases[NUM_STORE_ITEM_MAX];
+	std::vector<StoreItem> mStoreItemData;
 	int mPlayTimeActivePlayer;
 	int mPlayTimeInactivePlayer;
 	bool mHasUsedCheatKeys;
@@ -125,6 +129,8 @@ class BLOOM_API PlayerInfo
 		mLevel = theLevel;
 	}
 	void ResetChallengeRecord(GameMode theGameMode);
+	StoreItem &GetStoreItemData(const StoreItemType &theStoreItemType);
+	const StoreItem &GetStoreItemData(const StoreItemType &theStoreItemType) const;
 };
 
 #endif

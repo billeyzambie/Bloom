@@ -3,6 +3,8 @@
 #include "../LawnApp.h"
 #include "../SexyAppFramework/Graphics.h"
 #include "../Sexy.TodLib/TodCommon.h"
+#include "StoreItem.h"
+#include "../System/PlayerInfo.h"
 
 StoreItemType::StoreItemType(
 	std::string theModName, std::string theTypeName,
@@ -42,7 +44,8 @@ void StoreItemType::Update(const LawnApp &theLawnApp)
 {
 	mAttributes = mAttributeBaseValues;
 
-	StoreItemModifierContext aContext{*this, theLawnApp, *theLawnApp.mPlayerInfo, mAttributes};
+	StoreItemModifierContext aContext{*this, theLawnApp, *theLawnApp.mPlayerInfo,
+									  theLawnApp.mPlayerInfo->GetStoreItemData(*this), mAttributes};
 
 	mModifiers.Fire(aContext);
 }

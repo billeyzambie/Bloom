@@ -359,7 +359,7 @@ void CutScene::PreloadResources()
 	{
 		ReanimatorEnsureDefinitionLoaded(ReanimationType::REANIM_CRAZY_DAVE, true);
 	}
-	if (mApp->mPlayerInfo->mPurchases[(int)OldStoreItemType::STORE_ITEM_RAKE])
+	if (mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::RAKE).mPurchases)
 	{
 		ReanimatorEnsureDefinitionLoaded(ReanimationType::REANIM_RAKE, true);
 	}
@@ -630,7 +630,7 @@ bool CutScene::CanGetPacketUpgrade()
 {
 	int aCost = StoreItemTypes::PACKET_UPGRADE->GetCost();
 
-	return mApp->mPlayerInfo->mPurchases[OldStoreItemType::STORE_ITEM_PACKET_UPGRADE] == 0 &&
+	return mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::PACKET_UPGRADE).mPurchases == 0 &&
 		   mApp->mPlayerInfo->mCoins >= aCost && mApp->mPlayerInfo->mDidntPurchasePacketUpgrade < 2;
 }
 
@@ -638,7 +638,7 @@ bool CutScene::CanGetSecondPacketUpgrade()
 {
 	int aCost = StoreItemTypes::PACKET_UPGRADE->GetCost();
 
-	return mApp->mPlayerInfo->mPurchases[OldStoreItemType::STORE_ITEM_PACKET_UPGRADE] == 1 &&
+	return mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::PACKET_UPGRADE).mPurchases == 1 &&
 		   mApp->mPlayerInfo->mCoins >= aCost && mApp->mPlayerInfo->mDidntPurchasePacketUpgrade < 2;
 }
 
@@ -646,7 +646,7 @@ bool CutScene::CanGetPacketUpgrade(int theUpgradeIndex)
 {
 	int aCost = StoreItemTypes::PACKET_UPGRADE->GetCost();
 
-	return mApp->mPlayerInfo->mPurchases[OldStoreItemType::STORE_ITEM_PACKET_UPGRADE] ==
+	return mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::PACKET_UPGRADE).mPurchases ==
 			   theUpgradeIndex &&
 		   mApp->mPlayerInfo->mCoins >= aCost &&
 		   mApp->mPlayerInfo->mDidntPurchasePacketUpgrade < 2;
@@ -811,7 +811,7 @@ void CutScene::StartLevelIntro()
 	}
 	else if (mApp->mGameMode == GameMode::GAMEMODE_TREE_OF_WISDOM)
 	{
-		if (mApp->mPlayerInfo->mPurchases[(int)OldStoreItemType::STORE_ITEM_TREE_FOOD] < PURCHASE_COUNT_OFFSET)
+		if (mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::TREE_FOOD).mPurchases < PURCHASE_COUNT_OFFSET)
 		{
 			mCrazyDaveDialogStart = 3200;
 			mBoard->mStoreButton->mBtnNoDraw = true;
@@ -1545,7 +1545,7 @@ void CutScene::AdvanceCrazyDaveDialog(bool theJustSkipping)
 	}
 	if (mApp->mCrazyDaveMessageIndex == 3200)
 	{
-		mApp->mPlayerInfo->mPurchases[(int)OldStoreItemType::STORE_ITEM_TREE_FOOD] = PURCHASE_COUNT_OFFSET + 5;
+		mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::TREE_FOOD).mPurchases = PURCHASE_COUNT_OFFSET + 5;
 		mBoard->mMenuButton->mBtnNoDraw = false;
 		mBoard->mStoreButton->mBtnNoDraw = false;
 	}
@@ -1594,7 +1594,7 @@ void CutScene::AdvanceCrazyDaveDialog(bool theJustSkipping)
 	if ((aMessageIndex == 1503 || aMessageIndex == 1553) && !theJustSkipping)
 	{
 		int aCost = StoreItemTypes::PACKET_UPGRADE->GetCost();
-		int aNumPackets = mApp->mPlayerInfo->mPurchases[(int)OldStoreItemType::STORE_ITEM_PACKET_UPGRADE];
+		int aNumPackets = mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::PACKET_UPGRADE).mPurchases;
 		SexyString aBodyString = TodReplaceNumberString("[UPGRADE_DIALOG_BODY]", "{SLOTS}", aNumPackets + 1);
 		SexyString aAmountString = mApp->GetMoneyString(aCost);
 		Dialog *aDialog = mApp->DoDialog(
@@ -1606,7 +1606,7 @@ void CutScene::AdvanceCrazyDaveDialog(bool theJustSkipping)
 		if (aResult == Dialog::ID_YES)
 		{
 			mApp->mPlayerInfo->AddCoins(-aCost);
-			mApp->mPlayerInfo->mPurchases[(int)OldStoreItemType::STORE_ITEM_PACKET_UPGRADE]++;
+			mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::PACKET_UPGRADE).mPurchases++;
 			mApp->WriteCurrentUserConfig();
 			mBoard->mSeedBank->UpdateWidth();
 

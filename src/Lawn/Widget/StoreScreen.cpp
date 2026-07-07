@@ -174,10 +174,13 @@ bool StoreScreen::IsFullVersionOnly(const StoreItemType &theStoreItem)
 	if (!mApp->IsTrialStageLocked())
 		return false;
 
-	if (theStoreItem == STORE_ITEM_PACKET_UPGRADE && mApp->mPlayerInfo->mPurchases[STORE_ITEM_PACKET_UPGRADE] >= 2)
+	if (
+		theStoreItem == StoreItemTypes::PACKET_UPGRADE 
+		&& mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::PACKET_UPGRADE).mPurchases >= 2
+	)
 		return true;
 
-	return theStoreItem == STORE_ITEM_PLANT_TWINSUNFLOWER;
+	return theStoreItem == StoreItemTypes::TWIN_SUNFLOWER;
 }
 
 //bool StoreScreen::IsPottedPlant(OldStoreItemType theStoreItem)
@@ -559,8 +562,8 @@ void StoreScreen::UpdateMouse()
 					aMessageIndex = 2025;
 					break;
 				case STORE_ITEM_PACKET_UPGRADE:
-					if (mApp->mPlayerInfo->mPurchases[STORE_ITEM_PACKET_UPGRADE] < 4)
-						aMessageIndex = mApp->mPlayerInfo->mPurchases[STORE_ITEM_PACKET_UPGRADE] + 2011;
+					if (mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::PACKET_UPGRADE).mPurchases < 4)
+						aMessageIndex = mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::PACKET_UPGRADE).mPurchases + 2011;
 					else
 						aMessageIndex = 2014;
 					break;
@@ -994,7 +997,7 @@ void StoreScreen::PurchaseItem(const StoreItemType &theStoreItem)
 			mApp->mPlayerInfo->AddCoins(-theStoreItem.GetCost());
 
 			StoreItemPurchaseContext aContext{false, theStoreItem, this, *mApp,
-				mApp->mPlayerInfo->mPurchases[theStoreItem]};
+				mApp->mPlayerInfo->GetStoreItemData(theStoreItem)};
 
 			theStoreItem.mOnPurchase.Fire(aContext);
 

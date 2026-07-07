@@ -9,6 +9,8 @@
 #include "../../SexyAppFramework/Buffer.h"
 #include "../../SexyAppFramework/SexyAppBase.h"
 
+#include "../Registries.h"
+
 static int gUserVersion = 12;
 
 PlayerInfo::PlayerInfo()
@@ -35,8 +37,7 @@ void PlayerInfo::SyncDetails(ProfileSyncer &theSync)
 	theSync.SyncInt("has_finished_adventure", mFinishedAdventure);
 
 	theSync.SyncArrayFromSize("challenge_records", mChallengeRecords, NUM_GAME_MODES);
-	theSync.SyncArrayFromSize("purchases", mPurchases, NUM_STORE_ITEM_MAX);
-
+	//theSync.SyncArrayFromSize("purchases", mPurchases, NUM_STORE_ITEM_MAX);
 
 	theSync.SyncInt("playtime_active", mPlayTimeActivePlayer);
 	theSync.SyncInt("playtime_inactive", mPlayTimeInactivePlayer);
@@ -132,7 +133,13 @@ void PlayerInfo::Reset()
 	mCoins = 0;
 	mFinishedAdventure = 0;
 	memset(mChallengeRecords, 0, sizeof(mChallengeRecords));
-	memset(mPurchases, 0, sizeof(mPurchases));
+	//memset(mPurchases, 0, sizeof(mPurchases));
+
+	for (auto *aStoreItemType : Registries::STORE_ITEMS)
+	{
+		//mStoreItemData[aStoreItemType->GetNumericalId()] = {*aStoreItemType};
+	}
+
 	mPlayTimeActivePlayer = 0;
 	mPlayTimeInactivePlayer = 0;
 	mHasUsedCheatKeys = false;
@@ -180,6 +187,15 @@ void PlayerInfo::ResetChallengeRecord(GameMode theGameMode)
 	int aGameMode = (int)theGameMode - (int)GameMode::GAMEMODE_SURVIVAL_NORMAL_STAGE_1;
 	TOD_ASSERT(aGameMode >= 0 && aGameMode <= NUM_CHALLENGE_MODES);
 	mChallengeRecords[aGameMode] = 0;
+}
+
+StoreItem &PlayerInfo::GetStoreItemData(const StoreItemType &theStoreItemType)
+{
+	return mStoreItemData[theStoreItemType.GetNumericalId()];
+}
+const StoreItem &PlayerInfo::GetStoreItemData(const StoreItemType &theStoreItemType) const
+{
+	return mStoreItemData[theStoreItemType.GetNumericalId()];
 }
 
 void PottedPlant::InitializePottedPlant(SeedType theSeedType)

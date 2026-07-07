@@ -2384,7 +2384,7 @@ bool LawnApp::HasSeedType(SeedType theSeedType)
 		return false;
 
 	if (theSeedType >= SeedType::SEED_GATLINGPEA && theSeedType <= SeedType::SEED_IMITATER)
-		return mPlayerInfo->mPurchases[theSeedType - SeedType::SEED_GATLINGPEA];
+		return mPlayerInfo->mStoreItemData[theSeedType - SeedType::SEED_GATLINGPEA].mPurchases;
 
 	return theSeedType < GetSeedsAvailable();
 }

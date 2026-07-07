@@ -10,3 +10,8 @@ int BloomType::GetNumericalId() const
 {
 	return mNumericalId;
 }
+
+bool BloomType::operator==(const BloomType &theOther) const
+{
+	return mNumericalId == theOther.mNumericalId;
+}

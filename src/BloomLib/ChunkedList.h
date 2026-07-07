@@ -30,6 +30,7 @@ template <class T, size_t N> class ChunkedList
 			{
 				aPointer->mNext = std::make_unique<ChunkedList>();
 			}
+			aPointer = aPointer->mNext.get();
 		}
 	}
 };

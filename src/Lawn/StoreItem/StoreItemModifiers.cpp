@@ -22,7 +22,7 @@ void UnavailableUntilAdventureFinished(StoreItemModifierContext &theContext)
 
 void OnPurchaseSetPurchasesToCurrentTime(StoreItemPurchaseContext& theContext)
 {
-	theContext.mPurchases = time(nullptr);
+	theContext.mStoreItemData.mPurchases = time(nullptr);
 }
 
 } // namespace StoreItemModifiers

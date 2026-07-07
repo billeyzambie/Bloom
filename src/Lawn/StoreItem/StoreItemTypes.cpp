@@ -213,8 +213,8 @@ const auto &WHEEL_BARROW = Registries::STORE_ITEMS.Register([]() {
 	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
 	aStoreItemType->mOnPurchase.Add(OnPurchaseSetPurchasesTo<1>);
 	aStoreItemType->mModifiers.Add([](StoreItemModifierContext &theContext) {
-		if (!theContext.mPlayerInfo.mPurchases[MUSHROOM_GARDEN.Get()] &&
-			!theContext.mPlayerInfo.mPurchases[AQUARIUM_GARDEN.Get()])
+		if (!theContext.mPlayerInfo.GetStoreItemData(MUSHROOM_GARDEN).mPurchases &&
+			!theContext.mPlayerInfo.GetStoreItemData(AQUARIUM_GARDEN).mPurchases)
 			theContext.mAttributes.mComingSoon = true;
 	});
 
@@ -242,13 +242,13 @@ const auto &PACKET_UPGRADE = Registries::STORE_ITEMS.Register([]() {
 	auto *aStoreItemType = new PacketUpgradeStoreItemType(PVZ, "packet_upgrade", anAttributes);
 
 	aStoreItemType->mModifiers.Add([](StoreItemModifierContext &theContext) {
-		int aPurchase = theContext.mPlayerInfo.mPurchases[PACKET_UPGRADE.Get()];
+		int aPurchase = theContext.mStoreItemData.mPurchases;
 		int aTargetPrice = aPurchase == 0 ? 75 : aPurchase == 1 ? 500 : aPurchase == 2 ? 2000 : 8000;
 		theContext.mAttributes.mCost *= aTargetPrice / 75.0f;
 	});
 	aStoreItemType->mModifiers.Add(SoldOutAfterPurchases<4>);
 	aStoreItemType->mOnPurchase.Add([](StoreItemPurchaseContext &theContext) {
-		++theContext.mPurchases;
+		++theContext.mStoreItemData.mPurchases;
 
 		LawnApp &anApp = *theContext.mStoreScreen->mApp;
 
@@ -256,7 +256,7 @@ const auto &PACKET_UPGRADE = Registries::STORE_ITEMS.Register([]() {
 		if (aStoreScreen)
 		{
 			SexyString aDialogLines =
-				StrFormat(TodStringTranslate("[NOW_YOU_CAN_CHOOSE_X_SEEDS]").c_str(), 6 + theContext.mPurchases);
+				StrFormat(TodStringTranslate("[NOW_YOU_CAN_CHOOSE_X_SEEDS]").c_str(), 6 + theContext.mStoreItemData.mPurchases);
 			Dialog *aDialog = anApp.DoDialog(
 				DIALOG_UPGRADED, true, "[MORE_SLOTS]", aDialogLines, "[DIALOG_BUTTON_OK]", Dialog::BUTTONS_FOOTER);
 
@@ -336,7 +336,7 @@ const auto &TREE_OF_WISDOM = Registries::STORE_ITEMS.Register([]() {
 	auto *aStoreItemType = new StoreItemType(PVZ, "tree_of_wisdom", anAttributes);
 	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
 	aStoreItemType->mOnPurchase.Add([](StoreItemPurchaseContext &theContext) {
-		theContext.mPurchases = 1;
+		theContext.mStoreItemData.mPurchases = 1;
 		theContext.mApp.mPlayerInfo->mChallengeRecords[GAMEMODE_TREE_OF_WISDOM] = 1;
 		
 		auto *aStoreScreen = theContext.mStoreScreen;
@@ -371,8 +371,8 @@ const auto &TREE_FOOD = Registries::STORE_ITEMS.Register([]() {
 
 	aStoreItemType->mModifiers.Add(SoldOutWhenStockpileExceeds<10>);
 	aStoreItemType->mModifiers.Add([](StoreItemModifierContext &theContext) {
-		if (!theContext.mPlayerInfo.mPurchases[TREE_OF_WISDOM.Get()] ||
-			theContext.mPlayerInfo.mPurchases[TREE_FOOD.Get()] < PURCHASE_COUNT_OFFSET)
+		if (!theContext.mPlayerInfo.GetStoreItemData(TREE_OF_WISDOM).mPurchases ||
+			theContext.mPlayerInfo.GetStoreItemData(TREE_FOOD).mPurchases < PURCHASE_COUNT_OFFSET)
 			theContext.mAttributes.mComingSoon = true;
 	});
 	aStoreItemType->mOnPurchase.Add(OnPurchaseIncrementPurchasesByIncludingPurchaseCountOffset<1>);

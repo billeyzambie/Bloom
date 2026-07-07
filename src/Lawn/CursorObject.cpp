@@ -7,6 +7,8 @@
 #include "../Sexy.TodLib/Reanimator.h"
 #include "../SexyAppFramework/WidgetManager.h"
 
+#include "StoreItem/StoreItemTypes.h"
+
 CursorObject::CursorObject()
 {
 	mType = SeedType::SEED_NONE;
@@ -80,7 +82,7 @@ void CursorObject::Draw(Graphics *g)
 		break;
 
 	case CursorType::CURSOR_TYPE_WATERING_CAN:
-		if (mApp->mPlayerInfo->mPurchases[(int)OldStoreItemType::STORE_ITEM_GOLD_WATERINGCAN])
+		if (mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::GOLD_WATERING_CAN).mPurchases)
 		{
 			g->DrawImage(IMAGE_ZEN_GOLDTOOLRETICLE, -62, -37);
 			g->DrawImage(IMAGE_WATERINGCANGOLD, -3, 12);

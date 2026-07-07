@@ -21,6 +21,8 @@
 #include "../../Sexy.TodLib/TodStringFile.h"
 #include "../../SexyAppFramework/WidgetManager.h"
 
+#include "../StoreItem/StoreItemTypes.h"
+
 SeedChooserScreen::SeedChooserScreen()
 {
 	mApp = (LawnApp *)gSexyAppBase;
@@ -210,7 +212,7 @@ void SeedChooserScreen::CrazyDavePickSeeds()
 	{
 		aSeedArray[aSeedType].mItem = aSeedType;
 		unsigned int aRecFlags = SeedNotRecommendedToPick(aSeedType);
-		if ((aSeedType == SEED_GATLINGPEA && !mApp->mPlayerInfo->mPurchases[STORE_ITEM_PLANT_GATLINGPEA]) ||
+		if ((aSeedType == SEED_GATLINGPEA && !mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::GATLING_PEA).mPurchases) ||
 			!mApp->SeedTypeAvailable(aSeedType) || SeedNotAllowedToPick(aSeedType) || Plant::IsUpgrade(aSeedType) ||
 			aSeedType == SEED_IMITATER || aSeedType == SEED_UMBRELLA || aSeedType == SEED_BLOVER)
 		{
@@ -259,7 +261,7 @@ void SeedChooserScreen::CrazyDavePickSeeds()
 bool SeedChooserScreen::Has7Rows()
 {
 	PlayerInfo *aPlayer = mApp->mPlayerInfo;
-	if (mApp->HasFinishedAdventure() || mApp->mPlayerInfo->mPurchases[STORE_ITEM_PLANT_GATLINGPEA])
+	if (mApp->HasFinishedAdventure() || mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::GATLING_PEA).mPurchases)
 		return true;
 	for (SeedType aSeedType = SEED_TWINSUNFLOWER; aSeedType < SEED_COBCANNON; aSeedType = (SeedType)(aSeedType + 1))
 		if (aSeedType != SEED_SPIKEROCK && mApp->SeedTypeAvailable(aSeedType))

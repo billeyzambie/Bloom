@@ -9,13 +9,13 @@ namespace StoreItemModifiers
 
 template <int theCount> void SoldOutAfterPurchases(StoreItemModifierContext &theContext)
 {
-	if (theContext.mPlayerInfo.mPurchases[theContext.mStoreItemType] >= theCount)
+	if (theContext.mStoreItemData.mPurchases >= theCount)
 		theContext.mAttributes.mSoldOut = true;
 }
 
 template <int theCount> void SoldOutWhenStockpileExceeds(StoreItemModifierContext &theContext)
 {
-	if (theContext.mPlayerInfo.mPurchases[theContext.mStoreItemType] - PURCHASE_COUNT_OFFSET > theCount)
+	if (theContext.mStoreItemData.mPurchases - PURCHASE_COUNT_OFFSET > theCount)
 		theContext.mAttributes.mSoldOut = true;
 }
 
@@ -31,22 +31,22 @@ BLOOM_API void UnavailableUntilAdventureFinished(StoreItemModifierContext &theCo
 
 template <int theCount> void OnPurchaseSetPurchasesTo(StoreItemPurchaseContext &theContext)
 {
-	theContext.mPurchases = theCount;
+	theContext.mStoreItemData.mPurchases = theCount;
 }
 
 template <int theCount> void OnPurchaseIncrementPurchasesBy(StoreItemPurchaseContext &theContext)
 {
-	theContext.mPurchases += theCount;
+	theContext.mStoreItemData.mPurchases += theCount;
 }
 
 template <int theCount> void OnPurchaseIncrementPurchasesByIncludingPurchaseCountOffset(StoreItemPurchaseContext &theContext)
 {
 	//what on earth even is purchase count offset, something to solve later i guess
-	if (theContext.mPurchases < PURCHASE_COUNT_OFFSET)
+	if (theContext.mStoreItemData.mPurchases < PURCHASE_COUNT_OFFSET)
 	{
-		theContext.mPurchases = PURCHASE_COUNT_OFFSET;
+		theContext.mStoreItemData.mPurchases = PURCHASE_COUNT_OFFSET;
 	}
-	theContext.mPurchases += theCount;
+	theContext.mStoreItemData.mPurchases += theCount;
 }
 
 

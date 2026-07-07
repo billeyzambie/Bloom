@@ -1,14 +1,18 @@
 #pragma once
 
+#include "../../BloomLib/Bloom.h"
+
 class StoreItemType;
 
-class StoreItem
+class BLOOM_API StoreItem
 {
   public:
 	const StoreItemType *mType;
 	int mPurchases = 0;
 	int mLastPurchaseTime = 0;
-	bool mEverPurchased = false;
+	int mTotalPurchasesEver = 0;
 	StoreItem(const StoreItemType &theType);
+	StoreItem();
+	StoreItem(const StoreItem &theCopied) = delete;
 	virtual ~StoreItem() = default;
 };

@@ -5,6 +5,7 @@
 #include "System/ReanimationLawn.h"
 #include "../Sexy.TodLib/TodFoley.h"
 #include "../Sexy.TodLib/Reanimator.h"
+#include "StoreItem/StoreItemTypes.h"
 
 void LawnMower::LawnMowerInitialize(int theRow)
 {
@@ -29,7 +30,8 @@ void LawnMower::LawnMowerInitialize(int theRow)
 		aReanimType = ReanimationType::REANIM_ROOF_CLEANER;
 	}
 	else if (mBoard->mPlantRow[mRow] == PlantRowType::PLANTROW_POOL &&
-			 mApp->mPlayerInfo->mPurchases[(int)OldStoreItemType::STORE_ITEM_POOL_CLEANER])
+			 mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::POOL_CLEANER).mPurchases
+		)
 	{
 		mMowerType = LawnMowerType::LAWNMOWER_POOL;
 		aReanimType = ReanimationType::REANIM_POOL_CLEANER;
