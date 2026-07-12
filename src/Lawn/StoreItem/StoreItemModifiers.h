@@ -7,19 +7,12 @@
 namespace StoreItemModifiers
 {
 
-template <int theCount> void SoldOutAfterPurchases(StoreItemModifierContext &theContext)
-{
-	if (theContext.mStoreItemData.mPurchases >= theCount)
-		theContext.mAttributes.mSoldOut = true;
-}
-
 template <int theLevel> void UnavailableBelowLevel(StoreItemModifierContext &theContext)
 {
 	if (!theContext.mLawnApp.HasFinishedAdventure() && theContext.mPlayerInfo.GetLevel() < theLevel)
 		theContext.mAttributes.mUnavailable = true;
 }
 
-BLOOM_API void SoldOutAfterOnePurchase(StoreItemModifierContext &theContext);
 BLOOM_API void ComingSoonUntilAdventureFinished(StoreItemModifierContext &theContext);
 BLOOM_API void UnavailableUntilAdventureFinished(StoreItemModifierContext &theContext);
 

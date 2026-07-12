@@ -3,11 +3,6 @@
 namespace StoreItemModifiers
 {
 
-void SoldOutAfterOnePurchase(StoreItemModifierContext &theContext)
-{
-	return SoldOutAfterPurchases<1>(theContext);
-}
-
 void ComingSoonUntilAdventureFinished(StoreItemModifierContext &theContext)
 {
 	if (!theContext.mLawnApp.HasFinishedAdventure())

@@ -13,6 +13,12 @@ StoreItemType::StoreItemType(
 	: BloomType(std::move(theModName), std::move(theTypeName)),
 	mAttributeBaseValues(theAttributes), mAttributes(theAttributes)
 {
+	mModifiers.Add([](StoreItemModifierContext &theContext) {
+		if (theContext.mStoreItemData.mPurchases >= theContext.mAttributes.mMaxBuyCount)
+		{
+			theContext.mAttributes.mSoldOut = true;
+		}
+	});
 }
 
 StoreItemType::operator OldStoreItemType() const

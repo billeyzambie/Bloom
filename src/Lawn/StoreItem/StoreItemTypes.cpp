@@ -100,8 +100,8 @@ const auto &IMITATER = Registries::STORE_ITEMS.Register([]() {
 
 const auto &BONUS_LAWN_MOWER = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
+	anAttributes.mMaxBuyCount = 2;
 	auto *aStoreItemType = new StoreItemType(PVZ, "bonus_lawn_mower", anAttributes);	//what even is this
-	aStoreItemType->mModifiers.Add(SoldOutAfterPurchases<2>);
 	return aStoreItemType;
 });
 
@@ -133,7 +133,6 @@ const auto &GOLD_WATERING_CAN = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mDrawOffsetY = -4;
 	anAttributes.mIcon = Sexy::IMAGE_WATERINGCANGOLD_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "gold_watering_can", anAttributes);
-	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
 	return aStoreItemType;
 });
 
@@ -144,8 +143,8 @@ const auto &FERTILIZER = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mDrawOffsetY = -2;
 	anAttributes.mIcon = Sexy::IMAGE_FERTILIZER_ID;
 	anAttributes.mBuyCount = 5;
+	anAttributes.mMaxBuyCount = 15;
 	auto *aStoreItemType = new StoreItemType(PVZ, "fertilizer", anAttributes);
-	aStoreItemType->mModifiers.Add(SoldOutAfterPurchases<15>);
 	return aStoreItemType;
 });
 
@@ -156,8 +155,8 @@ const auto &BUG_SPRAY = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mDrawOffsetY = 3;
 	anAttributes.mIcon = Sexy::IMAGE_BUG_SPRAY_ID;
 	anAttributes.mBuyCount = 5;
+	anAttributes.mMaxBuyCount = 15;
 	auto *aStoreItemType = new StoreItemType(PVZ, "bug_spray", anAttributes);
-	aStoreItemType->mModifiers.Add(SoldOutAfterPurchases<15>);
 	return aStoreItemType;
 });
 
@@ -168,7 +167,6 @@ const auto &PHONOGRAPH = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mDrawOffsetY = 3;
 	anAttributes.mIcon = Sexy::IMAGE_PHONOGRAPH_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "phonograph", anAttributes);
-	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
 	return aStoreItemType;
 });
 
@@ -179,7 +177,6 @@ const auto &GARDENING_GLOVE = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mDrawOffsetY = 3;
 	anAttributes.mIcon = Sexy::IMAGE_ZEN_GARDENGLOVE_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "gardening_glove", anAttributes);
-	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
 	return aStoreItemType;
 });
 
@@ -190,7 +187,6 @@ const auto &MUSHROOM_GARDEN = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mDrawOffsetY = 2;
 	anAttributes.mIcon = Sexy::IMAGE_STORE_MUSHROOMGARDENICON_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "mushroom_garden", anAttributes);
-	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
 	return aStoreItemType;
 });
 
@@ -202,7 +198,6 @@ const auto &WHEEL_BARROW = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mIcon = Sexy::IMAGE_ZEN_WHEELBARROW_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "wheel_barrow", anAttributes);
 
-	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
 	aStoreItemType->mModifiers.Add([](StoreItemModifierContext &theContext) {
 		if (!theContext.mPlayerInfo.GetStoreItemData(MUSHROOM_GARDEN).mPurchases &&
 			!theContext.mPlayerInfo.GetStoreItemData(AQUARIUM_GARDEN).mPurchases)
@@ -219,7 +214,6 @@ const auto &STINKY_THE_SNAIL = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mDrawOffsetY = 14;
 	anAttributes.mIcon = Sexy::IMAGE_REANIM_STINKY_TURN3_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "stinky_the_snail", anAttributes);
-	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
 	aStoreItemType->mOnPurchase.Add(OnPurchaseSetPurchasesToCurrentTime);
 	return aStoreItemType;
 });
@@ -229,6 +223,7 @@ const auto &PACKET_UPGRADE = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mCost = 75;
 	anAttributes.mDrawOffsetX = -7;
 	anAttributes.mDrawOffsetY = 7;
+	anAttributes.mMaxBuyCount = 4;
 	anAttributes.mIcon = Sexy::IMAGE_STORE_PACKETUPGRADE_ID;
 	auto *aStoreItemType = new PacketUpgradeStoreItemType(PVZ, "packet_upgrade", anAttributes);
 
@@ -237,7 +232,6 @@ const auto &PACKET_UPGRADE = Registries::STORE_ITEMS.Register([]() {
 		int aTargetPrice = aPurchase == 0 ? 75 : aPurchase == 1 ? 500 : aPurchase == 2 ? 2000 : 8000;
 		theContext.mAttributes.mCost *= aTargetPrice / 75.0f;
 	});
-	aStoreItemType->mModifiers.Add(SoldOutAfterPurchases<4>);
 	aStoreItemType->mOnPurchase.Add([](StoreItemPurchaseContext &theContext) {
 		++theContext.mStoreItemData.mPurchases;
 
@@ -271,7 +265,6 @@ const auto &POOL_CLEANER = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mDrawOffsetY = 7;
 	anAttributes.mIcon = Sexy::IMAGE_ICON_POOLCLEANER_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "pool_cleaner", anAttributes);
-	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
 	return aStoreItemType;
 });
 
@@ -282,7 +275,6 @@ const auto &ROOF_CLEANER = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mDrawOffsetY = 28;
 	anAttributes.mIcon = Sexy::IMAGE_ICON_ROOFCLEANER_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "roof_cleaner", anAttributes);
-	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
 	aStoreItemType->mModifiers.Add(UnavailableBelowLevel<42>);
 	return aStoreItemType;
 });
@@ -295,7 +287,6 @@ const auto &RAKE = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mBuyCount = 3;
 	anAttributes.mIcon = Sexy::IMAGE_ICON_RAKE_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "rake", anAttributes);
-	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
 	return aStoreItemType;
 });
 
@@ -306,7 +297,6 @@ const auto &AQUARIUM_GARDEN = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mDrawOffsetY = 2;
 	anAttributes.mIcon = Sexy::IMAGE_STORE_AQUARIUMGARDENICON_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "aquarium_garden", anAttributes);
-	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
 	return aStoreItemType;
 });
 
@@ -322,7 +312,6 @@ const auto &TREE_OF_WISDOM = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mDrawOffsetY = 2;
 	anAttributes.mIcon = Sexy::IMAGE_STORE_TREEOFWISDOMICON_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "tree_of_wisdom", anAttributes);
-	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
 	aStoreItemType->mOnPurchase.Add([](StoreItemPurchaseContext &theContext) {
 		theContext.mStoreItemData.mPurchases = 1;
 		theContext.mApp.mPlayerInfo->mChallengeRecords[GAMEMODE_TREE_OF_WISDOM] = 1;
@@ -355,9 +344,9 @@ const auto &TREE_FOOD = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mDrawOffsetX = -8;
 	anAttributes.mDrawOffsetY = -2;
 	anAttributes.mIcon = Sexy::IMAGE_TREEFOOD_ID;
+	anAttributes.mMaxBuyCount = 10;
 	auto *aStoreItemType = new StoreItemType(PVZ, "tree_food", anAttributes);
 
-	aStoreItemType->mModifiers.Add(SoldOutAfterPurchases<10>);
 	aStoreItemType->mModifiers.Add([](StoreItemModifierContext &theContext) {
 		if (!theContext.mPlayerInfo.GetStoreItemData(TREE_OF_WISDOM).mPurchases ||
 			!theContext.mPlayerInfo.GetStoreItemData(TREE_FOOD).mTotalPurchasesEver)
@@ -374,7 +363,6 @@ const auto &FIRST_AID = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mDrawOffsetY = 13;
 	anAttributes.mIcon = Sexy::IMAGE_STORE_FIRSTAIDWALLNUTICON_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "first_aid", anAttributes);
-	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
 	aStoreItemType->mModifiers.Add(UnavailableUntilAdventureFinished);
 	return aStoreItemType;
 });
@@ -386,7 +374,6 @@ const auto &PLANTS_VS_ZOMBIES = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mDrawOffsetY = -9;
 	anAttributes.mIcon = Sexy::IMAGE_STORE_PVZICON_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "pvz", anAttributes);
-	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
 	return aStoreItemType;
 });
 
@@ -398,7 +385,6 @@ const auto &CUSTOM_TEST = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mDrawOffsetY = 37;
 	anAttributes.mIcon = Sexy::IMAGE_BRAIN_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "custom_test", anAttributes);
-	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
 	return aStoreItemType;
 });
 #endif
