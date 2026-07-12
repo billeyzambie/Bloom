@@ -12,7 +12,6 @@ SeedPacketStoreItemType::SeedPacketStoreItemType(std::string theModName, std::st
 	: StoreItemType(std::move(theModName), std::move(theTypeName), theAttributes)
 {
 	mModifiers.Add(StoreItemModifiers::SoldOutAfterOnePurchase);
-	mOnPurchase.Add(StoreItemModifiers::OnPurchaseSetPurchasesTo<1>);
 }
 
 void SeedPacketStoreItemType::Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int thePosX, int thePosY,

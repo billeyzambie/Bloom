@@ -4462,7 +4462,7 @@ void Board::PickUpTool(GameObjectType theObjectType)
 		break;
 
 	case GameObjectType::OBJECT_TYPE_FERTILIZER:
-		if (mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::FERTILIZER).mPurchases > PURCHASE_COUNT_OFFSET)
+		if (mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::FERTILIZER).mPurchases > 0)
 		{
 			mCursorObject->mCursorType = CursorType::CURSOR_TYPE_FERTILIZER;
 		}
@@ -4473,7 +4473,7 @@ void Board::PickUpTool(GameObjectType theObjectType)
 		break;
 
 	case GameObjectType::OBJECT_TYPE_BUG_SPRAY:
-		if (mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::BUG_SPRAY).mPurchases > PURCHASE_COUNT_OFFSET)
+		if (mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::BUG_SPRAY).mPurchases > 0)
 		{
 			mCursorObject->mCursorType = CursorType::CURSOR_TYPE_BUG_SPRAY;
 		}
@@ -4489,7 +4489,7 @@ void Board::PickUpTool(GameObjectType theObjectType)
 		break;
 
 	case GameObjectType::OBJECT_TYPE_CHOCOLATE:
-		if (mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).mPurchases > PURCHASE_COUNT_OFFSET)
+		if (mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).mPurchases > 0)
 		{
 			mCursorObject->mCursorType = CursorType::CURSOR_TYPE_CHOCOLATE;
 		}
@@ -4517,7 +4517,7 @@ void Board::PickUpTool(GameObjectType theObjectType)
 	case GameObjectType::OBJECT_TYPE_TREE_FOOD:
 		if (mChallenge->TreeOfWisdomCanFeed())
 		{
-			if (mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::TREE_FOOD).mPurchases > PURCHASE_COUNT_OFFSET)
+			if (mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::TREE_FOOD).mTotalPurchasesEver)
 			{
 				mCursorObject->mCursorType = CursorType::CURSOR_TYPE_TREE_FOOD;
 			}
@@ -7684,7 +7684,7 @@ void Board::DrawZenButtons(Graphics *g)
 			else if (aTool == GameObjectType::OBJECT_TYPE_FERTILIZER)
 			{
 				int aCharges =
-					mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::FERTILIZER).mPurchases - PURCHASE_COUNT_OFFSET;
+					mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::FERTILIZER).mPurchases;
 				if (aCharges == 0)
 				{
 					g->SetColorizeImages(true);
@@ -7710,7 +7710,7 @@ void Board::DrawZenButtons(Graphics *g)
 			else if (aTool == GameObjectType::OBJECT_TYPE_BUG_SPRAY)
 			{
 				int aCharges =
-					mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::BUG_SPRAY).mPurchases - PURCHASE_COUNT_OFFSET;
+					mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::BUG_SPRAY).mPurchases;
 				if (aCharges == 0)
 				{
 					g->SetColorizeImages(true);
@@ -7735,7 +7735,7 @@ void Board::DrawZenButtons(Graphics *g)
 			else if (aTool == GameObjectType::OBJECT_TYPE_CHOCOLATE)
 			{
 				int aCharges =
-					mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).mPurchases - PURCHASE_COUNT_OFFSET;
+					mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).mPurchases;
 				if (aCharges == 0)
 				{
 					g->SetColorizeImages(true);
@@ -7772,7 +7772,7 @@ void Board::DrawZenButtons(Graphics *g)
 			else if (aTool == GameObjectType::OBJECT_TYPE_TREE_FOOD)
 			{
 				int aCharges =
-					mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::TREE_FOOD).mPurchases - PURCHASE_COUNT_OFFSET;
+					mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::TREE_FOOD).mPurchases;
 				if (aCharges <= 0)
 				{
 					g->SetColorizeImages(true);
@@ -8839,9 +8839,9 @@ void Board::KeyChar(SexyChar theChar)
 					else if (aNeed == PottedPlantNeed::PLANTNEED_FERTILIZER)
 					{
 						aPlant->mHighlighted = true;
-						if (mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::FERTILIZER).mPurchases <= PURCHASE_COUNT_OFFSET)
+						if (!mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::FERTILIZER).mTotalPurchasesEver)
 						{
-							mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::FERTILIZER).mPurchases = PURCHASE_COUNT_OFFSET + 1;
+							mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::FERTILIZER).AddPurchases(1);
 						}
 						mApp->mZenGarden->MouseDownWithFeedingTool(
 							aPlant->mX, aPlant->mY, CursorType::CURSOR_TYPE_FERTILIZER);
@@ -8850,9 +8850,9 @@ void Board::KeyChar(SexyChar theChar)
 					else if (aNeed == PottedPlantNeed::PLANTNEED_BUGSPRAY)
 					{
 						aPlant->mHighlighted = true;
-						if (mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::BUG_SPRAY).mPurchases <= PURCHASE_COUNT_OFFSET)
+						if (!mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::BUG_SPRAY).mTotalPurchasesEver)
 						{
-							mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::BUG_SPRAY).mPurchases = PURCHASE_COUNT_OFFSET + 1;
+							mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::BUG_SPRAY).AddPurchases(1);
 						}
 						mApp->mZenGarden->MouseDownWithFeedingTool(
 							aPlant->mX, aPlant->mY, CursorType::CURSOR_TYPE_BUG_SPRAY);
@@ -8900,13 +8900,13 @@ void Board::KeyChar(SexyChar theChar)
 
 		if (theChar == 'c')
 		{
-			if (mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).mPurchases < PURCHASE_COUNT_OFFSET)
+			if (!mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).mTotalPurchasesEver)
 			{
-				mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).mPurchases = PURCHASE_COUNT_OFFSET + 1;
+				mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).mPurchases = 1;
 			}
 			else
 			{
-				mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).mPurchases++;
+				mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).AddPurchases(1);
 			}
 			return;
 		}
@@ -8934,9 +8934,9 @@ void Board::KeyChar(SexyChar theChar)
 	{
 		if (theChar == 'f')
 		{
-			if (mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::TREE_FOOD).mPurchases <= PURCHASE_COUNT_OFFSET)
+			if (mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::TREE_FOOD).mPurchases <= 0)
 			{
-				mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::TREE_FOOD).mPurchases = PURCHASE_COUNT_OFFSET + 1;
+				mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::TREE_FOOD).AddPurchases(1);
 			}
 			mChallenge->TreeOfWisdomFertilize();
 		}
@@ -10732,11 +10732,11 @@ bool Board::CanUseGameObject(GameObjectType theGameObject)
 	}
 	if (theGameObject == GameObjectType::OBJECT_TYPE_FERTILIZER)
 	{
-		return mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::FERTILIZER).mPurchases > 0;
+		return mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::FERTILIZER).mTotalPurchasesEver > 0;
 	}
 	if (theGameObject == GameObjectType::OBJECT_TYPE_BUG_SPRAY)
 	{
-		return mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::BUG_SPRAY).mPurchases > 0;
+		return mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::BUG_SPRAY).mTotalPurchasesEver > 0;
 	}
 	if (theGameObject == GameObjectType::OBJECT_TYPE_PHONOGRAPH)
 	{
@@ -10744,7 +10744,7 @@ bool Board::CanUseGameObject(GameObjectType theGameObject)
 	}
 	if (theGameObject == GameObjectType::OBJECT_TYPE_CHOCOLATE)
 	{
-		return mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).mPurchases > 0;
+		return mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).mTotalPurchasesEver > 0;
 	}
 	if (theGameObject == GameObjectType::OBJECT_TYPE_WHEELBARROW)
 	{

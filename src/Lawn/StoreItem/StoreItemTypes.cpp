@@ -100,10 +100,8 @@ const auto &IMITATER = Registries::STORE_ITEMS.Register([]() {
 
 const auto &BONUS_LAWN_MOWER = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
-	anAttributes.mCost = 0;
 	auto *aStoreItemType = new StoreItemType(PVZ, "bonus_lawn_mower", anAttributes);	//what even is this
 	aStoreItemType->mModifiers.Add(SoldOutAfterPurchases<2>);
-	aStoreItemType->mOnPurchase.Add(OnPurchaseIncrementPurchasesBy<1>);
 	return aStoreItemType;
 });
 
@@ -136,7 +134,6 @@ const auto &GOLD_WATERING_CAN = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mIcon = Sexy::IMAGE_WATERINGCANGOLD_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "gold_watering_can", anAttributes);
 	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
-	aStoreItemType->mOnPurchase.Add(OnPurchaseSetPurchasesTo<1>);
 	return aStoreItemType;
 });
 
@@ -148,8 +145,7 @@ const auto &FERTILIZER = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mIcon = Sexy::IMAGE_FERTILIZER_ID;
 	anAttributes.mBuyCount = 5;
 	auto *aStoreItemType = new StoreItemType(PVZ, "fertilizer", anAttributes);
-	aStoreItemType->mModifiers.Add(SoldOutWhenStockpileExceeds<15>);
-	aStoreItemType->mOnPurchase.Add(OnPurchaseIncrementPurchasesByIncludingPurchaseCountOffset<5>);
+	aStoreItemType->mModifiers.Add(SoldOutAfterPurchases<15>);
 	return aStoreItemType;
 });
 
@@ -161,8 +157,7 @@ const auto &BUG_SPRAY = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mIcon = Sexy::IMAGE_BUG_SPRAY_ID;
 	anAttributes.mBuyCount = 5;
 	auto *aStoreItemType = new StoreItemType(PVZ, "bug_spray", anAttributes);
-	aStoreItemType->mModifiers.Add(SoldOutWhenStockpileExceeds<15>);
-	aStoreItemType->mOnPurchase.Add(OnPurchaseIncrementPurchasesByIncludingPurchaseCountOffset<5>);
+	aStoreItemType->mModifiers.Add(SoldOutAfterPurchases<15>);
 	return aStoreItemType;
 });
 
@@ -174,7 +169,6 @@ const auto &PHONOGRAPH = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mIcon = Sexy::IMAGE_PHONOGRAPH_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "phonograph", anAttributes);
 	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
-	aStoreItemType->mOnPurchase.Add(OnPurchaseSetPurchasesTo<1>);
 	return aStoreItemType;
 });
 
@@ -186,7 +180,6 @@ const auto &GARDENING_GLOVE = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mIcon = Sexy::IMAGE_ZEN_GARDENGLOVE_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "gardening_glove", anAttributes);
 	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
-	aStoreItemType->mOnPurchase.Add(OnPurchaseSetPurchasesTo<1>);
 	return aStoreItemType;
 });
 
@@ -198,7 +191,6 @@ const auto &MUSHROOM_GARDEN = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mIcon = Sexy::IMAGE_STORE_MUSHROOMGARDENICON_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "mushroom_garden", anAttributes);
 	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
-	aStoreItemType->mOnPurchase.Add(OnPurchaseSetPurchasesTo<1>);
 	return aStoreItemType;
 });
 
@@ -211,7 +203,6 @@ const auto &WHEEL_BARROW = Registries::STORE_ITEMS.Register([]() {
 	auto *aStoreItemType = new StoreItemType(PVZ, "wheel_barrow", anAttributes);
 
 	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
-	aStoreItemType->mOnPurchase.Add(OnPurchaseSetPurchasesTo<1>);
 	aStoreItemType->mModifiers.Add([](StoreItemModifierContext &theContext) {
 		if (!theContext.mPlayerInfo.GetStoreItemData(MUSHROOM_GARDEN).mPurchases &&
 			!theContext.mPlayerInfo.GetStoreItemData(AQUARIUM_GARDEN).mPurchases)
@@ -281,7 +272,6 @@ const auto &POOL_CLEANER = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mIcon = Sexy::IMAGE_ICON_POOLCLEANER_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "pool_cleaner", anAttributes);
 	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
-	aStoreItemType->mOnPurchase.Add(OnPurchaseSetPurchasesTo<1>);
 	return aStoreItemType;
 });
 
@@ -293,7 +283,6 @@ const auto &ROOF_CLEANER = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mIcon = Sexy::IMAGE_ICON_ROOFCLEANER_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "roof_cleaner", anAttributes);
 	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
-	aStoreItemType->mOnPurchase.Add(OnPurchaseSetPurchasesTo<1>);
 	aStoreItemType->mModifiers.Add(UnavailableBelowLevel<42>);
 	return aStoreItemType;
 });
@@ -303,10 +292,10 @@ const auto &RAKE = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mCost = 20;
 	anAttributes.mDrawOffsetX = -5;
 	anAttributes.mDrawOffsetY = 10;
+	anAttributes.mBuyCount = 3;
 	anAttributes.mIcon = Sexy::IMAGE_ICON_RAKE_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "rake", anAttributes);
 	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
-	aStoreItemType->mOnPurchase.Add(OnPurchaseSetPurchasesTo<3>);
 	return aStoreItemType;
 });
 
@@ -318,7 +307,6 @@ const auto &AQUARIUM_GARDEN = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mIcon = Sexy::IMAGE_STORE_AQUARIUMGARDENICON_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "aquarium_garden", anAttributes);
 	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
-	aStoreItemType->mOnPurchase.Add(OnPurchaseSetPurchasesTo<1>);
 	return aStoreItemType;
 });
 
@@ -369,13 +357,12 @@ const auto &TREE_FOOD = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mIcon = Sexy::IMAGE_TREEFOOD_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "tree_food", anAttributes);
 
-	aStoreItemType->mModifiers.Add(SoldOutWhenStockpileExceeds<10>);
+	aStoreItemType->mModifiers.Add(SoldOutAfterPurchases<10>);
 	aStoreItemType->mModifiers.Add([](StoreItemModifierContext &theContext) {
 		if (!theContext.mPlayerInfo.GetStoreItemData(TREE_OF_WISDOM).mPurchases ||
-			theContext.mPlayerInfo.GetStoreItemData(TREE_FOOD).mPurchases < PURCHASE_COUNT_OFFSET)
+			!theContext.mPlayerInfo.GetStoreItemData(TREE_FOOD).mTotalPurchasesEver)
 			theContext.mAttributes.mComingSoon = true;
 	});
-	aStoreItemType->mOnPurchase.Add(OnPurchaseIncrementPurchasesByIncludingPurchaseCountOffset<1>);
 
 	return aStoreItemType;
 });
@@ -389,7 +376,6 @@ const auto &FIRST_AID = Registries::STORE_ITEMS.Register([]() {
 	auto *aStoreItemType = new StoreItemType(PVZ, "first_aid", anAttributes);
 	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
 	aStoreItemType->mModifiers.Add(UnavailableUntilAdventureFinished);
-	aStoreItemType->mOnPurchase.Add(OnPurchaseSetPurchasesTo<1>);
 	return aStoreItemType;
 });
 
@@ -413,7 +399,6 @@ const auto &CUSTOM_TEST = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mIcon = Sexy::IMAGE_BRAIN_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "custom_test", anAttributes);
 	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);
-	aStoreItemType->mOnPurchase.Add(OnPurchaseSetPurchasesTo<1>);
 	return aStoreItemType;
 });
 #endif

@@ -5331,7 +5331,7 @@ void Challenge::TreeOfWisdomInit()
 		mApp->mPlayerInfo->mChallengeRecords[mApp->GetCurrentChallengeIndex()] = 1;
 	int aTreeSize = ClampInt(TreeOfWisdomGetSize(), 1, 50);
 	aReanimTree->PlayReanim(StrFormat("anim_grow%d", aTreeSize).c_str(), REANIM_PLAY_ONCE_AND_HOLD, 0, 18.0f);
-	if (aTreeSize == 1 && mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::TREE_FOOD).mPurchases < PURCHASE_COUNT_OFFSET)
+	if (aTreeSize == 1 && !mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::TREE_FOOD).mTotalPurchasesEver)
 	{
 		aReanimTree->mFrameCount += aReanimTree->mFrameStart;
 		aReanimTree->mFrameStart = 0;

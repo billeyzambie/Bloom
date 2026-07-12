@@ -192,6 +192,8 @@ set(HEADERS_TO_COPY
     "Lawn/StoreItem/StoreItemType.h"
     "Lawn/StoreItem/PacketUpgradeStoreItemType.h"
     "Lawn/StoreItem/SeedPacketStoreItemType.h"
+    "Lawn/StoreItem/StoreItemModifiers.h"
+    "Lawn/StoreItem/StoreItem.h"
     "SexyAppFramework/Common.h"
     "SexyAppFramework/Rect.h"
     "SexyAppFramework/Color.h"

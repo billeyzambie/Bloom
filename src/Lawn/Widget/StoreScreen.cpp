@@ -997,6 +997,10 @@ void StoreScreen::PurchaseItem(const StoreItemType &theStoreItem)
 		{
 			mApp->mPlayerInfo->AddCoins(-theStoreItem.GetCost());
 
+			auto &aStoreItemData = mApp->mPlayerInfo->GetStoreItemData(theStoreItem);
+			aStoreItemData.AddPurchases(theStoreItem.mAttributes.mBuyCount);
+			aStoreItemData.mLastPurchaseTime = time(nullptr);
+
 			StoreItemPurchaseContext aContext{false, theStoreItem, this, *mApp,
 				mApp->mPlayerInfo->GetStoreItemData(theStoreItem)};
 

@@ -3,7 +3,7 @@
 
 #define MAX_POTTED_PLANTS 200
 #define MAX_NUM_ZOMBATARS 100
-#define PURCHASE_COUNT_OFFSET 1000
+//#define PURCHASE_COUNT_OFFSET 1000
 
 #include <memory>
 

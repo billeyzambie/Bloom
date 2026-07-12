@@ -811,7 +811,7 @@ void CutScene::StartLevelIntro()
 	}
 	else if (mApp->mGameMode == GameMode::GAMEMODE_TREE_OF_WISDOM)
 	{
-		if (mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::TREE_FOOD).mPurchases < PURCHASE_COUNT_OFFSET)
+		if (!mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::TREE_FOOD).mTotalPurchasesEver)
 		{
 			mCrazyDaveDialogStart = 3200;
 			mBoard->mStoreButton->mBtnNoDraw = true;
@@ -1545,7 +1545,7 @@ void CutScene::AdvanceCrazyDaveDialog(bool theJustSkipping)
 	}
 	if (mApp->mCrazyDaveMessageIndex == 3200)
 	{
-		mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::TREE_FOOD).mPurchases = PURCHASE_COUNT_OFFSET + 5;
+		mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::TREE_FOOD).AddPurchases(5);
 		mBoard->mMenuButton->mBtnNoDraw = false;
 		mBoard->mStoreButton->mBtnNoDraw = false;
 	}

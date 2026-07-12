@@ -1463,10 +1463,10 @@ void GameSelector::AddPreviewProfiles()
 		aProfile->mLevel = 1;
 		aProfile->mFinishedAdventure = true;
 		aProfile->AddCoins(50000);
-		aProfile->GetStoreItemData(StoreItemTypes::FERTILIZER).mPurchases = PURCHASE_COUNT_OFFSET + 5;
-		aProfile->GetStoreItemData(StoreItemTypes::BUG_SPRAY).mPurchases = PURCHASE_COUNT_OFFSET + 5;
-		aProfile->GetStoreItemData(StoreItemTypes::CHOCOLATE).mPurchases = PURCHASE_COUNT_OFFSET + 5;
-		aProfile->GetStoreItemData(StoreItemTypes::TREE_FOOD).mPurchases = PURCHASE_COUNT_OFFSET + 5;
+		aProfile->GetStoreItemData(StoreItemTypes::FERTILIZER).AddPurchases(5);
+		aProfile->GetStoreItemData(StoreItemTypes::BUG_SPRAY).AddPurchases(5);
+		aProfile->GetStoreItemData(StoreItemTypes::CHOCOLATE).AddPurchases(5);
+		aProfile->GetStoreItemData(StoreItemTypes::TREE_FOOD).AddPurchases(5);
 		aProfile->GetStoreItemData(StoreItemTypes::GATLING_PEA).mPurchases = 1;
 		aProfile->GetStoreItemData(StoreItemTypes::TWIN_SUNFLOWER).mPurchases = 1;
 		aProfile->mHasUnlockedMinigames = true;

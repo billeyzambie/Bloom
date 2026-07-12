@@ -1174,15 +1174,15 @@ void Coin::Collect()
 		mBoard->mChocolateCollected++;
 		mApp->AddTodParticle(mPosX + 30.0f, mPosY + 30.0f, mRenderOrder + 1, ParticleEffect::PARTICLE_PRESENT_PICKUP);
 
-		if (mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).mPurchases < PURCHASE_COUNT_OFFSET)
+		if (!mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).mTotalPurchasesEver)
 		{
-			mBoard->DisplayAdvice(
-				"[ADVICE_FOUND_CHOCOLATE]", MessageStyle::MESSAGE_STYLE_HINT_TALL_FAST, AdviceType::ADVICE_NONE);
-			mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).mPurchases = PURCHASE_COUNT_OFFSET + 1;
+			mBoard->DisplayAdvice("[ADVICE_FOUND_CHOCOLATE]", MessageStyle::MESSAGE_STYLE_HINT_TALL_FAST,
+								  AdviceType::ADVICE_NONE);
+			mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).AddPurchases(1);
 		}
 		else
 		{
-			mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).mPurchases++;
+			mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).AddPurchases(1);
 		}
 
 		mDisappearCounter = 0;
