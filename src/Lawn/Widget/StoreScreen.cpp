@@ -22,6 +22,7 @@
 #include "../../SexyAppFramework/WidgetManager.h"
 
 #include "../StoreItem/StoreItemTypes.h"
+#include "../StoreItem/SeedPacketStoreItemType.h"
 
 static std::array<const RegistryTypeHolder<StoreItemType> *, MAX_PAGE_SPOTS> gStoreItemSpots[NUM_STORE_PAGES] = {
 	{&StoreItemTypes::PACKET_UPGRADE, &StoreItemTypes::POOL_CLEANER, &StoreItemTypes::RAKE, &StoreItemTypes::ROOF_CLEANER,
@@ -348,7 +349,7 @@ void StoreScreen::DrawItem(Graphics *g, int theItemPosition, const StoreItemType
 
 	int aPosX, aPosY;
 	GetStorePosition(theItemPosition, aPosX, aPosY);
-	if (theItemType != STORE_ITEM_PVZ)
+	if (theItemType != StoreItemTypes::PLANTS_VS_ZOMBIES)
 	{
 		g->DrawImage(Sexy::IMAGE_STORE_PRICETAG, aPosX - 3, aPosY + 70);
 		SexyString aCostString = LawnApp::GetMoneyString(theItemType.GetCost());
@@ -357,7 +358,7 @@ void StoreScreen::DrawItem(Graphics *g, int theItemPosition, const StoreItemType
 	if (IsComingSoon(theItemType))
 	{
 		Rect aRect(aPosX, aPosY, 60, 70);
-		if (theItemType == STORE_ITEM_PLANT_TWINSUNFLOWER || theItemType == STORE_ITEM_PACKET_UPGRADE)
+		if (theItemType == StoreItemTypes::TWIN_SUNFLOWER || theItemType == StoreItemTypes::PACKET_UPGRADE)
 		{
 			aRect.mX -= 4;
 		}
@@ -1080,7 +1081,8 @@ void StoreScreen::PurchaseItem(const StoreItemType &theStoreItem)
 			//	mApp->mPlayerInfo->mPurchases[theStoreItem] = 1;
 			//}
 
-			if (theStoreItem == STORE_ITEM_FIRSTAID)
+			//TODO: Custom on buy text
+			if (theStoreItem == StoreItemTypes::FIRST_AID)
 			{
 				SetBubbleText(3400, 800, false);
 			}
@@ -1090,7 +1092,8 @@ void StoreScreen::PurchaseItem(const StoreItemType &theStoreItem)
 				mApp->mSeedChooserScreen->UpdateAfterPurchase();
 			}
 
-			if (theStoreItem >= STORE_ITEM_PLANT_GATLINGPEA && theStoreItem <= STORE_ITEM_PLANT_IMITATER)
+			//TODO: Replace dynamic cast with tag
+			if (dynamic_cast<const SeedPacketStoreItemType *>(&theStoreItem))
 			{
 				bool aHasAllPlants = true;
 				for (int i = SeedType::SEED_GATLINGPEA; i <= SeedType::SEED_IMITATER; i++)

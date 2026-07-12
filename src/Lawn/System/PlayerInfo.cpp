@@ -135,9 +135,11 @@ void PlayerInfo::Reset()
 	memset(mChallengeRecords, 0, sizeof(mChallengeRecords));
 	//memset(mPurchases, 0, sizeof(mPurchases));
 
+	mStoreItemData.clear();
+	mStoreItemData.reserve(Registries::STORE_ITEMS.GetNumOfTypes());
 	for (auto *aStoreItemType : Registries::STORE_ITEMS)
 	{
-		//mStoreItemData[aStoreItemType->GetNumericalId()] = {*aStoreItemType};
+		mStoreItemData.emplace_back(*aStoreItemType);
 	}
 
 	mPlayTimeActivePlayer = 0;

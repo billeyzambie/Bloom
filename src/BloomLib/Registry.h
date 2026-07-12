@@ -34,7 +34,7 @@ template <class T> class BLOOM_API Registry : public IRegistry
 		}
 		return mHolders[0];
 	}
-	void Freeze()
+	virtual void Freeze() override
 	{
 		if (mFrozen)
 			return;
@@ -50,7 +50,7 @@ template <class T> class BLOOM_API Registry : public IRegistry
 
 		mFrozen = true;
 	}
-	void Update(const LawnApp &theLawnApp)
+	virtual void Update(const LawnApp &theLawnApp) override
 	{
 		for (T *aType : mTypes)
 		{
@@ -64,5 +64,9 @@ template <class T> class BLOOM_API Registry : public IRegistry
 	const T *const *end() const
 	{
 		return &mTypes[mTypes.size() - 1] + 1;
+	}
+	int GetNumOfTypes() const
+	{
+		return mNextId;
 	}
 };

@@ -12,7 +12,5 @@ class BLOOM_API StoreItem
 	int mLastPurchaseTime = 0;
 	int mTotalPurchasesEver = 0;
 	StoreItem(const StoreItemType &theType);
-	StoreItem();
-	StoreItem(const StoreItem &theCopied) = delete;
 	virtual ~StoreItem() = default;
 };

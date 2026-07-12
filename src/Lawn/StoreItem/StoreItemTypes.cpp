@@ -408,8 +408,8 @@ const auto &PLANTS_VS_ZOMBIES = Registries::STORE_ITEMS.Register([]() {
 const auto &CUSTOM_TEST = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 200;
-	anAttributes.mDrawOffsetX = -1;
-	anAttributes.mDrawOffsetY = 13;
+	anAttributes.mDrawOffsetX = 9;
+	anAttributes.mDrawOffsetY = 37;
 	anAttributes.mIcon = Sexy::IMAGE_BRAIN_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "custom_test", anAttributes);
 	aStoreItemType->mModifiers.Add(SoldOutAfterOnePurchase);

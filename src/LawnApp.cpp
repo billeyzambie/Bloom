@@ -1270,6 +1270,30 @@ void LawnApp::Init()
 	PerfTimer mTimer;
 	mTimer.Start();
 
+
+
+	std::cout << std::endl;
+
+	std::string aFileName = "ExampleMod.dll";
+	HMODULE aMod = LoadLibraryA(("mods/" + aFileName).c_str());
+	if (aMod)
+	{
+		void (*aModInitFunction)(const std::string *) = (void (*)(const std::string *))GetProcAddress(aMod, "ModInit");
+		if (aModInitFunction)
+			aModInitFunction(&aFileName);
+		else
+			std::cout << "ModInit function not found" << std::endl;
+	}
+
+	std::cout << std::endl;
+
+	for (IRegistry *aRegistry : Registries::REGISTRIES)
+	{
+		aRegistry->Freeze();
+	}
+
+
+
 	mProfileMgr->Load();
 
 	std::string aCurUser;
@@ -1686,9 +1710,12 @@ void LawnApp::UpdateFrames()
 			mBoard->ProcessDeleteQueue();
 		}
 
-		for (IRegistry *aRegistry : Registries::REGISTRIES)
+		if (mLoadingThreadCompleted)
 		{
-			aRegistry->Update(*this);
+			for (IRegistry *aRegistry : Registries::REGISTRIES)
+			{
+				aRegistry->Update(*this);
+			}
 		}
 
 		SexyApp::UpdateFrames();
@@ -1750,21 +1777,6 @@ void LawnApp::LoadingThreadProc()
 	TodStringListLoad("properties/LawnStrings.txt");
 	TodStringListLoad("properties/ZombatarTOS.txt");
 	TodStringListLoad("properties/FrameworkStrings.txt");
-
-	std::cout << std::endl;
-
-	std::string aFileName = "ExampleMod.dll";
-	HMODULE aMod = LoadLibraryA(("mods/" + aFileName).c_str());
-	if (aMod)
-	{
-		auto aModInitFunction = (void (*)(const std::string *))GetProcAddress(aMod, "ModInit");
-		if (aModInitFunction)
-			aModInitFunction(&aFileName);
-		else
-			std::cout << "ModInit function not found" << std::endl;
-	}
-
-	std::cout << std::endl;
 
 	if (mTitleScreen)
 	{
@@ -1828,11 +1840,6 @@ void LawnApp::LoadingThreadProc()
 
 	GetNumPreloadingTasks();
 	LoadGroup("LoadingSounds", 54);
-
-	for (IRegistry *aRegistry : Registries::REGISTRIES)
-	{
-		aRegistry->Freeze();
-	}
 
 	TodHesitationTrace("finished loading");
 }
