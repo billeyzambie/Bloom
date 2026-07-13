@@ -176,6 +176,7 @@ set(HEADERS_TO_COPY
     "BloomLib/PatchHolder.h"
     "BloomLib/Registry.h"
     "BloomLib/RegistryTypeHolder.h"
+    "BloomLib/ChunkedList.h"
     "Lawn/GameObject.h"
     "Lawn/Plant.h"
     "Lawn/Zombie.h"

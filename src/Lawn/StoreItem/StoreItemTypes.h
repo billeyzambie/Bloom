@@ -44,6 +44,4 @@ extern BLOOM_API const RegistryTypeHolder<StoreItemType> &CUSTOM_TEST;
 #endif
 }
 
-extern BLOOM_API std::array<const RegistryTypeHolder<StoreItemType> *, 8> gStoreItemSpots[NUM_STORE_PAGES];
-
 BLOOM_API void ReplaceStoreItemSpot(int thePage, int theSpotIndex, const RegistryTypeHolder<StoreItemType> &theItemType);

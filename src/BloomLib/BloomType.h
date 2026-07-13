@@ -17,7 +17,6 @@ class BLOOM_API BloomType
 	}
 	BloomType(const BloomType &theCopied) = delete;
 	int GetNumericalId() const;
-	virtual void CopyFrom(const BloomType &theOther) = 0;
 	BloomType &operator=(const BloomType &theCopied) = delete;
 	bool operator==(const BloomType &theOther) const;
 };

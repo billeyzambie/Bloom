@@ -24,6 +24,10 @@
 #include "../StoreItem/StoreItemTypes.h"
 #include "../StoreItem/SeedPacketStoreItemType.h"
 
+#include "../../BloomLib/GroupList.h"
+
+GroupList<StoreItemType> gStoreItemSpots{MAX_PAGE_SPOTS};
+
 StoreScreenOverlay::StoreScreenOverlay(StoreScreen *theParent)
 {
 	mParent = theParent;
@@ -139,12 +143,9 @@ const StoreItemType *StoreScreen::GetStoreItemType(int theSpotIndex)
 			return StoreItemTypes::PLANTS_VS_ZOMBIES;
 		}
 
-		auto *aResult = gStoreItemSpots[mPage][theSpotIndex];
+		auto *aResult = gStoreItemSpots.GetElements()[mPage * gStoreItemSpots.mPageSize + theSpotIndex];
 
-		if (aResult)
-			return *aResult;
-
-		return nullptr;
+		return aResult;
 	}
 
 	TOD_ASSERT();

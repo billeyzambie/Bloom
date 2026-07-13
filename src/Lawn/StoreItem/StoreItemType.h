@@ -3,6 +3,8 @@
 #include "../BloomLib/BloomType.h"
 #include "../BloomLib/PatchHolder.h"
 #include "../BloomLib/EventList.h"
+#include "../BloomLib/SortContext.h"
+#include "../BloomLib/GroupTab.h"
 
 #include "../ConstEnums.h"
 #include "../Resources.h"
@@ -50,17 +52,23 @@ class BLOOM_API StoreItemType : public BloomType
 		LawnApp &mApp;
 		StoreItem &mStoreItemData;
 	};
+
 	PatchHolder<StoreItemType> *mPatchHolder;
 	Attributes mAttributeBaseValues;
 	Attributes mAttributes;
 	EventList<ModifierContext> mModifiers;
 	EventList<PurchaseContext> mOnPurchase;
+
+	EventList<SortContext<StoreItemType>> mSort;
+	const GroupTab<StoreItemType> *mTab = nullptr;
+	bool mHideFromTabs = false;
+
 	StoreItemType(
 		std::string theModName, std::string theTypeName,
 		const Attributes &theAttributes
 	);
 	operator OldStoreItemType() const;
-	virtual void CopyFrom(const BloomType &theOther) override;
+	virtual void CopyFrom(const StoreItemType &theOther);
 	int GetCost() const;
 	void Update(const LawnApp &theLawnApp);
 	virtual void Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int thePosX, int thePosY, bool theIsForHighlight) const;

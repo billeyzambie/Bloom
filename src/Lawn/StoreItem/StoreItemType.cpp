@@ -28,17 +28,14 @@ StoreItemType::operator OldStoreItemType() const
 	return (OldStoreItemType)aNumId;
 }
 
-void StoreItemType::CopyFrom(const BloomType &theOther)
+void StoreItemType::CopyFrom(const StoreItemType &theOther)
 {
-	TOD_ASSERT(
-		dynamic_cast<const StoreItemType *>(&theOther),
-		"theOther must be a StoreItemType"
-	);
-
-	auto &anOther = static_cast<const StoreItemType &>(theOther);
-
-	mAttributeBaseValues = anOther.mAttributeBaseValues;
-	mModifiers = anOther.mModifiers;
+	mAttributeBaseValues = theOther.mAttributeBaseValues;
+	mModifiers = theOther.mModifiers;
+	mOnPurchase = theOther.mOnPurchase;
+	mSort = theOther.mSort;
+	mTab = theOther.mTab;
+	mHideFromTabs = theOther.mHideFromTabs;
 }
 
 int StoreItemType::GetCost() const
