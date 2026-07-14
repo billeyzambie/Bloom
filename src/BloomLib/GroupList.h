@@ -8,7 +8,7 @@
 #include "GroupTab.h"
 #include "Registry.h"
 
-#include "../Lawn/StoreItem/StoreItemType.h"
+//#include "../Lawn/StoreItem/StoreItemType.h"
 
 template <class T> class BLOOM_API GroupList
 {
@@ -22,7 +22,7 @@ template <class T> class BLOOM_API GroupList
 	GroupList(int thePageSize) : mPageSize(thePageSize)
 	{
 	}
-	std::span<const T *const> GetElements()
+	std::span<const T *const> GetElements() const
 	{
 		return std::span<const T *const>(mResult);
 	}
@@ -41,18 +41,11 @@ template <class T> class BLOOM_API GroupList
 
 		for (const GroupTab<T> *aTab : *Registry<GroupTab<T>>::gInstance)
 		{
-			aSortedGroupTabs.push_back(aTab);
+			if (!aTab->ShouldHideFromTabs())
+				aSortedGroupTabs.push_back(aTab);
 		}
 
-		std::stable_sort(
-			aSortedGroupTabs.begin(),
-			aSortedGroupTabs.end(),
-			[](const GroupTab<T> *thePage, const GroupTab<T> *theOtherPage) {
-				SortContext<GroupTab<T>> aContext{*thePage, *theOtherPage};
-				thePage->mSort.Fire(aContext);
-				return aContext.mResult;
-			}
-		);
+		std::stable_sort(aSortedGroupTabs.begin(), aSortedGroupTabs.end(), SortGroupItems<GroupTab<T>>);
 
 		std::vector<std::vector<const T *>> aTsByTab;
 		aTsByTab.resize(aSortedGroupTabs.size() + 1);
@@ -67,15 +60,16 @@ template <class T> class BLOOM_API GroupList
 			auto *aTab = aSortedGroupTabs[i];
 			for (const T *aT : *Registry<T>::gInstance)
 			{
-				if (aT->mHideFromTabs)
+				auto &aGroupProperties = aT->mGroupProperties;
+				if (aT->ShouldHideFromTabs())
 				{
 					continue;
 				}
-				else if (aT->mTab == aTab)
+				else if (aGroupProperties.mTab == aTab)
 				{
 					aTsByTab[i].push_back(aT);
 				}
-				else if (aT->mTab == nullptr)
+				else if (aGroupProperties.mTab == nullptr)
 				{
 					aTsByTab[aSortedGroupTabs.size()].push_back(aT);
 				}
@@ -86,14 +80,19 @@ template <class T> class BLOOM_API GroupList
 
 		for (auto &aVector : aTsByTab)
 		{
+			std::stable_sort(aVector.begin(), aVector.end(), SortGroupItems<T>);
+
 			for (const T *aT : aVector)
 			{
 				mResult.push_back(aT);
 			}
 
-			for (size_t i = 0; i < mPageSize - aVector.size() % mPageSize; i++)
+			if (aVector.size() % mPageSize)
 			{
-				mResult.push_back(nullptr);
+				for (size_t i = 0; i < mPageSize - aVector.size() % mPageSize; i++)
+				{
+					mResult.push_back(nullptr);
+				}
 			}
 
 			if (aVector.size())

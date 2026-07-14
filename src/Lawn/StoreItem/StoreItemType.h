@@ -5,6 +5,7 @@
 #include "../BloomLib/EventList.h"
 #include "../BloomLib/SortContext.h"
 #include "../BloomLib/GroupTab.h"
+#include "../BloomLib/GroupProperties.h"
 
 #include "../ConstEnums.h"
 #include "../Resources.h"
@@ -59,9 +60,8 @@ class BLOOM_API StoreItemType : public BloomType
 	EventList<ModifierContext> mModifiers;
 	EventList<PurchaseContext> mOnPurchase;
 
-	EventList<SortContext<StoreItemType>> mSort;
-	const GroupTab<StoreItemType> *mTab = nullptr;
-	bool mHideFromTabs = false;
+	GroupProperties<StoreItemType> mGroupProperties;
+	bool ShouldHideFromTabs() const;
 
 	StoreItemType(
 		std::string theModName, std::string theTypeName,

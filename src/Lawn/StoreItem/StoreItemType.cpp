@@ -33,9 +33,7 @@ void StoreItemType::CopyFrom(const StoreItemType &theOther)
 	mAttributeBaseValues = theOther.mAttributeBaseValues;
 	mModifiers = theOther.mModifiers;
 	mOnPurchase = theOther.mOnPurchase;
-	mSort = theOther.mSort;
-	mTab = theOther.mTab;
-	mHideFromTabs = theOther.mHideFromTabs;
+	mGroupProperties = theOther.mGroupProperties;
 }
 
 int StoreItemType::GetCost() const
@@ -70,4 +68,9 @@ void StoreItemType::Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int the
 		aCountLabel += std::to_string(aCount);
 		TodDrawString(g, aCountLabel, thePosX + 56, thePosY + 62, Sexy::FONT_HOUSEOFTERROR16, Color::White, DS_ALIGN_RIGHT);
 	}
+}
+
+bool StoreItemType::ShouldHideFromTabs() const
+{
+	return mAttributes.mUnavailable;
 }
