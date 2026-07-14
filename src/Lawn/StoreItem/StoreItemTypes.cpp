@@ -4,7 +4,6 @@
 #include "SeedPacketStoreItemType.h"
 #include "PottedPlantStoreItemType.h"
 #include "StoreItemModifiers.h"
-#include "StoreItemGroups.h"
 
 #include "../System/PlayerInfo.h"
 #include "../Widget/StoreScreen.h"
@@ -23,50 +22,34 @@ namespace StoreItemTypes
 const auto &GATLING_PEA = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 500;
-
 	auto *aStoreItemType = new SeedPacketStoreItemType(PVZ, "gatling_pea", anAttributes);
-
 	aStoreItemType->mSeedType = SeedType::SEED_GATLINGPEA;
-	aStoreItemType->mGroupProperties.mTab = StoreItemGroups::SLOT_UPGRADES;
-
 	return (StoreItemType *)aStoreItemType;
 });
 
 const auto &TWIN_SUNFLOWER = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 500;
-
 	auto *aStoreItemType = new SeedPacketStoreItemType(PVZ, "twin_sunflower", anAttributes);
-
 	aStoreItemType->mSeedType = SeedType::SEED_TWINSUNFLOWER;
-	aStoreItemType->mGroupProperties.mTab = StoreItemGroups::SLOT_UPGRADES;
-
 	return (StoreItemType *)aStoreItemType;
 });
 
 const auto &GLOOM_SHROOM = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 750;
-
 	auto *aStoreItemType = new SeedPacketStoreItemType(PVZ, "gloom_shroom", anAttributes);
-
 	aStoreItemType->mSeedType = SeedType::SEED_GLOOMSHROOM;
 	aStoreItemType->mModifiers.Add(UnavailableBelowLevel<35>);
-	aStoreItemType->mGroupProperties.mTab = StoreItemGroups::SLOT_UPGRADES;
-
 	return (StoreItemType *)aStoreItemType;
 });
 
 const auto &CATTAIL = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 1000;
-
 	auto *aStoreItemType = new SeedPacketStoreItemType(PVZ, "cattail", anAttributes);
-
 	aStoreItemType->mSeedType = SeedType::SEED_CATTAIL;
 	aStoreItemType->mModifiers.Add(UnavailableBelowLevel<35>);
-	aStoreItemType->mGroupProperties.mTab = StoreItemGroups::SLOT_UPGRADES;
-
 	return (StoreItemType *)aStoreItemType;
 });
 
@@ -250,6 +233,8 @@ const auto &PACKET_UPGRADE = Registries::STORE_ITEMS.Register([]() {
 		theContext.mAttributes.mCost *= aTargetPrice / 75.0f;
 	});
 	aStoreItemType->mOnPurchase.Add([](StoreItemPurchaseContext &theContext) {
+		++theContext.mStoreItemData.mPurchases;
+
 		LawnApp &anApp = *theContext.mStoreScreen->mApp;
 
 		auto *aStoreScreen = theContext.mStoreScreen;
@@ -270,12 +255,6 @@ const auto &PACKET_UPGRADE = Registries::STORE_ITEMS.Register([]() {
 			anApp.mBoard->mSeedBank->UpdateWidth();
 		}
 	});
-
-	aStoreItemType->mGroupProperties.mTab = StoreItemGroups::SLOT_UPGRADES;
-	/*aStoreItemType->mGroupProperties.mSort.Add([](SortContext<StoreItemType> &theContext) {
-		theContext.mResult = SortResult::PLACE_AT_START;
-	});*/
-
 	return (StoreItemType *)aStoreItemType;
 });
 
@@ -285,11 +264,7 @@ const auto &POOL_CLEANER = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mDrawOffsetX = 1;
 	anAttributes.mDrawOffsetY = 7;
 	anAttributes.mIcon = Sexy::IMAGE_ICON_POOLCLEANER_ID;
-
 	auto *aStoreItemType = new StoreItemType(PVZ, "pool_cleaner", anAttributes);
-
-	aStoreItemType->mGroupProperties.mTab = StoreItemGroups::SLOT_UPGRADES;
-
 	return aStoreItemType;
 });
 
@@ -299,12 +274,8 @@ const auto &ROOF_CLEANER = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mDrawOffsetX = 0;
 	anAttributes.mDrawOffsetY = 28;
 	anAttributes.mIcon = Sexy::IMAGE_ICON_ROOFCLEANER_ID;
-
 	auto *aStoreItemType = new StoreItemType(PVZ, "roof_cleaner", anAttributes);
-
 	aStoreItemType->mModifiers.Add(UnavailableBelowLevel<42>);
-	aStoreItemType->mGroupProperties.mTab = StoreItemGroups::SLOT_UPGRADES;
-
 	return aStoreItemType;
 });
 
@@ -315,17 +286,7 @@ const auto &RAKE = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mDrawOffsetY = 10;
 	anAttributes.mBuyCount = 3;
 	anAttributes.mIcon = Sexy::IMAGE_ICON_RAKE_ID;
-
 	auto *aStoreItemType = new StoreItemType(PVZ, "rake", anAttributes);
-	aStoreItemType->mGroupProperties.mTab = StoreItemGroups::SLOT_UPGRADES;
-
-	aStoreItemType->mGroupProperties.mSort.Add([](SortContext<StoreItemType> &theContext) {
-		if (theContext.mTheOther == GATLING_PEA)
-		{
-			theContext.mResult = SortResult::PLACE_BEFORE;
-		}
-	});
-
 	return aStoreItemType;
 });
 
@@ -430,7 +391,7 @@ const auto &CUSTOM_TEST = Registries::STORE_ITEMS.Register([]() {
 
 } // namespace StoreItemTypes
 
-std::array<const RegistryTypeHolder<StoreItemType> *, 8> gOldStoreItemSpots[NUM_STORE_PAGES] = {
+std::array<const RegistryTypeHolder<StoreItemType> *, 8> gStoreItemSpots[NUM_STORE_PAGES] = {
 	{&StoreItemTypes::PACKET_UPGRADE, &StoreItemTypes::POOL_CLEANER, &StoreItemTypes::RAKE,
 	 &StoreItemTypes::ROOF_CLEANER, &StoreItemTypes::GATLING_PEA, &StoreItemTypes::TWIN_SUNFLOWER,
 	 &StoreItemTypes::GLOOM_SHROOM, &StoreItemTypes::CATTAIL},
@@ -450,4 +411,5 @@ std::array<const RegistryTypeHolder<StoreItemType> *, 8> gOldStoreItemSpots[NUM_
 
 void ReplaceStoreItemSpot(int thePage, int theSpotIndex, const RegistryTypeHolder<StoreItemType> &theItemType)
 {
+	gStoreItemSpots[thePage][theSpotIndex] = &theItemType;
 }

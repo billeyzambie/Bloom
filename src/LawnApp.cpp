@@ -1270,8 +1270,8 @@ void LawnApp::Init()
 	PerfTimer mTimer;
 	mTimer.Start();
 
-	std::string aPath = "mods";
-	for (const auto &anEntry : std::filesystem::directory_iterator(aPath))
+	std::string path = "mods";
+	for (const auto &anEntry : std::filesystem::directory_iterator(path))
 	{
 		std::cout << std::endl;
 		std::string aFileName = anEntry.path().filename().string();
@@ -1281,10 +1281,8 @@ void LawnApp::Init()
 		if (aMod)
 		{
 			std::cout << "Loaded mod " << aFileName << std::endl;
-
 			void (*aModInitFunction)(const std::string *) =
 				(void (*)(const std::string *))GetProcAddress(aMod, "ModInit");
-
 			if (aModInitFunction)
 				aModInitFunction(&aFileName);
 			else
@@ -1302,7 +1300,7 @@ void LawnApp::Init()
 		aRegistry->Freeze();
 	}
 
-	gStoreItemSpots.Sort();
+
 
 	mProfileMgr->Load();
 

@@ -8,8 +8,6 @@
 
 #include "../StoreItem/StoreItemType.h"
 
-#include "../BloomLib/GroupList.h"
-
 using namespace Sexy;
 
 #define MAX_PAGE_SPOTS 8
@@ -18,8 +16,6 @@ using namespace Sexy;
 class Coin;
 class LawnApp;
 class NewLawnButton;
-
-extern GroupList<StoreItemType> gStoreItemSpots;
 
 class StoreScreen : public Dialog
 {

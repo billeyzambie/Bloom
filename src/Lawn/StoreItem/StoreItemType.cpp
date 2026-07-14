@@ -28,12 +28,17 @@ StoreItemType::operator OldStoreItemType() const
 	return (OldStoreItemType)aNumId;
 }
 
-void StoreItemType::CopyFrom(const StoreItemType &theOther)
+void StoreItemType::CopyFrom(const BloomType &theOther)
 {
-	mAttributeBaseValues = theOther.mAttributeBaseValues;
-	mModifiers = theOther.mModifiers;
-	mOnPurchase = theOther.mOnPurchase;
-	mGroupProperties = theOther.mGroupProperties;
+	TOD_ASSERT(
+		dynamic_cast<const StoreItemType *>(&theOther),
+		"theOther must be a StoreItemType"
+	);
+
+	auto &anOther = static_cast<const StoreItemType &>(theOther);
+
+	mAttributeBaseValues = anOther.mAttributeBaseValues;
+	mModifiers = anOther.mModifiers;
 }
 
 int StoreItemType::GetCost() const
@@ -68,9 +73,4 @@ void StoreItemType::Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int the
 		aCountLabel += std::to_string(aCount);
 		TodDrawString(g, aCountLabel, thePosX + 56, thePosY + 62, Sexy::FONT_HOUSEOFTERROR16, Color::White, DS_ALIGN_RIGHT);
 	}
-}
-
-bool StoreItemType::ShouldHideFromTabs() const
-{
-	return mAttributes.mUnavailable;
 }

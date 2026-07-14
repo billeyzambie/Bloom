@@ -24,7 +24,7 @@ void SeedPacketStoreItemType::Draw(StoreScreen *theStoreScreen, Sexy::Graphics *
 	StoreItemType::Draw(theStoreScreen, g, thePosX, thePosY, theIsForHighlight);
 }
 
-void SeedPacketStoreItemType::CopyFrom(const StoreItemType &theOther)
+void SeedPacketStoreItemType::CopyFrom(const BloomType& theOther)
 {
 	StoreItemType::CopyFrom(theOther);
 
