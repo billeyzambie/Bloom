@@ -23,7 +23,7 @@ template <class T> class BLOOM_API PatchHolder
 	}
 
   public:
-	void Update()
+	void Refresh()
 	{
 		if (!mDirty)
 			return;

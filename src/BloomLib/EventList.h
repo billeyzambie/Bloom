@@ -5,24 +5,9 @@
 
 #include "Bloom.h"
 #include "BillFunctional.h"
+#include "EventPriority.h"
 
-enum class EventPriority
-{
-	LOWEST = -3,
-	LOWER = -2,
-	LOW = -1,
-	DEFAULT = 0,
-	HIGH,
-	HIGHER,
-	HIGHEST
-};
-
-template <class T> bool SortByEventPriority(const T &theT, const T &theOtherT)
-{
-	return theT.mPriority > theOtherT.mPriority;
-}
-
-template<class T>
+template <class T>
 concept IsEventCancellable = requires(T theT) { theT.mCanceled; };
 
 template <typename T> class BLOOM_API EventList
@@ -51,10 +36,10 @@ template <typename T> class BLOOM_API EventList
 		std::stable_sort(mElements.begin(), mElements.end(), SortByEventPriority<Element>);
 		return theElement.mTransformer;
 	}
-	Transformer<T> Remove(const Transformer<T> &theTransformer)
+	Transformer<T> Remove(Transformer<T> theTransformer)
 	{
 		auto anElement = std::find_if(mElements.begin(), mElements.end(),
-			[&](Element &theElement) { return theElement.mTransformer == theTransformer; }
+			[=](Element &theElement) { return theElement.mTransformer == theTransformer; }
 		);
 		if (anElement != mElements.end())
 			mElements.erase(anElement);
