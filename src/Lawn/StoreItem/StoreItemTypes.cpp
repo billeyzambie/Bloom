@@ -4,6 +4,7 @@
 #include "SeedPacketStoreItemType.h"
 #include "PottedPlantStoreItemType.h"
 #include "StoreItemModifiers.h"
+#include "StoreItemGroups.h"
 
 #include "../System/PlayerInfo.h"
 #include "../Widget/StoreScreen.h"
@@ -233,8 +234,6 @@ const auto &PACKET_UPGRADE = Registries::STORE_ITEMS.Register([]() {
 		theContext.mAttributes.mCost *= aTargetPrice / 75.0f;
 	});
 	aStoreItemType->mOnPurchase.Add([](StoreItemPurchaseContext &theContext) {
-		++theContext.mStoreItemData.mPurchases;
-
 		LawnApp &anApp = *theContext.mStoreScreen->mApp;
 
 		auto *aStoreScreen = theContext.mStoreScreen;
@@ -255,6 +254,9 @@ const auto &PACKET_UPGRADE = Registries::STORE_ITEMS.Register([]() {
 			anApp.mBoard->mSeedBank->UpdateWidth();
 		}
 	});
+
+	aStoreItemType->mGroup = StoreItemGroups::SLOT_UPGRADES;
+
 	return (StoreItemType *)aStoreItemType;
 });
 
@@ -391,7 +393,7 @@ const auto &CUSTOM_TEST = Registries::STORE_ITEMS.Register([]() {
 
 } // namespace StoreItemTypes
 
-std::array<const RegistryTypeHolder<StoreItemType> *, 8> gStoreItemSpots[NUM_STORE_PAGES] = {
+std::array<const RegistryTypeHolder<StoreItemType> *, 8> gOldStoreItemSpots[NUM_STORE_PAGES] = {
 	{&StoreItemTypes::PACKET_UPGRADE, &StoreItemTypes::POOL_CLEANER, &StoreItemTypes::RAKE,
 	 &StoreItemTypes::ROOF_CLEANER, &StoreItemTypes::GATLING_PEA, &StoreItemTypes::TWIN_SUNFLOWER,
 	 &StoreItemTypes::GLOOM_SHROOM, &StoreItemTypes::CATTAIL},
@@ -411,5 +413,5 @@ std::array<const RegistryTypeHolder<StoreItemType> *, 8> gStoreItemSpots[NUM_STO
 
 void ReplaceStoreItemSpot(int thePage, int theSpotIndex, const RegistryTypeHolder<StoreItemType> &theItemType)
 {
-	gStoreItemSpots[thePage][theSpotIndex] = &theItemType;
+	gOldStoreItemSpots[thePage][theSpotIndex] = &theItemType;
 }

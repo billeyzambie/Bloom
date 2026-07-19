@@ -3,6 +3,7 @@
 #include "../BloomLib/BloomType.h"
 #include "../BloomLib/PatchHolder.h"
 #include "../BloomLib/EventList.h"
+#include "../BloomLib/ListInsertion.h"
 
 #include "../ConstEnums.h"
 #include "../Resources.h"
@@ -18,11 +19,12 @@ class PlayerInfo;
 class StoreScreen;
 
 class StoreItem;
+class StoreItemGroup;
 
 class BLOOM_API StoreItemType : public BloomType
 {
   public:
-	struct BLOOM_API Attributes
+	struct Attributes
 	{
 		int mCost = 0;
 		int mBuyCount = 1;
@@ -34,15 +36,15 @@ class BLOOM_API StoreItemType : public BloomType
 		bool mSoldOut = false;
 		bool mComingSoon = false;
 	};
-	struct BLOOM_API ModifierContext
+	struct ModifierContext
 	{
 		const StoreItemType &mStoreItemType;
 		const LawnApp &mLawnApp;
 		const PlayerInfo &mPlayerInfo;
 		const StoreItem &mStoreItemData;
-		StoreItemType::Attributes &mAttributes;
+		Attributes &mAttributes;
 	};
-	struct BLOOM_API PurchaseContext
+	struct PurchaseContext
 	{
 		bool mCanceled;
 		const StoreItemType &mStoreItemType;
@@ -55,6 +57,10 @@ class BLOOM_API StoreItemType : public BloomType
 	Attributes mAttributes;
 	EventList<ModifierContext> mModifiers;
 	EventList<PurchaseContext> mOnPurchase;
+
+	const StoreItemGroup *mGroup = nullptr;
+	ListInsertion<StoreItemType> mSort;
+
 	StoreItemType(
 		std::string theModName, std::string theTypeName,
 		const Attributes &theAttributes
@@ -62,6 +68,9 @@ class BLOOM_API StoreItemType : public BloomType
 	operator OldStoreItemType() const;
 	virtual void CopyFrom(const StoreItemType &theOther);
 	int GetCost() const;
+
+	bool ExcludeFromSorting() const;
+
 	void Update(const LawnApp &theLawnApp);
 	virtual void Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int thePosX, int thePosY, bool theIsForHighlight) const;
 };

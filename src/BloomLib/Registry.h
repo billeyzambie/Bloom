@@ -22,6 +22,9 @@ template <class T> class BLOOM_API Registry : public IRegistry
 
   public:
 	Registry() = default;
+	Registry(const Registry &theCopied) = delete;
+	Registry &operator=(const Registry &theCopied) = delete;
+	
 	const RegistryTypeHolder<T> &Register(T *(*theSupplier)())
 	{
 		TOD_ASSERT(!mFrozen, "Type registered too late");

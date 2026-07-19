@@ -8,6 +8,9 @@
 
 #include "../StoreItem/StoreItemType.h"
 
+#include "../../BloomLib/InsertionListGroup.h"
+#include "../Registries.h"
+
 using namespace Sexy;
 
 #define MAX_PAGE_SPOTS 8
@@ -55,6 +58,8 @@ class StoreScreen : public Dialog
 	bool mPurchasedFullVersion;
 	bool mTrialLockedWhenStoreOpened;
 	bool mInCutscene;
+	InsertionListGroup<StoreItemGroup, StoreItemType> mStoreItemSpots{Registries::STORE_ITEM_GROUPS,
+																	  Registries::STORE_ITEMS};
 
   public:
 	StoreScreen(LawnApp *theApp);

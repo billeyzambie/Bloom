@@ -115,6 +115,8 @@ StoreScreen::StoreScreen(LawnApp *theApp)
 	mGoToTreeNow = false;
 	mPurchasedFullVersion = false;
 	mTrialLockedWhenStoreOpened = mApp->IsTrialStageLocked();
+
+	mStoreItemSpots.Refresh();
 }
 
 StoreScreen::~StoreScreen()
@@ -139,12 +141,9 @@ const StoreItemType *StoreScreen::GetStoreItemType(int theSpotIndex)
 			return StoreItemTypes::PLANTS_VS_ZOMBIES;
 		}
 
-		auto *aResult = gStoreItemSpots[mPage][theSpotIndex];
+		const StoreItemType *aResult = mStoreItemSpots[mPage * 8 + theSpotIndex];
 
-		if (aResult)
-			return *aResult;
-
-		return nullptr;
+		return aResult;
 	}
 
 	TOD_ASSERT();

@@ -2,5 +2,5 @@
 
 namespace Registries
 {
-const std::array<IRegistry *, NUM_REGISTRIES> REGISTRIES = {&STORE_ITEMS};
+const std::array<IRegistry *, NUM_REGISTRIES> REGISTRIES = {&STORE_ITEM_GROUPS, &STORE_ITEMS};
 }

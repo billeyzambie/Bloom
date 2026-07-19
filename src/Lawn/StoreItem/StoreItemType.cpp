@@ -32,11 +32,19 @@ void StoreItemType::CopyFrom(const StoreItemType &theOther)
 {
 	mAttributeBaseValues = theOther.mAttributeBaseValues;
 	mModifiers = theOther.mModifiers;
+	mOnPurchase = theOther.mOnPurchase;
+	mSort = theOther.mSort;
+	mGroup = theOther.mGroup;
 }
 
 int StoreItemType::GetCost() const
 {
 	return mAttributes.mCost;
+}
+
+bool StoreItemType::ExcludeFromSorting() const
+{
+	return mAttributes.mUnavailable;
 }
 
 void StoreItemType::Update(const LawnApp &theLawnApp)
