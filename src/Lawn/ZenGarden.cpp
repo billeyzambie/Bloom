@@ -19,6 +19,7 @@
 #include "../Sexy.TodLib/TodStringFile.h"
 
 #include "StoreItem/StoreItemTypes.h"
+#include "StoreItem/StoreItemGroups.h"
 
 static SpecialGridPlacement gGreenhouseGridPlacement[] =
 	{{73, 73, 0, 0},   {155, 71, 1, 0},	 {239, 68, 2, 0},  {321, 73, 3, 0},	 {406, 71, 4, 0},  {484, 67, 5, 0},
@@ -2371,7 +2372,7 @@ void ZenGarden::OpenStore()
 		mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::FERTILIZER).AddPurchases(5);
 	}
 	aStore->mBackButton->SetLabel("[STORE_BACK_TO_GAME]");
-	aStore->mPage = StorePages::STORE_PAGE_ZEN1;
+	aStore->mPage = aStore->mStoreItemSpots.GetFirstPageOf(StoreItemGroups::ZEN_GARDEN);
 	aStore->WaitForResult(true);
 
 	if (aStore->mGoToTreeNow)

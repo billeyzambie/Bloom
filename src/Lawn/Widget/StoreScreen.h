@@ -42,7 +42,7 @@ class StoreScreen : public Dialog
 	bool mBubbleClickToContinue;
 	int mAmbientSpeechCountDown;
 	int mPreviousAmbientSpeechIndex;
-	StorePages mPage;
+	int mPage;
 	const StoreItemType *mMouseOverItem;
 	int mHatchTimer;
 	bool mHatchOpen;
@@ -84,7 +84,6 @@ class StoreScreen : public Dialog
 	virtual void AddedToManager(WidgetManager *theWidgetManager);
 	virtual void RemovedFromManager(WidgetManager *theWidgetManager);
 	virtual void ButtonPress(int theId);
-	bool IsPageShown(StorePages thePage);
 	virtual void ButtonDepress(int theId);
 	virtual void KeyChar(SexyChar theChar);
 	//static int GetItemCost(OldStoreItemType theStoreItem);

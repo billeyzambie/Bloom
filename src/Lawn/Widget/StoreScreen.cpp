@@ -104,7 +104,7 @@ StoreScreen::StoreScreen(LawnApp *theApp)
 	mOverlayWidget = new StoreScreenOverlay(this);
 	mOverlayWidget->Resize(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
 
-	if (!IsPageShown(STORE_PAGE_PLANT_UPGRADES))
+	if (mStoreItemSpots.PageCount() < 2)
 	{
 		mPrevButton->mDisabledImage = Sexy::IMAGE_STORE_PREVBUTTONDISABLED;
 		mPrevButton->SetDisabled(true);
@@ -117,6 +117,8 @@ StoreScreen::StoreScreen(LawnApp *theApp)
 	mTrialLockedWhenStoreOpened = mApp->IsTrialStageLocked();
 
 	mStoreItemSpots.Refresh();
+
+	EnableButtons(true);
 }
 
 StoreScreen::~StoreScreen()
@@ -134,20 +136,14 @@ StoreScreen::~StoreScreen()
 
 const StoreItemType *StoreScreen::GetStoreItemType(int theSpotIndex)
 {
-	if (mPage < NUM_STORE_PAGES && theSpotIndex < MAX_PAGE_SPOTS)
+	if (mPage == STORE_PAGE_SLOT_UPGRADES && theSpotIndex == 6 && mApp->IsTrialStageLocked())
 	{
-		if (mPage == STORE_PAGE_SLOT_UPGRADES && theSpotIndex == 6 && mApp->IsTrialStageLocked())
-		{
-			return StoreItemTypes::PLANTS_VS_ZOMBIES;
-		}
-
-		const StoreItemType *aResult = mStoreItemSpots[mPage * 8 + theSpotIndex];
-
-		return aResult;
+		return StoreItemTypes::PLANTS_VS_ZOMBIES;
 	}
 
-	TOD_ASSERT();
-	return nullptr;
+	const StoreItemType *aResult = mStoreItemSpots[mPage * 8 + theSpotIndex];
+
+	return aResult;
 }
 
 bool StoreScreen::IsFullVersionOnly(const StoreItemType &theStoreItem)
@@ -423,14 +419,7 @@ void StoreScreen::Draw(Graphics *g)
 
 	if (!mPrevButton->mDisabled)
 	{
-		int aNumPages = 0;
-		for (StorePages aPage = STORE_PAGE_SLOT_UPGRADES; aPage < NUM_STORE_PAGES; aPage = (StorePages)(aPage + 1))
-		{
-			if (IsPageShown(aPage))
-			{
-				aNumPages++;
-			}
-		}
+		int aNumPages = mStoreItemSpots.PageCount();
 
 		SexyString aPageString = TodReplaceNumberString(
 			TodReplaceNumberString("[STORE_PAGE]", "{PAGE}", mPage), "{NUM_PAGES}", aNumPages);
@@ -813,19 +802,6 @@ void StoreScreen::ButtonPress(int theId)
 		mApp->PlaySample(Sexy::SOUND_BUTTONCLICK);
 }
 
-bool StoreScreen::IsPageShown(StorePages thePage)
-{
-	if (mApp->IsTrialStageLocked())
-		return thePage == STORE_PAGE_SLOT_UPGRADES;
-	if (mApp->HasFinishedAdventure())
-		return true;
-	if (thePage == STORE_PAGE_PLANT_UPGRADES)
-		return mApp->mPlayerInfo->mLevel >= 42;
-	if (thePage == STORE_PAGE_ZEN1)
-		return mApp->mPlayerInfo->mLevel >= 45;
-	return thePage != STORE_PAGE_ZEN2;
-}
-
 void StoreScreen::ButtonDepress(int theId)
 {
 	if (theId == StoreScreen::StoreScreen_Back)
@@ -837,25 +813,22 @@ void StoreScreen::ButtonDepress(int theId)
 		mBubbleCountDown = 0;
 		mApp->CrazyDaveStopTalking();
 		EnableButtons(false);
-		do
+		if (theId == StoreScreen::StoreScreen_Prev)
 		{
-			if (theId == StoreScreen::StoreScreen_Prev)
+			mPage = mPage - 1;
+			if (mPage < 0)
 			{
-				mPage = (StorePages)(mPage - 1);
-				if (mPage < STORE_PAGE_SLOT_UPGRADES)
-				{
-					mPage = STORE_PAGE_ZEN2;
-				}
+				mPage = mStoreItemSpots.PageCount() - 1;
 			}
-			else
+		}
+		else
+		{
+			mPage = mPage + 1;
+			if (mPage >= mStoreItemSpots.PageCount())
 			{
-				mPage = (StorePages)(mPage + 1);
-				if (mPage >= NUM_STORE_PAGES)
-				{
-					mPage = STORE_PAGE_SLOT_UPGRADES;
-				}
+				mPage = 0;
 			}
-		} while (!IsPageShown(mPage));
+		}
 	}
 }
 
@@ -1203,7 +1176,7 @@ void StoreScreen::MouseDown(int x, int y, int theClickCount)
 
 void StoreScreen::EnableButtons(bool theEnable)
 {
-	if (mEasyBuyingCheat || IsPageShown(STORE_PAGE_PLANT_UPGRADES) || !theEnable)
+	if (mEasyBuyingCheat || mStoreItemSpots.PageCount() > 1 || !theEnable)
 	{
 		mNextButton->mMouseVisible = theEnable;
 		mNextButton->SetDisabled(!theEnable);

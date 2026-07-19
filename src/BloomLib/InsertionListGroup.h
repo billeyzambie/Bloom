@@ -3,6 +3,7 @@
 #include "InsertionList.h"
 #include "Registry.h"
 
+
 //struct T
 //{
 //	ListInsertion<T> mSort;
@@ -38,6 +39,7 @@ template <class GroupT, class T> class BLOOM_API InsertionListGroup
 
 	InsertionList<GroupT> mGroups;
 	std::vector<const T *> mResult;
+	std::vector<int> mFirstPageByGroup;
 
   public:
 	InsertionListGroup(const Registry<GroupT> &theGroupRegistry, const Registry<T> &theTRegistry)
@@ -47,6 +49,30 @@ template <class GroupT, class T> class BLOOM_API InsertionListGroup
 		{
 			mGroups.Add(aGroup);
 		}
+		mFirstPageByGroup.resize(theGroupRegistry.GetNumOfTypes() + 1);
+	}
+	int PageCount() const
+	{
+		return mResult.size() / 8;
+	}
+	int GetFirstPageOf(const GroupT &theGroup) const
+	{
+		return mFirstPageByGroup[theGroup.GetNumericalId()];
+	}
+	int GetFirstPageOfNullGroup() const
+	{
+		return mFirstPageByGroup[mGroupRegistry.GetNumOfTypes()];
+	}
+	int GetFirstPageOf(const GroupT *theGroup) const
+	{
+		if (theGroup)
+			return GetFirstPageOf(*theGroup);
+		else
+			return GetFirstPageOfNullGroup();
+	}
+	int GetFirstPageOf(const RegistryTypeHolder<GroupT> &theGroup) const
+	{
+		return GetFirstPageOf(theGroup.Get());
 	}
 	void Refresh()
 	{
@@ -72,31 +98,38 @@ template <class GroupT, class T> class BLOOM_API InsertionListGroup
 
 		for (const GroupT *aGroup : mGroups)
 		{
-			InsertionList<T> &aList = aTsByGroup[aGroup->GetNumericalId()];
+			int aNumId = aGroup->GetNumericalId();
+
+			mFirstPageByGroup[aNumId] = mResult.size() / 8;
+
+			InsertionList<T> &aList = aTsByGroup[aNumId];
 			aList.Refresh();
 
 			if (!aList.IsEmpty()) for (const T *aT : aList)
 			{
 				mResult.push_back(aT);
-				int anExtraSpaceCount = 8 - aList.GetResultSize() % 8;
-				if (anExtraSpaceCount)
-				{
-					for (int i = 0; i < anExtraSpaceCount; i++)
-						mResult.push_back(nullptr);
-				}
+			}
+			int aRemainder = aList.GetResultSize() % 8;
+			if (aRemainder)
+			{
+				for (int i = 0; i < 8 - aRemainder; i++)
+					mResult.push_back(nullptr);
 			}
 		}
 
+		mFirstPageByGroup[aNumOfGroupsInRegistry] = mResult.size() / 8;
 		InsertionList<T> &aList = aTsByGroup[aNumOfGroupsInRegistry];
+		aList.Refresh();
+
 		if (!aList.IsEmpty()) for (const T *aT : aList)
 		{
 			mResult.push_back(aT);
-			int anExtraSpaceCount = 8 - aList.GetResultSize() % 8;
-			if (anExtraSpaceCount)
-			{
-				for (int i = 0; i < anExtraSpaceCount; i++)
-					mResult.push_back(nullptr);
-			}
+		}
+		int aRemainder = aList.GetResultSize() % 8;
+		if (aRemainder)
+		{
+			for (int i = 0; i < 8 - aRemainder; i++)
+				mResult.push_back(nullptr);
 		}
 	}
 	const T *operator[](size_t theIndex)

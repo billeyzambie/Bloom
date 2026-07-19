@@ -1173,7 +1173,7 @@ enum OldStoreItemType
 	NUM_STORE_ITEM_MAX,
 	STORE_ITEM_INVALID = -1
 };
-enum StorePages
+enum OldStoreItemGroup
 {
 	STORE_PAGE_SLOT_UPGRADES = 0,
 	STORE_PAGE_PLANT_UPGRADES = 1,
