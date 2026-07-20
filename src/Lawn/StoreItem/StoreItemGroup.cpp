@@ -1,6 +1,6 @@
 #include "StoreItemGroup.h"
 #include "../LawnApp.h"
-
+#include "../System/PlayerInfo.h"
 
 StoreItemGroup::StoreItemGroup(
 	std::string theModName, std::string theTypeName,
@@ -9,14 +9,20 @@ StoreItemGroup::StoreItemGroup(
 	: BloomType(std::move(theModName), std::move(theTypeName)),
 	mAttributeBaseValues(theAttributes), mAttributes(theAttributes)
 {
-	//TODO: add unlock level modifier
+	mModifiers.Add([](StoreItemGroupModifierContext &theContext) {
+		if (!theContext.mLawnApp.HasFinishedAdventure() &&
+			theContext.mPlayerInfo.GetLevel() <= theContext.mAttributes.mUnlockLevel)
+		{
+			theContext.mAttributes.mUnavailable = true;
+		}
+	});
 }
 
 void StoreItemGroup::CopyFrom(const StoreItemGroup &theOther)
 {
 	mAttributeBaseValues = theOther.mAttributeBaseValues;
 	mModifiers = theOther.mModifiers;
-	mSort = theOther.mSort;
+	mInsertion = theOther.mInsertion;
 }
 
 bool StoreItemGroup::ExcludeFromSorting() const

@@ -41,7 +41,7 @@ const auto &TWIN_SUNFLOWER = Registries::STORE_ITEMS.Register([]() {
 const auto &GLOOM_SHROOM = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 750;
-	anAttributes.mUnlockLevel = 35;
+	anAttributes.mUnlockLevel = 34;
 	auto *aStoreItemType = new SeedPacketStoreItemType(PVZ, "gloom_shroom", anAttributes);
 	aStoreItemType->mSeedType = SeedType::SEED_GLOOMSHROOM;
 
@@ -51,7 +51,7 @@ const auto &GLOOM_SHROOM = Registries::STORE_ITEMS.Register([]() {
 const auto &CATTAIL = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 1000;
-	anAttributes.mUnlockLevel = 35;
+	anAttributes.mUnlockLevel = 34;
 	auto *aStoreItemType = new SeedPacketStoreItemType(PVZ, "cattail", anAttributes);
 	aStoreItemType->mSeedType = SeedType::SEED_CATTAIL;
 
@@ -218,6 +218,7 @@ const auto &GARDENING_GLOVE = Registries::STORE_ITEMS.Register([]() {
 const auto &MUSHROOM_GARDEN = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 3000;
+	anAttributes.mUnlockLevel = 50;
 	anAttributes.mDrawOffsetX = -8;
 	anAttributes.mDrawOffsetY = 2;
 	anAttributes.mIcon = Sexy::IMAGE_STORE_MUSHROOMGARDENICON_ID;
@@ -231,6 +232,7 @@ const auto &MUSHROOM_GARDEN = Registries::STORE_ITEMS.Register([]() {
 const auto &WHEEL_BARROW = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 20;
+	anAttributes.mUnlockLevel = 50;
 	anAttributes.mDrawOffsetX = -12;
 	anAttributes.mDrawOffsetY = 3;
 	anAttributes.mIcon = Sexy::IMAGE_ZEN_WHEELBARROW_ID;
@@ -250,6 +252,7 @@ const auto &WHEEL_BARROW = Registries::STORE_ITEMS.Register([]() {
 const auto &STINKY_THE_SNAIL = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 300;
+	anAttributes.mUnlockLevel = 50;
 	anAttributes.mDrawOffsetX = -24;
 	anAttributes.mDrawOffsetY = 14;
 	anAttributes.mIcon = Sexy::IMAGE_REANIM_STINKY_TURN3_ID;
@@ -298,7 +301,7 @@ const auto &PACKET_UPGRADE = Registries::STORE_ITEMS.Register([]() {
 	});
 
 	aStoreItemType->mGroup = StoreItemGroups::UPGRADES;
-	aStoreItemType->mSort = ListInsertion<StoreItemType>::First();
+	aStoreItemType->mInsertion = ListInsertion<StoreItemType>::First();
 
 	return (StoreItemType *)aStoreItemType;
 });
@@ -312,7 +315,7 @@ const auto &POOL_CLEANER = Registries::STORE_ITEMS.Register([]() {
 	auto *aStoreItemType = new StoreItemType(PVZ, "pool_cleaner", anAttributes);
 
 	aStoreItemType->mGroup = StoreItemGroups::UPGRADES;
-	aStoreItemType->mSort = ListInsertion<StoreItemType>::After(PACKET_UPGRADE);
+	aStoreItemType->mInsertion = ListInsertion<StoreItemType>::After(PACKET_UPGRADE);
 
 	return aStoreItemType;
 });
@@ -320,14 +323,14 @@ const auto &POOL_CLEANER = Registries::STORE_ITEMS.Register([]() {
 const auto &ROOF_CLEANER = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 300;
-	anAttributes.mUnlockLevel = 42;
+	anAttributes.mUnlockLevel = 41;
 	anAttributes.mDrawOffsetX = 0;
 	anAttributes.mDrawOffsetY = 28;
 	anAttributes.mIcon = Sexy::IMAGE_ICON_ROOFCLEANER_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "roof_cleaner", anAttributes);
 
 	aStoreItemType->mGroup = StoreItemGroups::UPGRADES;
-	aStoreItemType->mSort = ListInsertion<StoreItemType>::After(POOL_CLEANER);
+	aStoreItemType->mInsertion = ListInsertion<StoreItemType>::After(POOL_CLEANER);
 
 	return aStoreItemType;
 });
@@ -342,7 +345,7 @@ const auto &RAKE = Registries::STORE_ITEMS.Register([]() {
 	auto *aStoreItemType = new StoreItemType(PVZ, "rake", anAttributes);
 
 	aStoreItemType->mGroup = StoreItemGroups::UPGRADES;
-	aStoreItemType->mSort = ListInsertion<StoreItemType>::After(ROOF_CLEANER);
+	aStoreItemType->mInsertion = ListInsertion<StoreItemType>::Before(GATLING_PEA);
 
 	return aStoreItemType;
 });
@@ -350,13 +353,14 @@ const auto &RAKE = Registries::STORE_ITEMS.Register([]() {
 const auto &AQUARIUM_GARDEN = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 3000;
+	anAttributes.mUnlockLevel = 50;
 	anAttributes.mDrawOffsetX = -8;
 	anAttributes.mDrawOffsetY = 2;
 	anAttributes.mIcon = Sexy::IMAGE_STORE_AQUARIUMGARDENICON_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "aquarium_garden", anAttributes);
 
 	aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
-	aStoreItemType->mSort = ListInsertion<StoreItemType>::After(MUSHROOM_GARDEN);
+	aStoreItemType->mInsertion = ListInsertion<StoreItemType>::After(MUSHROOM_GARDEN);
 
 	return aStoreItemType;
 });
@@ -374,6 +378,7 @@ const auto &CHOCOLATE = Registries::STORE_ITEMS.Register([]() {
 const auto &TREE_OF_WISDOM = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 1000;
+	anAttributes.mUnlockLevel = 50;
 	anAttributes.mDrawOffsetX = -8;
 	anAttributes.mDrawOffsetY = 2;
 	anAttributes.mIcon = Sexy::IMAGE_STORE_TREEOFWISDOMICON_ID;
@@ -409,6 +414,7 @@ const auto &TREE_OF_WISDOM = Registries::STORE_ITEMS.Register([]() {
 const auto &TREE_FOOD = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 250;
+	anAttributes.mUnlockLevel = 50;
 	anAttributes.mDrawOffsetX = -8;
 	anAttributes.mDrawOffsetY = -2;
 	anAttributes.mIcon = Sexy::IMAGE_TREEFOOD_ID;
@@ -460,8 +466,8 @@ const auto &CUSTOM_TEST = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mIcon = Sexy::IMAGE_BRAIN_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "custom_test", anAttributes);
 
-	aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
-	//aStoreItemType->mSort = ListInsertion<StoreItemType>::Before(SPIKEROCK);
+	//aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
+	//aStoreItemType->mInsertion = ListInsertion<StoreItemType>::Before(SPIKEROCK);
 
 	return aStoreItemType;
 });
@@ -471,10 +477,11 @@ const auto &CUSTOM_TEST_2 = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mCost = 200;
 	auto *aStoreItemType = new SeedPacketStoreItemType(PVZ, "custom_test_2", anAttributes);
 
-	aStoreItemType->mSeedType = SEED_KERNELPULT;
+	aStoreItemType->mSeedType = SEED_SNOWPEA;
 
 	return (StoreItemType *)aStoreItemType;
 });
+
 #endif
 
 } // namespace StoreItemTypes

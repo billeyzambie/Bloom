@@ -19,7 +19,7 @@ StoreItemType::StoreItemType(
 			theContext.mAttributes.mSoldOut = true;
 		}
 		if (!theContext.mLawnApp.HasFinishedAdventure() 
-			&& theContext.mPlayerInfo.GetLevel() < theContext.mAttributes.mUnlockLevel)
+			&& theContext.mPlayerInfo.GetLevel() <= theContext.mAttributes.mUnlockLevel)
 		{
 			theContext.mAttributes.mUnavailable = true;
 		}
@@ -38,7 +38,7 @@ void StoreItemType::CopyFrom(const StoreItemType &theOther)
 	mAttributeBaseValues = theOther.mAttributeBaseValues;
 	mModifiers = theOther.mModifiers;
 	mOnPurchase = theOther.mOnPurchase;
-	mSort = theOther.mSort;
+	mInsertion = theOther.mInsertion;
 	mGroup = theOther.mGroup;
 }
 

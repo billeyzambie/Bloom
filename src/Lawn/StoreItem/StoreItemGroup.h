@@ -15,6 +15,7 @@ class BLOOM_API StoreItemGroup : public BloomType
 	struct Attributes
 	{
 		bool mUnavailable = false;
+		int mUnlockLevel = 1;
 	};
 	struct ModifierContext
 	{
@@ -27,7 +28,7 @@ class BLOOM_API StoreItemGroup : public BloomType
 	Attributes mAttributeBaseValues;
 	Attributes mAttributes;
 	EventList<ModifierContext> mModifiers;
-	ListInsertion<StoreItemGroup> mSort;
+	ListInsertion<StoreItemGroup> mInsertion;
 	StoreItemGroup(std::string theModName, std::string theTypeName, const Attributes &theAttributes = {});
 	virtual void CopyFrom(const StoreItemGroup &theOther);
 	void Update(const LawnApp &theLawnApp);

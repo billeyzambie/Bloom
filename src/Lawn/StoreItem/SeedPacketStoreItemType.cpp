@@ -16,7 +16,7 @@ SeedPacketStoreItemType::SeedPacketStoreItemType(std::string theModName, std::st
 {
 	mGroup = StoreItemGroups::UPGRADES;
 	if (StoreItemTypes::IMITATER.TryGet())
-		mSort = ListInsertion<StoreItemType>::Before(StoreItemTypes::IMITATER);
+		mInsertion = ListInsertion<StoreItemType>::Before(StoreItemTypes::IMITATER);
 }
 
 void SeedPacketStoreItemType::Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int thePosX, int thePosY,

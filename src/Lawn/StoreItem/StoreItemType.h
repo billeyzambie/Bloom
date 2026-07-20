@@ -60,7 +60,7 @@ class BLOOM_API StoreItemType : public BloomType
 	EventList<PurchaseContext> mOnPurchase;
 
 	const StoreItemGroup *mGroup = nullptr;
-	ListInsertion<StoreItemType> mSort;
+	ListInsertion<StoreItemType> mInsertion;
 
 	StoreItemType(
 		std::string theModName, std::string theTypeName,

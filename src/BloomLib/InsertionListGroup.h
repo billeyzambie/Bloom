@@ -6,7 +6,7 @@
 
 //struct T
 //{
-//	ListInsertion<T> mSort;
+//	ListInsertion<T> mInsertion;
 //	const GroupT *mGroup;
 //	bool ExcludeFromSorting() const
 //	{
@@ -20,7 +20,7 @@
 //
 //struct GroupT
 //{
-//	ListInsertion<T> mSort;
+//	ListInsertion<T> mInsertion;
 //	bool ExcludeFromSorting() const
 //	{
 //		return false;

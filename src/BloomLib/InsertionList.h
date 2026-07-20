@@ -11,7 +11,7 @@
 
 //struct T
 //{
-//	ListInsertion<T> mSort;
+//	ListInsertion<T> mInsertion;
 //	bool ExcludeFromSorting() const
 //	{
 //		return false;
@@ -63,7 +63,7 @@ template <class T> class BLOOM_API InsertionList
 	void Refresh()
 	{
 		std::stable_sort(mInsertors.begin(), mInsertors.end(), [](const T *theT, const T *theOtherT) {
-			return theT->mSort.mPriority > theOtherT->mSort.mPriority;
+			return theT->mInsertion.mPriority > theOtherT->mInsertion.mPriority;
 		});
 
 		mResult.clear();
@@ -74,7 +74,7 @@ template <class T> class BLOOM_API InsertionList
 			if (aT->ExcludeFromSorting())
 				continue;
 
-			const ListInsertion<T> &anInsertion = aT->mSort;
+			const ListInsertion<T> &anInsertion = aT->mInsertion;
 
 			switch (anInsertion.mType)
 			{
