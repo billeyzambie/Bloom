@@ -41,9 +41,9 @@ const auto &TWIN_SUNFLOWER = Registries::STORE_ITEMS.Register([]() {
 const auto &GLOOM_SHROOM = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 750;
+	anAttributes.mUnlockLevel = 35;
 	auto *aStoreItemType = new SeedPacketStoreItemType(PVZ, "gloom_shroom", anAttributes);
 	aStoreItemType->mSeedType = SeedType::SEED_GLOOMSHROOM;
-	aStoreItemType->mModifiers.Add(UnavailableBelowLevel<35>);
 
 	return (StoreItemType *)aStoreItemType;
 });
@@ -51,9 +51,9 @@ const auto &GLOOM_SHROOM = Registries::STORE_ITEMS.Register([]() {
 const auto &CATTAIL = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 1000;
+	anAttributes.mUnlockLevel = 35;
 	auto *aStoreItemType = new SeedPacketStoreItemType(PVZ, "cattail", anAttributes);
 	aStoreItemType->mSeedType = SeedType::SEED_CATTAIL;
-	aStoreItemType->mModifiers.Add(UnavailableBelowLevel<35>);
 
 	return (StoreItemType *)aStoreItemType;
 });
@@ -61,9 +61,9 @@ const auto &CATTAIL = Registries::STORE_ITEMS.Register([]() {
 const auto &WINTER_MELON = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 1000;
+	anAttributes.mUnlockLevel = 50;
 	auto *aStoreItemType = new SeedPacketStoreItemType(PVZ, "wintermelon", anAttributes);
 	aStoreItemType->mSeedType = SeedType::SEED_WINTERMELON;
-	aStoreItemType->mModifiers.Add(UnavailableUntilAdventureFinished);
 
 	return (StoreItemType *)aStoreItemType;
 });
@@ -71,9 +71,9 @@ const auto &WINTER_MELON = Registries::STORE_ITEMS.Register([]() {
 const auto &GOLD_MAGNET = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 300;
+	anAttributes.mUnlockLevel = 41;
 	auto *aStoreItemType = new SeedPacketStoreItemType(PVZ, "gold_magnet", anAttributes);
 	aStoreItemType->mSeedType = SeedType::SEED_GOLD_MAGNET;
-	aStoreItemType->mModifiers.Add(UnavailableBelowLevel<41>);
 
 	return (StoreItemType *)aStoreItemType;
 });
@@ -81,9 +81,9 @@ const auto &GOLD_MAGNET = Registries::STORE_ITEMS.Register([]() {
 const auto &SPIKEROCK = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 750;
+	anAttributes.mUnlockLevel = 41;
 	auto *aStoreItemType = new SeedPacketStoreItemType(PVZ, "spikerock", anAttributes);
 	aStoreItemType->mSeedType = SeedType::SEED_SPIKEROCK;
-	aStoreItemType->mModifiers.Add(UnavailableBelowLevel<41>);
 
 	return (StoreItemType *)aStoreItemType;
 });
@@ -91,9 +91,9 @@ const auto &SPIKEROCK = Registries::STORE_ITEMS.Register([]() {
 const auto &COB_CANNON = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 2000;
+	anAttributes.mUnlockLevel = 50;
 	auto *aStoreItemType = new SeedPacketStoreItemType(PVZ, "cob_cannon", anAttributes);
 	aStoreItemType->mSeedType = SeedType::SEED_COBCANNON;
-	aStoreItemType->mModifiers.Add(UnavailableUntilAdventureFinished);
 
 	return (StoreItemType *)aStoreItemType;
 });
@@ -101,9 +101,9 @@ const auto &COB_CANNON = Registries::STORE_ITEMS.Register([]() {
 const auto &IMITATER = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 3000;
+	anAttributes.mUnlockLevel = 50;
 	auto *aStoreItemType = new SeedPacketStoreItemType(PVZ, "imitater", anAttributes);
 	aStoreItemType->mSeedType = SeedType::SEED_IMITATER;
-	aStoreItemType->mModifiers.Add(UnavailableUntilAdventureFinished);
 
 	return (StoreItemType *)aStoreItemType;
 });
@@ -320,11 +320,11 @@ const auto &POOL_CLEANER = Registries::STORE_ITEMS.Register([]() {
 const auto &ROOF_CLEANER = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 300;
+	anAttributes.mUnlockLevel = 42;
 	anAttributes.mDrawOffsetX = 0;
 	anAttributes.mDrawOffsetY = 28;
 	anAttributes.mIcon = Sexy::IMAGE_ICON_ROOFCLEANER_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "roof_cleaner", anAttributes);
-	aStoreItemType->mModifiers.Add(UnavailableBelowLevel<42>);
 
 	aStoreItemType->mGroup = StoreItemGroups::UPGRADES;
 	aStoreItemType->mSort = ListInsertion<StoreItemType>::After(POOL_CLEANER);
@@ -429,11 +429,11 @@ const auto &TREE_FOOD = Registries::STORE_ITEMS.Register([]() {
 const auto &FIRST_AID = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 200;
+	anAttributes.mUnlockLevel = 50;
 	anAttributes.mDrawOffsetX = -1;
 	anAttributes.mDrawOffsetY = 13;
 	anAttributes.mIcon = Sexy::IMAGE_STORE_FIRSTAIDWALLNUTICON_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "first_aid", anAttributes);
-	aStoreItemType->mModifiers.Add(UnavailableUntilAdventureFinished);
 
 	aStoreItemType->mGroup = StoreItemGroups::UPGRADES;
 

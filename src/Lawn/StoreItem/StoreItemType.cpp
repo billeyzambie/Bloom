@@ -18,6 +18,11 @@ StoreItemType::StoreItemType(
 		{
 			theContext.mAttributes.mSoldOut = true;
 		}
+		if (!theContext.mLawnApp.HasFinishedAdventure() 
+			&& theContext.mPlayerInfo.GetLevel() < theContext.mAttributes.mUnlockLevel)
+		{
+			theContext.mAttributes.mUnavailable = true;
+		}
 	});
 }
 

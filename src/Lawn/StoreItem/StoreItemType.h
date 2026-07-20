@@ -29,6 +29,7 @@ class BLOOM_API StoreItemType : public BloomType
 		int mCost = 0;
 		int mBuyCount = 1;
 		int mMaxBuyCount = 1;
+		int mUnlockLevel = 1;
 		Sexy::ResourceId mIcon = Sexy::ResourceId::RESOURCE_ID_MAX;
 		int mDrawOffsetX = 0;
 		int mDrawOffsetY = 0;
