@@ -1,4 +1,6 @@
 #include "SeedPacketStoreItemType.h"
+#include "StoreItemTypes.h"
+#include "StoreItemGroups.h"
 #include "../SexyAppFramework/Graphics.h"
 #include "../Resources.h"
 #include "../LawnApp.h"
@@ -6,11 +8,15 @@
 #include "../Sexy.TodLib/TodStringFile.h"
 #include "../SeedPacket.h"
 #include "StoreItemModifiers.h"
+#include "../BloomLib/ListInsertion.h"
 
 SeedPacketStoreItemType::SeedPacketStoreItemType(std::string theModName, std::string theTypeName,
 													   const StoreItemAttributes &theAttributes)
 	: StoreItemType(std::move(theModName), std::move(theTypeName), theAttributes)
 {
+	mGroup = StoreItemGroups::UPGRADES;
+	if (StoreItemTypes::IMITATER.TryGet())
+		mSort = ListInsertion<StoreItemType>::Before(StoreItemTypes::IMITATER);
 }
 
 void SeedPacketStoreItemType::Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int thePosX, int thePosY,

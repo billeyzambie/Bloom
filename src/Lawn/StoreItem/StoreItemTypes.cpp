@@ -26,8 +26,6 @@ const auto &GATLING_PEA = Registries::STORE_ITEMS.Register([]() {
 	auto *aStoreItemType = new SeedPacketStoreItemType(PVZ, "gatling_pea", anAttributes);
 	aStoreItemType->mSeedType = SeedType::SEED_GATLINGPEA;
 
-	aStoreItemType->mGroup = StoreItemGroups::SLOT_UPGRADES;
-
 	return (StoreItemType *)aStoreItemType;
 });
 
@@ -36,8 +34,6 @@ const auto &TWIN_SUNFLOWER = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mCost = 500;
 	auto *aStoreItemType = new SeedPacketStoreItemType(PVZ, "twin_sunflower", anAttributes);
 	aStoreItemType->mSeedType = SeedType::SEED_TWINSUNFLOWER;
-
-	aStoreItemType->mGroup = StoreItemGroups::SLOT_UPGRADES;
 
 	return (StoreItemType *)aStoreItemType;
 });
@@ -49,8 +45,6 @@ const auto &GLOOM_SHROOM = Registries::STORE_ITEMS.Register([]() {
 	aStoreItemType->mSeedType = SeedType::SEED_GLOOMSHROOM;
 	aStoreItemType->mModifiers.Add(UnavailableBelowLevel<35>);
 
-	aStoreItemType->mGroup = StoreItemGroups::SLOT_UPGRADES;
-
 	return (StoreItemType *)aStoreItemType;
 });
 
@@ -60,8 +54,6 @@ const auto &CATTAIL = Registries::STORE_ITEMS.Register([]() {
 	auto *aStoreItemType = new SeedPacketStoreItemType(PVZ, "cattail", anAttributes);
 	aStoreItemType->mSeedType = SeedType::SEED_CATTAIL;
 	aStoreItemType->mModifiers.Add(UnavailableBelowLevel<35>);
-
-	aStoreItemType->mGroup = StoreItemGroups::SLOT_UPGRADES;
 
 	return (StoreItemType *)aStoreItemType;
 });
@@ -73,8 +65,6 @@ const auto &WINTER_MELON = Registries::STORE_ITEMS.Register([]() {
 	aStoreItemType->mSeedType = SeedType::SEED_WINTERMELON;
 	aStoreItemType->mModifiers.Add(UnavailableUntilAdventureFinished);
 
-	aStoreItemType->mGroup = StoreItemGroups::PLANT_UPGRADES;
-
 	return (StoreItemType *)aStoreItemType;
 });
 
@@ -84,8 +74,6 @@ const auto &GOLD_MAGNET = Registries::STORE_ITEMS.Register([]() {
 	auto *aStoreItemType = new SeedPacketStoreItemType(PVZ, "gold_magnet", anAttributes);
 	aStoreItemType->mSeedType = SeedType::SEED_GOLD_MAGNET;
 	aStoreItemType->mModifiers.Add(UnavailableBelowLevel<41>);
-
-	aStoreItemType->mGroup = StoreItemGroups::PLANT_UPGRADES;
 
 	return (StoreItemType *)aStoreItemType;
 });
@@ -97,8 +85,6 @@ const auto &SPIKEROCK = Registries::STORE_ITEMS.Register([]() {
 	aStoreItemType->mSeedType = SeedType::SEED_SPIKEROCK;
 	aStoreItemType->mModifiers.Add(UnavailableBelowLevel<41>);
 
-	aStoreItemType->mGroup = StoreItemGroups::PLANT_UPGRADES;
-
 	return (StoreItemType *)aStoreItemType;
 });
 
@@ -109,8 +95,6 @@ const auto &COB_CANNON = Registries::STORE_ITEMS.Register([]() {
 	aStoreItemType->mSeedType = SeedType::SEED_COBCANNON;
 	aStoreItemType->mModifiers.Add(UnavailableUntilAdventureFinished);
 
-	aStoreItemType->mGroup = StoreItemGroups::PLANT_UPGRADES;
-
 	return (StoreItemType *)aStoreItemType;
 });
 
@@ -120,8 +104,6 @@ const auto &IMITATER = Registries::STORE_ITEMS.Register([]() {
 	auto *aStoreItemType = new SeedPacketStoreItemType(PVZ, "imitater", anAttributes);
 	aStoreItemType->mSeedType = SeedType::SEED_IMITATER;
 	aStoreItemType->mModifiers.Add(UnavailableUntilAdventureFinished);
-
-	aStoreItemType->mGroup = StoreItemGroups::PLANT_UPGRADES;
 
 	return (StoreItemType *)aStoreItemType;
 });
@@ -315,7 +297,7 @@ const auto &PACKET_UPGRADE = Registries::STORE_ITEMS.Register([]() {
 		}
 	});
 
-	aStoreItemType->mGroup = StoreItemGroups::SLOT_UPGRADES;
+	aStoreItemType->mGroup = StoreItemGroups::UPGRADES;
 	aStoreItemType->mSort = ListInsertion<StoreItemType>::First();
 
 	return (StoreItemType *)aStoreItemType;
@@ -329,7 +311,7 @@ const auto &POOL_CLEANER = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mIcon = Sexy::IMAGE_ICON_POOLCLEANER_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "pool_cleaner", anAttributes);
 
-	aStoreItemType->mGroup = StoreItemGroups::SLOT_UPGRADES;
+	aStoreItemType->mGroup = StoreItemGroups::UPGRADES;
 	aStoreItemType->mSort = ListInsertion<StoreItemType>::After(PACKET_UPGRADE);
 
 	return aStoreItemType;
@@ -344,7 +326,7 @@ const auto &ROOF_CLEANER = Registries::STORE_ITEMS.Register([]() {
 	auto *aStoreItemType = new StoreItemType(PVZ, "roof_cleaner", anAttributes);
 	aStoreItemType->mModifiers.Add(UnavailableBelowLevel<42>);
 
-	aStoreItemType->mGroup = StoreItemGroups::SLOT_UPGRADES;
+	aStoreItemType->mGroup = StoreItemGroups::UPGRADES;
 	aStoreItemType->mSort = ListInsertion<StoreItemType>::After(POOL_CLEANER);
 
 	return aStoreItemType;
@@ -359,7 +341,7 @@ const auto &RAKE = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mIcon = Sexy::IMAGE_ICON_RAKE_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "rake", anAttributes);
 
-	aStoreItemType->mGroup = StoreItemGroups::SLOT_UPGRADES;
+	aStoreItemType->mGroup = StoreItemGroups::UPGRADES;
 	aStoreItemType->mSort = ListInsertion<StoreItemType>::After(ROOF_CLEANER);
 
 	return aStoreItemType;
@@ -453,7 +435,7 @@ const auto &FIRST_AID = Registries::STORE_ITEMS.Register([]() {
 	auto *aStoreItemType = new StoreItemType(PVZ, "first_aid", anAttributes);
 	aStoreItemType->mModifiers.Add(UnavailableUntilAdventureFinished);
 
-	aStoreItemType->mGroup = StoreItemGroups::PLANT_UPGRADES;
+	aStoreItemType->mGroup = StoreItemGroups::UPGRADES;
 
 	return aStoreItemType;
 });
@@ -478,12 +460,20 @@ const auto &CUSTOM_TEST = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mIcon = Sexy::IMAGE_BRAIN_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "custom_test", anAttributes);
 
-	//aStoreItemType->mGroup = StoreItemGroups::PLANT_UPGRADES;
-	//aStoreItemType->mSort = ListInsertion<StoreItemType>::Before(FIRST_AID);
-	
-	aStoreItemType->mGroup = StoreItemGroups::SLOT_UPGRADES;
+	aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
+	//aStoreItemType->mSort = ListInsertion<StoreItemType>::Before(SPIKEROCK);
 
 	return aStoreItemType;
+});
+
+const auto &CUSTOM_TEST_2 = Registries::STORE_ITEMS.Register([]() {
+	StoreItemAttributes anAttributes;
+	anAttributes.mCost = 200;
+	auto *aStoreItemType = new SeedPacketStoreItemType(PVZ, "custom_test_2", anAttributes);
+
+	aStoreItemType->mSeedType = SEED_KERNELPULT;
+
+	return (StoreItemType *)aStoreItemType;
 });
 #endif
 

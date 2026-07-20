@@ -4,13 +4,8 @@
 namespace StoreItemGroups
 {
 
-const auto &SLOT_UPGRADES = Registries::STORE_ITEM_GROUPS.Register([]() {
-	auto *aStoreItemGroup = new StoreItemGroup(PVZ, "slot_upgrades");
-	return aStoreItemGroup;
-});
-
-const auto &PLANT_UPGRADES = Registries::STORE_ITEM_GROUPS.Register([]() {
-	auto *aStoreItemGroup = new StoreItemGroup(PVZ, "plant_upgrades");
+const auto &UPGRADES = Registries::STORE_ITEM_GROUPS.Register([]() {
+	auto *aStoreItemGroup = new StoreItemGroup(PVZ, "upgrades");
 	return aStoreItemGroup;
 });
 
