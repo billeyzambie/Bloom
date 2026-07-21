@@ -1,6 +1,11 @@
 #pragma once
 
+#include <vector>
+#include <string>
+#include <unordered_map>
+
 #include "RegistryTypeHolder.h"
+#include "Identifier.h"
 #include "ChunkedList.h"
 #include "Bloom.h"
 
@@ -17,6 +22,7 @@ template <class T> class BLOOM_API Registry : public IRegistry
 {
 	ChunkedList<RegistryTypeHolder<T>, 64> mHolders;
 	std::vector<T *> mTypes;
+	std::unordered_map<std::string, T *> mTypesById;
 	int mNextId = 0;
 	bool mFrozen = false;
 
@@ -37,6 +43,14 @@ template <class T> class BLOOM_API Registry : public IRegistry
 		}
 		return mHolders[0];
 	}
+	const T *GetByStringId(const std::string &theString)
+	{
+		return mTypesById[theString];
+	}
+	int GetNumOfTypes() const
+	{
+		return mNextId;
+	}
 	virtual void Freeze() override
 	{
 		if (mFrozen)
@@ -49,6 +63,8 @@ template <class T> class BLOOM_API Registry : public IRegistry
 			aCurrent->mNumericalId = anOriginal->mNumericalId = i;
 
 			mTypes.push_back(aCurrent);
+			
+			mTypesById[aCurrent->mIdentifier.AsString()] = aCurrent;
 		}
 
 		mFrozen = true;
@@ -67,9 +83,5 @@ template <class T> class BLOOM_API Registry : public IRegistry
 	const T *const *end() const
 	{
 		return &mTypes[mTypes.size() - 1] + 1;
-	}
-	int GetNumOfTypes() const
-	{
-		return mNextId;
 	}
 };

@@ -4,7 +4,8 @@
 
 class StoreItemType;
 
-class BLOOM_API StoreItem
+//Subclassing will come later
+class BLOOM_API StoreItem final
 {
   public:
 	const StoreItemType *mType;
@@ -12,6 +13,7 @@ class BLOOM_API StoreItem
 	int mTotalPurchasesEver = 0;
 	int mLastPurchaseTime = 0;
 	StoreItem(const StoreItemType &theType);
-	virtual ~StoreItem() = default;
+	StoreItem();
+	//virtual ~StoreItem() = default;
 	void AddPurchases(int theAmount);
 };

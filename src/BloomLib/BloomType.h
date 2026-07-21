@@ -11,7 +11,7 @@ class BLOOM_API BloomType
 
   public:
 	const Identifier mIdentifier;
-	BloomType(std::string theModName, std::string theTypeName);
+	BloomType(const std::string &theModName, const std::string &theTypeName);
 	virtual ~BloomType()
 	{
 	}

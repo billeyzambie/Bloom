@@ -1,8 +1,9 @@
 #include "Identifier.h"
+#include "BloomUtil.h"
 
-Identifier::Identifier(std::string theModName, std::string theTypeName)
-	: mModName(std::move(theModName)),
-	  mTypeName(std::move(theTypeName))
+Identifier::Identifier(const std::string &theModName, const std::string &theTypeName)
+	: mModName(CreateAllUppercase(theModName)),
+	  mTypeName(CreateAllUppercase(theTypeName))
 {
 }
 

@@ -12,7 +12,7 @@ private:
 public:
 	std::string mModName;
 	std::string mTypeName;
-	Identifier(std::string theModName, std::string theObjectName);
+	Identifier(const std::string &theModName, const std::string &theObjectName);
 	Identifier(const Identifier& theOther) = default;
 	Identifier &operator=(const Identifier& theOther) = default;
 	Identifier(Identifier&& theOther) = default;

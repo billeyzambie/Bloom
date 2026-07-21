@@ -478,6 +478,7 @@ const auto &CUSTOM_TEST_2 = Registries::STORE_ITEMS.Register([]() {
 	auto *aStoreItemType = new SeedPacketStoreItemType(PVZ, "custom_test_2", anAttributes);
 
 	aStoreItemType->mSeedType = SEED_SNOWPEA;
+	aStoreItemType->mInsertion = ListInsertion<StoreItemType>::Last(EventPriority::LOW);
 
 	return (StoreItemType *)aStoreItemType;
 });
@@ -503,8 +504,3 @@ std::array<const RegistryTypeHolder<StoreItemType> *, 8> gOldStoreItemSpots[NUM_
 	 nullptr,
 #endif
 	 nullptr}};
-
-void ReplaceStoreItemSpot(int thePage, int theSpotIndex, const RegistryTypeHolder<StoreItemType> &theItemType)
-{
-	gOldStoreItemSpots[thePage][theSpotIndex] = &theItemType;
-}

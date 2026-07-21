@@ -29,7 +29,7 @@ class BLOOM_API StoreItemGroup : public BloomType
 	Attributes mAttributes;
 	EventList<ModifierContext> mModifiers;
 	ListInsertion<StoreItemGroup> mInsertion;
-	StoreItemGroup(std::string theModName, std::string theTypeName, const Attributes &theAttributes = {});
+	StoreItemGroup(const std::string &theModName, const std::string &theTypeName, const Attributes &theAttributes = {});
 	virtual void CopyFrom(const StoreItemGroup &theOther);
 	void Update(const LawnApp &theLawnApp);
 	bool ExcludeFromSorting() const;

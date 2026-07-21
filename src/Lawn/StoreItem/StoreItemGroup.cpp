@@ -3,10 +3,10 @@
 #include "../System/PlayerInfo.h"
 
 StoreItemGroup::StoreItemGroup(
-	std::string theModName, std::string theTypeName,
+	const std::string &theModName, const std::string &theTypeName,
 	const StoreItemGroupAttributes &theAttributes
 ) 
-	: BloomType(std::move(theModName), std::move(theTypeName)),
+	: BloomType(theModName, theTypeName),
 	mAttributeBaseValues(theAttributes), mAttributes(theAttributes)
 {
 	mModifiers.Add([](StoreItemGroupModifierContext &theContext) {

@@ -63,7 +63,7 @@ class BLOOM_API StoreItemType : public BloomType
 	ListInsertion<StoreItemType> mInsertion;
 
 	StoreItemType(
-		std::string theModName, std::string theTypeName,
+		const std::string &theModName, const std::string &theTypeName,
 		const Attributes &theAttributes
 	);
 	operator OldStoreItemType() const;

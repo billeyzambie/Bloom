@@ -7,10 +7,10 @@
 #include "../System/PlayerInfo.h"
 
 StoreItemType::StoreItemType(
-	std::string theModName, std::string theTypeName,
+	const std::string &theModName, const std::string &theTypeName,
 	const StoreItemAttributes &theAttributes
 ) 
-	: BloomType(std::move(theModName), std::move(theTypeName)),
+	: BloomType(theModName, theTypeName),
 	mAttributeBaseValues(theAttributes), mAttributes(theAttributes)
 {
 	mModifiers.Add([](StoreItemModifierContext &theContext) {

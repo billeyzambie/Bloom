@@ -25,6 +25,25 @@ void PlayerInfo::SyncSummary(ProfileSyncer &theSync)
 	theSync.SyncUnsignedLong("id", mId);
 }
 
+void to_json(nlohmann::json &j, const StoreItem &theStoreItem)
+{
+	j = {{"purchases", theStoreItem.mPurchases},
+		 {"total_purchases_ever", theStoreItem.mTotalPurchasesEver},
+		 {"last_purchase_time", theStoreItem.mLastPurchaseTime}};
+}
+
+void from_json(const nlohmann::json &j, StoreItem &theStoreItem)
+{
+	theStoreItem.mPurchases = j.value("purchases", 0);
+	theStoreItem.mTotalPurchasesEver = j.value("total_purchases_ever", 0);
+	theStoreItem.mLastPurchaseTime = j.value("last_purchase_time", 0);
+}
+
+bool json_has_key(const nlohmann::json &j, const std::string &key)
+{
+	return j.find(key) != j.end();
+}
+
 void PlayerInfo::SyncDetails(ProfileSyncer &theSync)
 {
 	if (theSync.mReading)
@@ -37,7 +56,42 @@ void PlayerInfo::SyncDetails(ProfileSyncer &theSync)
 	theSync.SyncInt("has_finished_adventure", mFinishedAdventure);
 
 	theSync.SyncArrayFromSize("challenge_records", mChallengeRecords, NUM_GAME_MODES);
-	//theSync.SyncArrayFromSize("purchases", mPurchases, NUM_STORE_ITEM_MAX);
+	
+	if (theSync.mReading)
+	{
+		if (json_has_key(theSync.mJSON, "store_items") && theSync.mJSON["store_items"].is_object())
+		{
+			for (auto &aKeyValuePair : theSync.mJSON["store_items"].items())
+			{
+				const std::string &aStoreItemId = aKeyValuePair.key();
+
+				const StoreItemType *anItemType = Registries::STORE_ITEMS.GetByStringId(aStoreItemId);
+				if (anItemType)
+				{
+					GetStoreItemData(*anItemType) = aKeyValuePair.value().get<StoreItem>();
+				}
+				else
+				{
+					TodTraceAndLog("[LawnProject] - Unknown store item in save file: %s", aStoreItemId.c_str());
+				}
+			}
+		}
+		else
+		{
+			TodTraceAndLog("[LawnProject] - Store items missing in save file");
+		}
+	}
+	else
+	{
+		nlohmann::json aJson;
+
+		for (const StoreItemType *aStoreItemType : Registries::STORE_ITEMS)
+		{
+			aJson[aStoreItemType->mIdentifier.AsString()] = GetStoreItemData(*aStoreItemType);
+		}
+
+		theSync.mJSON["store_items"] = aJson;
+	}
 
 	theSync.SyncInt("playtime_active", mPlayTimeActivePlayer);
 	theSync.SyncInt("playtime_inactive", mPlayTimeInactivePlayer);
@@ -247,11 +301,6 @@ ProfileSyncer::ProfileSyncer(const SexyString &thePath)
 
 ProfileSyncer::~ProfileSyncer()
 {
-}
-
-bool json_has_key(const nlohmann::json &j, const std::string &key)
-{
-	return j.find(key) != j.end();
 }
 
 void ProfileSyncer::SyncBool(const SexyString &theName, bool &theBool)
