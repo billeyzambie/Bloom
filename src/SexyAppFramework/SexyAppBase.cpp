@@ -2785,7 +2785,7 @@ void SexyAppBase::Popup(const std::string &theString)
 	BeginPopup();
 	if (!mShutdown)
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
-								 GetString("FATAL_ERROR", "FATAL ERROR").c_str(),
+								 GetString("FATAL_ERROR XD", "FATAL ERROR XD").c_str(),
 								 theString.c_str(), aInternalWindow);
 
 	EndPopup();

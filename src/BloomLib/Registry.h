@@ -22,7 +22,7 @@ template <class T> class BLOOM_API Registry : public IRegistry
 {
 	ChunkedList<RegistryTypeHolder<T>, 64> mHolders;
 	std::vector<T *> mTypes;
-	std::unordered_map<std::string, T *> mTypesById;
+	mutable std::unordered_map<std::string, const T *> mTypesById;
 	int mNextId = 0;
 	bool mFrozen = false;
 
@@ -43,7 +43,7 @@ template <class T> class BLOOM_API Registry : public IRegistry
 		}
 		return mHolders[0];
 	}
-	const T *GetByStringId(const std::string &theString)
+	const T *GetByStringId(const std::string &theString) const
 	{
 		return mTypesById[theString];
 	}

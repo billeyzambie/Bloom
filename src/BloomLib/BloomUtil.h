@@ -1,5 +1,6 @@
 #pragma once
 
 #include <string>
+#include "Bloom.h"
 
-std::string CreateAllUppercase(std::string theString);
+BLOOM_API std::string CreateAllUppercase(std::string theString);

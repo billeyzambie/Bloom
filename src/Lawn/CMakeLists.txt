@@ -99,12 +99,12 @@ set(MDK_DIR "${EXPORT_DIR}/mdk")
 
 set(BLOOM_API_FOLDER "${MDK_DIR}/bloomapi")
 
-set(COPY_DOTLIB_TO "${BLOOM_API_FOLDER}/bin/${CMAKE_BUILD_TYPE}${ARCHITECTURE}")
+set(COPY_DOTLIB_TO "${BLOOM_API_FOLDER}/bin/${CMAKE_BUILD_TYPE}_${ARCHITECTURE}.lib")
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "${EXPORT_DIR}/${PROJECT_NAME}.lib"
-            "${COPY_DOTLIB_TO}/${PROJECT_NAME}.lib"
+            "${COPY_DOTLIB_TO}"
     )
 
 #set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${EXPORT_DIR}")

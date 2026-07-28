@@ -69,6 +69,8 @@
 
 #include "Lawn/StoreItem/StoreItemTypes.h"
 
+#include "BloomLib/ModLoading.h"
+
 //Do not edit this. - Electr0Gunner
 Version LawnApp::gResoddedVersion(1, 0, 0, 990);
 
@@ -1270,37 +1272,7 @@ void LawnApp::Init()
 	PerfTimer mTimer;
 	mTimer.Start();
 
-	std::string path = "mods";
-	for (const auto &anEntry : std::filesystem::directory_iterator(path))
-	{
-		std::cout << std::endl;
-		std::string aFileName = anEntry.path().filename().string();
-
-		std::cout << "Loading mod " << aFileName << std::endl;
-		HMODULE aMod = LoadLibraryA(("mods/" + aFileName).c_str());
-		if (aMod)
-		{
-			std::cout << "Loaded mod " << aFileName << std::endl;
-			void (*aModInitFunction)(const std::string *) =
-				(void (*)(const std::string *))GetProcAddress(aMod, "ModInit");
-			if (aModInitFunction)
-				aModInitFunction(&aFileName);
-			else
-				std::cout << "ModInit function not found" << std::endl;
-		}
-		else
-		{
-			std::cout << "Loading mod " << aFileName << " failed" << std::endl;
-		}
-		std::cout << std::endl;
-	}
-
-	for (IRegistry *aRegistry : Registries::REGISTRIES)
-	{
-		aRegistry->Freeze();
-	}
-
-
+	LoadMods();
 
 	mProfileMgr->Load();
 
