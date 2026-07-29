@@ -7,6 +7,7 @@
 #include "Windows.h"
 
 #include "../Lawn/Registries.h"
+#include "../PakLib/PakInterface.h"
 
 #ifdef DEBUG
 constexpr const char *DEBUG_OR_RELEASE_STRING = "Debug";
@@ -30,12 +31,12 @@ void LoadMods()
 
 		std::cout << "Loading mod folder" << aFolderName << std::endl;
 
-		std::string aDllName = "mods/" + aFolderName + "/" + DEBUG_OR_RELEASE_STRING 
+		std::string aDllPath = "mods/" + aFolderName + "/" + DEBUG_OR_RELEASE_STRING 
 			+ "_" + ARCHITECTURE_STRING + ".dll";
 
-		std::cout << "Loading " << aDllName << std::endl;
+		std::cout << "Loading " << aDllPath << std::endl;
 
-		HMODULE aMod = LoadLibraryA(aDllName.c_str());
+		HMODULE aMod = LoadLibraryA(aDllPath.c_str());
 
 		if (aMod)
 		{
@@ -49,8 +50,24 @@ void LoadMods()
 		}
 		else
 		{
-			std::cout << "Loading " << aDllName << " failed" << std::endl;
+			std::cout << "Loading " << aDllPath << " failed" << std::endl;
 		}
+
+		std::string aPakPath = "mods/" + aFolderName + "/" + "mod.pak";
+
+		std::cout << "Loading " << aPakPath << std::endl;
+
+		bool aModPakFound = gPakInterface->AddPakFile(aPakPath);
+
+		if (aModPakFound)
+		{
+			std::cout << "Loaded " << aPakPath << std::endl;
+		}
+		else
+		{
+			std::cout << aPakPath << " not found" << std::endl;
+		}
+
 		std::cout << std::endl;
 	}
 
