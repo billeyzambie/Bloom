@@ -92,7 +92,7 @@ class PakInterface : public PakInterfaceBase
 	PakInterface();
 	~PakInterface();
 
-	bool AddPakFile(const std::string &theFileName);
+	bool AddPakFile(const std::string &theFileName, const std::string &theNamespace);
 	PFILE *FOpen(const char *theFileName, const char *theAccess);
 	int FClose(PFILE *theFile);
 	int FSeek(PFILE *theFile, long theOffset, int theOrigin);

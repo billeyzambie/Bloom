@@ -5050,7 +5050,7 @@ bool SexyAppBase::LoadProperties()
 
 void SexyAppBase::LoadResourceManifest()
 {
-	if (!mResourceManager->ParseResourcesFile("properties\\resources.xml", "PVZ"))
+	if (!mResourceManager->ParseResourcesFile("properties\\resources.xml", PVZ))
 		ShowResourceError(true);
 }
 
@@ -5448,7 +5448,7 @@ void SexyAppBase::Init()
 		}
 	}
 
-	gPakInterface->AddPakFile("main.pak");
+	gPakInterface->AddPakFile("main.pak", PVZ);
 
 	if (mOnlyAllowOneCopyToRun)
 	{

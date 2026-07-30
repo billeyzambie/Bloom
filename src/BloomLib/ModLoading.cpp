@@ -69,7 +69,7 @@ static bool LoadMod(const std::string &theFolderName)
 
 	std::string aPakPath = "mods/" + theFolderName + "/mod.pak";
 
-	bool aModPakFound = gPakInterface->AddPakFile(aPakPath);
+	bool aModPakFound = gPakInterface->AddPakFile(aPakPath, aModId);
 
 	if (aModPakFound)
 	{

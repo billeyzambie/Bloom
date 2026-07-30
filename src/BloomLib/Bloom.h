@@ -8,4 +8,4 @@
 #define BLOOM_GLOBAL extern __declspec(dllimport)
 #endif
 
-constexpr auto PVZ = "pvz";
+constexpr auto PVZ = "PVZ";

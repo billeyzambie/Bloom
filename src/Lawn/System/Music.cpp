@@ -218,6 +218,7 @@ void Music::LoadSong(MusicFile theMusicFile, const std::string &theFileName)
 	{
 		TodTrace("[LawnProject] - music failed to load\n");
 		mMusicDisabled = true;
+		TOD_ASSERT();
 	}
 	else
 	{
@@ -228,7 +229,7 @@ void Music::LoadSong(MusicFile theMusicFile, const std::string &theFileName)
 
 void Music::MusicTitleScreenInit()
 {
-	LoadSong(MusicFile::MUSIC_FILE_MAIN_MUSIC, "sounds/mainmusic.mo3");
+	LoadSong(MusicFile::MUSIC_FILE_MAIN_MUSIC, "PVZ/sounds/mainmusic.mo3");
 	MakeSureMusicIsPlaying(MusicTune::MUSIC_TUNE_TITLE_CRAZY_DAVE_MAIN_THEME);
 }
 
@@ -238,13 +239,13 @@ void Music::MusicInit()
 	int aNumLoadingTasks = mApp->mCompletedLoadingThreadTasks + GetNumLoadingTasks();
 #endif
 
-	LoadSong(MusicFile::MUSIC_FILE_DRUMS, "sounds/mainmusic.mo3");
+	LoadSong(MusicFile::MUSIC_FILE_DRUMS, "PVZ/sounds/mainmusic.mo3");
 	mApp->mCompletedLoadingThreadTasks += 3500;;
-	LoadSong(MusicFile::MUSIC_FILE_HIHATS, "sounds/mainmusic_hihats.mo3");
+	LoadSong(MusicFile::MUSIC_FILE_HIHATS, "PVZ/sounds/mainmusic_hihats.mo3");
 	mApp->mCompletedLoadingThreadTasks += 3500;
 
 #ifdef _DEBUG
-	LoadSong(MusicFile::MUSIC_FILE_CREDITS_ZOMBIES_ON_YOUR_LAWN, "sounds/ZombiesOnYourLawn.ogg");
+	LoadSong(MusicFile::MUSIC_FILE_CREDITS_ZOMBIES_ON_YOUR_LAWN, "PVZ/sounds/ZombiesOnYourLawn.ogg");
 	mApp->mCompletedLoadingThreadTasks += 3500;
 	if (mApp->mCompletedLoadingThreadTasks != aNumLoadingTasks)
 		TodTrace("[LawnProject] - Didn't calculate loading task count correctly!!!!");

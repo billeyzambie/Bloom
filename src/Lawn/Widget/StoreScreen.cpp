@@ -422,7 +422,7 @@ void StoreScreen::Draw(Graphics *g)
 		int aNumPages = mStoreItemSpots.PageCount();
 
 		SexyString aPageString = TodReplaceNumberString(
-			TodReplaceNumberString("[STORE_PAGE]", "{PAGE}", mPage), "{NUM_PAGES}", aNumPages);
+			TodReplaceNumberString("[STORE_PAGE]", "{PAGE}", mPage + 1), "{NUM_PAGES}", aNumPages);
 		TodDrawString(g,
 					  aPageString,
 					  STORESCREEN_PAGESTRING_X,

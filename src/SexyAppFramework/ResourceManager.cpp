@@ -587,9 +587,11 @@ bool ResourceManager::DoParseResources(const std::string &theNamespace)
 ///////////////////////////////////////////////////////////////////////////////
 bool ResourceManager::ParseResourcesFile(const std::string &theFilename, const std::string &theNamespace)
 {
+	std::string aNamespacedName = theNamespace + '/' + theFilename;
+
 	mXMLParser = new XMLParser();
-	if (!mXMLParser->OpenFile(theFilename))
-		Fail("Resource file not found: " + theFilename);
+	if (!mXMLParser->OpenFile(aNamespacedName))
+		Fail("Resource file not found: " + aNamespacedName);
 
 	XMLElement aXMLElement;
 	while (!mXMLParser->HasFailed())

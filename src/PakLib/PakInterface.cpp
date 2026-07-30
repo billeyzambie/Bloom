@@ -98,8 +98,9 @@ static void FixFileName(const char *theFileName, char *theUpperName)
 	}
 }
 
+#include <iostream>
 
-bool PakInterface::AddPakFile(const std::string &theFileName)
+bool PakInterface::AddPakFile(const std::string &theFileName, const std::string &theNamespace)
 {
 	std::ifstream aFile(theFileName, std::ios::binary | std::ios::ate);
 	if (!aFile)
@@ -180,16 +181,21 @@ bool PakInterface::AddPakFile(const std::string &theFileName)
 		if ((aFlags & FILEFLAGS_END) || (aFileOffset >= aPakCollection->mData.size()))
 			break;
 
-		uint8_t aNameWidth = 0;
+		uint8_t aBaseNameWidth = 0;
 		char aName[256];
 
-		memcpy(&aNameWidth, aPakCollection->mData.data() + aFileOffset, sizeof(uint8_t));
+		memcpy(&aBaseNameWidth, aPakCollection->mData.data() + aFileOffset, sizeof(uint8_t));
 		aFileOffset += sizeof(uint8_t);
 
-		memcpy(&aName, aPakCollection->mData.data() + aFileOffset, aNameWidth);
-		aFileOffset += aNameWidth;
+		uint8_t aNameTotalWidth = aBaseNameWidth + theNamespace.size() + 1;
 
-		aName[aNameWidth] = '\0';
+		memcpy(&aName, theNamespace.c_str(), theNamespace.size());
+		aName[theNamespace.size()] = '/';
+
+		memcpy(aName + theNamespace.size() + 1, aPakCollection->mData.data() + aFileOffset, aBaseNameWidth);
+		aFileOffset += aBaseNameWidth;
+
+		aName[aNameTotalWidth] = '\0';
 
 		int aSrcSize = 0;
 
@@ -200,13 +206,15 @@ bool PakInterface::AddPakFile(const std::string &theFileName)
 		memcpy(&aFileTime, aPakCollection->mData.data() + aFileOffset, sizeof(uint64_t));
 		aFileOffset += sizeof(uint64_t);
 
-		for (int i = 0; i < aNameWidth; i++) //windows....
+		for (int i = 0; i < aNameTotalWidth; i++) //windows....
 		{
 			if (aName[i] == '\\')
 				aName[i] = '/';
 		}
 		char anUpperName[256];
 		FixFileName(aName, anUpperName);
+
+		std::cout << aName << ", " << anUpperName << std::endl;
 
 		PakRecordMap::iterator aRecordItr =
 			mPakRecordMap.insert(PakRecordMap::value_type(StringToUpper(aName), PakRecord())).first;

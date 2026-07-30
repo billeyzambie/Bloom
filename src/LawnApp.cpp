@@ -1760,9 +1760,9 @@ void LawnApp::LoadingThreadProc()
 	if (!TodLoadResources("LoaderBar"))
 		return;
 
-	TodStringListLoad("PVZ/properties/LawnStrings.txt");
-	TodStringListLoad("PVZ/properties/ZombatarTOS.txt");
-	TodStringListLoad("PVZ/properties/FrameworkStrings.txt");
+	TodStringListLoad("properties/LawnStrings.txt", PVZ);
+	TodStringListLoad("properties/ZombatarTOS.txt", PVZ);
+	TodStringListLoad("properties/FrameworkStrings.txt", PVZ);
 
 	if (mTitleScreen)
 	{

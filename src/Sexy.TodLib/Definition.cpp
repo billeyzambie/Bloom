@@ -161,7 +161,7 @@ DefMap gReanimatorDefMap = {
 	gReanimatorDefFields, sizeof(ReanimatorDefinition), ReanimatorDefinitionConstructor};
 
 static DefLoadResPath gDefLoadResPaths[4] = {
-	{"IMAGE_", ""}, {"IMAGE_", "particles/"}, {"IMAGE_REANIM_", "reanim/"}, {"IMAGE_REANIM_", "images/"}};
+	{"IMAGE_", "PVZ/"}, {"IMAGE_", "PVZ/particles/"}, {"IMAGE_REANIM_", "PVZ/reanim/"}, {"IMAGE_REANIM_", "PVZ/images/"}};
 
 void *ParticleFieldConstructor(void *thePointer)
 {

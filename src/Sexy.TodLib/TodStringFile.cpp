@@ -156,9 +156,10 @@ bool TodStringListReadFile(const char *theFileName)
 	return aSuccess;
 }
 
-void TodStringListLoad(const char *theFileName)
+void TodStringListLoad(const std::string &theFileName, const std::string &theNamespace)
 {
-	if (!TodStringListReadFile(theFileName))
+	std::string aNamespacedName = theNamespace + '/' + theFileName;
+	if (!TodStringListReadFile(aNamespacedName.c_str()))
 		TodErrorMessageBox(Sexy::StrFormat("Failed to load string list file '%s'", theFileName).c_str(), "Error");
 }
 
