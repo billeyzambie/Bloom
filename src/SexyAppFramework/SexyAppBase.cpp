@@ -5050,7 +5050,7 @@ bool SexyAppBase::LoadProperties()
 
 void SexyAppBase::LoadResourceManifest()
 {
-	if (!mResourceManager->ParseResourcesFile("properties\\resources.xml"))
+	if (!mResourceManager->ParseResourcesFile("properties\\resources.xml", "PVZ"))
 		ShowResourceError(true);
 }
 

@@ -1252,13 +1252,13 @@ void LawnApp::Init()
 	gSEHCatcher.mSubmitHost = "https://github.com/LawnProject/ResoddedFramework";
 #endif
 
-	if (!mResourceManager->ParseResourcesFile("properties/resources.xml"))
+	if (!mResourceManager->ParseResourcesFile("properties/resources.xml", PVZ))
 	{
 		ShowResourceError(true);
 		return;
 	}
 
-	if (!mResourceManager->AddResourcesFile("properties/framework_resources.xml"))
+	if (!mResourceManager->AddResourcesFile("properties/framework_resources.xml", PVZ))
 	{
 		ShowResourceError(true);
 		return;
@@ -1273,6 +1273,12 @@ void LawnApp::Init()
 	mTimer.Start();
 
 	LoadMods();
+#ifdef _DEBUG
+	int aDuration = mTimer.GetDuration();
+	TodTraceAndLog("[LawnProject] - loading: mods %d ms", aDuration);
+#endif
+	
+	mTimer.Start();
 
 	mProfileMgr->Load();
 
@@ -1296,7 +1302,7 @@ void LawnApp::Init()
 	mWidgetManager->SetFocus(mTitleScreen);
 
 #ifdef _DEBUG
-	int aDuration = mTimer.GetDuration();
+	aDuration = mTimer.GetDuration();
 	TodTraceAndLog("[LawnProject] - loading: 'profiles' %d ms", aDuration);
 #endif
 	mTimer.Start();
@@ -1754,9 +1760,9 @@ void LawnApp::LoadingThreadProc()
 	if (!TodLoadResources("LoaderBar"))
 		return;
 
-	TodStringListLoad("properties/LawnStrings.txt");
-	TodStringListLoad("properties/ZombatarTOS.txt");
-	TodStringListLoad("properties/FrameworkStrings.txt");
+	TodStringListLoad("PVZ/properties/LawnStrings.txt");
+	TodStringListLoad("PVZ/properties/ZombatarTOS.txt");
+	TodStringListLoad("PVZ/properties/FrameworkStrings.txt");
 
 	if (mTitleScreen)
 	{

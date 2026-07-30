@@ -444,12 +444,12 @@ bool ResourceManager::ParseFontResource(XMLElement &theElement)
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-bool ResourceManager::ParseSetDefaults(XMLElement &theElement)
+bool ResourceManager::ParseSetDefaults(XMLElement &theElement, const std::string &theNamespace)
 {
 	XMLParamMap::iterator anItr;
 	anItr = theElement.mAttributes.find("path");
 	if (anItr != theElement.mAttributes.end())
-		mDefaultPath = RemoveTrailingSlash(anItr->second) + '/';
+		mDefaultPath = theNamespace + '/' + RemoveTrailingSlash(anItr->second) + '/';
 
 	anItr = theElement.mAttributes.find("idprefix");
 	if (anItr != theElement.mAttributes.end())
@@ -460,7 +460,7 @@ bool ResourceManager::ParseSetDefaults(XMLElement &theElement)
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-bool ResourceManager::ParseResources()
+bool ResourceManager::ParseResources(const std::string &theNamespace)
 {
 	for (;;)
 	{
@@ -505,7 +505,7 @@ bool ResourceManager::ParseResources()
 			}
 			else if (aXMLElement.mValue == "SetDefaults")
 			{
-				if (!ParseSetDefaults(aXMLElement))
+				if (!ParseSetDefaults(aXMLElement, theNamespace))
 					return false;
 
 				if (!mXMLParser->NextElement(&aXMLElement))
@@ -534,7 +534,7 @@ bool ResourceManager::ParseResources()
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-bool ResourceManager::DoParseResources()
+bool ResourceManager::DoParseResources(const std::string &theNamespace)
 {
 	if (!mXMLParser->HasFailed())
 	{
@@ -557,7 +557,7 @@ bool ResourceManager::DoParseResources()
 						break;
 					}
 
-					if (!ParseResources())
+					if (!ParseResources(theNamespace))
 						break;
 				}
 				else
@@ -585,7 +585,7 @@ bool ResourceManager::DoParseResources()
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-bool ResourceManager::ParseResourcesFile(const std::string &theFilename)
+bool ResourceManager::ParseResourcesFile(const std::string &theFilename, const std::string &theNamespace)
 {
 	mXMLParser = new XMLParser();
 	if (!mXMLParser->OpenFile(theFilename))
@@ -602,32 +602,32 @@ bool ResourceManager::ParseResourcesFile(const std::string &theFilename)
 			if (aXMLElement.mValue != "ResourceManifest")
 				break;
 			else
-				return DoParseResources();
+				return DoParseResources(theNamespace);
 		}
 	}
 
 	Fail("Expecting ResourceManifest tag");
 
-	return DoParseResources();
+	return DoParseResources(theNamespace);
 }
 
-bool ResourceManager::AddResourcesFile(const std::string &theFilename)
+bool ResourceManager::AddResourcesFile(const std::string &theFilename, const std::string &theNamespace)
 {
 	bool anOldDefine = mAllowAlreadyDefinedResources;
 	mAllowAlreadyDefinedResources = true;
-	bool aResult = ParseResourcesFile(theFilename);
+	bool aResult = ParseResourcesFile(theFilename, theNamespace);
 	mAllowAlreadyDefinedResources = anOldDefine;
 	return aResult;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-bool ResourceManager::ReparseResourcesFile(const std::string &theFilename)
+bool ResourceManager::ReparseResourcesFile(const std::string &theFilename, const std::string &theNamespace)
 {
 	bool oldDefined = mAllowAlreadyDefinedResources;
 	mAllowAlreadyDefinedResources = true;
 
-	bool aResult = ParseResourcesFile(theFilename);
+	bool aResult = ParseResourcesFile(theFilename, theNamespace);
 
 	mAllowAlreadyDefinedResources = oldDefined;
 

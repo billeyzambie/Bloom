@@ -426,7 +426,7 @@ void StoreScreen::Draw(Graphics *g)
 		TodDrawString(g,
 					  aPageString,
 					  STORESCREEN_PAGESTRING_X,
-					  STORESCREEN_COINBANK_Y,
+					  STORESCREEN_PAGESTRING_Y,
 					  Sexy::FONT_BRIANNETOD12,
 					  Color(80, 80, 80),
 					  DS_ALIGN_CENTER);

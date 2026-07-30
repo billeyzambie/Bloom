@@ -145,10 +145,10 @@ class BLOOM_API ResourceManager
 	virtual bool ParseSoundResource(XMLElement &theElement);
 	virtual bool ParseImageResource(XMLElement &theElement);
 	virtual bool ParseFontResource(XMLElement &theElement);
-	virtual bool ParseSetDefaults(XMLElement &theElement);
-	virtual bool ParseResources();
+	virtual bool ParseSetDefaults(XMLElement &theElement, const std::string &theNamespace);
+	virtual bool ParseResources(const std::string &theNamespace);
 
-	bool DoParseResources();
+	bool DoParseResources(const std::string &theNamespace);
 	void DeleteMap(ResMap &theMap);
 	virtual void DeleteResources(ResMap &theMap, const std::string &theGroup);
 
@@ -164,10 +164,10 @@ class BLOOM_API ResourceManager
 	ResourceManager(SexyAppBase *theApp);
 	virtual ~ResourceManager();
 
-	bool ParseResourcesFile(const std::string &theFilename);
+	bool ParseResourcesFile(const std::string &theFilename, const std::string &theNamespace);
 	//Add additional resources/overwrite resources
-	bool AddResourcesFile(const std::string &theFilename);
-	bool ReparseResourcesFile(const std::string &theFilename);
+	bool AddResourcesFile(const std::string &theFilename, const std::string &theNamespace);
+	bool ReparseResourcesFile(const std::string &theFilename, const std::string &theNamespace);
 
 	std::string GetErrorText();
 	bool HadError();
