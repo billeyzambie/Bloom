@@ -1764,6 +1764,11 @@ void LawnApp::LoadingThreadProc()
 	TodStringListLoad("properties/ZombatarTOS.txt", PVZ);
 	TodStringListLoad("properties/FrameworkStrings.txt", PVZ);
 
+	for (const Mod &aMod : mLoadedMods)
+	{
+		TodStringListLoad("properties/LawnStrings.txt", aMod.mId, false);
+	}
+
 	if (mTitleScreen)
 	{
 		mTitleScreen->mLoaderScreenIsLoaded = true;
