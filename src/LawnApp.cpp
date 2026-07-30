@@ -1272,7 +1272,7 @@ void LawnApp::Init()
 	PerfTimer mTimer;
 	mTimer.Start();
 
-	LoadMods();
+	LoadMods(mLoadedMods);
 #ifdef _DEBUG
 	int aDuration = mTimer.GetDuration();
 	TodTraceAndLog("[LawnProject] - loading: mods %d ms", aDuration);
@@ -3400,4 +3400,9 @@ bool LawnApp::NeedRegister()
 
 void LawnApp::UpdateRegisterInfo()
 {
+}
+
+std::span<const Mod> LawnApp::GetLoadedMods() const
+{
+	return mLoadedMods;
 }

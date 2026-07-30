@@ -40,7 +40,7 @@ bool TodStringListReadName(const char *&thePtr, std::string &theName);
 bool TodStringListReadValue(const char *&thePtr, std::string &theValue);
 bool TodStringListReadItems(const char *theFileText);
 bool TodStringListReadFile(const char *theFileName);
-void TodStringListLoad(const std::string &theFileName, const std::string &theNamespace);
+void TodStringListLoad(const std::string &theFileName, const std::string &theNamespace, bool theRequired = true);
 SexyString TodStringListFind(const SexyString &theName);
 SexyString TodStringTranslate(const SexyString &theString);
 SexyString TodStringTranslate(const SexyChar *theString);

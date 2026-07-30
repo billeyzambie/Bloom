@@ -6,6 +6,7 @@
 #include <iostream>
 #include <filesystem>
 #include <fstream>
+#include <optional>
 
 #include "Windows.h"
 #include "json.hpp"
@@ -27,7 +28,7 @@ constexpr const char *ARCHITECTURE_STRING = "x64";
 constexpr const char *ARCHITECTURE_STRING = "x86";
 #endif
 
-static bool LoadMod(const std::string &theFolderName)
+static std::optional<Mod> LoadMod(const std::string &theFolderName)
 {
 	std::string aManifestPath = "mods/" + theFolderName + "/manifest.json";
 	std::ifstream aManifestFile{aManifestPath};
@@ -42,29 +43,29 @@ static bool LoadMod(const std::string &theFolderName)
 	else
 	{
 		std::cout << "[BloomLib] - " << theFolderName << " manifest not found" << std::endl;
-		return false;
+		return {};
 	}
 
 	std::string aDllPath = "mods/" + theFolderName + "/" + DEBUG_OR_RELEASE_STRING + "_" + ARCHITECTURE_STRING + ".dll";
 
-	HMODULE aMod = LoadLibraryA(aDllPath.c_str());
+	HMODULE aDll = LoadLibraryA(aDllPath.c_str());
 
-	if (aMod)
+	if (aDll)
 	{
 		std::cout << "[BloomLib] - Loaded " << aDllPath << std::endl;
-		void (*aModInitFunction)(const std::string *) = (void (*)(const std::string *))GetProcAddress(aMod, "ModInit");
+		void (*aModInitFunction)(const std::string *) = (void (*)(const std::string *))GetProcAddress(aDll, "ModInit");
 		if (aModInitFunction)
 			aModInitFunction(&theFolderName);
 		else
 		{
 			std::cout << "[BloomLib] - ModInit function not found" << std::endl;
-			return false;
+			return {};
 		}
 	}
 	else
 	{
 		std::cout << "[BloomLib] - Loading " << aDllPath << " failed" << std::endl;
-		return false;
+		return {};
 	}
 
 	std::string aPakPath = "mods/" + theFolderName + "/mod.pak";
@@ -80,10 +81,10 @@ static bool LoadMod(const std::string &theFolderName)
 		std::cout << "[BloomLib] - " << aPakPath << " not found" << std::endl;
 	}
 
-	return true;
+	return Mod{std::move(aModId), aModPakFound, aDll};
 }
 
-void LoadMods()
+void LoadMods(std::vector<Mod> &theModList)
 {
 	std::string aPath = "mods";
 	for (const auto &anEntry : std::filesystem::directory_iterator(aPath))
@@ -92,11 +93,13 @@ void LoadMods()
 		std::cout << std::endl;
 		std::cout << "[BloomLib] - Loading mod " << aFolderName << std::endl;
 
-		bool aLoadingSucceeded = LoadMod(aFolderName);
+		std::optional<Mod> aMod = LoadMod(aFolderName);
 
-		if (aLoadingSucceeded)
+		if (aMod)
 		{
 			std::cout << "[BloomLib] - Successfully loaded mod " << aFolderName << std::endl;
+			aMod->mLoadPosition = theModList.size();
+			theModList.emplace_back(std::move(*aMod));
 		}
 		else
 		{

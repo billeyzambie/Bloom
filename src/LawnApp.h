@@ -4,6 +4,10 @@
 #include "ConstEnums.h"
 #include "SexyAppFramework/SexyApp.h"
 #include "../BloomLib/Bloom.h"
+#include "../BloomLib/Mod.h"
+
+#include <vector>
+#include <span>
 
 class Achievements;
 class Board;
@@ -66,6 +70,8 @@ class BLOOM_API LevelStats
 
 class BLOOM_API LawnApp : public SexyApp
 {
+  private:
+	std::vector<Mod> mLoadedMods;
   public:
 	Board *mBoard;
 	TitleScreen *mTitleScreen;
@@ -911,6 +917,7 @@ class BLOOM_API LawnApp : public SexyApp
 	/// @param theHeight The height to center it in
 	static void CenterDialog(Dialog *theDialog, int theWidth, int theHeight);
 
+	std::span<const Mod> GetLoadedMods() const;
 };
 
 /// @brief Get the current level name, used for logging
