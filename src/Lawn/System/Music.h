@@ -4,6 +4,8 @@
 #include <string>
 #include <bass.h>
 
+#include "../BloomLib/ResourcePath.h"
+
 class LawnApp;
 namespace Sexy
 {
@@ -110,7 +112,7 @@ class Music
 	void PlayMusic(MusicTune theMusicTune, int theOffset = -1, int theDrumsOffset = -1);
 	HMUSIC GetBassMusicHandle(MusicFile theMusicFile);
 	void StartGameMusic();
-	void LoadSong(MusicFile theMusicFile, const std::string &theFileName);
+	void LoadSong(MusicFile theMusicFile, const ResourcePath &theFileName);
 	void MusicResync();
 	void UpdateMusicBurst();
 	void UpdateBurstTracker();
@@ -119,7 +121,7 @@ class Music
 	void GameMusicPause(bool thePause);
 	void PlayFromOffset(MusicFile theMusicFile, int theOffset, double theVolume);
 	void MusicResyncChannel(MusicFile theMusicFileToMatch, MusicFile theMusicFileToSync);
-	bool TodLoadMusic(MusicFile theMusicFile, const std::string &theFileName);
+	bool TodLoadMusic(MusicFile theMusicFile, const ResourcePath &theFileName);
 	void MusicTitleScreenInit();
 	void MakeSureMusicIsPlaying(MusicTune theMusicTune);
 	void FadeOut(int theFadeOutDuration);

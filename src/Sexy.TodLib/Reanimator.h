@@ -67,7 +67,7 @@ class ReanimationParams
 {
   public:
 	ReanimationType mReanimationType;
-	const char *mReanimFileName;
+	ResourcePath mReanimFileName;
 	int mReanimParamFlags;
 };
 extern int gReanimationParamArraySize;
@@ -75,7 +75,7 @@ extern ReanimationParams *gReanimationParamArray;
 
 void ReanimationFillInMissingData(float &thePrev, float &theValue);
 void ReanimationFillInMissingData(void *&thePrev, void *&theValue);
-bool ReanimationLoadDefinition(const SexyString &theFileName, ReanimatorDefinition *theDefinition);
+bool ReanimationLoadDefinition(const ResourcePath &theFileName, ReanimatorDefinition *theDefinition);
 void ReanimationFreeDefinition(ReanimatorDefinition *theDefinition);
 void _cdecl ReanimatorEnsureDefinitionLoaded(ReanimationType theReanimType, bool theIsPreloading);
 void ReanimatorLoadDefinitions(ReanimationParams *theReanimationParamArray, int theReanimationParamArraySize);

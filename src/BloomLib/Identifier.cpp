@@ -1,9 +1,10 @@
 #include "Identifier.h"
-#include "BloomUtil.h"
+
+#include "../SexyAppFramework/Common.h"
 
 Identifier::Identifier(const std::string &theModName, const std::string &theTypeName)
-	: mModName(CreateAllUppercase(theModName)),
-	  mTypeName(CreateAllUppercase(theTypeName))
+	: mModName(Sexy::StringToUpper(theModName)),
+	  mTypeName(Sexy::StringToUpper(theTypeName))
 {
 }
 

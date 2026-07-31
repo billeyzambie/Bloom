@@ -157,8 +157,8 @@ bool ResourceManager::Fail(const std::string &theErrorText)
 		if (aLineNum > 0)
 			mError += std::string(" on Line ") + aLineNumStr;
 
-		if (mXMLParser->GetFileName().length() > 0)
-			mError += " in File '" + mXMLParser->GetFileName() + "'";
+		if (mXMLParser->GetFileName().AsString().length() > 0)
+			mError += " in File '" + mXMLParser->GetFileName().AsString() + "'";
 	}
 
 	return false;
@@ -585,13 +585,13 @@ bool ResourceManager::DoParseResources(const std::string &theNamespace)
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-bool ResourceManager::ParseResourcesFile(const std::string &theFilename, const std::string &theNamespace)
+bool ResourceManager::ParseResourcesFile(const ResourcePath &theFilePath)
 {
-	std::string aNamespacedName = theNamespace + '/' + theFilename;
+	std::string aNamespace = theFilePath.CreateNamespaceString();
 
 	mXMLParser = new XMLParser();
-	if (!mXMLParser->OpenFile(aNamespacedName))
-		Fail("Resource file not found: " + aNamespacedName);
+	if (!mXMLParser->OpenFile(theFilePath))
+		Fail("Resource file not found: " + theFilePath.AsString());
 
 	XMLElement aXMLElement;
 	while (!mXMLParser->HasFailed())
@@ -604,32 +604,32 @@ bool ResourceManager::ParseResourcesFile(const std::string &theFilename, const s
 			if (aXMLElement.mValue != "ResourceManifest")
 				break;
 			else
-				return DoParseResources(theNamespace);
+				return DoParseResources(aNamespace);
 		}
 	}
 
 	Fail("Expecting ResourceManifest tag");
 
-	return DoParseResources(theNamespace);
+	return DoParseResources(aNamespace);
 }
 
-bool ResourceManager::AddResourcesFile(const std::string &theFilename, const std::string &theNamespace)
+bool ResourceManager::AddResourcesFile(const ResourcePath &theFilePath)
 {
 	bool anOldDefine = mAllowAlreadyDefinedResources;
 	mAllowAlreadyDefinedResources = true;
-	bool aResult = ParseResourcesFile(theFilename, theNamespace);
+	bool aResult = ParseResourcesFile(theFilePath);
 	mAllowAlreadyDefinedResources = anOldDefine;
 	return aResult;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-bool ResourceManager::ReparseResourcesFile(const std::string &theFilename, const std::string &theNamespace)
+bool ResourceManager::ReparseResourcesFile(const ResourcePath &theFilePath)
 {
 	bool oldDefined = mAllowAlreadyDefinedResources;
 	mAllowAlreadyDefinedResources = true;
 
-	bool aResult = ParseResourcesFile(theFilename, theNamespace);
+	bool aResult = ParseResourcesFile(theFilePath);
 
 	mAllowAlreadyDefinedResources = oldDefined;
 

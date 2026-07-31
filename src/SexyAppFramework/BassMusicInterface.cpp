@@ -40,17 +40,17 @@ BassMusicInterface::~BassMusicInterface()
 	BASS_Free();
 }
 
-bool BassMusicInterface::LoadMusic(int theSongId, const std::string &theFileName)
+bool BassMusicInterface::LoadMusic(int theSongId, const ResourcePath &theFileName)
 {
 	HMUSIC aHMusic = NULL;
 	HSTREAM aStream = NULL;
 
 	std::string anExt;
-	int aDotPos = theFileName.find_last_of('.');
+	int aDotPos = theFileName.AsString().find_last_of('.');
 	if (aDotPos != std::string::npos)
-		anExt = StringToLower(theFileName.substr(aDotPos + 1));
+		anExt = StringToLower(theFileName.AsString().substr(aDotPos + 1));
 
-	PFILE *aFP = p_fopen(theFileName.c_str(), "rb");
+	PFILE *aFP = p_fopen(theFileName, "rb");
 	if (!aFP)
 		return false;
 

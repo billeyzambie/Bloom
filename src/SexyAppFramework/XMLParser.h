@@ -5,6 +5,8 @@
 
 #include "PerfTimer.h"
 
+#include "../BloomLib/ResourcePath.h"
+
 struct PFILE;
 
 namespace Sexy
@@ -47,7 +49,7 @@ class XMLElement
 class XMLParser
 {
   protected:
-	std::string mFileName;
+	ResourcePath mFileName;
 	SexyString mErrorText;
 	int mLineNum;
 	PFILE *mFile;
@@ -87,12 +89,12 @@ class XMLParser
 	virtual ~XMLParser();
 
 	void SetEncodingType(XMLEncodingType theEncoding);
-	bool OpenFile(const std::string &theFilename);
+	bool OpenFile(const ResourcePath &theFilename);
 	void SetStringSource(const std::string &theString);
 	bool NextElement(XMLElement *theElement);
 	SexyString GetErrorText();
 	int GetCurrentLineNum();
-	std::string GetFileName();
+	ResourcePath GetFileName();
 
 	inline void AllowComments(bool doAllow)
 	{

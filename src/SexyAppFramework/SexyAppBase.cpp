@@ -5045,12 +5045,12 @@ bool SexyAppBase::LoadProperties(const std::string &theFileName, bool required, 
 bool SexyAppBase::LoadProperties()
 {
 	// Load required language-file properties
-	return LoadProperties("properties\\default.xml", true, false);
+	return LoadProperties("PVZ\\properties\\default.xml", true, false);
 }
 
 void SexyAppBase::LoadResourceManifest()
 {
-	if (!mResourceManager->ParseResourcesFile("properties\\resources.xml", PVZ))
+	if (!mResourceManager->ParseResourcesFile({"PVZ", "properties\\resources.xml" }))
 		ShowResourceError(true);
 }
 

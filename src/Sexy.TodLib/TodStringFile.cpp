@@ -125,12 +125,12 @@ bool TodStringListReadItems(const char *theFileText)
 	}
 }
 
-bool TodStringListReadFile(const char *theFileName)
+bool TodStringListReadFile(const ResourcePath &theFileName)
 {
 	PFILE *pFile = p_fopen(theFileName, "rb");
 	if (pFile == nullptr)
 	{
-		TodTrace("[TodLib] - Failed to open '%s'", theFileName);
+		TodTrace("[TodLib] - Failed to open '%s'", theFileName.CStr());
 		return false;
 	}
 
@@ -141,7 +141,7 @@ bool TodStringListReadFile(const char *theFileName)
 	bool aSuccess = true;
 	if (p_fread(aFileText, sizeof(char), aSize, pFile) <= 0)
 	{
-		TodTrace("[TodLib] - Failed to read '%s'", theFileName);
+		TodTrace("[TodLib] - Failed to read '%s'", theFileName.CStr());
 		aSuccess = false;
 	}
 	aFileText[aSize] = '\0';
@@ -156,11 +156,10 @@ bool TodStringListReadFile(const char *theFileName)
 	return aSuccess;
 }
 
-void TodStringListLoad(const std::string &theFileName, const std::string &theNamespace, bool theRequired)
+void TodStringListLoad(const ResourcePath &theFilePath, bool theRequired)
 {
-	std::string aNamespacedName = theNamespace + '/' + theFileName;
-	if (!TodStringListReadFile(aNamespacedName.c_str()) && !theRequired)
-		TodErrorMessageBox(Sexy::StrFormat("Failed to load string list file '%s'", theFileName).c_str(), "Error");
+	if (!TodStringListReadFile(theFilePath) && !theRequired)
+		TodErrorMessageBox(Sexy::StrFormat("Failed to load string list file '%s'", theFilePath.CStr()).c_str(), "Error");
 }
 
 SexyString TodStringListFind(const SexyString &theName)

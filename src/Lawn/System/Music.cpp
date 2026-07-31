@@ -33,20 +33,20 @@ Music::Music()
 
 MusicFileData gMusicFileData[MusicFile::NUM_MUSIC_FILES];
 
-bool Music::TodLoadMusic(MusicFile theMusicFile, const std::string &theFileName)
+bool Music::TodLoadMusic(MusicFile theMusicFile, const ResourcePath &theFileName)
 {
 	HMUSIC aHMusic = NULL;
 	HSTREAM aStream = NULL;
 	BassMusicInterface *aBass = (BassMusicInterface *)mMusicInterface;
 	std::string anExt;
 
-	int aDot = theFileName.rfind('.');
+	int aDot = theFileName.AsString().rfind('.');
 	if (aDot != std::string::npos)
-		anExt = StringToLower(theFileName.substr(aDot + 1));
+		anExt = StringToLower(theFileName.AsString().substr(aDot + 1));
 
 	if (anExt.compare("wav") && anExt.compare("ogg") && anExt.compare("mp3"))
 	{
-		PFILE *pFile = p_fopen(theFileName.c_str(), "rb");
+		PFILE *pFile = p_fopen(theFileName, "rb");
 		if (pFile == nullptr)
 			return false;
 
@@ -65,7 +65,7 @@ bool Music::TodLoadMusic(MusicFile theMusicFile, const std::string &theFileName)
 	}
 	else
 	{
-		PFILE *pFile = p_fopen(theFileName.c_str(), "rb");
+		PFILE *pFile = p_fopen(theFileName, "rb");
 		if (pFile == nullptr)
 			return false;
 
@@ -211,7 +211,7 @@ void Music::SetupMusicFileForTune(MusicFile theMusicFile, MusicTune theMusicTune
 	}
 }
 
-void Music::LoadSong(MusicFile theMusicFile, const std::string &theFileName)
+void Music::LoadSong(MusicFile theMusicFile, const ResourcePath &theFileName)
 {
 	TodHesitationTrace("preloadsong");
 	if (!TodLoadMusic(theMusicFile, theFileName))
@@ -223,13 +223,13 @@ void Music::LoadSong(MusicFile theMusicFile, const std::string &theFileName)
 	else
 	{
 		BASS_ChannelSetAttribute(GetBassMusicHandle(theMusicFile), BASS_ATTRIB_MUSIC_PSCALER, 4);
-		TodHesitationTrace("song '%s'", theFileName.c_str());
+		TodHesitationTrace("song '%s'", theFileName.CStr());
 	}
 }
 
 void Music::MusicTitleScreenInit()
 {
-	LoadSong(MusicFile::MUSIC_FILE_MAIN_MUSIC, "PVZ/sounds/mainmusic.mo3");
+	LoadSong(MusicFile::MUSIC_FILE_MAIN_MUSIC, {"PVZ", "sounds/mainmusic.mo3"});
 	MakeSureMusicIsPlaying(MusicTune::MUSIC_TUNE_TITLE_CRAZY_DAVE_MAIN_THEME);
 }
 
@@ -239,13 +239,13 @@ void Music::MusicInit()
 	int aNumLoadingTasks = mApp->mCompletedLoadingThreadTasks + GetNumLoadingTasks();
 #endif
 
-	LoadSong(MusicFile::MUSIC_FILE_DRUMS, "PVZ/sounds/mainmusic.mo3");
+	LoadSong(MusicFile::MUSIC_FILE_DRUMS, {"PVZ", "sounds/mainmusic.mo3"});
 	mApp->mCompletedLoadingThreadTasks += 3500;;
-	LoadSong(MusicFile::MUSIC_FILE_HIHATS, "PVZ/sounds/mainmusic_hihats.mo3");
+	LoadSong(MusicFile::MUSIC_FILE_HIHATS, {"PVZ", "sounds/mainmusic_hihats.mo3"});
 	mApp->mCompletedLoadingThreadTasks += 3500;
 
 #ifdef _DEBUG
-	LoadSong(MusicFile::MUSIC_FILE_CREDITS_ZOMBIES_ON_YOUR_LAWN, "PVZ/sounds/ZombiesOnYourLawn.ogg");
+	LoadSong(MusicFile::MUSIC_FILE_CREDITS_ZOMBIES_ON_YOUR_LAWN, {"PVZ", "sounds/ZombiesOnYourLawn.ogg"});
 	mApp->mCompletedLoadingThreadTasks += 3500;
 	if (mApp->mCompletedLoadingThreadTasks != aNumLoadingTasks)
 		TodTrace("[LawnProject] - Didn't calculate loading task count correctly!!!!");
@@ -258,7 +258,7 @@ void Music::MusicLoadCreditsSong()
 	BassMusicInterface *aBass = (BassMusicInterface *)mMusicInterface;
 	if (aBass->mMusicMap.find((int)MusicFile::MUSIC_FILE_CREDITS_ZOMBIES_ON_YOUR_LAWN) ==
 		aBass->mMusicMap.end())
-		LoadSong(MusicFile::MUSIC_FILE_CREDITS_ZOMBIES_ON_YOUR_LAWN, "sounds/ZombiesOnYourLawn.ogg");
+		LoadSong(MusicFile::MUSIC_FILE_CREDITS_ZOMBIES_ON_YOUR_LAWN, {"PVZ", "sounds/ZombiesOnYourLawn.ogg"});
 #endif
 }
 

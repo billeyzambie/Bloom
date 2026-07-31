@@ -472,9 +472,11 @@ void StoreScreen::UpdateMouse()
 
 				const std::string &aMessage = aItemType->GetStoreMessage(*this->mApp);
 				
-				if (mApp->mCrazyDaveMessageText != aMessage)
+				std::string aTranslatedMessage = TodStringTranslate(aMessage);
+
+				if (mApp->mCrazyDaveMessageText != aTranslatedMessage)
 				{
-					mApp->CrazyDaveTalkMessage(TodStringTranslate(aMessage));
+					mApp->CrazyDaveTalkMessage(aTranslatedMessage);
 					mBubbleClickToContinue = false;
 				}
 				mBubbleCountDown = 100;

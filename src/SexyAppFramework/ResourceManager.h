@@ -6,6 +6,7 @@
 #include "SexyAppBase.h"
 #include <string>
 #include <map>
+#include "../BloomLib/ResourcePath.h"
 
 namespace ImageLib
 {
@@ -164,10 +165,10 @@ class BLOOM_API ResourceManager
 	ResourceManager(SexyAppBase *theApp);
 	virtual ~ResourceManager();
 
-	bool ParseResourcesFile(const std::string &theFilename, const std::string &theNamespace);
+	bool ParseResourcesFile(const ResourcePath &theFilePath);
 	//Add additional resources/overwrite resources
-	bool AddResourcesFile(const std::string &theFilename, const std::string &theNamespace);
-	bool ReparseResourcesFile(const std::string &theFilename, const std::string &theNamespace);
+	bool AddResourcesFile(const ResourcePath &theFilePath);
+	bool ReparseResourcesFile(const ResourcePath &theFilePath);
 
 	std::string GetErrorText();
 	bool HadError();

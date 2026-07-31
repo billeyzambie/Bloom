@@ -1252,13 +1252,13 @@ void LawnApp::Init()
 	gSEHCatcher.mSubmitHost = "https://github.com/LawnProject/ResoddedFramework";
 #endif
 
-	if (!mResourceManager->ParseResourcesFile("properties/resources.xml", PVZ))
+	if (!mResourceManager->ParseResourcesFile({"PVZ", "properties/resources.xml"}))
 	{
 		ShowResourceError(true);
 		return;
 	}
 
-	if (!mResourceManager->AddResourcesFile("properties/framework_resources.xml", PVZ))
+	if (!mResourceManager->AddResourcesFile({"PVZ", "properties/framework_resources.xml"}))
 	{
 		ShowResourceError(true);
 		return;
@@ -1760,13 +1760,13 @@ void LawnApp::LoadingThreadProc()
 	if (!TodLoadResources("LoaderBar"))
 		return;
 
-	TodStringListLoad("properties/LawnStrings.txt", PVZ);
-	TodStringListLoad("properties/ZombatarTOS.txt", PVZ);
-	TodStringListLoad("properties/FrameworkStrings.txt", PVZ);
+	TodStringListLoad({"PVZ", "properties/LawnStrings.txt"});
+	TodStringListLoad({"PVZ", "properties/ZombatarTOS.txt"});
+	TodStringListLoad({"PVZ", "properties/FrameworkStrings.txt"});
 
 	for (const Mod &aMod : mLoadedMods)
 	{
-		TodStringListLoad("properties/LawnStrings.txt", aMod.mId, false);
+		TodStringListLoad({aMod.mId, "properties/LawnStrings.txt"}, false);
 	}
 
 	if (mTitleScreen)

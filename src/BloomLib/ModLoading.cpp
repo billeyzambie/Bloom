@@ -1,7 +1,5 @@
 #include "ModLoading.h"
 
-#include "BloomUtil.h"
-
 #include <string>
 #include <iostream>
 #include <filesystem>
@@ -11,6 +9,7 @@
 #include "Windows.h"
 #include "json.hpp"
 
+#include "../SexyAppFramework/Common.h"
 #include "../Lawn/Registries.h"
 #include "../PakLib/PakInterface.h"
 
@@ -38,7 +37,7 @@ static std::optional<Mod> LoadMod(const std::string &theFolderName)
 	{
 		json aManifestJson = json::parse(aManifestFile);
 		aModId = aManifestJson["mod_id"].get<std::string>();
-		aModId = CreateAllUppercase(aModId);
+		Sexy::inlineUpper(aModId);
 	}
 	else
 	{

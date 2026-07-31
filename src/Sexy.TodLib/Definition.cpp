@@ -318,7 +318,7 @@ bool DefinitionLoadFont(Font **theFont, const SexyString &theName)
 	return aFont != nullptr;
 }
 
-bool DefinitionLoadXML(const SexyString &theFileName, DefMap *theDefMap, void *theDefinition)
+bool DefinitionLoadXML(const ResourcePath &theFileName, DefMap *theDefMap, void *theDefinition)
 {
 	return DefinitionCompileAndLoad(theFileName, theDefMap, theDefinition);
 }
@@ -526,13 +526,13 @@ uint32_t DefinitionCalcHash(DefMap *theDefMap)
 void *DefinitionUncompressCompiledBuffer(const CompiledDefinitionHeader *aHeader,
 										 void *theCompressedBuffer,
 										 size_t theCompressedBufferSize,
-										 const SexyString &theCompiledFilePath)
+										 const ResourcePath &theCompiledFilePath)
 {
 	auto sz = theCompressedBufferSize;
 	
 	if (theCompressedBufferSize < 8)
 	{
-		TodTraceAndLog("[TodLib] - Compile def too small", theCompiledFilePath.c_str());
+		TodTraceAndLog("[TodLib] - Compile def too small", theCompiledFilePath.CStr());
 		return nullptr;
 	}
 
@@ -547,13 +547,13 @@ void *DefinitionUncompressCompiledBuffer(const CompiledDefinitionHeader *aHeader
 	return aUncompressedBuffer;
 }
 
-bool DefinitionReadCompiledFile(const SexyString &theCompiledFilePath, DefMap *theDefMap, void *theDefinition)
+bool DefinitionReadCompiledFile(const ResourcePath &theCompiledFilePath, DefMap *theDefMap, void *theDefinition)
 {
 	CompiledDefinitionFile aCompiledFile;
 
 	PerfTimer aTimer;
 	aTimer.Start();
-	FILE *pFile = fopen(theCompiledFilePath.c_str(), "rb");
+	FILE *pFile = fopen(theCompiledFilePath.CStr(), "rb");
 	if (pFile)
 	{
 		fseek(pFile, 0, 2);
@@ -564,7 +564,7 @@ bool DefinitionReadCompiledFile(const SexyString &theCompiledFilePath, DefMap *t
 		fclose(pFile);
 		if (aReadCompressedFailed)
 		{
-			TodTraceAndLog("[TodLib] - Failed to read compiled file: %s\n", theCompiledFilePath.c_str());
+			TodTraceAndLog("[TodLib] - Failed to read compiled file: %s\n", theCompiledFilePath.CStr());
 			return false;
 		}
 
@@ -573,7 +573,7 @@ bool DefinitionReadCompiledFile(const SexyString &theCompiledFilePath, DefMap *t
 			const CompiledDefinitionHeader *aHeader = aCompiledFile.GetHeader();
 			if (aHeader->mDataOffset > aFileSize)
 			{
-				TodTraceAndLog("[TodLib] - Data Offset is larger then file size: %s\n", theCompiledFilePath.c_str());
+				TodTraceAndLog("[TodLib] - Data Offset is larger then file size: %s\n", theCompiledFilePath.CStr());
 				return false;
 			}
 			size_t aCompressedSize = aFileSize - aHeader->mDataOffset;
@@ -584,7 +584,7 @@ bool DefinitionReadCompiledFile(const SexyString &theCompiledFilePath, DefMap *t
 
 			if (anUncompressedData == nullptr)
 			{
-				TodTraceAndLog("[TodLib] - Failed to uncompress: %s\n", theCompiledFilePath.c_str());
+				TodTraceAndLog("[TodLib] - Failed to uncompress: %s\n", theCompiledFilePath.CStr());
 				return false;
 			}
 
@@ -612,14 +612,14 @@ bool DefinitionReadCompiledFile(const SexyString &theCompiledFilePath, DefMap *t
 	return false;
 }
 
-SexyString DefinitionGetCompiledFilePathFromXMLFilePath(const SexyString &theXMLFilePath)
+ResourcePath DefinitionGetCompiledFilePathFromXMLFilePath(const ResourcePath &theXMLFilePath)
 {
-	return "compiled/" + theXMLFilePath + ".compiled";
+	return {theXMLFilePath.NamespaceView(), "compiled/" + theXMLFilePath.CreateBarePathString() + ".compiled"};
 }
 
-bool IsFileInPakFile(const SexyString &theFilePath)
+bool IsFileInPakFile(const ResourcePath &theFilePath)
 {
-	PFILE *pFile = p_fopen(theFilePath.c_str(), "rb");
+	PFILE *pFile = p_fopen(theFilePath, "rb");
 	bool aIsInPak =
 		pFile && !pFile->mFP; // The file found and opened by mPakRecordMap.find has a null pointer mFP (because it was not opened from an actual file).
 	if (pFile)
@@ -629,10 +629,10 @@ bool IsFileInPakFile(const SexyString &theFilePath)
 	return aIsInPak;
 }
 
-bool DefinitionIsCompiled(const SexyString &theXMLFilePath)
+bool DefinitionIsCompiled(const ResourcePath &theXMLFilePath)
 {
-	SexyString aCompiledFilePath = DefinitionGetCompiledFilePathFromXMLFilePath(theXMLFilePath);
-	PFILE *pFile = p_fopen(aCompiledFilePath.c_str(), "rb");
+	ResourcePath aCompiledFilePath = DefinitionGetCompiledFilePathFromXMLFilePath(theXMLFilePath);
+	PFILE *pFile = p_fopen(aCompiledFilePath, "rb");
 	if (pFile)
 	{
 		p_fclose(pFile);
@@ -657,8 +657,8 @@ void DefinitionXmlError(XMLParser *theXmlParser, const char *theFormat, ...)
 	va_end(argList);
 
 	int aLine = theXmlParser->GetCurrentLineNum();
-	std::string aFileName = theXmlParser->GetFileName();
-	TodTraceAndLog("[TodLib] - %s(%d): XML Definition Error: %s\n", aFileName.c_str(), aLine, aFormattedMessage.c_str());
+	ResourcePath aFileName = theXmlParser->GetFileName();
+	TodTraceAndLog("[TodLib] - %s(%d): XML Definition Error: %s\n", aFileName.CStr(), aLine, aFormattedMessage.c_str());
 }
 
 bool DefinitionReadXMLString(XMLParser *theXmlParser, SexyString &theValue)
@@ -1039,7 +1039,7 @@ bool DefinitionReadImageField(XMLParser *theXmlParser, Image **theImage)
 		return true;
 
 	std::string aMessgae = StrFormat(
-		"Failed to find image '%s' in %s", aStringValue.c_str(), theXmlParser->GetFileName().c_str());
+		"Failed to find image '%s' in %s", aStringValue.c_str(), theXmlParser->GetFileName().CStr());
 	TodErrorMessageBox(aMessgae.c_str(), "Missing image");
 }
 
@@ -1052,7 +1052,7 @@ bool DefinitionReadFontField(XMLParser *theXmlParser, Font **theFont)
 	if (DefinitionLoadFont(theFont, aStringValue))
 		return true;
 
-	std::string aMessgae = StrFormat("Failed to find font '%s' in %s", aStringValue.c_str(), theXmlParser->GetFileName().c_str());
+	std::string aMessgae = StrFormat("Failed to find font '%s' in %s", aStringValue.c_str(), theXmlParser->GetFileName().CStr());
 	TodErrorMessageBox(aMessgae.c_str(), "Missing font");
 }
 
@@ -1290,7 +1290,7 @@ void DefMapWriteToCache(DefinitionCompiler *theWritePtr, DefMap *theDefMap, void
 	}
 }
 
-bool DefinitionWriteCompiledFile(const SexyString &theCompiledFilePath, DefMap *theDefMap, void *theDefinition)
+bool DefinitionWriteCompiledFile(const ResourcePath &theCompiledFilePath, DefMap *theDefMap, void *theDefinition)
 {
 	CompiledDefinitionHeader aHeader;
 	aHeader.mCookie = COMPILED_DEFINITION_MAGIC;
@@ -1307,11 +1307,11 @@ bool DefinitionWriteCompiledFile(const SexyString &theCompiledFilePath, DefMap *
 
 	if (res != Z_OK)
 	{
-		TodTraceAndLog("[TodLib] - Failed to compress file: %s\nZLib Error: %d", theCompiledFilePath.c_str(), res);
+		TodTraceAndLog("[TodLib] - Failed to compress file: %s\nZLib Error: %d", theCompiledFilePath.CStr(), res);
 		DefinitionFree(aCompressedData);
 		return false;
 	}
-	std::filesystem::path path(theCompiledFilePath.c_str());
+	std::filesystem::path path(theCompiledFilePath.CStr());
 	std::filesystem::create_directories(path.parent_path());
 	std::ofstream anOut(path.c_str(), std::ios::binary);
 	anOut.write((char *)&aHeader, sizeof(aHeader));
@@ -1321,15 +1321,15 @@ bool DefinitionWriteCompiledFile(const SexyString &theCompiledFilePath, DefMap *
 	return true;
 }
 
-bool DefinitionCompileFile(const SexyString theXMLFilePath,
-						   const SexyString &theCompiledFilePath,
+bool DefinitionCompileFile(const ResourcePath &theXMLFilePath,
+						   const ResourcePath &theCompiledFilePath,
 						   DefMap *theDefMap,
 						   void *theDefinition)
 {
 	XMLParser aXMLParser;
 	if (!aXMLParser.OpenFile(theXMLFilePath))
 	{
-		TodTraceAndLog("[TodLib] - XML file not found: %s\n", theXMLFilePath.c_str());
+		TodTraceAndLog("[TodLib] - XML file not found: %s\n", theXMLFilePath.CStr());
 		return false;
 	}
 	else if (!DefinitionLoadMap(&aXMLParser, theDefMap, theDefinition))
@@ -1339,16 +1339,16 @@ bool DefinitionCompileFile(const SexyString theXMLFilePath,
 	return true;
 }
 
-bool DefinitionCompileAndLoad(const SexyString &theXMLFilePath, DefMap *theDefMap, void *theDefinition)
+bool DefinitionCompileAndLoad(const ResourcePath &theXMLFilePath, DefMap *theDefMap, void *theDefinition)
 {
-	SexyString aCompiledFilePath = DefinitionGetCompiledFilePathFromXMLFilePath(theXMLFilePath);
+	ResourcePath aCompiledFilePath = DefinitionGetCompiledFilePathFromXMLFilePath(theXMLFilePath);
 	TodHesitationTrace("predef");
 	
 	try
 	{
 		if (DefinitionReadCompiledFile(aCompiledFilePath, theDefMap, theDefinition))
 		{
-			TodHesitationTrace("loaded %s", aCompiledFilePath.c_str());
+			TodHesitationTrace("loaded %s", aCompiledFilePath.CStr());
 			return true;
 		}
 	}
@@ -1356,13 +1356,14 @@ bool DefinitionCompileAndLoad(const SexyString &theXMLFilePath, DefMap *theDefMa
 
 	PerfTimer aTimer;
 	aTimer.Start();
-	bool aResult = DefinitionCompileFile(theXMLFilePath, "fresh_" + aCompiledFilePath, theDefMap, theDefinition); //write to fresh_compiled to not overwrite on game re-compile by accident
-	TodTraceAndLog("[TodLib] - compile %d ms:'%s'", (int)aTimer.GetDuration(), aCompiledFilePath.c_str());
-	TodHesitationTrace("compiled %s", aCompiledFilePath.c_str());
+	ResourcePath aFreshCompiledPath = {aCompiledFilePath.NamespaceView(), "fresh_" + aCompiledFilePath.CreateBarePathString()};
+	bool aResult = DefinitionCompileFile(theXMLFilePath, aFreshCompiledPath, theDefMap, theDefinition); //write to fresh_compiled to not overwrite on game re-compile by accident
+	TodTraceAndLog("[TodLib] - compile %d ms:'%s'", (int)aTimer.GetDuration(), aCompiledFilePath.CStr());
+	TodHesitationTrace("compiled %s", aCompiledFilePath.CStr());
 	if (aResult)
 		return aResult;
 
-	TodErrorMessageBox(StrFormat("missing resource %s", aCompiledFilePath.c_str()).c_str(), "Error");
+	TodErrorMessageBox(StrFormat("missing resource %s", aCompiledFilePath.CStr()).c_str(), "Error");
 	exit(0);
 }
 

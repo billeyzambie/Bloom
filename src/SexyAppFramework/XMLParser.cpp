@@ -279,14 +279,14 @@ bool XMLParser::GetUTF16BEChar(char *theChar, bool *error)
 	return true;
 }
 
-bool XMLParser::OpenFile(const std::string &theFileName)
+bool XMLParser::OpenFile(const ResourcePath &theFileName)
 {
-	mFile = p_fopen(theFileName.c_str(), "r");
+	mFile = p_fopen(theFileName, "r");
 
 	if (mFile == NULL)
 	{
 		mLineNum = 0;
-		Fail(StringToSexyString("Unable to open file " + theFileName));
+		Fail(StringToSexyString("Unable to open file " + theFileName.AsString()));
 		return false;
 	}
 	else if (!mForcedEncodingType)
@@ -325,7 +325,7 @@ bool XMLParser::OpenFile(const std::string &theFileName)
 		}
 	}
 
-	mFileName = theFileName.c_str();
+	mFileName = theFileName;
 	Init();
 	return true;
 }
@@ -752,7 +752,7 @@ int XMLParser::GetCurrentLineNum()
 	return mLineNum;
 }
 
-std::string XMLParser::GetFileName()
+ResourcePath XMLParser::GetFileName()
 {
 	return mFileName;
 }

@@ -4,6 +4,7 @@
 #include "MusicInterface.h"
 #include "Window.h"
 #include <bass.h>
+#include "../BloomLib/ResourcePath.h"
 
 namespace Sexy
 {
@@ -42,7 +43,7 @@ class BassMusicInterface : public MusicInterface
 	BassMusicInterface(Window* theWindow);
 	virtual ~BassMusicInterface();
 
-	virtual bool LoadMusic(int theSongId, const std::string &theFileName);
+	virtual bool LoadMusic(int theSongId, const ResourcePath &theFileName);
 	virtual void PlayMusic(int theSongId, int theOffset = 0, bool noLoop = false);
 	virtual void StopMusic(int theSongId);
 	virtual void StopAllMusic();

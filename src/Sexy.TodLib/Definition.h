@@ -6,6 +6,7 @@
 #include "TodList.h"
 #include "Reanimator.h"
 #include "TodParticle.h"
+#include "../BloomLib/ResourcePath.h"
 
 enum class DefFieldType : int
 {
@@ -136,10 +137,10 @@ class DefLoadResPath
 	const char *mDirectory; // The folder containing the textures corresponding to the prefix, such as "images\".
 };
 
-SexyString /*__cdecl*/ DefinitionGetCompiledFilePathFromXMLFilePath(const SexyString &theXMLFilePath);
-bool IsFileInPakFile(const SexyString &theFilePath);
-bool DefinitionIsCompiled(const SexyString &theXMLFilePath);
-bool DefinitionReadCompiledFile(const SexyString &theCompiledFilePath, DefMap *theDefMap, void *theDefinition);
+ResourcePath /*__cdecl*/ DefinitionGetCompiledFilePathFromXMLFilePath(const ResourcePath &theXMLFilePath);
+bool IsFileInPakFile(const ResourcePath &theFilePath);
+bool DefinitionIsCompiled(const ResourcePath &theXMLFilePath);
+bool DefinitionReadCompiledFile(const ResourcePath &theCompiledFilePath, DefMap *theDefMap, void *theDefinition);
 void DefinitionFillWithDefaults(DefMap *theDefMap, void *theDefinition);
 void DefinitionXmlError(XMLParser *theXmlParser, char *theFormat, ...);
 bool DefSymbolValueFromString(DefSymbol *theSymbolMap, const char *theName, int *theResultValue);
@@ -158,9 +159,9 @@ bool DefinitionReadFlagField(XMLParser *theXmlParser,
 bool DefinitionReadImageField(XMLParser *theXmlParser, Image **theImage);
 bool DefinitionReadFontField(XMLParser *theXmlParser, Font **theFont);
 bool DefinitionReadField(XMLParser *theXmlParser, DefMap *theDefMap, void *theDefinition, bool *theDone);
-bool DefinitionWriteCompiledFile(const SexyString &theCompiledFilePath, DefMap *theDefMap, void *theDefinition);
-bool DefinitionCompileFile(const SexyString theXMLFilePath,
-						   const SexyString &theCompiledFilePath,
+bool DefinitionWriteCompiledFile(const ResourcePath &theCompiledFilePath, DefMap *theDefMap, void *theDefinition);
+bool DefinitionCompileFile(const ResourcePath &theXMLFilePath,
+						   const ResourcePath &theCompiledFilePath,
 						   DefMap *theDefMap,
 						   void *theDefinition);
 void *DefinitionAlloc(int theSize);
@@ -168,7 +169,7 @@ void DefinitionFree(void *&theMemory);
 void *DefinitionUncompressCompiledBuffer(const CompiledDefinitionHeader *aHeader,
 										 void *theCompressedBuffer,
 										 size_t theCompressedBufferSize,
-										 const SexyString &theCompiledFilePath);
+										 const ResourcePath &theCompiledFilePath);
 uint32_t /*__cdecl*/ DefinitionCalcHashSymbolMap(int aSchemaHash, DefSymbol *theSymbolMap);
 uint32_t /*__cdecl*/ DefinitionCalcHashDefMap(int aSchemaHash, DefMap *theDefMap, TodList<DefMap *> &theProgressMaps);
 uint32_t /*__cdecl*/ DefinitionCalcHash(DefMap *theDefMap);
@@ -190,11 +191,11 @@ void DefWriteToCacheFont(DefinitionCompiler *theReadPtr, Font **theFont);
 void DefWriteToCacheFloatTrack(DefinitionCompiler *theReadPtr, FloatParameterTrack *theTrack);
 void DefMapWriteToCache(DefinitionCompiler *theReadPtr, DefMap *theDefMap, void *theDefinition);
 
-bool DefinitionCompileAndLoad(const SexyString &theXMLFilePath, DefMap *theDefMap, void *theDefinition);
+bool DefinitionCompileAndLoad(const ResourcePath &theXMLFilePath, DefMap *theDefMap, void *theDefinition);
 bool DefinitionLoadMap(XMLParser *theXmlParser, DefMap *theDefMap, void *theDefinition);
 bool DefinitionLoadImage(Image **theImage, const SexyString &theName);
 bool DefinitionLoadFont(Font **theFont, const SexyString &theName);
-bool DefinitionLoadXML(const SexyString &theFilename, DefMap *theDefMap, void *theDefinition);
+bool DefinitionLoadXML(const ResourcePath &theFilename, DefMap *theDefMap, void *theDefinition);
 void DefinitionFreeArrayField(DefinitionArrayDef *theArray, DefMap *theDefMap);
 void DefinitionFreeMap(DefMap *theDefMap, void *theDefinition);
 

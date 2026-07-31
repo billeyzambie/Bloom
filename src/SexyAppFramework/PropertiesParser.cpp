@@ -21,8 +21,8 @@ void PropertiesParser::Fail(const SexyString &theErrorText)
 		mError = theErrorText;
 		if (aLineNum > 0)
 			mError += StrFormat(" on Line %d", aLineNum);
-		if (!mXMLParser->GetFileName().empty())
-			mError += StrFormat(" in File '%s'", mXMLParser->GetFileName().c_str());
+		if (mXMLParser->GetFileName().NamespaceView().size() > 1)
+			mError += StrFormat(" in File '%s'", mXMLParser->GetFileName().CStr());
 	}
 }
 
@@ -257,7 +257,7 @@ bool PropertiesParser::ParsePropertiesBuffer(const Buffer &theBuffer)
 	return DoParseProperties();
 }
 
-bool PropertiesParser::ParsePropertiesFile(const std::string &theFilename)
+bool PropertiesParser::ParsePropertiesFile(const ResourcePath &theFilename)
 {
 	mXMLParser = new XMLParser();
 	mXMLParser->OpenFile(theFilename);

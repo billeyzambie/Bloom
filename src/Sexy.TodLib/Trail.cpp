@@ -7,7 +7,8 @@ int gTrailParamArraySize;
 TrailParams *gTrailParamArray;
 
 TrailParams gLawnTrailArray[(int)TrailType::NUM_TRAILS] = {
-	{TrailType::TRAIL_ICE, "PVZ/particles/IceTrail.trail"}};
+	{TrailType::TRAIL_ICE, {"PVZ", "particles/IceTrail.trail"}}
+};
 
 TrailDefinition::TrailDefinition()
 {
@@ -26,11 +27,11 @@ TrailPoint::TrailPoint()
 {
 }
 
-bool TrailLoadADef(TrailDefinition *theTrailDef, const char *theTrailFileName)
+bool TrailLoadADef(TrailDefinition *theTrailDef, const ResourcePath &theTrailFileName)
 {
 	TodHesitationBracket aHesitation("Load Trail '%s'", theTrailFileName);
 
-	if (!DefinitionLoadXML(StringToSexyString(theTrailFileName), &gTrailDefMap, theTrailDef))
+	if (!DefinitionLoadXML(theTrailFileName, &gTrailDefMap, theTrailDef))
 		return false;
 
 	FloatTrackSetDefault(theTrailDef->mWidthOverLength, 1.0f);

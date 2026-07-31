@@ -3,6 +3,7 @@
 #define __PROPERTIESPARSER_H__
 
 #include "SexyAppBase.h"
+#include "../BloomLib/ResourcePath.h"
 
 namespace Sexy
 {
@@ -29,7 +30,7 @@ class PropertiesParser
 	PropertiesParser(SexyAppBase *theApp);
 	virtual ~PropertiesParser();
 
-	bool ParsePropertiesFile(const std::string &theFilename);
+	bool ParsePropertiesFile(const ResourcePath &theFilename);
 	bool ParsePropertiesBuffer(const Buffer &theBuffer);
 	SexyString GetErrorText();
 };

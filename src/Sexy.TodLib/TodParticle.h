@@ -4,6 +4,7 @@
 #include "TodList.h"
 #include "DataArray.h"
 #include "../SexyAppFramework/SexyVector.h"
+#include "../BloomLib/ResourcePath.h"
 namespace Sexy
 {
 class Image;
@@ -156,12 +157,12 @@ class ParticleParams
 {
   public:
 	ParticleEffect mParticleEffect;
-	const char *mParticleFileName;
+	ResourcePath mParticleFileName;
 };
 extern int gParticleParamArraySize;			// [0x6A9F10]
 extern ParticleParams *gParticleParamArray; // [0x6A9F14]
 
-bool TodParticleLoadADef(TodParticleDefinition *theParticleDef, const char *theParticleFileName);
+bool TodParticleLoadADef(TodParticleDefinition *theParticleDef, ResourcePath theParticleFileName);
 void TodParticleLoadDefinitions(ParticleParams *theParticleParamArray, int theParticleParamArraySize);
 void TodParticleFreeDefinitions();
 

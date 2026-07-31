@@ -7,6 +7,7 @@
 #include <list>
 #include <string>
 
+#include "../BloomLib/ResourcePath.h"
 
 class PakCollection;
 
@@ -122,6 +123,11 @@ static PFILE *p_fopen(const char *theFileName, const char *theAccess)
 	aPFile->mPos = 0;
 	aPFile->mFP = aFP;
 	return aPFile;
+}
+
+inline PFILE *p_fopen(const ResourcePath &theFileName, const char *theAccess)
+{
+	return p_fopen(theFileName.CStr(), theAccess);
 }
 
 static int p_fclose(PFILE *theFile)

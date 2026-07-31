@@ -2,6 +2,7 @@
 #define __TRAIL_H__
 
 #include "TodParticle.h"
+#include "../BloomLib/ResourcePath.h"
 
 #define MAX_TRAIL_SIZE 1024U
 #define MAX_TRAIL_TRIANGLES 38
@@ -31,7 +32,7 @@ class TrailParams
 {
   public:
 	TrailType mTrailType;
-	const char *mTrailFileName;
+	ResourcePath mTrailFileName;
 };
 
 extern int gTrailParamArraySize;
@@ -56,7 +57,7 @@ class TrailDefinition
 	TrailDefinition();
 	~TrailDefinition();
 };
-bool TrailLoadADef(TrailDefinition *theTrailDef, const char *theTrailFileName);
+bool TrailLoadADef(TrailDefinition *theTrailDef, const ResourcePath &theTrailFileName);
 void TrailLoadDefinitions(TrailParams *theTrailParamArray, int theTrailParamArraySize);
 void TrailFreeDefinitions();
 
