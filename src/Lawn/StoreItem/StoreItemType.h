@@ -62,6 +62,10 @@ class BLOOM_API StoreItemType : public BloomType
 	const StoreItemGroup *mGroup = nullptr;
 	ListInsertion<StoreItemType> mInsertion;
 
+  protected:
+	mutable std::string mStoreMessage;
+
+  public:
 	StoreItemType(
 		const std::string &theModName, const std::string &theTypeName,
 		const Attributes &theAttributes
@@ -71,6 +75,8 @@ class BLOOM_API StoreItemType : public BloomType
 	int GetCost() const;
 
 	bool ExcludeFromSorting() const;
+
+	virtual const std::string &GetStoreMessage(const LawnApp &theLawnApp) const;
 
 	void Update(const LawnApp &theLawnApp);
 	virtual void Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int thePosX, int thePosY, bool theIsForHighlight) const;

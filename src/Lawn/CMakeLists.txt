@@ -180,6 +180,7 @@ set(HEADERS_TO_COPY
     "BloomLib/InsertionList.h"
     "BloomLib/InsertionListGroup.h"
     "BloomLib/EventPriority.h"
+    "BloomLib/Mod.h"
     "Lawn/GameObject.h"
     "Lawn/Plant.h"
     "Lawn/Zombie.h"

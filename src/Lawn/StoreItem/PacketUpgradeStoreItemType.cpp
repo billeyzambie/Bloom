@@ -11,6 +11,23 @@ PacketUpgradeStoreItemType::PacketUpgradeStoreItemType(std::string theModName, s
 {
 }
 
+const std::string &PacketUpgradeStoreItemType::GetStoreMessage(const LawnApp &theLawnApp) const
+{
+	if (mStoreMessages.empty())
+	{
+		mStoreMessages.reserve(4);
+
+		for (size_t i = 0; i < 4; i++)
+		{
+			mStoreMessages.push_back(StrFormat("[CRAZY_DAVE_%d]", 2011 + i));
+		}
+	}
+	int anIndex = theLawnApp.mPlayerInfo->GetStoreItemData(*this).mPurchases;
+	if (anIndex > 3)
+		anIndex = 3;
+	return mStoreMessages[anIndex];
+}
+
 void PacketUpgradeStoreItemType::Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int thePosX, int thePosY,
 								   bool theIsForHighlight) const
 {

@@ -466,7 +466,7 @@ const auto &CUSTOM_TEST = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mIcon = Sexy::IMAGE_BRAIN_ID;
 	auto *aStoreItemType = new StoreItemType(PVZ, "custom_test", anAttributes);
 
-	//aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
+	aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
 	//aStoreItemType->mInsertion = ListInsertion<StoreItemType>::Before(SPIKEROCK);
 
 	return aStoreItemType;
