@@ -1252,6 +1252,16 @@ void LawnApp::Init()
 	gSEHCatcher.mSubmitHost = "https://github.com/LawnProject/ResoddedFramework";
 #endif
 
+	PerfTimer aTimer;
+	aTimer.Start();
+
+	LoadMods(mLoadedMods);
+
+#ifdef _DEBUG 
+	int aDuration = aTimer.GetDuration();
+	TodTraceAndLog("[LawnProject] - loading: mods %d ms", aDuration);
+#endif
+
 	if (!mResourceManager->ParseResourcesFile({"PVZ", "properties/resources.xml"}))
 	{
 		ShowResourceError(true);
@@ -1269,16 +1279,7 @@ void LawnApp::Init()
 		return;
 	}
 
-	PerfTimer mTimer;
-	mTimer.Start();
-
-	LoadMods(mLoadedMods);
-#ifdef _DEBUG
-	int aDuration = mTimer.GetDuration();
-	TodTraceAndLog("[LawnProject] - loading: mods %d ms", aDuration);
-#endif
-	
-	mTimer.Start();
+	aTimer.Start();
 
 	mProfileMgr->Load();
 
@@ -1302,10 +1303,10 @@ void LawnApp::Init()
 	mWidgetManager->SetFocus(mTitleScreen);
 
 #ifdef _DEBUG
-	aDuration = mTimer.GetDuration();
+	aDuration = aTimer.GetDuration();
 	TodTraceAndLog("[LawnProject] - loading: 'profiles' %d ms", aDuration);
 #endif
-	mTimer.Start();
+	aTimer.Start();
 
 	mMusic = new Music();
 	mAchievements = new Achievements(this);
@@ -1335,20 +1336,20 @@ void LawnApp::Init()
 	mSukhbirCheck = new TypingCheck("sukhbir");
 
 #ifdef _DEBUG
-	aDuration = mTimer.GetDuration();
+	aDuration = aTimer.GetDuration();
 	TodTraceAndLog("[LawnProject] - loading: 'system' %d ms", aDuration);
 #endif
-	mTimer.Start();
+	aTimer.Start();
 
 	ReanimatorLoadDefinitions(gLawnReanimationArray, ReanimationType::NUM_REANIMS);
 	ReanimatorEnsureDefinitionLoaded(ReanimationType::REANIM_LOADBAR_SPROUT, true);
 	ReanimatorEnsureDefinitionLoaded(ReanimationType::REANIM_LOADBAR_ZOMBIEHEAD, true);
 
 #ifdef _DEBUG
-	aDuration = mTimer.GetDuration();
+	aDuration = aTimer.GetDuration();
 	TodTraceAndLog("[LawnProject] - loading: 'loaderbar' %d ms", aDuration);
 #endif
-	mTimer.Start();
+	aTimer.Start();
 }
 
 bool LawnApp::ChangeDirHook(const char *theIntendedPath)

@@ -4,7 +4,7 @@
 #include "MusicInterface.h"
 #include "Window.h"
 #include <bass.h>
-#include "../BloomLib/ResourcePath.h"
+#include "../BloomLib/NamespacedString.h"
 
 namespace Sexy
 {

@@ -71,7 +71,7 @@ bool Sexy::ExtractResourcesByName(ResourceManager *theManager, const char *theNa
 	return false;
 }
 
-Sexy::ResourceId Sexy::GetIdByStringId(const char *theStringId)
+Sexy::OldResourceId Sexy::GetIdByStringId(const char *theStringId)
 {
 	typedef std::map<std::string, int> MyMap;
 	static MyMap aMap;
@@ -85,7 +85,7 @@ Sexy::ResourceId Sexy::GetIdByStringId(const char *theStringId)
 	if (anItr == aMap.end())
 		return RESOURCE_ID_MAX;
 	else
-		return (ResourceId)anItr->second;
+		return (OldResourceId)anItr->second;
 }
 
 // DelayLoad_Almanac Resources
@@ -3298,7 +3298,7 @@ int &Sexy::GetSoundRefById(int theId)
 	return *(int *)gResources[theId];
 }
 
-static Sexy::ResourceId GetIdByVariable(const void *theVariable)
+static Sexy::OldResourceId GetIdByVariable(const void *theVariable)
 {
 	typedef std::map<int, int> MyMap;
 	static MyMap aMap;
@@ -3314,20 +3314,20 @@ static Sexy::ResourceId GetIdByVariable(const void *theVariable)
 	if (anItr == aMap.end())
 		return RESOURCE_ID_MAX;
 	else
-		return (ResourceId)anItr->second;
+		return (OldResourceId)anItr->second;
 }
 
-Sexy::ResourceId Sexy::GetIdByImage(Image *theImage)
+Sexy::OldResourceId Sexy::GetIdByImage(Image *theImage)
 {
 	return GetIdByVariable(theImage);
 }
 
-Sexy::ResourceId Sexy::GetIdByFont(Font *theFont)
+Sexy::OldResourceId Sexy::GetIdByFont(Font *theFont)
 {
 	return GetIdByVariable(theFont);
 }
 
-Sexy::ResourceId Sexy::GetIdBySound(int theSound)
+Sexy::OldResourceId Sexy::GetIdBySound(int theSound)
 {
 	return GetIdByVariable((void *)theSound);
 }

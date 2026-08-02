@@ -5,7 +5,7 @@
 
 #include "PerfTimer.h"
 
-#include "../BloomLib/ResourcePath.h"
+#include "../BloomLib/NamespacedString.h"
 
 struct PFILE;
 

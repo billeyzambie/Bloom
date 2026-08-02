@@ -7,7 +7,7 @@
 #include <list>
 #include <string>
 
-#include "../BloomLib/ResourcePath.h"
+#include "../BloomLib/NamespacedString.h"
 
 class PakCollection;
 

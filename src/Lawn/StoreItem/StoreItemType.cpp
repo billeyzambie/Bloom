@@ -104,7 +104,7 @@ static std::string CreateStoreMessage(const StoreItemType &theItemType)
 		aMessageIndex = 2034;
 		break;
 	default:
-		return StrFormat("[CRAZY_DAVE_STORE_%s]", theItemType.mIdentifier.AsString().c_str());
+		return StrFormat("[CRAZY_DAVE_STORE_%s]", theItemType.mResourceId.CStr());
 	}
 	return StrFormat("[CRAZY_DAVE_%d]", aMessageIndex);
 }
@@ -174,9 +174,7 @@ void StoreItemType::Update(const LawnApp &theLawnApp)
 
 void StoreItemType::Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int thePosX, int thePosY, bool theIsForHighlight) const
 {
-	Sexy::ResourceId aResourceId = mAttributes.mIcon;
-
-	Sexy::Image *anIcon = Sexy::GetImageById(aResourceId);
+	Sexy::Image *anIcon = Sexy::GetImageById(mAttributes.mIcon);
 
 	if (anIcon)
 		g->DrawImage(anIcon, thePosX + mAttributes.mDrawOffsetX, thePosY + mAttributes.mDrawOffsetY);

@@ -4,7 +4,7 @@
 #include <string>
 #include <bass.h>
 
-#include "../BloomLib/ResourcePath.h"
+#include "../BloomLib/NamespacedString.h"
 
 class LawnApp;
 namespace Sexy

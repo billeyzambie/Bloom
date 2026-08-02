@@ -2,7 +2,7 @@
 #define __TRAIL_H__
 
 #include "TodParticle.h"
-#include "../BloomLib/ResourcePath.h"
+#include "../BloomLib/NamespacedString.h"
 
 #define MAX_TRAIL_SIZE 1024U
 #define MAX_TRAIL_TRIANGLES 38

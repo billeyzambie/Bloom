@@ -44,3 +44,7 @@ foreach(FILE_PATH IN LISTS SOURCES)
 
     source_group("${GROUP_NAME}" FILES "${FILE_PATH}")
 endforeach()
+
+target_link_libraries(${PROJECT_NAME} PUBLIC
+    SexyAppFramework
+)

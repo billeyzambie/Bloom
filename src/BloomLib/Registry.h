@@ -5,9 +5,12 @@
 #include <unordered_map>
 
 #include "RegistryTypeHolder.h"
-#include "Identifier.h"
+#include "NamespacedString.h"
 #include "ChunkedList.h"
 #include "Bloom.h"
+#include "ModLoading.h"
+
+//#include "../Lawn/StoreItem/StoreItemType.h"
 
 class LawnApp;
 
@@ -22,7 +25,7 @@ template <class T> class BLOOM_API Registry : public IRegistry
 {
 	ChunkedList<RegistryTypeHolder<T>, 64> mHolders;
 	std::vector<T *> mTypes;
-	mutable std::unordered_map<std::string, const T *> mTypesById;
+	mutable std::unordered_map<std::string, const T *> mTypesByResourceId;
 	int mNextId = 0;
 	bool mFrozen = false;
 
@@ -43,9 +46,13 @@ template <class T> class BLOOM_API Registry : public IRegistry
 		}
 		return mHolders[0];
 	}
-	const T *GetByStringId(const std::string &theString) const
+	const T *GetByResourceId(const ResourceId &theResourceId) const
 	{
-		return mTypesById[theString];
+		return mTypesByResourceId[theResourceId.AsString()];
+	}
+	const T *GetByResourceId(const std::string &theResourceIdAsString) const
+	{
+		return mTypesByResourceId[theResourceIdAsString];
 	}
 	int GetNumOfTypes() const
 	{
@@ -64,7 +71,7 @@ template <class T> class BLOOM_API Registry : public IRegistry
 
 			mTypes.push_back(aCurrent);
 			
-			mTypesById[aCurrent->mIdentifier.AsString()] = aCurrent;
+			mTypesByResourceId[aCurrent->mResourceId.AsString()] = aCurrent;
 		}
 
 		mFrozen = true;

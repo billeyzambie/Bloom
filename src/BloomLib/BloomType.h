@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Identifier.h"
+#include "NamespacedString.h"
 
 class BLOOM_API BloomType
 {
@@ -10,11 +10,9 @@ class BLOOM_API BloomType
 	int mNumericalId = -1;
 
   public:
-	const Identifier mIdentifier;
+	const ResourceId mResourceId;
 	BloomType(const std::string &theModName, const std::string &theTypeName);
-	virtual ~BloomType()
-	{
-	}
+	virtual ~BloomType() = default;
 	BloomType(const BloomType &theCopied) = delete;
 	int GetNumericalId() const;
 	BloomType &operator=(const BloomType &theCopied) = delete;

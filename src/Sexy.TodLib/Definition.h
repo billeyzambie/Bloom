@@ -6,7 +6,7 @@
 #include "TodList.h"
 #include "Reanimator.h"
 #include "TodParticle.h"
-#include "../BloomLib/ResourcePath.h"
+#include "../BloomLib/NamespacedString.h"
 
 enum class DefFieldType : int
 {

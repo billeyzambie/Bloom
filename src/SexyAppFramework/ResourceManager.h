@@ -6,7 +6,7 @@
 #include "SexyAppBase.h"
 #include <string>
 #include <map>
-#include "../BloomLib/ResourcePath.h"
+#include "../BloomLib/NamespacedString.h"
 
 namespace ImageLib
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Identifier.h"
+#include "NamespacedString.h"
 #include "BillFunctional.h"
 #include <iostream>
 
@@ -12,7 +12,7 @@ template <class T> class BLOOM_API Patch
 		T &theT;
 		T::Attributes &theAttributes;
 	};
-	Identifier mId;
+	ResourceId mId;
 	Transformer<Context> mContextTransformer;
 	void operator()(T &theT) const
 	{
@@ -20,7 +20,7 @@ template <class T> class BLOOM_API Patch
 		mContextTransformer(aContext);
 	}
 
-	Patch(Identifier theId, Transformer<Context> theContextTransformer) 
+	Patch(ResourceId theId, Transformer<Context> theContextTransformer) 
 		: mId(std::move(theId)), mContextTransformer(theContextTransformer)
 	{
 	}

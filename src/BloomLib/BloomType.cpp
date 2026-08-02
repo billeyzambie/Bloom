@@ -1,8 +1,8 @@
 #include "BloomType.h"
 #include <iostream>
 
-BloomType::BloomType(const std::string &theModName, const std::string &theTypeName) 
-	: mIdentifier(theModName, theTypeName)
+BloomType::BloomType(const std::string &theModName, const std::string &theTypeName)
+	: mResourceId(theModName, theTypeName)
 {
 }
 

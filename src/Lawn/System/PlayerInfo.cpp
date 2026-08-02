@@ -65,7 +65,7 @@ void PlayerInfo::SyncDetails(ProfileSyncer &theSync)
 			{
 				const std::string &aStoreItemId = aKeyValuePair.key();
 
-				const StoreItemType *anItemType = Registries::STORE_ITEMS.GetByStringId(aStoreItemId);
+				const StoreItemType *anItemType = Registries::STORE_ITEMS.GetByResourceId(aStoreItemId);
 				if (anItemType)
 				{
 					GetStoreItemData(*anItemType) = aKeyValuePair.value().get<StoreItem>();
@@ -87,7 +87,7 @@ void PlayerInfo::SyncDetails(ProfileSyncer &theSync)
 
 		for (const StoreItemType *aStoreItemType : Registries::STORE_ITEMS)
 		{
-			aJson[aStoreItemType->mIdentifier.AsString()] = GetStoreItemData(*aStoreItemType);
+			aJson[aStoreItemType->mResourceId.AsString()] = GetStoreItemData(*aStoreItemType);
 		}
 
 		theSync.mJSON["store_items"] = aJson;

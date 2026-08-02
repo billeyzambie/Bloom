@@ -168,9 +168,9 @@ void SaveContext::SyncImage(Image *&theImage, const std::string &theOwner)
 {
 	if (mReading)
 	{
-		ResourceId aResID;
+		OldResourceId aResID;
 		SyncVar((int &)aResID, StrFormat("IMAGE_%s", theOwner.c_str()));
-		if (aResID == Sexy::ResourceId::RESOURCE_ID_MAX)
+		if (aResID == Sexy::RESOURCE_ID_MAX)
 		{
 			theImage = nullptr;
 		}
@@ -181,14 +181,14 @@ void SaveContext::SyncImage(Image *&theImage, const std::string &theOwner)
 	}
 	else
 	{
-		ResourceId aResID;
+		OldResourceId aResID;
 		if (theImage != nullptr)
 		{
 			aResID = GetIdByImage(theImage);
 		}
 		else
 		{
-			aResID = Sexy::ResourceId::RESOURCE_ID_MAX;
+			aResID = Sexy::RESOURCE_ID_MAX;
 		}
 		SyncVar((int &)aResID, StrFormat("IMAGE_%s", theOwner.c_str()));
 	}

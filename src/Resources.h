@@ -985,7 +985,7 @@ extern BLOOM_API int SOUND_CRAZYDAVESCREAM2;
 
 extern BLOOM_API void *RESOURCE_NONE;
 
-enum ResourceId
+enum OldResourceId
 {
 	IMAGE_ALMANAC_INDEXBACK_ID,
 	IMAGE_ALMANAC_PLANTBACK_ID,
@@ -1877,11 +1877,11 @@ BLOOM_API Image *&GetImageRefById(int theId);
 BLOOM_API Font *&GetFontRefById(int theId);
 BLOOM_API int &GetSoundRefById(int theId);
 
-BLOOM_API ResourceId GetIdByImage(Image *theImage);
-BLOOM_API ResourceId GetIdByFont(Font *theFont);
-BLOOM_API ResourceId GetIdBySound(int theSound);
+BLOOM_API OldResourceId GetIdByImage(Image *theImage);
+BLOOM_API OldResourceId GetIdByFont(Font *theFont);
+BLOOM_API OldResourceId GetIdBySound(int theSound);
 
 BLOOM_API const char *GetStringIdById(int theId);
-BLOOM_API ResourceId GetIdByStringId(const char *theStringId);
+BLOOM_API OldResourceId GetIdByStringId(const char *theStringId);
 
 } // namespace Sexy

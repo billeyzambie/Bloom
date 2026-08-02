@@ -453,8 +453,11 @@ bool ResourceManager::ParseSetDefaults(XMLElement &theElement, const std::string
 
 	anItr = theElement.mAttributes.find("idprefix");
 	if (anItr != theElement.mAttributes.end())
-		mDefaultIdPrefix = RemoveTrailingSlash(anItr->second);
-
+	{
+		mDefaultIdPrefix = theNamespace + ':' + anItr->second;
+		printf((mDefaultIdPrefix + '\n').c_str());
+	}
+	
 	return true;
 }
 

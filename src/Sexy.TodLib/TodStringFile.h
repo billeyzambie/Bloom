@@ -2,7 +2,7 @@
 #define __TODSTRINGFILE_H__
 
 #include "../SexyAppFramework/Graphics.h"
-#include "../BloomLib/ResourcePath.h"
+#include "../BloomLib/NamespacedString.h"
 using namespace Sexy;
 
 enum DrawStringJustification;

@@ -4,7 +4,7 @@
 #include "TodList.h"
 #include "DataArray.h"
 #include "../SexyAppFramework/SexyVector.h"
-#include "../BloomLib/ResourcePath.h"
+#include "../BloomLib/NamespacedString.h"
 namespace Sexy
 {
 class Image;

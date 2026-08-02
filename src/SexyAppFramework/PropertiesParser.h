@@ -3,7 +3,7 @@
 #define __PROPERTIESPARSER_H__
 
 #include "SexyAppBase.h"
-#include "../BloomLib/ResourcePath.h"
+#include "../BloomLib/NamespacedString.h"
 
 namespace Sexy
 {
