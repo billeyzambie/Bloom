@@ -9,7 +9,7 @@
 //constexpr char theSeparator = '/';
 //constexpr bool theUpperBarePathToo = true;
 
-template <char theSeparator, bool theUpperBarePathToo> 
+template <char theSeparator, bool theUpperBarePathToo>
 class BLOOM_API NamespacedString
 {
   private:
@@ -17,7 +17,7 @@ class BLOOM_API NamespacedString
 	size_t mNamespaceLength;
 
   public:
-	NamespacedString(std::string_view theNamespace, std::string_view theBarePath) 
+	NamespacedString(std::string_view theNamespace, std::string_view theBarePath)
 		: mNamespaceLength(theNamespace.size())
 	{
 		std::string aNamespacedPath = std::string{theNamespace};
@@ -31,7 +31,7 @@ class BLOOM_API NamespacedString
 			Sexy::inlineUpper(mNamespacedPath);
 	}
 	NamespacedString() 
-		: mNamespacedPath(std::string{"?"} + theSeparator + '?'), mNamespaceLength(1)
+		: mNamespacedPath(std::string{theSeparator}), mNamespaceLength(0)
 	{
 	}
 	const std::string &AsString() const
@@ -57,6 +57,14 @@ class BLOOM_API NamespacedString
 	const char *CStr() const
 	{
 		return mNamespacedPath.c_str();
+	}
+	bool IsEmpty() const
+	{
+		return mNamespacedPath.size() <= 1;
+	}
+	NamespacedString operator+(const std::string &theString) const
+	{
+		return {NamespaceView(), BarePathCStr() + theString};
 	}
 };
 

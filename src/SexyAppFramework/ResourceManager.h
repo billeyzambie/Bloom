@@ -41,9 +41,9 @@ class BLOOM_API ResourceManager
 	struct BLOOM_API BaseRes
 	{
 		ResType mType;
-		std::string mId;
+		ResourceId mId;
 		std::string mResGroup;
-		std::string mPath;
+		ResourcePath mPath;
 		XMLParamMap mXMLAttributes;
 		bool mFromProgram;
 
@@ -58,8 +58,8 @@ class BLOOM_API ResourceManager
 	struct BLOOM_API ImageRes : public BaseRes
 	{
 		SharedImageRef mImage;
-		std::string mAlphaImage;
-		std::string mAlphaGridImage;
+		ResourcePath mAlphaImage;
+		ResourcePath mAlphaGridImage;
 		std::string mVariant;
 		bool mAutoFindAlpha;
 		bool mPalletize;
@@ -97,7 +97,7 @@ class BLOOM_API ResourceManager
 	{
 		Font *mFont;
 		Image *mImage;
-		std::string mImagePath;
+		ResourcePath mImagePath;
 		std::string mTags;
 
 		// For SysFonts
@@ -115,7 +115,7 @@ class BLOOM_API ResourceManager
 		virtual void DeleteResource();
 	};
 
-	typedef std::map<std::string, BaseRes *> ResMap;
+	typedef std::map<ResourceId, BaseRes *> ResMap;
 	typedef std::list<BaseRes *> ResList;
 	typedef std::map<std::string, ResList, StringLessNoCase> ResGroupMap;
 
@@ -130,8 +130,8 @@ class BLOOM_API ResourceManager
 	bool mHasFailed;
 	SexyAppBase *mApp;
 	std::string mCurResGroup;
-	std::string mDefaultPath;
-	std::string mDefaultIdPrefix;
+	ResourcePath mDefaultPath;
+	ResourceId mDefaultIdPrefix;
 	bool mAllowMissingProgramResources;
 	bool mAllowAlreadyDefinedResources; // for reparsing file while running
 	bool mHadAlreadyDefinedError;
@@ -185,27 +185,27 @@ class BLOOM_API ResourceManager
 	virtual void StartLoadResources(const std::string &theGroup);
 	virtual bool LoadResources(const std::string &theGroup);
 
-	bool ReplaceImage(const std::string &theId, Image *theImage);
-	bool ReplaceSound(const std::string &theId, int theSound);
-	bool ReplaceFont(const std::string &theId, Font *theFont);
+	bool ReplaceImage(const ResourceId &theId, Image *theImage);
+	bool ReplaceSound(const ResourceId &theId, int theSound);
+	bool ReplaceFont(const ResourceId &theId, Font *theFont);
 
-	void DeleteImage(const std::string &theName);
-	SharedImageRef LoadImage(const std::string &theName);
+	void DeleteImage(const ResourceId &theName);
+	SharedImageRef LoadImage(const ResourceId &theName);
 
-	void DeleteFont(const std::string &theName);
-	Font *LoadFont(const std::string &theName);
+	void DeleteFont(const ResourceId &theName);
+	Font *LoadFont(const ResourceId &theName);
 
-	SharedImageRef GetImage(const std::string &theId);
-	int GetSound(const std::string &theId);
-	Font *GetFont(const std::string &theId);
+	SharedImageRef GetImage(const ResourceId &theId);
+	int GetSound(const ResourceId &theId);
+	Font *GetFont(const ResourceId &theId);
 
 	// Returns all the XML attributes associated with the image
-	const XMLParamMap &GetImageAttributes(const std::string &theId);
+	const XMLParamMap &GetImageAttributes(const ResourceId &theId);
 
 	// These throw a ResourceManagerException if the resource is not found
-	virtual SharedImageRef GetImageThrow(const std::string &theId);
-	virtual int GetSoundThrow(const std::string &theId);
-	virtual Font *GetFontThrow(const std::string &theId);
+	virtual SharedImageRef GetImageThrow(const ResourceId &theId);
+	virtual int GetSoundThrow(const ResourceId &theId);
+	virtual Font *GetFontThrow(const ResourceId &theId);
 
 	void SetAllowMissingProgramImages(bool allow);
 

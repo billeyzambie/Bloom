@@ -6,6 +6,7 @@
 #include "ImageFont.h"
 #include "SysFont.h"
 #include "../ImageLib/ImageLib.h"
+#include "../Sexy.TodLib/TodDebug.h"
 #include <memory>
 
 //#define SEXY_PERF_ENABLED
@@ -178,17 +179,18 @@ bool ResourceManager::ParseCommonResource(XMLElement &theElement, BaseRes *theRe
 	theRes->mFromProgram = false;
 	if (aPath[0] == '!')
 	{
-		theRes->mPath = aPath;
+		TOD_ASSERT(false, "what is this");
+		theRes->mPath = {"", aPath};
 		if (aPath == "!program")
 			theRes->mFromProgram = true;
 	}
 	else
 		theRes->mPath = mDefaultPath + aPath;
 
-	std::string anId;
+	ResourceId anId;
 	XMLParamMap::iterator anItr = theElement.mAttributes.find("id");
 	if (anItr == theElement.mAttributes.end())
-		anId = mDefaultIdPrefix + GetFileName(theRes->mPath, true);
+		anId = mDefaultIdPrefix + GetFileName(theRes->mPath.AsString(), true);
 	else
 		anId = mDefaultIdPrefix + anItr->second;
 
@@ -412,16 +414,17 @@ bool ResourceManager::ParseFontResource(XMLElement &theElement)
 	XMLParamMap::iterator anItr;
 	anItr = theElement.mAttributes.find("image");
 	if (anItr != theElement.mAttributes.end())
-		aRes->mImagePath = anItr->second;
+		aRes->mImagePath = {"PVZ", anItr->second};
 
 	anItr = theElement.mAttributes.find("tags");
 	if (anItr != theElement.mAttributes.end())
 		aRes->mTags = anItr->second;
 
-	if (strncmp(aRes->mPath.c_str(), "!sys:", 5) == 0)
+	if (strncmp(aRes->mPath.BarePathCStr(), "!sys:", 5) == 0)
 	{
+		TOD_ASSERT(false, "what is this again");
 		aRes->mSysFont = true;
-		aRes->mPath = aRes->mPath.substr(5);
+		aRes->mPath = {aRes->mPath.NamespaceView(), aRes->mPath.BarePathCStr() + 5};
 
 		anItr = theElement.mAttributes.find("size");
 		if (anItr == theElement.mAttributes.end())
@@ -449,13 +452,13 @@ bool ResourceManager::ParseSetDefaults(XMLElement &theElement, const std::string
 	XMLParamMap::iterator anItr;
 	anItr = theElement.mAttributes.find("path");
 	if (anItr != theElement.mAttributes.end())
-		mDefaultPath = theNamespace + '/' + RemoveTrailingSlash(anItr->second) + '/';
+		mDefaultPath = {theNamespace, RemoveTrailingSlash(anItr->second) + '/'};
 
 	anItr = theElement.mAttributes.find("idprefix");
 	if (anItr != theElement.mAttributes.end())
 	{
-		mDefaultIdPrefix = theNamespace + ':' + anItr->second;
-		printf((mDefaultIdPrefix + '\n').c_str());
+		mDefaultIdPrefix = {theNamespace, anItr->second};
+		printf((mDefaultIdPrefix.AsString() + '\n').c_str());
 	}
 	
 	return true;
@@ -643,9 +646,9 @@ bool ResourceManager::ReparseResourcesFile(const ResourcePath &theFilePath)
 ///////////////////////////////////////////////////////////////////////////////
 bool ResourceManager::LoadAlphaGridImage(ImageRes *theRes, GPUImage *theImage)
 {
-	ImageLib::Image *anAlphaImage = ImageLib::GetImage(theRes->mAlphaGridImage, true);
+	ImageLib::Image *anAlphaImage = ImageLib::GetImage(theRes->mAlphaGridImage.AsString(), true);
 	if (anAlphaImage == NULL)
-		return Fail(StrFormat("Failed to load image: %s", theRes->mAlphaGridImage.c_str()));
+		return Fail(StrFormat("Failed to load image: %s", theRes->mAlphaGridImage.CStr()));
 
 	std::unique_ptr<ImageLib::Image> aDelAlphaImage(anAlphaImage);
 
@@ -657,7 +660,7 @@ bool ResourceManager::LoadAlphaGridImage(ImageRes *theRes, GPUImage *theImage)
 
 	if (anAlphaImage->mWidth != aCelWidth || anAlphaImage->mHeight != aCelHeight)
 		return Fail(StrFormat(
-			"GridAlphaImage size mismatch between %s and %s", theRes->mPath.c_str(), theRes->mAlphaGridImage.c_str()));
+			"GridAlphaImage size mismatch between %s and %s", theRes->mPath.CStr(), theRes->mAlphaGridImage.CStr()));
 
 	uint32_t *aMasterRowPtr = theImage->mBits;
 	for (int i = 0; i < aNumRows; i++)
@@ -693,17 +696,17 @@ bool ResourceManager::LoadAlphaGridImage(ImageRes *theRes, GPUImage *theImage)
 bool ResourceManager::LoadAlphaImage(ImageRes *theRes, GPUImage *theImage)
 {
 	SEXY_PERF_BEGIN("ResourceManager::GetImage");
-	ImageLib::Image *anAlphaImage = ImageLib::GetImage(theRes->mAlphaImage, true);
+	ImageLib::Image *anAlphaImage = ImageLib::GetImage(theRes->mAlphaImage.AsString(), true);
 	SEXY_PERF_END("ResourceManager::GetImage");
 
 	if (anAlphaImage == NULL)
-		return Fail(StrFormat("Failed to load image: %s", theRes->mAlphaImage.c_str()));
+		return Fail(StrFormat("Failed to load image: %s", theRes->mAlphaImage.CStr()));
 
 	std::unique_ptr<ImageLib::Image> aDelAlphaImage(anAlphaImage);
 
 	if (anAlphaImage->mWidth != theImage->mWidth || anAlphaImage->mHeight != theImage->mHeight)
 		return Fail(StrFormat(
-			"AlphaImage size mismatch between %s and %s", theRes->mPath.c_str(), theRes->mAlphaImage.c_str()));
+			"AlphaImage size mismatch between %s and %s", theRes->mPath.CStr(), theRes->mAlphaImage.CStr()));
 
 	uint32_t *aBits1 = theImage->mBits;
 	uint32_t *aBits2 = anAlphaImage->mBits;
@@ -724,7 +727,7 @@ bool ResourceManager::LoadAlphaImage(ImageRes *theRes, GPUImage *theImage)
 ///////////////////////////////////////////////////////////////////////////////
 bool ResourceManager::DoLoadImage(ImageRes *theRes)
 {
-	bool lookForAlpha = theRes->mAlphaImage.empty() && theRes->mAlphaGridImage.empty() && theRes->mAutoFindAlpha;
+	bool lookForAlpha = theRes->mAlphaImage.IsEmpty() && theRes->mAlphaGridImage.IsEmpty() && theRes->mAutoFindAlpha;
 
 	SEXY_PERF_BEGIN("ResourceManager:GetImage");
 
@@ -733,23 +736,23 @@ bool ResourceManager::DoLoadImage(ImageRes *theRes)
 
 	bool isNew;
 	ImageLib::gAlphaComposeColor = theRes->mAlphaColor;
-	SharedImageRef aSharedImageRef = gSexyAppBase->GetSharedImage(theRes->mPath, theRes->mVariant, &isNew);
+	SharedImageRef aSharedImageRef = gSexyAppBase->GetSharedImage(theRes->mPath.AsString(), theRes->mVariant, &isNew);
 	ImageLib::gAlphaComposeColor = 0xFFFFFF;
 
 	GPUImage *aGPUImage = (GPUImage *)aSharedImageRef;
 
 	if (aGPUImage == NULL)
-		return Fail(StrFormat("Failed to load image: %s", theRes->mPath.c_str()));
+		return Fail(StrFormat("Failed to load image: %s", theRes->mPath.CStr()));
 
 	if (isNew)
 	{
-		if (!theRes->mAlphaImage.empty())
+		if (!theRes->mAlphaImage.IsEmpty())
 		{
 			if (!LoadAlphaImage(theRes, aSharedImageRef))
 				return false;
 		}
 
-		if (!theRes->mAlphaGridImage.empty())
+		if (!theRes->mAlphaGridImage.IsEmpty())
 		{
 			if (!LoadAlphaGridImage(theRes, aSharedImageRef))
 				return false;
@@ -809,7 +812,7 @@ bool ResourceManager::DoLoadImage(ImageRes *theRes)
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-void ResourceManager::DeleteImage(const std::string &theName)
+void ResourceManager::DeleteImage(const ResourceId &theName)
 {
 	ReplaceImage(theName, NULL);
 }
@@ -817,7 +820,7 @@ void ResourceManager::DeleteImage(const std::string &theName)
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-SharedImageRef ResourceManager::LoadImage(const std::string &theName)
+SharedImageRef ResourceManager::LoadImage(const ResourceId &theName)
 {
 	ResMap::iterator anItr = mImageMap.find(theName);
 	if (anItr == mImageMap.end())
@@ -847,8 +850,8 @@ bool ResourceManager::DoLoadSound(SoundRes *theRes)
 	if (aSoundId < 0)
 		return Fail("Out of free sound ids");
 
-	if (!mApp->mSoundManager->LoadSound(aSoundId, aRes->mPath))
-		return Fail(StrFormat("Failed to load sound: %s", aRes->mPath.c_str()));
+	if (!mApp->mSoundManager->LoadSound(aSoundId, aRes->mPath.AsString()))
+		return Fail(StrFormat("Failed to load sound: %s", aRes->mPath.CStr()));
 	SEXY_PERF_END("ResourceManager:LoadSound");
 
 	if (aRes->mVolume >= 0)
@@ -873,32 +876,32 @@ bool ResourceManager::DoLoadFont(FontRes *theRes)
 
 	if (theRes->mSysFont)
 	{
-		aFont = new SysFont(theRes->mPath, theRes->mSize, theRes->mBold, theRes->mItalic, theRes->mUnderline);
+		aFont = new SysFont(theRes->mPath.AsString(), theRes->mSize, theRes->mBold, theRes->mItalic, theRes->mUnderline);
 		SysFont *aSysFont = (SysFont *)aFont;
 		aSysFont->mDrawShadow = theRes->mShadow;
 	}
-	else if (theRes->mImagePath.empty())
+	else if (theRes->mImagePath.IsEmpty())
 	{
-		if (strncmp(theRes->mPath.c_str(), "!ref:", 5) == 0)
+		if (strncmp(theRes->mPath.CStr(), "!ref:", 5) == 0)
 		{
-			std::string aRefName = theRes->mPath.substr(5);
-			Font *aRefFont = GetFont(aRefName);
+			std::string aRefName = theRes->mPath.BarePathCStr() + 5;
+			Font *aRefFont = GetFont({theRes->mPath.NamespaceView(), aRefName});
 			if (aRefFont == NULL)
 				return Fail("Ref font not found: " + aRefName);
 
 			aFont = aRefFont->Duplicate();
 		}
 		else
-			aFont = new ImageFont(mApp, theRes->mPath);
+			aFont = new ImageFont(mApp, theRes->mPath.AsString());
 	}
 	else
 	{
-		Image *anImage = mApp->GetImage(theRes->mImagePath);
+		Image *anImage = mApp->GetImage(theRes->mImagePath.AsString());
 		if (anImage == NULL)
-			return Fail(StrFormat("Failed to load image: %s", theRes->mImagePath.c_str()));
+			return Fail(StrFormat("Failed to load image: %s", theRes->mImagePath.CStr()));
 
 		theRes->mImage = anImage;
-		aFont = new ImageFont(anImage, theRes->mPath);
+		aFont = new ImageFont(anImage, theRes->mPath.AsString());
 	}
 
 	ImageFont *anImageFont = dynamic_cast<ImageFont *>(aFont);
@@ -907,7 +910,7 @@ bool ResourceManager::DoLoadFont(FontRes *theRes)
 		if (anImageFont->mFontData == NULL || !anImageFont->mFontData->mInitialized)
 		{
 			delete aFont;
-			return Fail(StrFormat("Failed to load font: %s", theRes->mPath.c_str()));
+			return Fail(StrFormat("Failed to load font: %s", theRes->mPath.CStr()));
 		}
 
 		if (!theRes->mTags.empty())
@@ -934,7 +937,7 @@ bool ResourceManager::DoLoadFont(FontRes *theRes)
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-Font *ResourceManager::LoadFont(const std::string &theName)
+Font *ResourceManager::LoadFont(const ResourceId &theName)
 {
 	ResMap::iterator anItr = mFontMap.find(theName);
 	if (anItr == mFontMap.end())
@@ -955,7 +958,7 @@ Font *ResourceManager::LoadFont(const std::string &theName)
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-void ResourceManager::DeleteFont(const std::string &theName)
+void ResourceManager::DeleteFont(const ResourceId &theName)
 {
 	ReplaceFont(theName, NULL);
 }
@@ -1038,7 +1041,7 @@ void ResourceManager::DumpCurResGroup(std::string &theDestStr)
 	while (it != rl_end)
 	{
 		BaseRes *br = *it++;
-		std::string prefix = StrFormat("%s: %s\r\n", br->mId.c_str(), br->mPath.c_str());
+		std::string prefix = StrFormat("%s: %s\r\n", br->mId.CStr(), br->mPath.CStr());
 		theDestStr += prefix;
 		if (br->mFromProgram)
 			theDestStr += std::string("     res is from program\r\n");
@@ -1124,7 +1127,7 @@ int ResourceManager::GetNumResources(const std::string &theGroup)
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-SharedImageRef ResourceManager::GetImage(const std::string &theId)
+SharedImageRef ResourceManager::GetImage(const ResourceId &theId)
 {
 	ResMap::iterator anItr = mImageMap.find(theId);
 	if (anItr != mImageMap.end())
@@ -1135,7 +1138,7 @@ SharedImageRef ResourceManager::GetImage(const std::string &theId)
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-int ResourceManager::GetSound(const std::string &theId)
+int ResourceManager::GetSound(const ResourceId &theId)
 {
 	ResMap::iterator anItr = mSoundMap.find(theId);
 	if (anItr != mSoundMap.end())
@@ -1146,7 +1149,7 @@ int ResourceManager::GetSound(const std::string &theId)
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-Font *ResourceManager::GetFont(const std::string &theId)
+Font *ResourceManager::GetFont(const ResourceId &theId)
 {
 	ResMap::iterator anItr = mFontMap.find(theId);
 	if (anItr != mFontMap.end())
@@ -1157,7 +1160,7 @@ Font *ResourceManager::GetFont(const std::string &theId)
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-SharedImageRef ResourceManager::GetImageThrow(const std::string &theId)
+SharedImageRef ResourceManager::GetImageThrow(const ResourceId &theId)
 {
 	ResMap::iterator anItr = mImageMap.find(theId);
 	if (anItr != mImageMap.end())
@@ -1170,13 +1173,13 @@ SharedImageRef ResourceManager::GetImageThrow(const std::string &theId)
 			return NULL;
 	}
 
-	Fail(StrFormat("Image resource not found: %s", theId.c_str()));
+	Fail(StrFormat("Image resource not found: %s", theId.CStr()));
 	throw ResourceManagerException(GetErrorText());
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-int ResourceManager::GetSoundThrow(const std::string &theId)
+int ResourceManager::GetSoundThrow(const ResourceId &theId)
 {
 	ResMap::iterator anItr = mSoundMap.find(theId);
 	if (anItr != mSoundMap.end())
@@ -1189,13 +1192,13 @@ int ResourceManager::GetSoundThrow(const std::string &theId)
 			return -1;
 	}
 
-	Fail(StrFormat("Sound resource not found: %s", theId.c_str()));
+	Fail(StrFormat("Sound resource not found: %s", theId.CStr()));
 	throw ResourceManagerException(GetErrorText());
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-Font *ResourceManager::GetFontThrow(const std::string &theId)
+Font *ResourceManager::GetFontThrow(const ResourceId &theId)
 {
 	ResMap::iterator anItr = mFontMap.find(theId);
 	if (anItr != mFontMap.end())
@@ -1208,7 +1211,7 @@ Font *ResourceManager::GetFontThrow(const std::string &theId)
 			return NULL;
 	}
 
-	Fail(StrFormat("Font resource not found: %s", theId.c_str()));
+	Fail(StrFormat("Font resource not found: %s", theId.CStr()));
 	throw ResourceManagerException(GetErrorText());
 }
 
@@ -1221,7 +1224,7 @@ void ResourceManager::SetAllowMissingProgramImages(bool allow)
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-bool ResourceManager::ReplaceImage(const std::string &theId, Image *theImage)
+bool ResourceManager::ReplaceImage(const ResourceId &theId, Image *theImage)
 {
 	ResMap::iterator anItr = mImageMap.find(theId);
 	if (anItr != mImageMap.end())
@@ -1237,7 +1240,7 @@ bool ResourceManager::ReplaceImage(const std::string &theId, Image *theImage)
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-bool ResourceManager::ReplaceSound(const std::string &theId, int theSound)
+bool ResourceManager::ReplaceSound(const ResourceId &theId, int theSound)
 {
 	ResMap::iterator anItr = mSoundMap.find(theId);
 	if (anItr != mSoundMap.end())
@@ -1252,7 +1255,7 @@ bool ResourceManager::ReplaceSound(const std::string &theId, int theSound)
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-bool ResourceManager::ReplaceFont(const std::string &theId, Font *theFont)
+bool ResourceManager::ReplaceFont(const ResourceId &theId, Font *theFont)
 {
 	ResMap::iterator anItr = mFontMap.find(theId);
 	if (anItr != mFontMap.end())
@@ -1267,7 +1270,7 @@ bool ResourceManager::ReplaceFont(const std::string &theId, Font *theFont)
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-const XMLParamMap &ResourceManager::GetImageAttributes(const std::string &theId)
+const XMLParamMap &ResourceManager::GetImageAttributes(const ResourceId &theId)
 {
 	static XMLParamMap aStrMap;
 
