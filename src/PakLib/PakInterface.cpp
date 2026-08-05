@@ -98,8 +98,6 @@ static void FixFileName(const char *theFileName, char *theUpperName)
 	}
 }
 
-#include <iostream>
-
 bool PakInterface::AddPakFile(const std::string &theFileName, const std::string &theNamespace)
 {
 	std::ifstream aFile(theFileName, std::ios::binary | std::ios::ate);
@@ -213,8 +211,6 @@ bool PakInterface::AddPakFile(const std::string &theFileName, const std::string 
 		}
 		char anUpperName[256];
 		FixFileName(aName, anUpperName);
-
-		std::cout << aName << ", " << anUpperName << std::endl;
 
 		PakRecordMap::iterator aRecordItr =
 			mPakRecordMap.insert(PakRecordMap::value_type(StringToUpper(aName), PakRecord())).first;

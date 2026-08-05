@@ -193,8 +193,8 @@ void DefMapWriteToCache(DefinitionCompiler *theReadPtr, DefMap *theDefMap, void 
 
 bool DefinitionCompileAndLoad(const ResourcePath &theXMLFilePath, DefMap *theDefMap, void *theDefinition);
 bool DefinitionLoadMap(XMLParser *theXmlParser, DefMap *theDefMap, void *theDefinition);
-bool DefinitionLoadImage(Image **theImage, const SexyString &theName);
-bool DefinitionLoadFont(Font **theFont, const SexyString &theName);
+bool DefinitionLoadImage(Image **theImage, const ResourceId &theName);
+bool DefinitionLoadFont(Font **theFont, const ResourceId &theName);
 bool DefinitionLoadXML(const ResourcePath &theFilename, DefMap *theDefMap, void *theDefinition);
 void DefinitionFreeArrayField(DefinitionArrayDef *theArray, DefMap *theDefMap);
 void DefinitionFreeMap(DefMap *theDefMap, void *theDefinition);

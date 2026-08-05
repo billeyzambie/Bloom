@@ -63,18 +63,18 @@ BLOOM_API uintptr_t TodPickFromSmoothArray(TodSmoothArray *theArray, int theCoun
 class BLOOM_API TodResourceManager : public ResourceManager
 {
   public:
-	bool FindFontPath(Font *theFont, std::string *thePath);
-	bool FindImagePath(Image *theImage, std::string *thePath);
-	void AddImageToMap(SharedImageRef *theImage, const std::string &thePath);
+	bool FindFontId(Font *theFont, ResourceId *theId);
+	bool FindImageId(Image *theImage, ResourceId *theId);
+	void AddImageToMap(SharedImageRef *theImage, const ResourcePath &thePath, const ResourceId &theId);
 	bool TodLoadNextResource();
 	bool TodLoadResources(const std::string &theGroup);
 };
 
 BLOOM_API bool TodLoadResources(const std::string &theGroup);
 BLOOM_API bool TodLoadNextResource();
-BLOOM_API void TodAddImageToMap(SharedImageRef *theImage, const std::string &thePath);
-BLOOM_API bool TodFindImagePath(Image *theImage, std::string *thePath);
-BLOOM_API bool TodFindFontPath(Font *theFont, std::string *thePath);
+BLOOM_API void TodAddImageToMap(SharedImageRef *theImage, const ResourcePath &thePath, const ResourceId &theId);
+BLOOM_API bool TodFindImageId(Image *theImage, ResourceId *theId);
+BLOOM_API bool TodFindFontId(Font *theFont, ResourceId *theId);
 
 // #################################################################################################### //
 

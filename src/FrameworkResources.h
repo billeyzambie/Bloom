@@ -1,4 +1,7 @@
 #pragma once
+
+#include "BloomLib/NamespacedString.h"
+
 namespace Sexy
 {
 	class ResourceManager;
@@ -39,8 +42,8 @@ namespace Sexy
 	ResoddedFrameworkResourceId ResoddedFrameworkGetIdByFont(Font *theFont);
 	ResoddedFrameworkResourceId ResoddedFrameworkGetIdBySound(int theSound);
 
-	const char* ResoddedFrameworkGetStringIdById(int theId);
-	ResoddedFrameworkResourceId ResoddedFrameworkGetIdByStringId(const char *theStringId);
+	ResourceId ResoddedFrameworkGetStringIdById(int theId);
+	//ResoddedFrameworkResourceId ResoddedFrameworkGetIdByStringId(const char *theStringId);
 
 } // namespace Sexy
 

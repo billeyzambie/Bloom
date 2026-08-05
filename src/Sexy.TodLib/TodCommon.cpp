@@ -1215,19 +1215,19 @@ bool TodResourceManager::TodLoadResources(const std::string &theGroup)
 	return true;
 }
 
-void TodAddImageToMap(SharedImageRef *theImage, const std::string &thePath)
+void TodAddImageToMap(SharedImageRef *theImage, const ResourcePath &thePath, const ResourceId &theId)
 {
-	((TodResourceManager *)gSexyAppBase->mResourceManager)->AddImageToMap(theImage, thePath);
+	((TodResourceManager *)gSexyAppBase->mResourceManager)->AddImageToMap(theImage, thePath, theId);
 }
 
-void TodResourceManager::AddImageToMap(SharedImageRef *theImage, const std::string &thePath)
+void TodResourceManager::AddImageToMap(SharedImageRef *theImage, const ResourcePath &thePath, const ResourceId &theId)
 {
-	TOD_ASSERT(mImageMap.find(thePath) == mImageMap.end());
+	TOD_ASSERT(mImageMap.find(theId) == mImageMap.end());
 
 	ImageRes *aImageRes = new ImageRes();
 	aImageRes->mImage = *theImage;
 	aImageRes->mPath = thePath;
-	mImageMap.insert(ResMap::value_type(thePath, aImageRes));
+	mImageMap.insert(ResMap::value_type(theId, aImageRes));
 }
 
 bool TodLoadNextResource()
@@ -1296,25 +1296,25 @@ bool TodResourceManager::TodLoadNextResource()
 		}
 
 		GetTicks();
-		TodHesitationTrace("Loading: '%s'", aRes->mPath.c_str());
-		TodHesitationTrace("resource '%s'", aRes->mPath.c_str());
+		TodHesitationTrace("Loading: '%s'", aRes->mPath.CStr());
+		TodHesitationTrace("resource '%s'", aRes->mPath.CStr());
 		return true;
 	}
 
 	return false;
 }
 
-bool TodFindFontPath(Font *theFont, std::string *thePath)
+bool TodFindFontId(Font *theFont, ResourceId *theId)
 {
-	return ((TodResourceManager *)gSexyAppBase->mResourceManager)->FindFontPath(theFont, thePath);
+	return ((TodResourceManager *)gSexyAppBase->mResourceManager)->FindFontId(theFont, theId);
 }
 
-bool TodFindImagePath(Image *theImage, std::string *thePath)
+bool TodFindImageId(Image *theImage, ResourceId *theId)
 {
-	return ((TodResourceManager *)gSexyAppBase->mResourceManager)->FindImagePath(theImage, thePath);
+	return ((TodResourceManager *)gSexyAppBase->mResourceManager)->FindImageId(theImage, theId);
 }
 
-bool TodResourceManager::FindImagePath(Image *theImage, std::string *thePath)
+bool TodResourceManager::FindImageId(Image *theImage, ResourceId *theId)
 {
 	for (auto anItr = mImageMap.begin(); anItr != mImageMap.end(); anItr++)
 	{
@@ -1322,14 +1322,14 @@ bool TodResourceManager::FindImagePath(Image *theImage, std::string *thePath)
 		Image *aImage = (Image *)aImageRes->mImage;
 		if (aImage == theImage)
 		{
-			*thePath = anItr->first;
+			*theId = anItr->first;
 			return true;
 		}
 	}
 	return false;
 }
 
-bool TodResourceManager::FindFontPath(Font *theFont, std::string *thePath)
+bool TodResourceManager::FindFontId(Font *theFont, ResourceId *theId)
 {
 	for (auto anItr = mFontMap.begin(); anItr != mFontMap.end(); anItr++)
 	{
@@ -1337,7 +1337,7 @@ bool TodResourceManager::FindFontPath(Font *theFont, std::string *thePath)
 		Font *aFont = (Font *)aFontRes->mFont;
 		if (aFont == theFont)
 		{
-			*thePath = anItr->first;
+			*theId = anItr->first;
 			return true;
 		}
 	}

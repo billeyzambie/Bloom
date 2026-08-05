@@ -8,6 +8,7 @@
 #include "../SexyAppFramework/XMLParser.h" 
 #include <fstream>
 #include "OriginalCompiledDefinition.h"
+#include <iostream>
 
 DefSymbol gTrailFlagDefSymbols[] = {
 	{0, "Loops"},
@@ -161,7 +162,7 @@ DefMap gReanimatorDefMap = {
 	gReanimatorDefFields, sizeof(ReanimatorDefinition), ReanimatorDefinitionConstructor};
 
 static DefLoadResPath gDefLoadResPaths[4] = {
-	{"IMAGE_", "PVZ/"}, {"IMAGE_", "PVZ/particles/"}, {"IMAGE_REANIM_", "PVZ/reanim/"}, {"IMAGE_REANIM_", "PVZ/images/"}};
+	{"IMAGE_", ""}, {"IMAGE_", "particles/"}, {"IMAGE_REANIM_", "reanim/"}, {"IMAGE_REANIM_", "images/"}};
 
 void *ParticleFieldConstructor(void *thePointer)
 {
@@ -272,10 +273,10 @@ void DefinitionFree(void* &theMemory)
 }
 
 
-bool DefinitionLoadImage(Image **theImage, const SexyString &theName)
+bool DefinitionLoadImage(Image **theImage, const ResourceId &theName)
 {
 	// If the texture file path does not exist, there is no need to obtain the texture.
-	if (theName.size() == 0)
+	if (theName.IsEmpty())
 	{
 		*theImage = nullptr;
 		return true;
@@ -292,16 +293,19 @@ bool DefinitionLoadImage(Image **theImage, const SexyString &theName)
 	// Manually load textures from possible texture paths.
 	for (const DefLoadResPath &aLoadResPath : gDefLoadResPaths)
 	{
-		int aNameLen = theName.size();
+		int aNameLen = strlen(theName.BarePathCStr());
 		int aPrefixLen = strlen(aLoadResPath.mPrefix);
 		if (aPrefixLen < aNameLen)
 		{
-			SexyString aPathToTry = aLoadResPath.mDirectory + theName.substr(aPrefixLen, aNameLen);
-			SharedImageRef aImageRef = gSexyAppBase->GetSharedImage(aPathToTry);
+			ResourcePath aPathToTry = {
+				theName.NamespaceView(),
+				aLoadResPath.mDirectory + theName.CreateBarePathString().substr(aPrefixLen)
+			};
+			SharedImageRef aImageRef = gSexyAppBase->GetSharedImage(aPathToTry.AsString());
 			if ((Image *)aImageRef != nullptr)
 			{
-				TodHesitationTrace("Load Image '%s'", theName.c_str());
-				TodAddImageToMap(&aImageRef, theName);
+				TodHesitationTrace("Load Image '%s'", theName.CStr());
+				TodAddImageToMap(&aImageRef, aPathToTry, theName);
 				TodMarkImageForSanding((Image *)aImageRef);
 				*theImage = (Image *)aImageRef;
 				return true;
@@ -311,9 +315,9 @@ bool DefinitionLoadImage(Image **theImage, const SexyString &theName)
 	return false;
 }
 
-bool DefinitionLoadFont(Font **theFont, const SexyString &theName)
+bool DefinitionLoadFont(Font **theFont, const ResourceId &theName)
 {
-	Font *aFont = gSexyAppBase->mResourceManager->LoadFont(SexyStringToString(theName));
+	Font *aFont = gSexyAppBase->mResourceManager->LoadFont(theName);
 	*theFont = aFont;
 	return aFont != nullptr;
 }
@@ -417,7 +421,8 @@ bool DefReadFromCacheImage(void *&theReadPtr, Image **theImage)
 	aImageName[aLen] = '\0';
 
 	*theImage = nullptr;
-	bool aResult = aImageName[0] == '\0' || DefinitionLoadImage(theImage, aImageName);
+	ResourceId aResourceId = ResourceId::FromCString(aImageName);
+	bool aResult = aImageName[0] == '\0' || DefinitionLoadImage(theImage, aResourceId);
 	free(aImageName);
 	return aResult;
 }
@@ -432,7 +437,7 @@ bool DefReadFromCacheFont(void *&theReadPtr, Font **theFont)
 	aFontName[aLen] = '\0';
 
 	*theFont = nullptr;
-	return aFontName[0] == '\0' || DefinitionLoadFont(theFont, aFontName);
+	return aFontName[0] == '\0' || DefinitionLoadFont(theFont, ResourceId::FromCString(aFontName));
 }
 
 bool DefMapReadFromCache(void *&theReadPtr, DefMap *theDefMap, void *theDefinition)
@@ -551,6 +556,8 @@ bool DefinitionReadCompiledFile(const ResourcePath &theCompiledFilePath, DefMap 
 {
 	CompiledDefinitionFile aCompiledFile;
 
+	bool anIsCreditFog = theCompiledFilePath.AsString().ends_with("Credits_fog.xml.compiled");
+
 	PerfTimer aTimer;
 	aTimer.Start();
 	FILE *pFile = fopen(theCompiledFilePath.CStr(), "rb");
@@ -579,6 +586,14 @@ bool DefinitionReadCompiledFile(const ResourcePath &theCompiledFilePath, DefMap 
 			size_t aCompressedSize = aFileSize - aHeader->mDataOffset;
 
 			void *aDataPtr = (void *)aCompiledFile.GetCompressedData();
+
+			if (anIsCreditFog)
+			{
+				std::cout << "READING COMPRESSED COMPILED CREDIT FOG: " << theCompiledFilePath.AsString() << std::endl;
+				std::string aCompilerAsString = {(char *)aDataPtr, aCompressedSize};
+				std::cout << aCompilerAsString << std::endl;
+			}
+
 			void *anUncompressedData =
 				DefinitionUncompressCompiledBuffer(aHeader, aDataPtr, aCompressedSize, theCompiledFilePath);
 
@@ -586,6 +601,13 @@ bool DefinitionReadCompiledFile(const ResourcePath &theCompiledFilePath, DefMap 
 			{
 				TodTraceAndLog("[TodLib] - Failed to uncompress: %s\n", theCompiledFilePath.CStr());
 				return false;
+			}
+
+			if (anIsCreditFog)
+			{
+				std::cout << "READING UNCOMPRESSED COMPILED CREDIT FOG: " << theCompiledFilePath.AsString() << std::endl;
+				std::string aCompilerAsString = {(char *)anUncompressedData, 64};
+				std::cout << aCompilerAsString << std::endl;
 			}
 
 			bool aResult = DefMapReadFromCache(anUncompressedData, theDefMap, theDefinition);
@@ -1035,11 +1057,16 @@ bool DefinitionReadImageField(XMLParser *theXmlParser, Image **theImage)
 	if (!DefinitionReadXMLString(theXmlParser, aStringValue))
 		return false;
 
-	if (DefinitionLoadImage(theImage, aStringValue))
+	ResourceId anImageId = ResourceId::FromStringWithDefaultNamespace(
+		aStringValue,
+		theXmlParser->GetFileName().NamespaceView()
+	);
+
+	if (DefinitionLoadImage(theImage, anImageId))
 		return true;
 
 	std::string aMessgae = StrFormat(
-		"Failed to find image '%s' in %s", aStringValue.c_str(), theXmlParser->GetFileName().CStr());
+		"Failed to find image '%s' in %s", anImageId.CStr(), theXmlParser->GetFileName().CStr());
 	TodErrorMessageBox(aMessgae.c_str(), "Missing image");
 }
 
@@ -1049,10 +1076,15 @@ bool DefinitionReadFontField(XMLParser *theXmlParser, Font **theFont)
 	if (!DefinitionReadXMLString(theXmlParser, aStringValue))
 		return false;
 
-	if (DefinitionLoadFont(theFont, aStringValue))
+	ResourceId anFontId = ResourceId::FromStringWithDefaultNamespace(
+		aStringValue,
+		theXmlParser->GetFileName().NamespaceView()
+	);
+
+	if (DefinitionLoadFont(theFont, anFontId))
 		return true;
 
-	std::string aMessgae = StrFormat("Failed to find font '%s' in %s", aStringValue.c_str(), theXmlParser->GetFileName().CStr());
+	std::string aMessgae = StrFormat("Failed to find font '%s' in %s", anFontId.CStr(), theXmlParser->GetFileName().CStr());
 	TodErrorMessageBox(aMessgae.c_str(), "Missing font");
 }
 
@@ -1175,26 +1207,27 @@ void DefWriteToCacheString(DefinitionCompiler *theWritePtr, const char *theValue
 
 void DefWriteToCacheImage(DefinitionCompiler *theWritePtr, Image **theValue)
 {
-	std::string aImageName{};
+	ResourceId aImageName{};
 	if ((*theValue) != nullptr)
-		TodFindImagePath(*theValue, &aImageName);
+		TodFindImageId(*theValue, &aImageName);
+	bool anImageEmpty = aImageName.IsEmpty();
 
-	uint32_t aImageSize = aImageName.length();
+	uint32_t aImageSize = aImageName.AsString().length();
 	theWritePtr->Write(aImageSize);
 	if (aImageSize > 0)
-		theWritePtr->Write(aImageName.data(), aImageSize);
+		theWritePtr->Write(aImageName.CStr(), aImageSize);
 }
 
 void DefWriteToCacheFont(DefinitionCompiler *theWritePtr, Font **theValue)
 {
-	std::string aFontName{};
+	ResourceId aFontName{};
 	if ((*theValue) != nullptr)
-		TodFindFontPath(*theValue, &aFontName);
+		TodFindFontId(*theValue, &aFontName);
 
-	uint32_t aFontSize = aFontName.length();
+	uint32_t aFontSize = aFontName.AsString().length();
 	theWritePtr->Write(aFontSize);
 	if (aFontSize > 0)
-		theWritePtr->Write(aFontName.data(), aFontSize);
+		theWritePtr->Write(aFontName.CStr(), aFontSize);
 }
 
 void DefWriteToCacheArray(DefinitionCompiler *theWritePtr, DefinitionArrayDef *theValue, DefMap *theDefMap)
@@ -1298,7 +1331,15 @@ bool DefinitionWriteCompiledFile(const ResourcePath &theCompiledFilePath, DefMap
 	DefMapWriteToCache(&aCompiler, theDefMap, theDefinition);
 	aHeader.mUncompressedSize = (uint32_t)aCompiler.mBuffer.size();
 	aHeader.mDataOffset = sizeof(CompiledDefinitionHeader);
+	
+	bool anIsCreditFog = theCompiledFilePath.AsString().ends_with("Credits_fog.xml.compiled");
 
+	if (anIsCreditFog)
+	{
+		std::cout << "WRITING UNCOMPRESSED COMPILED CREDIT FOG: " << theCompiledFilePath.AsString() << std::endl;
+		std::string aCompilerAsString = {(char *)aCompiler.mBuffer.data(), aCompiler.mBuffer.size()};
+		std::cout << aCompilerAsString << std::endl;
+	}
 
 	uLongf aCompressedSize = compressBound(aCompiler.mBuffer.size());
 	void *aCompressedData = DefinitionAlloc(aCompressedSize);
@@ -1317,6 +1358,13 @@ bool DefinitionWriteCompiledFile(const ResourcePath &theCompiledFilePath, DefMap
 	anOut.write((char *)&aHeader, sizeof(aHeader));
 	anOut.write((char *)aCompressedData, aCompressedSize);
 
+	if (anIsCreditFog)
+	{
+		std::cout << "WRITING COMPRESSED COMPILED CREDIT FOG: " << theCompiledFilePath.AsString() << std::endl;
+		std::string aCompressedAsString = {(char *)aCompressedData, aCompressedSize};
+		std::cout << aCompressedAsString << std::endl;
+	}
+	
 	DefinitionFree(aCompressedData);
 	return true;
 }

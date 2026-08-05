@@ -6,28 +6,28 @@ using namespace Sexy;
 
 static bool gNeedRecalcVariableToIdMap = false;
 
-bool Sexy::ResoddedFrameworkExtractResourcesByName(ResourceManager * theManager, const char* theName)
+bool Sexy::ResoddedFrameworkExtractResourcesByName(ResourceManager *theManager, const char *theName)
 {
 	if (strcmp(theName,"LoadingImages")==0) return ResoddedFrameworkExtractLoadingImagesResources(theManager);
 	return false;
 }
 
-Sexy::ResoddedFrameworkResourceId Sexy::ResoddedFrameworkGetIdByStringId(const char *theStringId)
-{
-	typedef std::map<std::string,int> MyMap;
-	static MyMap aMap;
-	if(aMap.empty())
-	{
-		for(int i=0; i<ResoddedFrameworkRESOURCE_ID_MAX; i++)
-			aMap[ResoddedFrameworkGetStringIdById(i)] = i;
-	}
-
-	MyMap::iterator anItr = aMap.find(theStringId);
-	if (anItr == aMap.end())
-		return ResoddedFrameworkRESOURCE_ID_MAX;
-	else
-		return (ResoddedFrameworkResourceId) anItr->second;
-}
+//Sexy::ResoddedFrameworkResourceId Sexy::ResoddedFrameworkGetIdByStringId(const char *theStringId)
+//{
+//	typedef std::map<ResourceId,int> MyMap;
+//	static MyMap aMap;
+//	if(aMap.empty())
+//	{
+//		for(int i=0; i<ResoddedFrameworkRESOURCE_ID_MAX; i++)
+//			aMap[ResoddedFrameworkGetStringIdById(i)] = i;
+//	}
+//
+//	MyMap::iterator anItr = aMap.find(theStringId);
+//	if (anItr == aMap.end())
+//		return ResoddedFrameworkRESOURCE_ID_MAX;
+//	else
+//		return (ResoddedFrameworkResourceId) anItr->second;
+//}
 
 // LoadingImages Resources
 Image* Sexy::IMAGE_SEED_SELECTOR;
@@ -43,11 +43,11 @@ bool Sexy::ResoddedFrameworkExtractLoadingImagesResources(ResourceManager *theMa
 	ResourceManager &aMgr = *theManager;
 	try
 	{
-		IMAGE_SEED_SELECTOR = aMgr.GetImageThrow("IMAGE_SEED_SELECTOR");
-		IMAGE_GAMEPAD_CURSOR_FRAME = aMgr.GetImageThrow("IMAGE_GAMEPAD_CURSOR_FRAME");
-		IMAGE_GAMEPAD_CURSOR_FRAME_SHADOW = aMgr.GetImageThrow("IMAGE_GAMEPAD_CURSOR_FRAME_SHADOW");
-		IMAGE_GAMEPAD_SELECTOR_SHADOW = aMgr.GetImageThrow("IMAGE_GAMEPAD_SELECTOR_SHADOW");
-		IMAGE_GAMEPAD_IMAGE_P1 = aMgr.GetImageThrow("IMAGE_GAMEPAD_IMAGE_P1");
+		IMAGE_SEED_SELECTOR = aMgr.GetImageThrow({"PVZ", "IMAGE_SEED_SELECTOR"});
+		IMAGE_GAMEPAD_CURSOR_FRAME = aMgr.GetImageThrow({"PVZ", "IMAGE_GAMEPAD_CURSOR_FRAME"});
+		IMAGE_GAMEPAD_CURSOR_FRAME_SHADOW = aMgr.GetImageThrow({"PVZ", "IMAGE_GAMEPAD_CURSOR_FRAME_SHADOW"});
+		IMAGE_GAMEPAD_SELECTOR_SHADOW = aMgr.GetImageThrow({"PVZ", "IMAGE_GAMEPAD_SELECTOR_SHADOW"});
+		IMAGE_GAMEPAD_IMAGE_P1 = aMgr.GetImageThrow({"PVZ", "IMAGE_GAMEPAD_IMAGE_P1"});
 	}
 	catch(ResourceManagerException&)
 	{
@@ -140,16 +140,22 @@ Sexy::ResoddedFrameworkResourceId Sexy::ResoddedFrameworkGetIdBySound(int theSou
 	return ResoddedFrameworkGetIdByVariable((void*)theSound);
 }
 
-const char* Sexy::ResoddedFrameworkGetStringIdById(int theId)
+ResourceId Sexy::ResoddedFrameworkGetStringIdById(int theId)
 {
 	switch(theId)
 	{
-		case IMAGE_SEED_SELECTOR_ID: return "IMAGE_SEED_SELECTOR";
-		case IMAGE_GAMEPAD_CURSOR_FRAME_ID: return "IMAGE_GAMEPAD_CURSOR_FRAME";
-		case IMAGE_GAMEPAD_CURSOR_FRAME_SHADOW_ID: return "IMAGE_GAMEPAD_CURSOR_FRAME_SHADOW";
-		case IMAGE_GAMEPAD_SELECTOR_SHADOW_ID: return "IMAGE_GAMEPAD_SELECTOR_SHADOW";
-		case IMAGE_GAMEPAD_IMAGE_P1_ID: return "IMAGE_GAMEPAD_IMAGE_P1";
-		default: return "";
+		case IMAGE_SEED_SELECTOR_ID: 
+			return {"PVZ", "IMAGE_SEED_SELECTOR"};
+		case IMAGE_GAMEPAD_CURSOR_FRAME_ID: 
+			return {"PVZ", "IMAGE_GAMEPAD_CURSOR_FRAME"};
+		case IMAGE_GAMEPAD_CURSOR_FRAME_SHADOW_ID: 
+			return {"PVZ", "IMAGE_GAMEPAD_CURSOR_FRAME_SHADOW"};
+		case IMAGE_GAMEPAD_SELECTOR_SHADOW_ID: 
+			return {"PVZ", "IMAGE_GAMEPAD_SELECTOR_SHADOW"};
+		case IMAGE_GAMEPAD_IMAGE_P1_ID: 
+			return {"PVZ", "IMAGE_GAMEPAD_IMAGE_P1"};
+		default: 
+			return {};
 	}
 }
 

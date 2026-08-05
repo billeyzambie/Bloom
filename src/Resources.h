@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BloomLib/Bloom.h"
+#include "BloomLib/NamespacedString.h"
 
 namespace Sexy
 {
@@ -1881,7 +1882,7 @@ BLOOM_API OldResourceId GetIdByImage(Image *theImage);
 BLOOM_API OldResourceId GetIdByFont(Font *theFont);
 BLOOM_API OldResourceId GetIdBySound(int theSound);
 
-BLOOM_API const char *GetStringIdById(int theId);
-BLOOM_API OldResourceId GetIdByStringId(const char *theStringId);
+BLOOM_API ResourceId GetStringIdById(int theId);
+//BLOOM_API OldResourceId GetIdByStringId(const char *theStringId);
 
 } // namespace Sexy

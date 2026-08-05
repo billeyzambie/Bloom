@@ -158,7 +158,7 @@ bool ResourceManager::Fail(const std::string &theErrorText)
 		if (aLineNum > 0)
 			mError += std::string(" on Line ") + aLineNumStr;
 
-		if (mXMLParser->GetFileName().AsString().length() > 0)
+		if (!mXMLParser->GetFileName().IsEmpty())
 			mError += " in File '" + mXMLParser->GetFileName().AsString() + "'";
 	}
 

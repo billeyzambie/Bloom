@@ -1858,7 +1858,7 @@ void LawnApp::LoadingCompleted()
 	SafeDeleteWidget(mTitleScreen);
 	mTitleScreen = nullptr;
 
-	mResourceManager->DeleteImage("IMAGE_TITLESCREEN");
+	mResourceManager->DeleteImage({"PVZ", "IMAGE_TITLESCREEN"});
 
 	ShowGameSelector();
 }

@@ -16,6 +16,11 @@ class BLOOM_API NamespacedString
 	std::string mNamespacedPath;
 	size_t mNamespaceLength;
 
+	NamespacedString(std::string theNamespacedPath, size_t theNamespaceLength) 
+		: mNamespacedPath(std::move(theNamespacedPath)), mNamespaceLength(theNamespaceLength)
+	{
+	}
+
   public:
 	NamespacedString(std::string_view theNamespace, std::string_view theBarePath)
 		: mNamespaceLength(theNamespace.size())
@@ -34,6 +39,26 @@ class BLOOM_API NamespacedString
 		: mNamespacedPath(std::string{theSeparator}), mNamespaceLength(0)
 	{
 	}
+	static NamespacedString FromCString(const char *theCString)
+	{
+		std::string aNamespacedPath = theCString;
+		size_t aNamespaceLength = aNamespacedPath.find(theSeparator);
+		if (aNamespaceLength == std::string::npos)
+			aNamespaceLength = 0;
+		return {std::move(aNamespacedPath), aNamespaceLength};
+	}
+	static NamespacedString FromStringWithDefaultNamespace(std::string_view theString, std::string_view theDefaultNamespace)
+	{
+		static_assert(theSeparator != '/');
+		size_t aNamespaceLength = theString.find(theSeparator);
+		if (aNamespaceLength == std::string::npos)
+			return {theDefaultNamespace, theString};
+		return {std::string{theString}, aNamespaceLength};
+	}
+	NamespacedString(const NamespacedString &theCopied) = default;
+	NamespacedString(NamespacedString &&theMoved) = default;
+	NamespacedString &operator=(const NamespacedString &theCopied) = default;
+	NamespacedString &operator=(NamespacedString &&theMoved) = default;
 	const std::string &AsString() const
 	{
 		return mNamespacedPath;
@@ -60,13 +85,34 @@ class BLOOM_API NamespacedString
 	}
 	bool IsEmpty() const
 	{
-		return mNamespacedPath.size() <= 1;
+		return mNamespacedPath.size() <= mNamespaceLength + 1;
 	}
 	NamespacedString operator+(const std::string &theString) const
 	{
 		return {NamespaceView(), BarePathCStr() + theString};
 	}
+	bool operator==(const NamespacedString &theOther) const = default;
+	bool operator<(const NamespacedString &theOther) const
+	{
+		return mNamespacedPath < theOther.mNamespacedPath;
+	}
 };
 
 typedef NamespacedString<'/', false> ResourcePath;
 typedef NamespacedString<':', true> ResourceId;
+
+template <> struct std::hash<ResourceId>
+{
+	std::size_t operator()(const ResourceId &theResourceId) const noexcept
+	{
+		return std::hash<std::string>{}(theResourceId.AsString());
+	}
+};
+
+template <> struct std::hash<ResourcePath>
+{
+	std::size_t operator()(const ResourcePath &theResourcePath) const noexcept
+	{
+		return std::hash<std::string>{}(theResourcePath.AsString());
+	}
+};
