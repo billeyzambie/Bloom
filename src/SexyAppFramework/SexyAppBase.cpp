@@ -5448,7 +5448,7 @@ void SexyAppBase::Init()
 		}
 	}
 
-	gPakInterface->AddPakFile("main.pak", PVZ);
+	gPakInterface->AddPakFile("main.pak", "PVZ");
 
 	if (mOnlyAllowOneCopyToRun)
 	{

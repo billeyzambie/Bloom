@@ -174,10 +174,8 @@ void StoreItemType::Update(const LawnApp &theLawnApp)
 
 void StoreItemType::Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int thePosX, int thePosY, bool theIsForHighlight) const
 {
-	Sexy::Image *anIcon = Sexy::GetImageById(mAttributes.mIcon);
-
-	if (anIcon)
-		g->DrawImage(anIcon, thePosX + mAttributes.mDrawOffsetX, thePosY + mAttributes.mDrawOffsetY);
+	if (mAttributes.mIcon)
+		g->DrawImage(mAttributes.mIcon, thePosX + mAttributes.mDrawOffsetX, thePosY + mAttributes.mDrawOffsetY);
 	
 	int aCount = mAttributes.mBuyCount;
 

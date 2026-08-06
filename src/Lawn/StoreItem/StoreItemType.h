@@ -4,6 +4,7 @@
 #include "../BloomLib/PatchHolder.h"
 #include "../BloomLib/EventList.h"
 #include "../BloomLib/ListInsertion.h"
+#include "../BloomLib/ImageGetter.h"
 
 #include "../ConstEnums.h"
 #include "../Resources.h"
@@ -30,7 +31,7 @@ class BLOOM_API StoreItemType : public BloomType
 		int mBuyCount = 1;
 		int mMaxBuyCount = 1;
 		int mUnlockLevel = 1;
-		Sexy::OldResourceId mIcon = Sexy::RESOURCE_ID_MAX;
+		ImageGetter mIcon = {};
 		int mDrawOffsetX = 0;
 		int mDrawOffsetY = 0;
 		bool mUnavailable = false;

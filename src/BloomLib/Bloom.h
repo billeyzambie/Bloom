@@ -7,5 +7,3 @@
 #define BLOOM_API __declspec(dllimport)
 #define BLOOM_GLOBAL extern __declspec(dllimport)
 #endif
-
-constexpr auto PVZ = "PVZ";
