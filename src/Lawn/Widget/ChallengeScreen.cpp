@@ -99,7 +99,7 @@ ChallengeScreen::ChallengeScreen(LawnApp *theApp, ChallengePage thePage)
 	mUnlockState = UNLOCK_OFF;
 	mUnlockChallengeIndex = -1;
 	mUnlockStateCounter = 0;
-	TodLoadResources("DelayLoad_ChallengeScreen");
+	TodLoadResources({"PVZ", "DelayLoad_ChallengeScreen"});
 
 	mBackButton = MakeNewButton(ChallengeScreen::ChallengeScreen_Back,
 								this,

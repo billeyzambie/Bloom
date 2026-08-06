@@ -27,10 +27,10 @@ AwardScreen::AwardScreen(LawnApp *theApp, AwardType theAwardType)
 	if (theAwardType == AwardType::AWARD_HELP_ZOMBIENOTE || theAwardType == AwardType::AWARD_CREDITS_ZOMBIENOTE)
 		mHasAchievementsToShow = false;
 	mScrollBar = nullptr;
-	TodLoadResources("DelayLoad_AwardScreen");
+	TodLoadResources({"PVZ", "DelayLoad_AwardScreen"});
 	if (mHasAchievementsToShow)
 	{
-		TodLoadResources("DelayLoad_ChallengeScreen");
+		TodLoadResources({"PVZ", "DelayLoad_ChallengeScreen"});
 
 		for (int i = 0; i < NUM_ACHIEVEMENT_TYPES; i++)
 		{
@@ -83,47 +83,47 @@ AwardScreen::AwardScreen(LawnApp *theApp, AwardType theAwardType)
 	int aLevel = mApp->mPlayerInfo->GetLevel();
 	if (mAwardType == AWARD_CREDITS_ZOMBIENOTE)
 	{
-		TodLoadResources("DelayLoad_Background6");
-		TodLoadResources("DelayLoad_ZombieNote");
-		TodLoadResources("DelayLoad_Credits");
+		TodLoadResources({"PVZ", "DelayLoad_Background6"});
+		TodLoadResources({"PVZ", "DelayLoad_ZombieNote"});
+		TodLoadResources({"PVZ", "DelayLoad_Credits"});
 	}
 	else if (mAwardType == AWARD_HELP_ZOMBIENOTE)
 	{
-		TodLoadResources("DelayLoad_Background1");
-		TodLoadResources("DelayLoad_ZombieNote");
-		TodLoadResources("DelayLoad_ZombieNoteHelp");
+		TodLoadResources({"PVZ", "DelayLoad_Background1"});
+		TodLoadResources({"PVZ", "DelayLoad_ZombieNote"});
+		TodLoadResources({"PVZ", "DelayLoad_ZombieNoteHelp"});
 	}
 	else if (mApp->IsAdventureMode())
 	{
 		if (aLevel == 10)
 		{
-			TodLoadResources("DelayLoad_Background1");
-			TodLoadResources("DelayLoad_ZombieNote");
-			TodLoadResources("DelayLoad_ZombieNote1");
+			TodLoadResources({"PVZ", "DelayLoad_Background1"});
+			TodLoadResources({"PVZ", "DelayLoad_ZombieNote"});
+			TodLoadResources({"PVZ", "DelayLoad_ZombieNote1"});
 		}
 		else if (aLevel == 20)
 		{
-			TodLoadResources("DelayLoad_Background2");
-			TodLoadResources("DelayLoad_ZombieNote");
-			TodLoadResources("DelayLoad_ZombieNote2");
+			TodLoadResources({"PVZ", "DelayLoad_Background2"});
+			TodLoadResources({"PVZ", "DelayLoad_ZombieNote"});
+			TodLoadResources({"PVZ", "DelayLoad_ZombieNote2"});
 		}
 		else if (aLevel == 30)
 		{
-			TodLoadResources("DelayLoad_Background1");
-			TodLoadResources("DelayLoad_ZombieNote");
-			TodLoadResources("DelayLoad_ZombieNote3");
+			TodLoadResources({"PVZ", "DelayLoad_Background1"});
+			TodLoadResources({"PVZ", "DelayLoad_ZombieNote"});
+			TodLoadResources({"PVZ", "DelayLoad_ZombieNote3"});
 		}
 		else if (aLevel == 40)
 		{
-			TodLoadResources("DelayLoad_Background2");
-			TodLoadResources("DelayLoad_ZombieNote");
-			TodLoadResources("DelayLoad_ZombieNote4");
+			TodLoadResources({"PVZ", "DelayLoad_Background2"});
+			TodLoadResources({"PVZ", "DelayLoad_ZombieNote"});
+			TodLoadResources({"PVZ", "DelayLoad_ZombieNote4"});
 		}
 		else if (aLevel == 50)
 		{
-			TodLoadResources("DelayLoad_Background1");
-			TodLoadResources("DelayLoad_ZombieNote");
-			TodLoadResources("DelayLoad_ZombieFinalNote");
+			TodLoadResources({"PVZ", "DelayLoad_Background1"});
+			TodLoadResources({"PVZ", "DelayLoad_ZombieNote"});
+			TodLoadResources({"PVZ", "DelayLoad_ZombieFinalNote"});
 		}
 	}
 

@@ -6,67 +6,67 @@ using namespace Sexy;
 
 static bool gNeedRecalcVariableToIdMap = false;
 
-bool Sexy::ExtractResourcesByName(ResourceManager *theManager, const char *theName)
+bool Sexy::ExtractResourcesByName(ResourceManager *theManager, const ResourceId &theName)
 {
-	if (strcmp(theName, "DelayLoad_Almanac") == 0)
+	if (stricmp(theName.CStr(), "PVZ:DelayLoad_Almanac") == 0)
 		return ExtractDelayLoad_AlmanacResources(theManager);
-	else if (strcmp(theName, "DelayLoad_AwardScreen") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_AwardScreen") == 0)
 		return ExtractDelayLoad_AwardScreenResources(theManager);
-	else if (strcmp(theName, "DelayLoad_Background1") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_Background1") == 0)
 		return ExtractDelayLoad_Background1Resources(theManager);
-	else if (strcmp(theName, "DelayLoad_Background2") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_Background2") == 0)
 		return ExtractDelayLoad_Background2Resources(theManager);
-	else if (strcmp(theName, "DelayLoad_Background3") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_Background3") == 0)
 		return ExtractDelayLoad_Background3Resources(theManager);
-	else if (strcmp(theName, "DelayLoad_Background4") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_Background4") == 0)
 		return ExtractDelayLoad_Background4Resources(theManager);
-	else if (strcmp(theName, "DelayLoad_Background5") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_Background5") == 0)
 		return ExtractDelayLoad_Background5Resources(theManager);
-	else if (strcmp(theName, "DelayLoad_Background6") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_Background6") == 0)
 		return ExtractDelayLoad_Background6Resources(theManager);
-	else if (strcmp(theName, "DelayLoad_BackgroundUnsodded") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_BackgroundUnsodded") == 0)
 		return ExtractDelayLoad_BackgroundUnsoddedResources(theManager);
-	else if (strcmp(theName, "DelayLoad_ChallengeScreen") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_ChallengeScreen") == 0)
 		return ExtractDelayLoad_ChallengeScreenResources(theManager);
-	else if (strcmp(theName, "DelayLoad_Credits") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_Credits") == 0)
 		return ExtractDelayLoad_CreditsResources(theManager);
-	else if (strcmp(theName, "DelayLoad_GreenHouseGarden") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_GreenHouseGarden") == 0)
 		return ExtractDelayLoad_GreenHouseGardenResources(theManager);
-	else if (strcmp(theName, "DelayLoad_GreenHouseOverlay") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_GreenHouseOverlay") == 0)
 		return ExtractDelayLoad_GreenHouseOverlayResources(theManager);
-	else if (strcmp(theName, "DelayLoad_MushroomGarden") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_MushroomGarden") == 0)
 		return ExtractDelayLoad_MushroomGardenResources(theManager);
-	else if (strcmp(theName, "DelayLoad_Store") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_Store") == 0)
 		return ExtractDelayLoad_StoreResources(theManager);
-	else if (strcmp(theName, "DelayLoad_TreeOfWisdom") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_TreeOfWisdom") == 0)
 		return ExtractDelayLoad_TreeOfWisdomResources(theManager);
-	else if (strcmp(theName, "DelayLoad_Zombatar") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_Zombatar") == 0)
 		return ExtractDelayLoad_ZombatarResources(theManager);
-	else if (strcmp(theName, "DelayLoad_ZombieFinalNote") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_ZombieFinalNote") == 0)
 		return ExtractDelayLoad_ZombieFinalNoteResources(theManager);
-	else if (strcmp(theName, "DelayLoad_ZombieNote") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_ZombieNote") == 0)
 		return ExtractDelayLoad_ZombieNoteResources(theManager);
-	else if (strcmp(theName, "DelayLoad_ZombieNote1") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_ZombieNote1") == 0)
 		return ExtractDelayLoad_ZombieNote1Resources(theManager);
-	else if (strcmp(theName, "DelayLoad_ZombieNote2") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_ZombieNote2") == 0)
 		return ExtractDelayLoad_ZombieNote2Resources(theManager);
-	else if (strcmp(theName, "DelayLoad_ZombieNote3") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_ZombieNote3") == 0)
 		return ExtractDelayLoad_ZombieNote3Resources(theManager);
-	else if (strcmp(theName, "DelayLoad_ZombieNote4") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_ZombieNote4") == 0)
 		return ExtractDelayLoad_ZombieNote4Resources(theManager);
-	else if (strcmp(theName, "DelayLoad_ZombieNoteHelp") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_ZombieNoteHelp") == 0)
 		return ExtractDelayLoad_ZombieNoteHelpResources(theManager);
-	else if (strcmp(theName, "DelayLoad_Zombiquarium") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:DelayLoad_Zombiquarium") == 0)
 		return ExtractDelayLoad_ZombiquariumResources(theManager);
-	else if (strcmp(theName, "Init") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:Init") == 0)
 		return ExtractInitResources(theManager);
-	else if (strcmp(theName, "LoaderBar") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:LoaderBar") == 0)
 		return ExtractLoaderBarResources(theManager);
-	else if (strcmp(theName, "LoadingFonts") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:LoadingFonts") == 0)
 		return ExtractLoadingFontsResources(theManager);
-	else if (strcmp(theName, "LoadingImages") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:LoadingImages") == 0)
 		return ExtractLoadingImagesResources(theManager);
-	else if (strcmp(theName, "LoadingSounds") == 0)
+	else if (stricmp(theName.CStr(), "PVZ:LoadingSounds") == 0)
 		return ExtractLoadingSoundsResources(theManager);
 	return false;
 }

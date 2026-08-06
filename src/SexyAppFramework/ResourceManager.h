@@ -42,7 +42,7 @@ class BLOOM_API ResourceManager
 	{
 		ResType mType;
 		ResourceId mId;
-		std::string mResGroup;
+		ResourceId mResGroup;
 		ResourcePath mPath;
 		XMLParamMap mXMLAttributes;
 		bool mFromProgram;
@@ -115,11 +115,19 @@ class BLOOM_API ResourceManager
 		virtual void DeleteResource();
 	};
 
+	struct ResourceIdLessNoCase
+	{
+		bool operator()(const ResourceId &s1, const ResourceId &s2) const
+		{
+			return stricmp(s1.CStr(), s2.CStr()) < 0;
+		}
+	};
+
 	typedef std::map<ResourceId, BaseRes *> ResMap;
 	typedef std::list<BaseRes *> ResList;
-	typedef std::map<std::string, ResList, StringLessNoCase> ResGroupMap;
+	typedef std::map<ResourceId, ResList, ResourceIdLessNoCase> ResGroupMap;
 
-	std::set<std::string, StringLessNoCase> mLoadedGroups;
+	std::set<ResourceId, ResourceIdLessNoCase> mLoadedGroups;
 
 	ResMap mImageMap;
 	ResMap mSoundMap;
@@ -129,7 +137,7 @@ class BLOOM_API ResourceManager
 	std::string mError;
 	bool mHasFailed;
 	SexyAppBase *mApp;
-	std::string mCurResGroup;
+	ResourceId mCurResGroup;
 	ResourcePath mDefaultPath;
 	ResourceId mDefaultIdPrefix;
 	bool mAllowMissingProgramResources;
@@ -151,7 +159,7 @@ class BLOOM_API ResourceManager
 
 	bool DoParseResources(const std::string &theNamespace);
 	void DeleteMap(ResMap &theMap);
-	virtual void DeleteResources(ResMap &theMap, const std::string &theGroup);
+	virtual void DeleteResources(ResMap &theMap, const ResourceId &theGroup);
 
 	bool LoadAlphaGridImage(ImageRes *theRes, GPUImage *theImage);
 	bool LoadAlphaImage(ImageRes *theRes, GPUImage *theImage);
@@ -159,7 +167,7 @@ class BLOOM_API ResourceManager
 	virtual bool DoLoadFont(FontRes *theRes);
 	virtual bool DoLoadSound(SoundRes *theRes);
 
-	int GetNumResources(const std::string &theGroup, ResMap &theMap);
+	int GetNumResources(const ResourceId &theGroup, ResMap &theMap);
 
   public:
 	ResourceManager(SexyAppBase *theApp);
@@ -172,18 +180,18 @@ class BLOOM_API ResourceManager
 
 	std::string GetErrorText();
 	bool HadError();
-	bool IsGroupLoaded(const std::string &theGroup);
+	bool IsGroupLoaded(const ResourceId &theGroup);
 
-	int GetNumImages(const std::string &theGroup);
-	int GetNumSounds(const std::string &theGroup);
-	int GetNumFonts(const std::string &theGroup);
-	int GetNumResources(const std::string &theGroup);
+	int GetNumImages(const ResourceId &theGroup);
+	int GetNumSounds(const ResourceId &theGroup);
+	int GetNumFonts(const ResourceId &theGroup);
+	int GetNumResources(const ResourceId &theGroup);
 
 	virtual bool LoadNextResource();
 	virtual void ResourceLoadedHook(BaseRes *theRes);
 
-	virtual void StartLoadResources(const std::string &theGroup);
-	virtual bool LoadResources(const std::string &theGroup);
+	virtual void StartLoadResources(const ResourceId &theGroup);
+	virtual bool LoadResources(const ResourceId &theGroup);
 
 	bool ReplaceImage(const ResourceId &theId, Image *theImage);
 	bool ReplaceSound(const ResourceId &theId, int theSound);
@@ -209,14 +217,14 @@ class BLOOM_API ResourceManager
 
 	void SetAllowMissingProgramImages(bool allow);
 
-	virtual void DeleteResources(const std::string &theGroup);
-	void DeleteExtraImageBuffers(const std::string &theGroup);
+	virtual void DeleteResources(const ResourceId &theGroup);
+	void DeleteExtraImageBuffers(const ResourceId &theGroup);
 
 	const ResList *GetCurResGroupList()
 	{
 		return mCurResGroupList;
 	}
-	std::string GetCurResGroup()
+	ResourceId GetCurResGroup()
 	{
 		return mCurResGroup;
 	}

@@ -6,9 +6,10 @@ using namespace Sexy;
 
 static bool gNeedRecalcVariableToIdMap = false;
 
-bool Sexy::ResoddedFrameworkExtractResourcesByName(ResourceManager *theManager, const char *theName)
+bool Sexy::ResoddedFrameworkExtractResourcesByName(ResourceManager *theManager, const ResourceId &theName)
 {
-	if (strcmp(theName,"LoadingImages")==0) return ResoddedFrameworkExtractLoadingImagesResources(theManager);
+	if (stricmp(theName.CStr(), "PVZ:LoadingImages") == 0)
+		return ResoddedFrameworkExtractLoadingImagesResources(theManager);
 	return false;
 }
 

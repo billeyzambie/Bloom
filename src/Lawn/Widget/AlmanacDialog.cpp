@@ -27,7 +27,7 @@ AlmanacDialog::AlmanacDialog(LawnApp *theApp)
 	mZombie = nullptr;
 	mPlant = nullptr;
 	mDrawStandardBack = false;
-	TodLoadResources("DelayLoad_Almanac");
+	TodLoadResources({"PVZ", "DelayLoad_Almanac"});
 	for (int i = 0; i < LENGTH(mZombiePerfTest); i++)
 		mZombiePerfTest[i] = nullptr;
 	LawnDialog::Resize(0, 0, BOARD_WIDTH, BOARD_HEIGHT);

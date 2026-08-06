@@ -57,7 +57,7 @@ StoreScreen::StoreScreen(LawnApp *theApp)
 	mEasyBuyingCheat = false;
 	mWaitForDialog = false;
 	mCoins.DataArrayInitialize(1024U, "coins");
-	TodLoadResources("DelayLoad_Store");
+	TodLoadResources({"PVZ", "DelayLoad_Store"});
 	Resize(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
 	mPottedPlantSpecs.InitializePottedPlant(SEED_MARIGOLD);
 	mPottedPlantSpecs.mDrawVariation =

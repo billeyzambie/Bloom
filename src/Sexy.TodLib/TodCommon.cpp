@@ -1173,12 +1173,12 @@ Color ColorsMultiply(const Color &theColor1, const Color &theColor2)
 				 ColorComponentMultiply(theColor1.mAlpha, theColor2.mAlpha));
 }
 
-bool TodLoadResources(const std::string &theGroup)
+bool TodLoadResources(const ResourceId &theGroup)
 {
 	return ((TodResourceManager *)gSexyAppBase->mResourceManager)->TodLoadResources(theGroup);
 }
 
-bool TodResourceManager::TodLoadResources(const std::string &theGroup)
+bool TodResourceManager::TodLoadResources(const ResourceId &theGroup)
 {
 	if (IsGroupLoaded(theGroup))
 		return true;
@@ -1198,7 +1198,7 @@ bool TodResourceManager::TodLoadResources(const std::string &theGroup)
 		return false;
 	}
 
-	if (ExtractResourcesByName && !ExtractResourcesByName(this, theGroup.c_str()))
+	if (ExtractResourcesByName && !ExtractResourcesByName(this, theGroup))
 	{
 		gSexyAppBase->ShowResourceError(true);
 		return false;
@@ -1209,7 +1209,7 @@ bool TodResourceManager::TodLoadResources(const std::string &theGroup)
 	int aDuration = std::max(aTimer.GetDuration(), 0.0);
 	if (aDuration > 20)
 	{
-		TodTraceAndLog("[TodLib] - LOADED: '%s' %d ms on %s", theGroup.c_str(), aDuration, gGetCurrentLevelName().c_str());
+		TodTraceAndLog("[TodLib] - LOADED: '%s' %d ms on %s", theGroup.CStr(), aDuration, gGetCurrentLevelName().c_str());
 	}
 
 	return true;

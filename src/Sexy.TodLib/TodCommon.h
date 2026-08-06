@@ -67,10 +67,10 @@ class BLOOM_API TodResourceManager : public ResourceManager
 	bool FindImageId(Image *theImage, ResourceId *theId);
 	void AddImageToMap(SharedImageRef *theImage, const ResourcePath &thePath, const ResourceId &theId);
 	bool TodLoadNextResource();
-	bool TodLoadResources(const std::string &theGroup);
+	bool TodLoadResources(const ResourceId &theGroup);
 };
 
-BLOOM_API bool TodLoadResources(const std::string &theGroup);
+BLOOM_API bool TodLoadResources(const ResourceId &theGroup);
 BLOOM_API bool TodLoadNextResource();
 BLOOM_API void TodAddImageToMap(SharedImageRef *theImage, const ResourcePath &thePath, const ResourceId &theId);
 BLOOM_API bool TodFindImageId(Image *theImage, ResourceId *theId);

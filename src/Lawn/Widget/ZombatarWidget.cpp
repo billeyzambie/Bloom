@@ -174,8 +174,8 @@ ZombatarWidget::ZombatarWidget(LawnApp *theApp)
 		mState = STATE_AVATAR_CREATION;
 	else
 		mState = STATE_AVATAR_LIST;
-	TodLoadResources("DelayLoad_Almanac");
-	TodLoadResources("DelayLoad_Zombatar");
+	TodLoadResources({"PVZ", "DelayLoad_Almanac"});
+	TodLoadResources({"PVZ", "DelayLoad_Zombatar"});
 	ResetPortrait();
 
 	mBackButton = new GameButton(ZombatarWidget::ZOMBATAR_BACK);

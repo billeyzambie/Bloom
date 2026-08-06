@@ -5,6 +5,7 @@
 #include "SexyAppFramework/SexyApp.h"
 #include "../BloomLib/Bloom.h"
 #include "../BloomLib/Mod.h"
+#include "../BloomLib/NamespacedString.h"
 
 #include <vector>
 #include <span>
@@ -867,14 +868,14 @@ class BLOOM_API LawnApp : public SexyApp
 	/// @brief Load a resource group
 	/// @param theGroupName The group to load
 	/// @param theGroupAveMsToLoad The average time to load it (used for task count calculations)
-	void LoadGroup(const char *theGroupName, int theGroupAveMsToLoad);
+	void LoadGroup(const ResourceId &theGroupName, int theGroupAveMsToLoad);
 
 	/// @brief Trace and Load a resource group (Unimplemented)
 	/// @param theGroupName The group to load
 	/// @param theGroupTime The time to load it (used for task count calculations)
 	/// @param theTotalGroupWeigth ???
 	/// @param theTaskWeight ???
-	void TraceLoadGroup(const char *theGroupName, int theGroupTime, int theTotalGroupWeigth, int theTaskWeight);
+	void TraceLoadGroup(const ResourceId &theGroupName, int theGroupTime, int theTotalGroupWeigth, int theTaskWeight);
 
 	/// @brief Stop Crazy Dave's current sounds
 	void CrazyDaveStopSound();

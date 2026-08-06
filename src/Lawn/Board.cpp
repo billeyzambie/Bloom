@@ -810,36 +810,36 @@ void Board::LoadBackgroundImages()
 	switch (mBackground)
 	{
 	case BackgroundType::BACKGROUND_1_DAY:
-		TodLoadResources("DelayLoad_Background1");
+		TodLoadResources({"PVZ", "DelayLoad_Background1"});
 		if ((mApp->IsAdventureMode() && mLevel <= 4) || mApp->mGameMode == GameMode::GAMEMODE_CHALLENGE_RESODDED)
 		{
-			TodLoadResources("DelayLoad_BackgroundUnsodded");
+			TodLoadResources({"PVZ", "DelayLoad_BackgroundUnsodded"});
 		}
 		break;
 
 	case BackgroundType::BACKGROUND_2_NIGHT:
-		TodLoadResources("DelayLoad_Background2");
+		TodLoadResources({"PVZ", "DelayLoad_Background2"});
 		break;
 
 	case BackgroundType::BACKGROUND_3_POOL:
-		TodLoadResources("DelayLoad_Background3");
+		TodLoadResources({"PVZ", "DelayLoad_Background3"});
 		break;
 
 	case BackgroundType::BACKGROUND_4_FOG:
-		TodLoadResources("DelayLoad_Background4");
+		TodLoadResources({"PVZ", "DelayLoad_Background4"});
 		break;
 
 	case BackgroundType::BACKGROUND_5_ROOF:
-		TodLoadResources("DelayLoad_Background5");
+		TodLoadResources({"PVZ", "DelayLoad_Background5"});
 		break;
 
 	case BackgroundType::BACKGROUND_6_BOSS:
-		TodLoadResources("DelayLoad_Background6");
+		TodLoadResources({"PVZ", "DelayLoad_Background6"});
 		break;
 
 	case BackgroundType::BACKGROUND_GREENHOUSE:
-		TodLoadResources("DelayLoad_GreenHouseGarden");
-		TodLoadResources("DelayLoad_GreenHouseOverlay");
+		TodLoadResources({"PVZ", "DelayLoad_GreenHouseGarden"});
+		TodLoadResources({"PVZ", "DelayLoad_GreenHouseOverlay"});
 		break;
 
 	case BackgroundType::BACKGROUND_TREEOFWISDOM:
@@ -847,12 +847,12 @@ void Board::LoadBackgroundImages()
 		break;
 
 	case BackgroundType::BACKGROUND_ZOMBIQUARIUM:
-		TodLoadResources("DelayLoad_Zombiquarium");
-		TodLoadResources("DelayLoad_GreenHouseOverlay");
+		TodLoadResources({"PVZ", "DelayLoad_Zombiquarium"});
+		TodLoadResources({"PVZ", "DelayLoad_GreenHouseOverlay"});
 		break;
 
 	case BackgroundType::BACKGROUND_MUSHROOM_GARDEN:
-		TodLoadResources("DelayLoad_MushroomGarden");
+		TodLoadResources({"PVZ", "DelayLoad_MushroomGarden"});
 		break;
 
 	default:

@@ -66,7 +66,7 @@ ResourceManager::~ResourceManager()
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-bool ResourceManager::IsGroupLoaded(const std::string &theGroup)
+bool ResourceManager::IsGroupLoaded(const ResourceId &theGroup)
 {
 	return mLoadedGroups.find(theGroup) != mLoadedGroups.end();
 }
@@ -86,18 +86,18 @@ void ResourceManager::DeleteMap(ResMap &theMap)
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-void ResourceManager::DeleteResources(ResMap &theMap, const std::string &theGroup)
+void ResourceManager::DeleteResources(ResMap &theMap, const ResourceId &theGroup)
 {
 	for (ResMap::iterator anItr = theMap.begin(); anItr != theMap.end(); ++anItr)
 	{
-		if (theGroup.empty() || anItr->second->mResGroup == theGroup)
+		if (theGroup.IsEmpty() || anItr->second->mResGroup == theGroup)
 			anItr->second->DeleteResource();
 	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-void ResourceManager::DeleteResources(const std::string &theGroup)
+void ResourceManager::DeleteResources(const ResourceId &theGroup)
 {
 	DeleteResources(mImageMap, theGroup);
 	DeleteResources(mSoundMap, theGroup);
@@ -107,11 +107,11 @@ void ResourceManager::DeleteResources(const std::string &theGroup)
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-void ResourceManager::DeleteExtraImageBuffers(const std::string &theGroup)
+void ResourceManager::DeleteExtraImageBuffers(const ResourceId &theGroup)
 {
 	for (ResMap::iterator anItr = mImageMap.begin(); anItr != mImageMap.end(); ++anItr)
 	{
-		if (theGroup.empty() || anItr->second->mResGroup == theGroup)
+		if (theGroup.IsEmpty() || anItr->second->mResGroup == theGroup)
 		{
 			ImageRes *aRes = (ImageRes *)anItr->second;
 			MemoryImage *anImage = (MemoryImage *)aRes->mImage;
@@ -554,10 +554,16 @@ bool ResourceManager::DoParseResources(const std::string &theNamespace)
 			{
 				if (aXMLElement.mValue == "Resources")
 				{
-					mCurResGroup = aXMLElement.mAttributes["id"];
+					XMLParamMap::iterator anItr;
+					anItr = aXMLElement.mAttributes.find("namespace");
+					if (anItr != aXMLElement.mAttributes.end())
+						mCurResGroup = {anItr->second, aXMLElement.mAttributes["id"]};
+					else
+						mCurResGroup = {theNamespace, aXMLElement.mAttributes["id"]};
+
 					mCurResGroupList = &mResGroupMap[mCurResGroup];
 
-					if (mCurResGroup.empty())
+					if (mCurResGroup.IsEmpty())
 					{
 						Fail("No id specified.");
 						break;
@@ -1018,7 +1024,7 @@ void ResourceManager::ResourceLoadedHook(BaseRes *theRes)
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-void ResourceManager::StartLoadResources(const std::string &theGroup)
+void ResourceManager::StartLoadResources(const ResourceId &theGroup)
 {
 	mError = "";
 	mHasFailed = false;
@@ -1035,7 +1041,7 @@ void ResourceManager::DumpCurResGroup(std::string &theDestStr)
 	const ResList *rl = &mResGroupMap.find(mCurResGroup)->second;
 	ResList::const_iterator it = rl->begin();
 	theDestStr =
-		StrFormat("About to dump %d elements from current res group name %s\r\n", rl->size(), mCurResGroup.c_str());
+		StrFormat("About to dump %d elements from current res group name %s\r\n", rl->size(), mCurResGroup.CStr());
 
 	ResList::const_iterator rl_end = rl->end();
 	while (it != rl_end)
@@ -1061,7 +1067,7 @@ void ResourceManager::DumpCurResGroup(std::string &theDestStr)
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-bool ResourceManager::LoadResources(const std::string &theGroup)
+bool ResourceManager::LoadResources(const ResourceId &theGroup)
 {
 	mError = "";
 	mHasFailed = false;
@@ -1081,9 +1087,9 @@ bool ResourceManager::LoadResources(const std::string &theGroup)
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-int ResourceManager::GetNumResources(const std::string &theGroup, ResMap &theMap)
+int ResourceManager::GetNumResources(const ResourceId &theGroup, ResMap &theMap)
 {
-	if (theGroup.empty())
+	if (theGroup.IsEmpty())
 		return theMap.size();
 
 	int aCount = 0;
@@ -1099,28 +1105,28 @@ int ResourceManager::GetNumResources(const std::string &theGroup, ResMap &theMap
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-int ResourceManager::GetNumImages(const std::string &theGroup)
+int ResourceManager::GetNumImages(const ResourceId &theGroup)
 {
 	return GetNumResources(theGroup, mImageMap);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-int ResourceManager::GetNumSounds(const std::string &theGroup)
+int ResourceManager::GetNumSounds(const ResourceId &theGroup)
 {
 	return GetNumResources(theGroup, mSoundMap);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-int ResourceManager::GetNumFonts(const std::string &theGroup)
+int ResourceManager::GetNumFonts(const ResourceId &theGroup)
 {
 	return GetNumResources(theGroup, mFontMap);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-int ResourceManager::GetNumResources(const std::string &theGroup)
+int ResourceManager::GetNumResources(const ResourceId &theGroup)
 {
 	return GetNumImages(theGroup) + GetNumSounds(theGroup) + GetNumFonts(theGroup);
 }

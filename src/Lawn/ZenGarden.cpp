@@ -1876,17 +1876,17 @@ void ZenGarden::GotoNextGarden()
 
 	if (mBoard->mBackground == BackgroundType::BACKGROUND_MUSHROOM_GARDEN)
 	{
-		TodLoadResources("DelayLoad_MushroomGarden");
+		TodLoadResources({"PVZ", "DelayLoad_MushroomGarden"});
 	}
 	else if (mBoard->mBackground == BackgroundType::BACKGROUND_GREENHOUSE)
 	{
-		TodLoadResources("DelayLoad_GreenHouseGarden");
-		TodLoadResources("DelayLoad_GreenHouseOverlay");
+		TodLoadResources({"PVZ", "DelayLoad_GreenHouseGarden"});
+		TodLoadResources({"PVZ", "DelayLoad_GreenHouseOverlay"});
 	}
 	else if (mBoard->mBackground == BackgroundType::BACKGROUND_ZOMBIQUARIUM)
 	{
-		TodLoadResources("DelayLoad_Zombiquarium");
-		TodLoadResources("DelayLoad_GreenHouseOverlay");
+		TodLoadResources({"PVZ", "DelayLoad_Zombiquarium"});
+		TodLoadResources({"PVZ", "DelayLoad_GreenHouseOverlay"});
 	}
 	else
 	{

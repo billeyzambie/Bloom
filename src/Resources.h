@@ -10,9 +10,7 @@ class Image;
 class Font;
 BLOOM_API Image *LoadImageById(ResourceManager *theManager, int theId);
 BLOOM_API void ReplaceImageById(ResourceManager *theManager, int theId, Image *theImage);
-BLOOM_API bool ExtractResourcesByName(ResourceManager *theManager, const char *theName);
-
-BLOOM_API bool ExtractResourcesByName(ResourceManager *theManager, const char *theName);
+BLOOM_API bool ExtractResourcesByName(ResourceManager *theManager, const ResourceId &theName);
 
 // DelayLoad_Almanac Resources
 BLOOM_API bool ExtractDelayLoad_AlmanacResources(ResourceManager *theMgr);

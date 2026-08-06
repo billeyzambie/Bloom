@@ -314,7 +314,7 @@ CreditScreen::CreditScreen(LawnApp *theApp)
 
 	mApp->mEffectSystem->EffectSystemFreeAll();
 	mApp->mMusic->StopAllMusic();
-	TodLoadResources("DelayLoad_Credits");
+	TodLoadResources({"PVZ", "DelayLoad_Credits"});
 
 	mBrainPosX = 0.0f;
 	mBrainPosY = 0.0f;
@@ -380,12 +380,12 @@ void CreditScreen::PreLoadCredits()
 {
 	mPreloaded = true;
 	mApp->mMusic->MusicLoadCreditsSong();
-	TodLoadResources("DelayLoad_Background1");
-	TodLoadResources("DelayLoad_Background2");
-	TodLoadResources("DelayLoad_Background3");
-	TodLoadResources("DelayLoad_Background4");
-	TodLoadResources("DelayLoad_Background5");
-	TodLoadResources("DelayLoad_Background6");
+	TodLoadResources({"PVZ", "DelayLoad_Background1"});
+	TodLoadResources({"PVZ", "DelayLoad_Background2"});
+	TodLoadResources({"PVZ", "DelayLoad_Background3"});
+	TodLoadResources({"PVZ", "DelayLoad_Background4"});
+	TodLoadResources({"PVZ", "DelayLoad_Background5"});
+	TodLoadResources({"PVZ", "DelayLoad_Background6"});
 
 	ReanimatorEnsureDefinitionLoaded(ReanimationType::REANIM_CREDITS_MAIN, true);
 	ReanimationPreload(ReanimationType::REANIM_CREDITS_MAIN);

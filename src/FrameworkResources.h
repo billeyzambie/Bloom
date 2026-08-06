@@ -8,10 +8,7 @@ namespace Sexy
 	class Image;
 	class Font;
 	Image* ResoddedFrameworkLoadImageById(ResourceManager *theManager, int theId);	void ResoddedFrameworkReplaceImageById(ResourceManager *theManager, int theId, Image *theImage);
-	bool ResoddedFrameworkExtractResourcesByName(ResourceManager *theManager, const char *theName);
-
-	bool ResoddedFrameworkExtractResourcesByName(ResourceManager *theManager, const char *theName);
-
+	bool ResoddedFrameworkExtractResourcesByName(ResourceManager *theManager, const ResourceId &theName);
 	// LoadingImages Resources
 	bool ResoddedFrameworkExtractLoadingImagesResources(ResourceManager *theMgr);
 	extern Image* IMAGE_SEED_SELECTOR;

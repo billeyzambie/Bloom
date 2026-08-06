@@ -422,7 +422,7 @@ bool DefReadFromCacheImage(void *&theReadPtr, Image **theImage)
 
 	*theImage = nullptr;
 	ResourceId aResourceId = ResourceId::FromCString(aImageName);
-	bool aResult = aImageName[0] == '\0' || DefinitionLoadImage(theImage, aResourceId);
+	bool aResult = aImageName[0] == ':' || DefinitionLoadImage(theImage, aResourceId);
 	free(aImageName);
 	return aResult;
 }
@@ -437,7 +437,8 @@ bool DefReadFromCacheFont(void *&theReadPtr, Font **theFont)
 	aFontName[aLen] = '\0';
 
 	*theFont = nullptr;
-	return aFontName[0] == '\0' || DefinitionLoadFont(theFont, ResourceId::FromCString(aFontName));
+	bool aResult = aFontName[0] == ':' || DefinitionLoadFont(theFont, ResourceId::FromCString(aFontName));
+	return aResult;
 }
 
 bool DefMapReadFromCache(void *&theReadPtr, DefMap *theDefMap, void *theDefinition)
@@ -555,9 +556,6 @@ void *DefinitionUncompressCompiledBuffer(const CompiledDefinitionHeader *aHeader
 bool DefinitionReadCompiledFile(const ResourcePath &theCompiledFilePath, DefMap *theDefMap, void *theDefinition)
 {
 	CompiledDefinitionFile aCompiledFile;
-
-	bool anIsCreditFog = theCompiledFilePath.AsString().ends_with("Credits_fog.xml.compiled");
-
 	PerfTimer aTimer;
 	aTimer.Start();
 	FILE *pFile = fopen(theCompiledFilePath.CStr(), "rb");
@@ -587,13 +585,6 @@ bool DefinitionReadCompiledFile(const ResourcePath &theCompiledFilePath, DefMap 
 
 			void *aDataPtr = (void *)aCompiledFile.GetCompressedData();
 
-			if (anIsCreditFog)
-			{
-				std::cout << "READING COMPRESSED COMPILED CREDIT FOG: " << theCompiledFilePath.AsString() << std::endl;
-				std::string aCompilerAsString = {(char *)aDataPtr, aCompressedSize};
-				std::cout << aCompilerAsString << std::endl;
-			}
-
 			void *anUncompressedData =
 				DefinitionUncompressCompiledBuffer(aHeader, aDataPtr, aCompressedSize, theCompiledFilePath);
 
@@ -601,13 +592,6 @@ bool DefinitionReadCompiledFile(const ResourcePath &theCompiledFilePath, DefMap 
 			{
 				TodTraceAndLog("[TodLib] - Failed to uncompress: %s\n", theCompiledFilePath.CStr());
 				return false;
-			}
-
-			if (anIsCreditFog)
-			{
-				std::cout << "READING UNCOMPRESSED COMPILED CREDIT FOG: " << theCompiledFilePath.AsString() << std::endl;
-				std::string aCompilerAsString = {(char *)anUncompressedData, 64};
-				std::cout << aCompilerAsString << std::endl;
 			}
 
 			bool aResult = DefMapReadFromCache(anUncompressedData, theDefMap, theDefinition);
@@ -1331,15 +1315,6 @@ bool DefinitionWriteCompiledFile(const ResourcePath &theCompiledFilePath, DefMap
 	DefMapWriteToCache(&aCompiler, theDefMap, theDefinition);
 	aHeader.mUncompressedSize = (uint32_t)aCompiler.mBuffer.size();
 	aHeader.mDataOffset = sizeof(CompiledDefinitionHeader);
-	
-	bool anIsCreditFog = theCompiledFilePath.AsString().ends_with("Credits_fog.xml.compiled");
-
-	if (anIsCreditFog)
-	{
-		std::cout << "WRITING UNCOMPRESSED COMPILED CREDIT FOG: " << theCompiledFilePath.AsString() << std::endl;
-		std::string aCompilerAsString = {(char *)aCompiler.mBuffer.data(), aCompiler.mBuffer.size()};
-		std::cout << aCompilerAsString << std::endl;
-	}
 
 	uLongf aCompressedSize = compressBound(aCompiler.mBuffer.size());
 	void *aCompressedData = DefinitionAlloc(aCompressedSize);
@@ -1358,13 +1333,6 @@ bool DefinitionWriteCompiledFile(const ResourcePath &theCompiledFilePath, DefMap
 	anOut.write((char *)&aHeader, sizeof(aHeader));
 	anOut.write((char *)aCompressedData, aCompressedSize);
 
-	if (anIsCreditFog)
-	{
-		std::cout << "WRITING COMPRESSED COMPILED CREDIT FOG: " << theCompiledFilePath.AsString() << std::endl;
-		std::string aCompressedAsString = {(char *)aCompressedData, aCompressedSize};
-		std::cout << aCompressedAsString << std::endl;
-	}
-	
 	DefinitionFree(aCompressedData);
 	return true;
 }

@@ -423,10 +423,10 @@ void CutScene::PreloadResources()
 	}
 	if (mApp->mGameMode == GameMode::GAMEMODE_UPSELL)
 	{
-		TodLoadResources("DelayLoad_Background3");
-		TodLoadResources("DelayLoad_Background4");
-		TodLoadResources("DelayLoad_Background5");
-		TodLoadResources("DelayLoad_ChallengeScreen");
+		TodLoadResources({"PVZ", "DelayLoad_Background3"});
+		TodLoadResources({"PVZ", "DelayLoad_Background4"});
+		TodLoadResources({"PVZ", "DelayLoad_Background5"});
+		TodLoadResources({"PVZ", "DelayLoad_ChallengeScreen"});
 		Zombie::PreloadZombieResources(ZombieType::ZOMBIE_NORMAL);
 		Zombie::PreloadZombieResources(ZombieType::ZOMBIE_TRAFFIC_CONE);
 		Zombie::PreloadZombieResources(ZombieType::ZOMBIE_PAIL);
@@ -456,8 +456,8 @@ void CutScene::PreloadResources()
 	}
 	if (mApp->mGameMode == GameMode::GAMEMODE_INTRO)
 	{
-		TodLoadResources("DelayLoad_Background3");
-		TodLoadResources("DelayLoad_Credits");
+		TodLoadResources({"PVZ", "DelayLoad_Background3"});
+		TodLoadResources({"PVZ", "DelayLoad_Credits"});
 		Zombie::PreloadZombieResources(ZombieType::ZOMBIE_NORMAL);
 		Zombie::PreloadZombieResources(ZombieType::ZOMBIE_TRAFFIC_CONE);
 		Zombie::PreloadZombieResources(ZombieType::ZOMBIE_PAIL);

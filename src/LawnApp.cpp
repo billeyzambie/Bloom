@@ -285,7 +285,7 @@ LawnApp::~LawnApp()
 	delete mProfileMgr;
 	delete mLastLevelStats;
 
-	mResourceManager->DeleteResources("");
+	mResourceManager->DeleteResources({"PVZ", ""});
 #ifdef _DEBUG
 	BetaSubmit(true);
 #endif
@@ -1274,7 +1274,7 @@ void LawnApp::Init()
 		return;
 	}
 
-	if (!TodLoadResources("Init"))
+	if (!TodLoadResources({"PVZ", "Init"}))
 	{
 		return;
 	}
@@ -1730,7 +1730,7 @@ void LawnApp::ToggleFastMo()
 	gFastMo = !gFastMo;
 }
 
-void LawnApp::LoadGroup(const char *theGroupName, int theGroupAveMsToLoad)
+void LawnApp::LoadGroup(const ResourceId &theGroupName, int theGroupAveMsToLoad)
 {
 	PerfTimer aTimer;
 	aTimer.Start();
@@ -1758,7 +1758,7 @@ void LawnApp::LoadGroup(const char *theGroupName, int theGroupAveMsToLoad)
 
 void LawnApp::LoadingThreadProc()
 {
-	if (!TodLoadResources("LoaderBar"))
+	if (!TodLoadResources({"PVZ", "LoaderBar"}))
 		return;
 
 	TodStringListLoad({"PVZ", "properties/LawnStrings.txt"});
@@ -1775,7 +1775,11 @@ void LawnApp::LoadingThreadProc()
 		mTitleScreen->mLoaderScreenIsLoaded = true;
 	}
 
-	const char *groups[] = {"LoadingFonts", "LoadingImages", "LoadingSounds"};
+	ResourceId groups[] = {
+		{"PVZ", "LoadingFonts"},
+		{"PVZ", "LoadingImages"},
+		{"PVZ", "LoadingSounds"}
+	};
 	int group_ave_ms_to_load[] = {54, 9, 54};
 	for (int i = 0; i < 3; i++)
 	{
@@ -1792,8 +1796,8 @@ void LawnApp::LoadingThreadProc()
 	TodHesitationBracket aHesitationResources("Resources");
 	TodHesitationTrace("loading thread start");
 
-	LoadGroup("LoadingImages", 9);
-	LoadGroup("LoadingFonts", 54);
+	LoadGroup({"PVZ", "LoadingImages"}, 9);
+	LoadGroup({"PVZ", "LoadingFonts"}, 54);
 	if (mLoadingFailed || mShutdown || mCloseRequest)
 		return;
 
@@ -1831,7 +1835,7 @@ void LawnApp::LoadingThreadProc()
 	aTimer.Start();
 
 	GetNumPreloadingTasks();
-	LoadGroup("LoadingSounds", 54);
+	LoadGroup({"PVZ", "LoadingSounds"}, 54);
 
 	TodHesitationTrace("finished loading");
 }
@@ -3372,7 +3376,8 @@ void LawnApp::BetaAddFile(std::list<std::string> &theUploadFileList, std::string
 {
 }
 
-void LawnApp::TraceLoadGroup(const char *theGroupName, int theGroupTime, int theTotalGroupWeigth, int theTaskWeight)
+void LawnApp::TraceLoadGroup(const ResourceId &theGroupName, int theGroupTime, int theTotalGroupWeigth,
+							 int theTaskWeight)
 {
 }
 
