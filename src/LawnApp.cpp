@@ -1274,6 +1274,12 @@ void LawnApp::Init()
 		return;
 	}
 
+	for (const Mod &aMod : mLoadedMods)
+	{
+		if (aMod.mHasResources)
+			mResourceManager->AddResourcesFile({aMod.mId, "properties/resources.xml"});
+	}
+
 	if (!TodLoadResources({"PVZ", "Init"}))
 	{
 		return;

@@ -8,7 +8,6 @@
 #include "NamespacedString.h"
 #include "ChunkedList.h"
 #include "Bloom.h"
-#include "ModLoading.h"
 
 //#include "../Lawn/StoreItem/StoreItemType.h"
 

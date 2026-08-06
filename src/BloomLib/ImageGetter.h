@@ -9,7 +9,7 @@ class Image;
 
 }
 
-class ImageGetter
+class BLOOM_API ImageGetter
 {
   private:
 	mutable Sexy::Image *mImage = nullptr;
