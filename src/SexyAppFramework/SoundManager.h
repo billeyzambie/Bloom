@@ -8,7 +8,6 @@ namespace Sexy
 
 class SoundInstance;
 
-#define MAX_SOURCE_SOUNDS 256
 #define MAX_CHANNELS 32
 
 class SoundManager

@@ -28,12 +28,8 @@ OpenALSoundManager::OpenALSoundManager()
 		printf("[SexyAppFramework] - %s\n", anErrorString.c_str());
 		return;
 	}
-	for (int i = 0; i < MAX_SOURCE_SOUNDS; i++)
-	{
-		mSourceSounds[i] = AL_NONE;
-		mBaseVolumes[i] = 1;
-		mBasePans[i] = 0;
-	}
+
+	mSourceSounds.reserve(256);
 
 	for (int i = 0; i < MAX_CHANNELS; i++)
 		mPlayingSounds[i] = nullptr;
@@ -116,7 +112,7 @@ int Sexy::OpenALSoundManager::VolumeToDB(double theVolume)
 
 SoundInstance *OpenALSoundManager::GetSoundInstance(unsigned int theSfxID)
 {
-	if (theSfxID > MAX_SOURCE_SOUNDS || mAudioDevice == nullptr)
+	if (mAudioDevice == nullptr)
 		return nullptr;
 
 	int aFreeChannel = FindFreeChannel();
@@ -124,13 +120,13 @@ SoundInstance *OpenALSoundManager::GetSoundInstance(unsigned int theSfxID)
 		return nullptr;
 
 
-	if (mSourceSounds[theSfxID] == AL_NONE)
+	if (mSourceSounds[theSfxID].mSourceId == AL_NONE)
 		return nullptr;
 
-	mPlayingSounds[aFreeChannel] = new OpenALSoundInstance(this, mSourceSounds[theSfxID]);
+	mPlayingSounds[aFreeChannel] = new OpenALSoundInstance(this, mSourceSounds[theSfxID].mSourceId);
 
-	mPlayingSounds[aFreeChannel]->SetBasePan(mBasePans[theSfxID]);
-	mPlayingSounds[aFreeChannel]->SetBaseVolume(mBaseVolumes[theSfxID]);
+	mPlayingSounds[aFreeChannel]->SetBasePan(mSourceSounds[theSfxID].mBasePan);
+	mPlayingSounds[aFreeChannel]->SetBaseVolume(mSourceSounds[theSfxID].mBaseVolume);
 
 	return mPlayingSounds[aFreeChannel];
 }
@@ -145,15 +141,18 @@ SoundInstance *OpenALSoundManager::GetSoundInstance(unsigned int theSfxID)
 
 bool OpenALSoundManager::LoadSound(unsigned int theSfxID, const std::string &theFilename)
 {
-	if ((theSfxID < 0) || (theSfxID >= MAX_SOURCE_SOUNDS))
+	if (theSfxID < 0)
 		return false;
+
+	if (mSourceSounds.size() < theSfxID + 1)
+		mSourceSounds.resize(theSfxID + 1);
 
 	ReleaseSound(theSfxID);
 
 	if (!mContext)
 		return true; // sounds just	won't play, but this is not treated as a failure condition
 
-	mSourceFileNames[theSfxID] = theFilename;
+	mSourceSounds[theSfxID].mFileName = theFilename;
 
 	return 
 		LoadWAVSound(theSfxID, theFilename + ".wav") ||
@@ -241,7 +240,7 @@ bool OpenALSoundManager::LoadOGGSound(unsigned int theSfxID, const std::string &
 	ogg_int64_t aDecodedBytes = aLenBytes - aNumBytes;
 	alBufferData(aBuffer, format, aBuf, aDecodedBytes, anInfo->rate);
 
-	mSourceSounds[theSfxID] = aBuffer;
+	mSourceSounds[theSfxID].mSourceId = aBuffer;
 
 	delete[] aBuf;
 	ov_clear(&vf);
@@ -292,8 +291,8 @@ bool OpenALSoundManager::LoadMP3Sound(unsigned int theSfxID, const std::string &
 				 aSize,
 				 numberOfSamplesActuallyDecoded);
 
-	mSourceDataSizes[theSfxID] = aSize;
-	mSourceSounds[theSfxID] = buffer;
+	mSourceSounds[theSfxID].mDataSize = aSize;
+	mSourceSounds[theSfxID].mSourceId = buffer;
 
 	free(pDecodedInterleavedPCMFrames);
 	drmp3_uninit(&aMP3);
@@ -338,8 +337,8 @@ bool OpenALSoundManager::LoadWAVSound(unsigned int theSfxID, const std::string &
 				 aSize,
 				 numberOfSamplesActuallyDecoded);
 
-	mSourceDataSizes[theSfxID] = aSize;
-	mSourceSounds[theSfxID] = buffer;
+	mSourceSounds[theSfxID].mDataSize = aSize;
+	mSourceSounds[theSfxID].mSourceId = buffer;
 
 	free(pDecodedInterleavedPCMFrames);
 	drwav_uninit(&aWAV);
@@ -380,8 +379,8 @@ bool OpenALSoundManager::LoadFLACSound(unsigned int theSfxID, const std::string 
 				 aSize,
 				 numberOfSamplesActuallyDecoded);
 
-	mSourceDataSizes[theSfxID] = aSize;
-	mSourceSounds[theSfxID] = buffer;
+	mSourceSounds[theSfxID].mDataSize = aSize;
+	mSourceSounds[theSfxID].mSourceId = buffer;
 
 	drflac_free(pDecodedInterleavedPCMFrames, nullptr);
 
@@ -407,8 +406,8 @@ bool OpenALSoundManager::LoadAUSound(unsigned int theSfxID, const std::string &t
 		delete[] data;
 		return false;
 	}
-
-	mSourceDataSizes[theSfxID] = anAUFile.mSamples.size();
+	
+	mSourceSounds[theSfxID].mDataSize = anAUFile.mSamples.size();
 
 	ALuint buffer;
 	alGenBuffers(1, &buffer);
@@ -418,7 +417,7 @@ bool OpenALSoundManager::LoadAUSound(unsigned int theSfxID, const std::string &t
 				 anAUFile.mSamples.size() * sizeof(int16_t),
 				 anAUFile.mSampleRate);
 
-	mSourceSounds[theSfxID] = buffer;
+	mSourceSounds[theSfxID].mSourceId = buffer;
 
 	delete[] data;
 
@@ -435,41 +434,35 @@ bool Sexy::OpenALSoundManager::WriteWAV(unsigned int theSfxID,
 int OpenALSoundManager::LoadSound(const std::string &theFilename)
 {
 	int i;
-	for (i = 0; i < MAX_SOURCE_SOUNDS; i++)
-		if (mSourceFileNames[i] == theFilename)
+	for (i = 0; i < mSourceSounds.size(); i++)
+		if (mSourceSounds[i].mFileName == theFilename)
 			return i;
 
-	for (i = MAX_SOURCE_SOUNDS - 1; i >= 0; i--)
-	{
-		if (mSourceSounds[i] == NULL)
-		{
-			if (!LoadSound(i, theFilename))
-				return -1;
-			else
-				return i;
-		}
-	}
+	//for (i = mSourceSounds.size() - 1; i >= 0; i--)
+	//{
+	//	if (mSourceSounds[i].mSourceId == NULL)
+	//	{
+	//		if (!LoadSound(i, theFilename))
+	//			return -1;
+	//		else
+	//			return i;
+	//	}
+	//}
 
 	return -1;
 }
 
 int OpenALSoundManager::GetFreeSoundId()
 {
-	for (int i = 0; i < MAX_SOURCE_SOUNDS; i++)
-	{
-		if (mSourceSounds[i] == NULL)
-			return i;
-	}
-
-	return -1;
+	return mSourceSounds.size();
 }
 
 int OpenALSoundManager::GetNumSounds()
 {
 	int aCount = 0;
-	for (int i = 0; i < MAX_SOURCE_SOUNDS; i++)
+	for (SourceSound &aSound : mSourceSounds)
 	{
-		if (mSourceSounds[i] != NULL)
+		if (aSound.mSourceId != NULL)
 			aCount++;
 	}
 
@@ -478,47 +471,47 @@ int OpenALSoundManager::GetNumSounds()
 
 bool OpenALSoundManager::SetBaseVolume(unsigned int theSfxID, double theBaseVolume)
 {
-	if ((theSfxID < 0) || (theSfxID >= MAX_SOURCE_SOUNDS))
+	if (theSfxID < 0)
 		return false;
 
-	mBaseVolumes[theSfxID] = theBaseVolume;
+	mSourceSounds[theSfxID].mBaseVolume = theBaseVolume;
 	return true;
 }
 
 bool OpenALSoundManager::SetBasePan(unsigned int theSfxID, float theBasePan)
 {
-	if ((theSfxID < 0) || (theSfxID >= MAX_SOURCE_SOUNDS))
+	if (theSfxID < 0)
 		return false;
 
-	mBasePans[theSfxID] = theBasePan;
+	mSourceSounds[theSfxID].mBasePan = theBasePan;
 	return true;
 }
 
 void OpenALSoundManager::ReleaseSounds()
 {
-	for (int i = 0; i < MAX_SOURCE_SOUNDS; i++)
-		if (mSourceSounds[i] != AL_NONE)
+	for (SourceSound &aSourceSound : mSourceSounds)
+		if (aSourceSound.mSourceId != AL_NONE)
 		{
-			alDeleteSources(1, &mSourceSounds[i]);
-			mSourceSounds[i] = AL_NONE;
+			alDeleteSources(1, &aSourceSound.mSourceId);
+			aSourceSound.mSourceId = AL_NONE;
 		}
 }
 
 void OpenALSoundManager::ReleaseSound(unsigned int theSfxID)
 {
-	if (mSourceSounds[theSfxID])
+	if (mSourceSounds[theSfxID].mSourceId)
 	{
 		for (int i = 0; i < MAX_CHANNELS; i++)
 		{
-			if (mPlayingSounds[i] != NULL && mPlayingSounds[i]->mSourceSoundBuffer == mSourceSounds[theSfxID])
+			if (mPlayingSounds[i] != NULL && mPlayingSounds[i]->mSourceSoundBuffer == mSourceSounds[theSfxID].mSourceId)
 			{
 				delete mPlayingSounds[i];
 				mPlayingSounds[i] = NULL;
 			}
 		}
-		alDeleteBuffers(1, &mSourceSounds[theSfxID]);
-		mSourceSounds[theSfxID] = 0;
-		mSourceFileNames[theSfxID] = "";
+		alDeleteBuffers(1, &mSourceSounds[theSfxID].mSourceId);
+		mSourceSounds[theSfxID].mSourceId = 0;
+		mSourceSounds[theSfxID].mFileName = "";
 	}
 }
 

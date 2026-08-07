@@ -13,13 +13,18 @@ class OpenALSoundManager : public SoundManager
 {
 	friend class OpenALSoundInstance;
 
-  protected:
-	ALuint mSourceSounds[MAX_SOURCE_SOUNDS];
-	std::string mSourceFileNames[MAX_SOURCE_SOUNDS];
+  public:
+	struct SourceSound
+	{
+		ALuint mSourceId = 0;
+		std::string mFileName;
+		uint32_t mDataSize = 0;
+		double mBaseVolume = 1;
+		float mBasePan = 0;
+	};
 
-	uint32_t mSourceDataSizes[MAX_SOURCE_SOUNDS];
-	double mBaseVolumes[MAX_SOURCE_SOUNDS];
-	float mBasePans[MAX_SOURCE_SOUNDS];
+  protected:
+	std::vector<SourceSound> mSourceSounds;
 	OpenALSoundInstance *mPlayingSounds[MAX_CHANNELS];
 	double mMasterVolume;
 	uint64_t mLastReleaseTick;
