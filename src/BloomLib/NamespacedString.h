@@ -49,11 +49,13 @@ class BLOOM_API NamespacedString
 	}
 	static NamespacedString FromStringWithDefaultNamespace(std::string_view theString, std::string_view theDefaultNamespace)
 	{
-		static_assert(theSeparator != '/');
-		size_t aNamespaceLength = theString.find(theSeparator);
+		size_t aNamespaceLength = theString.find(':');
 		if (aNamespaceLength == std::string::npos)
 			return {theDefaultNamespace, theString};
-		return {std::string{theString}, aNamespaceLength};
+		std::string aString{theString};
+		if constexpr (theSeparator != ':')
+			aString[aNamespaceLength] = theSeparator;
+		return {std::move(aString), aNamespaceLength};
 	}
 	NamespacedString(const NamespacedString &theCopied) = default;
 	NamespacedString(NamespacedString &&theMoved) = default;
@@ -97,6 +99,15 @@ class BLOOM_API NamespacedString
 		return mNamespacedPath < theOther.mNamespacedPath;
 	}
 };
+
+template <char theSeparator, bool theUpperBarePathToo> 
+NamespacedString<theSeparator, theUpperBarePathToo> operator+(
+	std::string_view theStringView,
+	NamespacedString<theSeparator, theUpperBarePathToo> theNamespacedString
+)
+{
+	return {theNamespacedString.NamespaceView(), std::string{theStringView} + theNamespacedString.BarePathCStr()};
+}
 
 typedef NamespacedString<'/', false> ResourcePath;
 typedef NamespacedString<':', true> ResourceId;

@@ -175,6 +175,22 @@ bool ResourceManager::ParseCommonResource(XMLElement &theElement, BaseRes *theRe
 	if (aPath.empty())
 		return Fail("No path specified.");
 
+	std::string_view aPathNamespace = mDefaultPath.NamespaceView();
+	std::string_view anIdNamespace = mDefaultIdPrefix.NamespaceView();
+	XMLParamMap::iterator anItr;
+	anItr = theElement.mAttributes.find("namespace");
+	if (anItr != theElement.mAttributes.end())
+		anIdNamespace = anItr->second;
+
+	anItr = theElement.mAttributes.find("path_namespace");
+	if (anItr != theElement.mAttributes.end())
+		aPathNamespace = anItr->second;
+
+	anItr = theElement.mAttributes.find("id_namespace");
+	if (anItr != theElement.mAttributes.end())
+		anIdNamespace = anItr->second;
+
+
 	theRes->mXMLAttributes = theElement.mAttributes;
 	theRes->mFromProgram = false;
 	if (aPath[0] == '!')
@@ -185,14 +201,26 @@ bool ResourceManager::ParseCommonResource(XMLElement &theElement, BaseRes *theRe
 			theRes->mFromProgram = true;
 	}
 	else
-		theRes->mPath = mDefaultPath + aPath;
+	{
+		theRes->mPath = {aPathNamespace, mDefaultPath.BarePathCStr() + aPath};
+	}
 
 	ResourceId anId;
-	XMLParamMap::iterator anItr = theElement.mAttributes.find("id");
+	anItr = theElement.mAttributes.find("id");
 	if (anItr == theElement.mAttributes.end())
-		anId = mDefaultIdPrefix + GetFileName(theRes->mPath.AsString(), true);
+	{
+		anId = mDefaultIdPrefix.BarePathCStr() + ResourceId::FromStringWithDefaultNamespace(
+			GetFileName(theRes->mPath.AsString(), true),
+			anIdNamespace
+		);
+	}
 	else
-		anId = mDefaultIdPrefix + anItr->second;
+	{
+		anId = mDefaultIdPrefix.BarePathCStr() + ResourceId::FromStringWithDefaultNamespace(
+			anItr->second,
+			anIdNamespace
+		);
+	}
 
 	theRes->mResGroup = mCurResGroup;
 	theRes->mId = anId;
@@ -449,15 +477,38 @@ bool ResourceManager::ParseFontResource(XMLElement &theElement)
 ///////////////////////////////////////////////////////////////////////////////
 bool ResourceManager::ParseSetDefaults(XMLElement &theElement, const std::string &theNamespace)
 {
+	std::string_view aPathNamespace = theNamespace;
+	std::string_view anIdNamespace = theNamespace;
+
 	XMLParamMap::iterator anItr;
+	anItr = theElement.mAttributes.find("namespace");
+	if (anItr != theElement.mAttributes.end())
+		anIdNamespace = anItr->second;
+
+	anItr = theElement.mAttributes.find("path_namespace");
+	if (anItr != theElement.mAttributes.end())
+		aPathNamespace = anItr->second;
+
+	anItr = theElement.mAttributes.find("id_namespace");
+	if (anItr != theElement.mAttributes.end())
+		anIdNamespace = anItr->second;
+
 	anItr = theElement.mAttributes.find("path");
 	if (anItr != theElement.mAttributes.end())
-		mDefaultPath = {theNamespace, RemoveTrailingSlash(anItr->second) + '/'};
+	{
+		mDefaultPath = ResourcePath::FromStringWithDefaultNamespace(
+			RemoveTrailingSlash(anItr->second) + '/',
+			aPathNamespace
+		);
+	}
 
 	anItr = theElement.mAttributes.find("idprefix");
 	if (anItr != theElement.mAttributes.end())
 	{
-		mDefaultIdPrefix = {theNamespace, anItr->second};
+		mDefaultIdPrefix = ResourceId::FromStringWithDefaultNamespace(
+			anItr->second, 
+			anIdNamespace
+		);
 		printf((mDefaultIdPrefix.AsString() + '\n').c_str());
 	}
 	
@@ -557,9 +608,25 @@ bool ResourceManager::DoParseResources(const std::string &theNamespace)
 					XMLParamMap::iterator anItr;
 					anItr = aXMLElement.mAttributes.find("namespace");
 					if (anItr != aXMLElement.mAttributes.end())
-						mCurResGroup = {anItr->second, aXMLElement.mAttributes["id"]};
+						mCurResGroup = ResourceId::FromStringWithDefaultNamespace(
+							aXMLElement.mAttributes["id"], anItr->second
+						);
 					else
-						mCurResGroup = {theNamespace, aXMLElement.mAttributes["id"]};
+					{
+						anItr = aXMLElement.mAttributes.find("id_namespace");
+						if (anItr != aXMLElement.mAttributes.end())
+						{
+							mCurResGroup = ResourceId::FromStringWithDefaultNamespace(
+								aXMLElement.mAttributes["id"], anItr->second
+							);
+						}
+						else
+						{
+							mCurResGroup = ResourceId::FromStringWithDefaultNamespace(
+								aXMLElement.mAttributes["id"], theNamespace
+							);
+						}
+					}
 
 					mCurResGroupList = &mResGroupMap[mCurResGroup];
 

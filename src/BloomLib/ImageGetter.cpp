@@ -61,7 +61,7 @@ Sexy::Image *ImageGetter::operator->() const
 	return Get();
 }
 
-ImageGetter::operator Sexy::Image *() const
+ImageGetter::operator Sexy::Image *() const &
 {
 	return Get();
 }

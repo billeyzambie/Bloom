@@ -25,5 +25,6 @@ class BLOOM_API ImageGetter
 	Sexy::Image *Get() const;
 	Sexy::Image *TryGet() const;
 	Sexy::Image *operator->() const;
-	operator Sexy::Image *() const;
+	operator Sexy::Image *() const &;
+	operator Sexy::Image *() && = delete;
 };

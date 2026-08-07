@@ -457,7 +457,6 @@ const auto &PLANTS_VS_ZOMBIES = Registries::STORE_ITEMS.Register([]() {
 	return aStoreItemType;
 });
 
-#if INCLUDE_TEST_STORE_ITEM
 const auto &CUSTOM_TEST = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 200;
@@ -466,24 +465,22 @@ const auto &CUSTOM_TEST = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mIcon = {"PVZ", "IMAGE_BRAIN"};
 	auto *aStoreItemType = new StoreItemType("PVZ", "custom_test", anAttributes);
 
-	aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
+	//aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
 	//aStoreItemType->mInsertion = ListInsertion<StoreItemType>::Before(SPIKEROCK);
 
 	return aStoreItemType;
 });
 
-const auto &CUSTOM_TEST_2 = Registries::STORE_ITEMS.Register([]() {
-	StoreItemAttributes anAttributes;
-	anAttributes.mCost = 200;
-	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "custom_test_2", anAttributes);
-
-	aStoreItemType->mSeedType = SEED_SNOWPEA;
-	aStoreItemType->mInsertion = ListInsertion<StoreItemType>::Last(EventPriority::LOW);
-
-	return (StoreItemType *)aStoreItemType;
-});
-
-#endif
+//const auto &CUSTOM_TEST_2 = Registries::STORE_ITEMS.Register([]() {
+//	StoreItemAttributes anAttributes;
+//	anAttributes.mCost = 200;
+//	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "custom_test_2", anAttributes);
+//
+//	aStoreItemType->mSeedType = SEED_SNOWPEA;
+//	aStoreItemType->mInsertion = ListInsertion<StoreItemType>::Last(EventPriority::LOW);
+//
+//	return (StoreItemType *)aStoreItemType;
+//});
 
 } // namespace StoreItemTypes
 

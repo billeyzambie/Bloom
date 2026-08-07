@@ -3,8 +3,6 @@
 #include "StoreItemType.h"
 #include "../BloomLib/RegistryTypeHolder.h"
 
-#define INCLUDE_TEST_STORE_ITEM false
-
 namespace StoreItemTypes
 {
 
