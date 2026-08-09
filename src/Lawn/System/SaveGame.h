@@ -4,6 +4,7 @@
 #include <string>
 #include "../../Sexy.TodLib/TodList.h"
 #include "../../SexyAppFramework/Buffer.h"
+#include "../../BloomLib/NamespacedString.h"
 
 class Board;
 class Trail;
@@ -45,6 +46,7 @@ class SaveGameContext
 	{
 		SyncInt((signed int &)theInt);
 	}
+	void SyncResourceId(ResourceId &theResourceId);
 	void SyncReanimationDef(ReanimatorDefinition *&theDefinition);
 	void SyncParticleDef(TodParticleDefinition *&theDefinition);
 	void SyncTrailDef(TrailDefinition *&theDefinition);

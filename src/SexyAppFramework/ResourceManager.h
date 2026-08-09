@@ -30,7 +30,7 @@ typedef std::map<SexyString, SexyString> XMLParamMap;
 ///////////////////////////////////////////////////////////////////////////////
 class BLOOM_API ResourceManager
 {
-  protected:
+  public:
 	enum ResType
 	{
 		ResType_Image,
@@ -126,6 +126,7 @@ class BLOOM_API ResourceManager
 	typedef std::map<ResourceId, BaseRes *> ResMap;
 	typedef std::list<BaseRes *> ResList;
 	typedef std::map<ResourceId, ResList, ResourceIdLessNoCase> ResGroupMap;
+  protected:
 
 	std::set<ResourceId, ResourceIdLessNoCase> mLoadedGroups;
 
@@ -229,6 +230,10 @@ class BLOOM_API ResourceManager
 		return mCurResGroup;
 	}
 	void DumpCurResGroup(std::string &theDestStr);
+
+	const ResMap &GetImageMap();
+	const ResMap &GetSoundMap();
+	const ResMap &GetFontMap();
 };
 
 ///////////////////////////////////////////////////////////////////////////////

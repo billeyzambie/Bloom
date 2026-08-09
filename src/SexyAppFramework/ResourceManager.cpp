@@ -1353,3 +1353,18 @@ const XMLParamMap &ResourceManager::GetImageAttributes(const ResourceId &theId)
 	else
 		return aStrMap;
 }
+
+const ResourceManager::ResMap &ResourceManager::GetImageMap()
+{
+	return mImageMap;
+}
+
+const ResourceManager::ResMap &ResourceManager::GetSoundMap()
+{
+	return mSoundMap;
+}
+
+const ResourceManager::ResMap &ResourceManager::GetFontMap()
+{
+	return mFontMap;
+}

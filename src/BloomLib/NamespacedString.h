@@ -16,11 +16,6 @@ class BLOOM_API NamespacedString
 	std::string mNamespacedPath;
 	size_t mNamespaceLength;
 
-	NamespacedString(std::string theNamespacedPath, size_t theNamespaceLength) 
-		: mNamespacedPath(std::move(theNamespacedPath)), mNamespaceLength(theNamespaceLength)
-	{
-	}
-
   public:
 	NamespacedString(std::string_view theNamespace, std::string_view theBarePath)
 		: mNamespaceLength(theNamespace.size())
@@ -37,6 +32,10 @@ class BLOOM_API NamespacedString
 	}
 	NamespacedString() 
 		: mNamespacedPath(std::string{theSeparator}), mNamespaceLength(0)
+	{
+	}
+	NamespacedString(std::string theNamespacedPath, size_t theNamespaceLength)
+		: mNamespacedPath(std::move(theNamespacedPath)), mNamespaceLength(theNamespaceLength)
 	{
 	}
 	static NamespacedString FromCString(const char *theCString)

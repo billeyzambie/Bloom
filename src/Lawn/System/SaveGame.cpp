@@ -1,5 +1,5 @@
-#include "Music.h"
 #include "SaveGame.h"
+#include "Music.h"
 #include "../Board.h"
 #include "../Challenge.h"
 #include "../SeedPacket.h"
@@ -15,8 +15,6 @@
 #include "../../Sexy.TodLib/TodParticle.h"
 #include "../../Sexy.TodLib/EffectSystem.h"
 #include "../../GameConstants.h"
-
-#include <memory>
 
 #ifdef _GOTY
 static const char *FILE_COMPILE_TIME_STRING = "Dec 10 201014:56:46";
@@ -92,6 +90,21 @@ void SaveGameContext::SyncInt(int &theInt)
 	else
 	{
 		mBuffer.WriteLong(theInt);
+	}
+}
+
+void SaveGameContext::SyncResourceId(ResourceId &theResourceId)
+{
+	if (mReading)
+	{
+		std::string aString = mBuffer.ReadString();
+		size_t aNamespaceLength = mBuffer.ReadShort();
+		theResourceId = {std::move(aString), aNamespaceLength};
+	}
+	else
+	{
+		mBuffer.WriteString(theResourceId.AsString());
+		mBuffer.WriteShort(theResourceId.NamespaceView().size());
 	}
 }
 
@@ -209,9 +222,9 @@ void SaveGameContext::SyncImage(Image *&theImage)
 {
 	if (mReading)
 	{
-		OldResourceId aResID;
-		SyncInt((int &)aResID);
-		if (aResID == Sexy::RESOURCE_ID_MAX)
+		ResourceId aResID;
+		SyncResourceId(aResID);
+		if (aResID.IsEmpty())
 		{
 			theImage = nullptr;
 		}
@@ -222,16 +235,12 @@ void SaveGameContext::SyncImage(Image *&theImage)
 	}
 	else
 	{
-		OldResourceId aResID;
+		ResourceId aResID;
 		if (theImage != nullptr)
 		{
 			aResID = GetIdByImage(theImage);
 		}
-		else
-		{
-			aResID = Sexy::RESOURCE_ID_MAX;
-		}
-		SyncInt((int &)aResID);
+		SyncResourceId(aResID);
 	}
 }
 
