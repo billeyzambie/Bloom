@@ -112,7 +112,7 @@ Checkbox *MakeNewCheckbox(int theId, CheckboxListener *theListener, bool theDefa
 
 std::string GetSavedGameName(GameMode theGameMode, int theProfileId)
 {
-	return GetAppDataFolder() + StrFormat("savefiles/%d/game%d", theProfileId, (int)theGameMode);
+	return GetAppDataFolder() + StrFormat("savefiles/%d/game%d.dat", theProfileId, (int)theGameMode);
 }
 
 int GetCurrentDaysSince2000()

@@ -448,8 +448,6 @@ void LawnApp::PreNewGame(GameMode theGameMode, bool theLookForSavedGame)
 		return;
 
 	std::string aFileName = GetSavedGameName(mGameMode, mPlayerInfo->mId);
-	EraseFile(aFileName + ".data");
-	EraseFile(aFileName + ".schema");
 	NewGame();
 }
 
@@ -473,7 +471,7 @@ void LawnApp::StartPlaying()
 bool LawnApp::SaveFileExists()
 {
 	std::string aFileName = GetSavedGameName(GameMode::GAMEMODE_ADVENTURE, mPlayerInfo->mId);
-	return FileExists(aFileName + ".schema") && FileExists(aFileName + ".data");
+	return FileExists(aFileName);
 }
 
 bool LawnApp::TryLoadGame()
@@ -481,7 +479,7 @@ bool LawnApp::TryLoadGame()
 	std::string aSaveName = GetSavedGameName(mGameMode, mPlayerInfo->mId);
 	mMusic->StopAllMusic();
 
-	if (FileExists(aSaveName + ".schema") && FileExists(aSaveName + ".data"))
+	if (FileExists(aSaveName))
 	{
 		MakeNewBoard();
 		if (mBoard->LoadGame(aSaveName))

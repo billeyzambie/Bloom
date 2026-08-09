@@ -1,69 +1,107 @@
 #include "Music.h"
-#include "../CursorObject.h"
-#include "../../LawnApp.h"
-#include "../../Resources.h"
-#include "../../Sexy.TodLib/EffectSystem.h"
 #include "SaveGame.h"
+#include "../Board.h"
+#include "../Challenge.h"
+#include "../SeedPacket.h"
+#include "../../LawnApp.h"
+#include "../CursorObject.h"
+#include "../../Resources.h"
+#include "../../ConstEnums.h"
+#include "../MessageWidget.h"
+#include "../../Sexy.TodLib/Trail.h"
+#include <zlib.h>
+#include "../../Sexy.TodLib/Attachment.h"
+#include "../../Sexy.TodLib/Reanimator.h"
+#include "../../Sexy.TodLib/TodParticle.h"
+#include "../../Sexy.TodLib/EffectSystem.h"
+#include "../../GameConstants.h"
 
-static constexpr uint32_t SAVE_VERSION = 1;
+#include <memory>
 
-template <typename T> void SaveContext::SyncVar(T &aValue, const std::string &aName)
+#ifdef _GOTY
+static const char *FILE_COMPILE_TIME_STRING = "Dec 10 201014:56:46";
+static const char *FILE_COMPILE_TIME_STRING2 = "Jul  2 201011:47:03";
+#else
+static const char *FILE_COMPILE_TIME_STRING = "Feb 16 200923:03:38";
+#endif
+// "Feb 16 200923:03:38"; // OG
+// "Jul  2 201011:47:03"; // OLD GOTY
+// "Dec 10 201014:56:46"; // GOTY Steam
+static const unsigned int SAVE_FILE_MAGIC_NUMBER = 0xFEEDDEAD;
+static const unsigned int SAVE_FILE_VERSION = 2U;
+static unsigned int SAVE_FILE_DATE =
+	crc32(0, (Bytef *)FILE_COMPILE_TIME_STRING, strlen(FILE_COMPILE_TIME_STRING)); //[0x6AA7EC]
+#ifdef _GOTY
+static unsigned int SAVE_FILE_DATE2 = crc32(0, (Bytef *)FILE_COMPILE_TIME_STRING2, strlen(FILE_COMPILE_TIME_STRING2));
+#endif
+
+typedef unsigned char uchar;
+
+//0x4813D0
+void SaveGameContext::SyncBytes(void *theDest, int theReadSize)
 {
+	int aReadSize = theReadSize;
 	if (mReading)
 	{
-		if (mSchemeEntries.find(aName) == mSchemeEntries.end())
+		if ((unsigned long)ByteLeftToRead() < 4)
 		{
-			TodTraceAndLog("Couldn't find schema entry: %s", aName.c_str());
-			return;
+			mFailed = true;
 		}
 
-		TOD_ASSERT(std::is_trivially_copyable_v<T>);
-		SaveSchemeEntry anEntry = mSchemeEntries[aName];
-		if (anEntry.mSize != sizeof(T))
-		{
-			TodTraceAndLog("Size mismatch for %s", aName.c_str());
-			return;
-		}
-		mBinaryReader->seekg(anEntry.mOffset);
-		mBinaryReader->read(reinterpret_cast<char *>(&aValue), anEntry.mSize);
+		aReadSize = mFailed ? 0 : mBuffer.ReadLong();
 	}
 	else
 	{
-		mSchema += StrFormat("%s|%d|%d\n", aName.c_str(), mCurrentOffset, sizeof(aValue));
-		mWriter->write(reinterpret_cast<char *>(&aValue), sizeof(aValue));
-		mCurrentOffset += sizeof(aValue);
+		mBuffer.WriteLong(theReadSize);
 	}
-}
 
-void SaveContext::SyncBytes(void *aValue, size_t aSize, const std::string &aName)
-{
 	if (mReading)
 	{
-		if (mSchemeEntries.find(aName) == mSchemeEntries.end())
+		if (aReadSize != theReadSize || ByteLeftToRead() < theReadSize)
 		{
-			TodTraceAndLog("Couldn't find schema entry: %s", aName.c_str());
-			return;
+			mFailed = true;
 		}
-		SaveSchemeEntry anEntry = mSchemeEntries[aName];
-		mBinaryReader->seekg(anEntry.mOffset);
-		mBinaryReader->read(reinterpret_cast<char *>(aValue), anEntry.mSize);
+
+		if (mFailed)
+		{
+			memset(theDest, 0, theReadSize);
+		}
+		else
+		{
+			mBuffer.ReadBytes((uchar *)theDest, theReadSize);
+		}
 	}
 	else
 	{
-		mSchema += StrFormat("%s|%d|%d\n", aName.c_str(), mCurrentOffset, aSize);
-		mWriter->write(reinterpret_cast<char *>(aValue), aSize);
-		mCurrentOffset += aSize;
+		mBuffer.WriteBytes((uchar *)theDest, theReadSize);
 	}
 }
 
+//0x481470
+void SaveGameContext::SyncInt(int &theInt)
+{
+	if (mReading)
+	{
+		if ((unsigned long)ByteLeftToRead() < 4)
+		{
+			mFailed = true;
+		}
 
+		theInt = mFailed ? 0 : mBuffer.ReadLong();
+	}
+	else
+	{
+		mBuffer.WriteLong(theInt);
+	}
+}
 
-void SaveContext::SyncReanimationDef(ReanimatorDefinition *&theDefinition, const std::string &theOwner)
+//0x4814C0
+void SaveGameContext::SyncReanimationDef(ReanimatorDefinition *&theDefinition)
 {
 	if (mReading)
 	{
 		int aReanimType;
-		SyncVar(aReanimType, StrFormat("ReanimationDefinition_%s", theOwner.c_str()));
+		SyncInt(aReanimType);
 		if (aReanimType == (int)ReanimationType::REANIM_NONE)
 		{
 			theDefinition = nullptr;
@@ -90,16 +128,17 @@ void SaveContext::SyncReanimationDef(ReanimatorDefinition *&theDefinition, const
 				break;
 			}
 		}
-		SyncVar(aReanimType, StrFormat("ReanimationDefinition_%s", theOwner.c_str()));
+		SyncInt(aReanimType);
 	}
 }
 
-void SaveContext::SyncParticleDef(TodParticleDefinition *&theDefinition, const std::string &theOwner)
+//0x481560
+void SaveGameContext::SyncParticleDef(TodParticleDefinition *&theDefinition)
 {
 	if (mReading)
 	{
 		int aParticleType;
-		SyncVar(aParticleType, StrFormat("ParticleDefinition_%s", theOwner.c_str()));
+		SyncInt(aParticleType);
 		if (aParticleType == (int)ParticleEffect::PARTICLE_NONE)
 		{
 			theDefinition = nullptr;
@@ -125,16 +164,17 @@ void SaveContext::SyncParticleDef(TodParticleDefinition *&theDefinition, const s
 				break;
 			}
 		}
-		SyncVar(aParticleType, StrFormat("ParticleDefinition_%s", theOwner.c_str()));
+		SyncInt(aParticleType);
 	}
 }
 
-void SaveContext::SyncTrailDef(TrailDefinition *&theDefinition, const std::string &theOwner)
+//0x4815F0
+void SaveGameContext::SyncTrailDef(TrailDefinition *&theDefinition)
 {
 	if (mReading)
 	{
 		int aTrailType;
-		SyncVar(aTrailType, StrFormat("TrailDefinition_%s", theOwner.c_str()));
+		SyncInt(aTrailType);
 		if (aTrailType == TrailType::TRAIL_NONE)
 		{
 			theDefinition = nullptr;
@@ -160,16 +200,17 @@ void SaveContext::SyncTrailDef(TrailDefinition *&theDefinition, const std::strin
 				break;
 			}
 		}
-		SyncVar(aTrailType, StrFormat("TrailDefinition_%s", theOwner.c_str()));
+		SyncInt(aTrailType);
 	}
 }
 
-void SaveContext::SyncImage(Image *&theImage, const std::string &theOwner)
+//0x481690
+void SaveGameContext::SyncImage(Image *&theImage)
 {
 	if (mReading)
 	{
 		OldResourceId aResID;
-		SyncVar((int &)aResID, StrFormat("IMAGE_%s", theOwner.c_str()));
+		SyncInt((int &)aResID);
 		if (aResID == Sexy::RESOURCE_ID_MAX)
 		{
 			theImage = nullptr;
@@ -190,11 +231,12 @@ void SaveContext::SyncImage(Image *&theImage, const std::string &theOwner)
 		{
 			aResID = Sexy::RESOURCE_ID_MAX;
 		}
-		SyncVar((int &)aResID, StrFormat("IMAGE_%s", theOwner.c_str()));
+		SyncInt((int &)aResID);
 	}
 }
 
-void SyncDataIDList(TodList<unsigned int> *theDataIDList, SaveContext &theContext, TodAllocator *theAllocator, const std::string &aListOwner)
+//0x481710
+void SyncDataIDList(TodList<unsigned int> *theDataIDList, SaveGameContext &theContext, TodAllocator *theAllocator)
 {
 	try
 	{
@@ -209,24 +251,22 @@ void SyncDataIDList(TodList<unsigned int> *theDataIDList, SaveContext &theContex
 			}
 
 			int aCount;
-			theContext.SyncVar(aCount, StrFormat("%s_List_Size", aListOwner.c_str()));
+			theContext.SyncInt(aCount);
 			for (int i = 0; i < aCount; i++)
 			{
 				unsigned int aDataID;
-				theContext.SyncBytes(&aDataID, sizeof(aDataID), StrFormat("%s_List_Data[%d]", aListOwner.c_str(), i));
+				theContext.SyncBytes(&aDataID, sizeof(aDataID));
 				theDataIDList->AddTail(aDataID);
 			}
 		}
 		else
 		{
 			int aCount = theDataIDList->mSize;
-			theContext.SyncVar(aCount, StrFormat("%s_List_Size", aListOwner.c_str()));
-			int i = 0;
+			theContext.SyncInt(aCount);
 			for (TodListNode<unsigned int> *aNode = theDataIDList->mHead; aNode != nullptr; aNode = aNode->mNext)
 			{
 				unsigned int aDataID = aNode->mValue;
-				theContext.SyncBytes(&aDataID, sizeof(aDataID), StrFormat("%s_List_Data[%d]", aListOwner.c_str(), i));
-				i++;
+				theContext.SyncBytes(&aDataID, sizeof(aDataID));
 			}
 		}
 	}
@@ -236,25 +276,27 @@ void SyncDataIDList(TodList<unsigned int> *theDataIDList, SaveContext &theContex
 	}
 }
 
-void SyncParticleEmitter(TodParticleSystem *theParticleSystem, TodParticleEmitter *theParticleEmitter, SaveContext &theContext)
+//0x4817C0
+void SyncParticleEmitter(TodParticleSystem *theParticleSystem, TodParticleEmitter *theParticleEmitter,
+						 SaveGameContext &theContext)
 {
-	std::string aIDStr = StrFormat("%u", theParticleSystem->mParticleHolder->mEmitters.DataArrayGetID(theParticleEmitter));
 	int aEmitterDefIndex = 0;
 	if (theContext.mReading)
 	{
-		theContext.SyncVar(aEmitterDefIndex, StrFormat("ParticleEmitterDefinition_%s", aIDStr.c_str()));
+		theContext.SyncInt(aEmitterDefIndex);
 		theParticleEmitter->mParticleSystem = theParticleSystem;
 		theParticleEmitter->mEmitterDef = &theParticleSystem->mParticleDef->mEmitterDefs[aEmitterDefIndex];
 	}
 	else
 	{
-		aEmitterDefIndex = (int)(theParticleEmitter->mEmitterDef - theParticleSystem->mParticleDef->mEmitterDefs);
-		theContext.SyncVar(aEmitterDefIndex, StrFormat("ParticleEmitterDefinition_%s", aIDStr.c_str()));
+		aEmitterDefIndex = ((int)theParticleEmitter->mEmitterDef - (int)theParticleSystem->mParticleDef->mEmitterDefs) /
+						   sizeof(TodEmitterDefinition);
+		theContext.SyncInt(aEmitterDefIndex);
 	}
 
-	theContext.SyncImage(theParticleEmitter->mImageOverride, StrFormat("ParticleEmitter_%s", aIDStr.c_str()));
+	theContext.SyncImage(theParticleEmitter->mImageOverride);
 	SyncDataIDList((TodList<unsigned int> *)&theParticleEmitter->mParticleList, theContext,
-				   &theParticleSystem->mParticleHolder->mParticleListNodeAllocator, StrFormat("ParticleEmitter_%s", aIDStr.c_str()));
+				   &theParticleSystem->mParticleHolder->mParticleListNodeAllocator);
 	for (TodListNode<ParticleID> *aNode = theParticleEmitter->mParticleList.mHead; aNode != nullptr;
 		 aNode = aNode->mNext)
 	{
@@ -267,19 +309,17 @@ void SyncParticleEmitter(TodParticleSystem *theParticleSystem, TodParticleEmitte
 	}
 }
 
-void SyncParticleSystem(Board *theBoard, TodParticleSystem *theParticleSystem, SaveContext &theContext)
+//0x481880
+void SyncParticleSystem(Board *theBoard, TodParticleSystem *theParticleSystem, SaveGameContext &theContext)
 {
-	std::string aIDStr = StrFormat("%u", theBoard->mApp->mEffectSystem->mParticleHolder->mParticleSystems.DataArrayGetID(theParticleSystem));
-
-	theContext.SyncParticleDef(theParticleSystem->mParticleDef, StrFormat("ParticleSystem_%s", aIDStr.c_str()));
+	theContext.SyncParticleDef(theParticleSystem->mParticleDef);
 	if (theContext.mReading)
 	{
 		theParticleSystem->mParticleHolder = theBoard->mApp->mEffectSystem->mParticleHolder;
 	}
 
 	SyncDataIDList((TodList<unsigned int> *)&theParticleSystem->mEmitterList, theContext,
-				   &theParticleSystem->mParticleHolder->mEmitterListNodeAllocator,
-				   StrFormat("ParticleSystem_%s", aIDStr.c_str()));
+				   &theParticleSystem->mParticleHolder->mEmitterListNodeAllocator);
 	for (TodListNode<ParticleEmitterID> *aNode = theParticleSystem->mEmitterList.mHead; aNode != nullptr;
 		 aNode = aNode->mNext)
 	{
@@ -289,10 +329,10 @@ void SyncParticleSystem(Board *theBoard, TodParticleSystem *theParticleSystem, S
 	}
 }
 
-void SyncReanimation(Board *theBoard, Reanimation *theReanimation, SaveContext &theContext)
+//0x4818F0
+void SyncReanimation(Board *theBoard, Reanimation *theReanimation, SaveGameContext &theContext)
 {
-	std::string aIDStr = StrFormat("%u", theBoard->mApp->mEffectSystem->mReanimationHolder->mReanimations.DataArrayGetID(theReanimation));
-	theContext.SyncReanimationDef(theReanimation->mDefinition, StrFormat("Reanimation_%s", aIDStr.c_str()));
+	theContext.SyncReanimationDef(theReanimation->mDefinition);
 	if (theContext.mReading)
 	{
 		theReanimation->mReanimationHolder = theBoard->mApp->mEffectSystem->mReanimationHolder;
@@ -305,12 +345,12 @@ void SyncReanimation(Board *theBoard, Reanimation *theReanimation, SaveContext &
 		{
 			theReanimation->mTrackInstances = (ReanimatorTrackInstance *)FindGlobalAllocator(aSize)->Calloc(aSize);
 		}
-		theContext.SyncBytes(theReanimation->mTrackInstances, aSize, StrFormat("Reanimation_%s_Tracks", aIDStr.c_str()));
+		theContext.SyncBytes(theReanimation->mTrackInstances, aSize);
 
 		for (int aTrackIndex = 0; aTrackIndex < theReanimation->mDefinition->mTrackCount; aTrackIndex++)
 		{
 			ReanimatorTrackInstance &aTrackInstance = theReanimation->mTrackInstances[aTrackIndex];
-			theContext.SyncImage(aTrackInstance.mImageOverride, StrFormat("Reanimation_%s_Track[%d]", aIDStr.c_str(), aTrackIndex));
+			theContext.SyncImage(aTrackInstance.mImageOverride);
 
 			if (theContext.mReading)
 			{
@@ -328,383 +368,140 @@ void SyncReanimation(Board *theBoard, Reanimation *theReanimation, SaveContext &
 	}
 }
 
-void SyncTrail(Board *theBoard, Trail *theTrail, SaveContext &theContext)
+void SyncTrail(Board *theBoard, Trail *theTrail, SaveGameContext &theContext)
 {
-	theContext.SyncTrailDef(theTrail->mDefinition, StrFormat("Trail_%u", theBoard->mApp->mEffectSystem->mTrailHolder->mTrails.DataArrayGetID(theTrail)));
+	theContext.SyncTrailDef(theTrail->mDefinition);
 	if (theContext.mReading)
 	{
 		theTrail->mTrailHolder = theBoard->mApp->mEffectSystem->mTrailHolder;
 	}
 }
 
-void SaveContext::LoadScheme(std::string thePath)
+template <typename T> inline static void SyncDataArray(SaveGameContext &theContext, DataArray<T> &theDataArray)
 {
-	std::ifstream aReader(thePath, std::ios::binary);
-	std::string aLine;
-	mSchemeEntries.clear();
-	while (std::getline(aReader, aLine))
+	theContext.SyncUint(theDataArray.mFreeListHead);
+	theContext.SyncUint(theDataArray.mMaxUsedCount);
+	theContext.SyncUint(theDataArray.mSize);
+	theContext.SyncBytes(theDataArray.mBlock, theDataArray.mMaxUsedCount * sizeof(DataArray<T>::DataArrayItem));
+}
+
+//0x4819D0
+void SyncBoard(SaveGameContext &theContext, Board *theBoard)
+{
+	theContext.SyncBytes(&theBoard->mPaused, sizeof(Board) - offsetof(Board, mPaused));
+
+	SyncDataArray(theContext, theBoard->mZombies);												 //0x482190
+	SyncDataArray(theContext, theBoard->mPlants);												 //0x482280
+	SyncDataArray(theContext, theBoard->mProjectiles);											 //0x482370
+	SyncDataArray(theContext, theBoard->mCoins);												 //0x482460
+	SyncDataArray(theContext, theBoard->mLawnMowers);											 //0x482550
+	SyncDataArray(theContext, theBoard->mGridItems);											 //0x482650
+	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mParticleHolder->mParticleSystems); //0x482740
+	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mParticleHolder->mEmitters);		 //0x482830
+	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mParticleHolder->mParticles);		 //0x482920
+	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mReanimationHolder->mReanimations); //0x482920
+	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mTrailHolder->mTrails);			 //0x482650
+	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mAttachmentHolder->mAttachments);	 //0x482A10
+
 	{
-		SaveSchemeEntry anEntry;
-		std::vector<std::string> aSeparatedLine;
-		size_t start = 0;
-		size_t end = aLine.find("|");
-
-		if (end == std::string::npos)
+		TodParticleSystem *aParticle = nullptr;
+		while (theBoard->mApp->mEffectSystem->mParticleHolder->mParticleSystems.IterateNext(aParticle))
 		{
-			continue;
+			SyncParticleSystem(theBoard, aParticle, theContext);
+		}
+	}
+	{
+		Reanimation *aReanimation = nullptr;
+		while (theBoard->mApp->mEffectSystem->mReanimationHolder->mReanimations.IterateNext(aReanimation))
+		{
+			SyncReanimation(theBoard, aReanimation, theContext);
+		}
+	}
+	{
+		Trail *aTrail = nullptr;
+		while (theBoard->mApp->mEffectSystem->mTrailHolder->mTrails.IterateNext(aTrail))
+		{
+			SyncTrail(theBoard, aTrail, theContext);
+		}
+	}
+
+	theContext.SyncBytes(theBoard->mCursorObject, sizeof(CursorObject));
+	theContext.SyncBytes(theBoard->mCursorPreview, sizeof(CursorPreview));
+	theContext.SyncBytes(theBoard->mAdvice, sizeof(MessageWidget));
+	theContext.SyncBytes(theBoard->mSeedBank, sizeof(SeedBank));
+	theContext.SyncBytes(theBoard->mChallenge, sizeof(Challenge));
+	theContext.SyncBytes(theBoard->mApp->mMusic, sizeof(Music));
+
+	if (theContext.mReading)
+	{
+		if ((unsigned long)theContext.ByteLeftToRead() < 4)
+		{
+			theContext.mFailed = true;
 		}
 
-		while (end != std::string::npos)
+		if (theContext.mFailed || theContext.mBuffer.ReadLong() != SAVE_FILE_MAGIC_NUMBER)
 		{
-			aSeparatedLine.push_back(aLine.substr(start, end - start));
-			start = end + 1;
-			end = aLine.find("|", start);
+			theContext.mFailed = true;
 		}
-
-		aSeparatedLine.push_back(aLine.substr(start));
-		size_t aCurrentIndex = 0;
-		std::string aVarName = "VAL_UNKNOWN";
-		for (auto& aValue : aSeparatedLine)
-		{
-			switch (aCurrentIndex)
-			{
-				case 0:
-					aVarName = aValue;
-					break;
-				case 1:
-					sscanf(aValue.c_str(), "%zu", &anEntry.mOffset);
-					break;
-				case 2:
-					sscanf(aValue.c_str(), "%zu", &anEntry.mSize);
-					aCurrentIndex = -1;
-					break;
-			}
-			aCurrentIndex++;
-		}
-		mSchemeEntries.insert({aVarName, anEntry});
+	}
+	else
+	{
+		theContext.mBuffer.WriteLong(SAVE_FILE_MAGIC_NUMBER);
 	}
 }
 
-
-#define SYNC_VAR(name) theContext.SyncVar(name, #name)
-#define SYNC_ARRAY(name) theContext.SyncBytes(name, sizeof(name), #name)
-#define SYNC_CLASS(obj) theContext.SyncBytes(obj, sizeof(*obj), #obj)
-#define SYNC_DATA_ARRAY(type, arr)                                                                                     \
-	theContext.SyncVar(arr.mMaxUsedCount, #arr ".mMaxUsedCount");                                                      \
-	theContext.SyncVar(arr.mFreeListHead, #arr ".mFreeListHead");                                                      \
-	theContext.SyncVar(arr.mSize, #arr ".mSize");                                                                      \
-	theContext.SyncBytes(arr.mBlock, sizeof(DataArray<type>::DataArrayItem) * arr.mMaxUsedCount, #arr ".mBlock");
-
-#define SYNC_GAMEOBJECT(obj) \
-	theContext.SyncVar(obj->mX, #obj "->mX");                                                                        \
-	theContext.SyncVar(obj->mY, #obj "->mY");                                                                        \
-	theContext.SyncVar(obj->mWidth, #obj "->mWidth");                                                                \
-	theContext.SyncVar(obj->mHeight, #obj "->mHeight");                                                              \
-	theContext.SyncVar(obj->mVisible, #obj "->mVisible");															 \
-	theContext.SyncVar(obj->mRow, #obj "->mRow");                                                                    \
-	theContext.SyncVar(obj->mRenderOrder, #obj "->mRenderOrder");                                                    \
-
-void LawnSyncGame(Board* theBoard, SaveContext &theContext)
+//0x481CE0
+void FixBoardAfterLoad(Board *theBoard)
 {
-
-	SYNC_ARRAY(theBoard->mGridSquareType);
-	SYNC_ARRAY(theBoard->mGridCelLook);
-	SYNC_ARRAY(theBoard->mGridCelOffset);
-	SYNC_ARRAY(theBoard->mGridCelFog);
-
-	SYNC_VAR(theBoard->mEnableGraveStones);
-	SYNC_VAR(theBoard->mSpecialGraveStoneX);
-	SYNC_VAR(theBoard->mSpecialGraveStoneY);
-	SYNC_VAR(theBoard->mFogOffset);
-	SYNC_VAR(theBoard->mFogBlownCountDown);
-
-	SYNC_ARRAY(theBoard->mPlantRow);
-	SYNC_ARRAY(theBoard->mWaveRowGotLawnMowered);
-
-	SYNC_VAR(theBoard->mBonusLawnMowersRemaining);
-
-	SYNC_ARRAY(theBoard->mIceMinX);
-	SYNC_ARRAY(theBoard->mIceTimer);
-	SYNC_ARRAY(theBoard->mIceParticleID);
-	SYNC_ARRAY(theBoard->mRowPickingArray);
-
-	SYNC_ARRAY(theBoard->mZombiesInWave);
-	SYNC_ARRAY(theBoard->mZombieAllowed);
-
-	SYNC_VAR(theBoard->mSunCountDown);
-	SYNC_VAR(theBoard->mNumSunsFallen);
-	SYNC_VAR(theBoard->mShakeCounter);
-	SYNC_VAR(theBoard->mShakeAmountX);
-	SYNC_VAR(theBoard->mShakeAmountY);
-
-	SYNC_VAR(theBoard->mBackground);
-	SYNC_VAR(theBoard->mLevel);
-	SYNC_VAR(theBoard->mSodPosition);
-
-	SYNC_VAR(theBoard->mPrevMouseX);
-	SYNC_VAR(theBoard->mPrevMouseY);
-
-	SYNC_VAR(theBoard->mSunMoney);
-	SYNC_VAR(theBoard->mNumWaves);
-	SYNC_VAR(theBoard->mMainCounter);
-	SYNC_VAR(theBoard->mEffectCounter);
-	SYNC_VAR(theBoard->mDrawCount);
-	SYNC_VAR(theBoard->mRiseFromGraveCounter);
-	SYNC_VAR(theBoard->mOutOfMoneyCounter);
-
-	SYNC_VAR(theBoard->mCurrentWave);
-	SYNC_VAR(theBoard->mTotalSpawnedWaves);
-
-	SYNC_VAR(theBoard->mTutorialState);
-	SYNC_VAR(theBoard->mTutorialParticleID);
-	SYNC_VAR(theBoard->mTutorialTimer);
-
-	SYNC_VAR(theBoard->mLastBungeeWave);
-	SYNC_VAR(theBoard->mZombieHealthToNextWave);
-	SYNC_VAR(theBoard->mZombieHealthWaveStart);
-
-	SYNC_VAR(theBoard->mZombieCountDown);
-	SYNC_VAR(theBoard->mZombieCountDownStart);
-	SYNC_VAR(theBoard->mHugeWaveCountDown);
-
-	SYNC_ARRAY(theBoard->mHelpDisplayed);
-	SYNC_VAR(theBoard->mHelpIndex);
-
-	SYNC_VAR(theBoard->mFinalBossKilled);
-	SYNC_VAR(theBoard->mShowShovel);
-	SYNC_VAR(theBoard->mCoinBankFadeCount);
-	SYNC_VAR(theBoard->mDebugTextMode);
-
-	SYNC_VAR(theBoard->mLevelComplete);
-	SYNC_VAR(theBoard->mBoardFadeOutCounter);
-	SYNC_VAR(theBoard->mNextSurvivalStageCounter);
-	SYNC_VAR(theBoard->mScoreNextMowerCounter);
-
-	SYNC_VAR(theBoard->mLevelAwardSpawned);
-	SYNC_VAR(theBoard->mProgressMeterWidth);
-	SYNC_VAR(theBoard->mFlagRaiseCounter);
-	SYNC_VAR(theBoard->mIceTrapCounter);
-
-	SYNC_VAR(theBoard->mBoardRandSeed);
-	SYNC_VAR(theBoard->mPoolSparklyParticleID);
-
-	SYNC_ARRAY(theBoard->mFwooshID);
-
-	SYNC_VAR(theBoard->mFwooshCountDown);
-	SYNC_VAR(theBoard->mTimeStopCounter);
-
-	SYNC_VAR(theBoard->mDroppedFirstCoin);
-	SYNC_VAR(theBoard->mFinalWaveSoundCounter);
-
-	SYNC_VAR(theBoard->mCobCannonCursorDelayCounter);
-	SYNC_VAR(theBoard->mCobCannonMouseX);
-	SYNC_VAR(theBoard->mCobCannonMouseY);
-
-	SYNC_VAR(theBoard->mKilledYeti);
-
-	SYNC_VAR(theBoard->mMustacheMode);
-	SYNC_VAR(theBoard->mSuperMowerMode);
-	SYNC_VAR(theBoard->mFutureMode);
-	SYNC_VAR(theBoard->mPinataMode);
-	SYNC_VAR(theBoard->mDanceMode);
-	SYNC_VAR(theBoard->mDaisyMode);
-	SYNC_VAR(theBoard->mSukhbirMode);
-
-	SYNC_VAR(theBoard->mPrevBoardResult);
-
-	SYNC_VAR(theBoard->mTriggeredLawnMowers);
-	SYNC_VAR(theBoard->mPlayTimeActiveLevel);
-	SYNC_VAR(theBoard->mPlayTimeInactiveLevel);
-
-	SYNC_VAR(theBoard->mMaxSunPlants);
-
-	SYNC_VAR(theBoard->mStartDrawTime);
-	SYNC_VAR(theBoard->mIntervalDrawTime);
-	SYNC_VAR(theBoard->mIntervalDrawCountStart);
-
-	SYNC_VAR(theBoard->mMinFPS);
-	SYNC_VAR(theBoard->mPreloadTime);
-	SYNC_VAR(theBoard->mGameID);
-
-	SYNC_VAR(theBoard->mGravesCleared);
-	SYNC_VAR(theBoard->mPlantsEaten);
-	SYNC_VAR(theBoard->mPlantsShoveled);
-	SYNC_VAR(theBoard->mCoinsCollected);
-	SYNC_VAR(theBoard->mDiamondsCollected);
-	SYNC_VAR(theBoard->mPottedPlantsCollected);
-	SYNC_VAR(theBoard->mChocolateCollected);
-
-	SYNC_VAR(theBoard->mPlantsPlaced);
-	SYNC_VAR(theBoard->mPennyPincherStreak);
-	SYNC_VAR(theBoard->mDontPeaUsedPeashooter);
-	SYNC_VAR(theBoard->mGroundedUsedCatapult);
-	SYNC_VAR(theBoard->mGoodMorningUsedNonFungus);
-	SYNC_VAR(theBoard->mNoFungusUsedFungus);
-	SYNC_VAR(theBoard->mGargantuarsKillsByCornCob);
-
-	SYNC_VAR(theBoard->mChallenge->mBeghouledMouseCapture);
-	SYNC_VAR(theBoard->mChallenge->mBeghouledMouseDownX);
-	SYNC_VAR(theBoard->mChallenge->mBeghouledMouseDownY);
-
-	SYNC_VAR(theBoard->mChallenge->mBeghouledMatchesThisMove);
-	SYNC_VAR(theBoard->mChallenge->mChallengeState);
-	SYNC_VAR(theBoard->mChallenge->mChallengeStateCounter);
-	SYNC_VAR(theBoard->mChallenge->mConveyorBeltCounter);
-	SYNC_VAR(theBoard->mChallenge->mChallengeScore);
-	SYNC_VAR(theBoard->mChallenge->mShowBowlingLine);
-	SYNC_VAR(theBoard->mChallenge->mLastConveyorSeedType);
-	SYNC_VAR(theBoard->mChallenge->mSurvivalStage);
-	SYNC_VAR(theBoard->mChallenge->mSlotMachineRollCount);
-	SYNC_VAR(theBoard->mChallenge->mReanimChallenge);
-
-	SYNC_VAR(theBoard->mChallenge->mChallengeGridX);
-	SYNC_VAR(theBoard->mChallenge->mChallengeGridY);
-	SYNC_VAR(theBoard->mChallenge->mScaryPotterPots);
-	SYNC_VAR(theBoard->mChallenge->mRainCounter);
-	SYNC_VAR(theBoard->mChallenge->mTreeOfWisdomTalkIndex);
-
-	SYNC_ARRAY(theBoard->mChallenge->mBeghouledEated);
-	SYNC_ARRAY(theBoard->mChallenge->mBeghouledPurcasedUpgrade);
-	SYNC_ARRAY(theBoard->mChallenge->mReanimClouds);
-	SYNC_ARRAY(theBoard->mChallenge->mCloudsCounter);
-
-	SYNC_VAR(theBoard->mApp->mMusic->mCurMusicTune);
-	SYNC_VAR(theBoard->mApp->mMusic->mCurMusicFileMain);
-	SYNC_VAR(theBoard->mApp->mMusic->mCurMusicFileDrums);
-	SYNC_VAR(theBoard->mApp->mMusic->mCurMusicFileHihats);
-	SYNC_VAR(theBoard->mApp->mMusic->mBurstOverride);
-	SYNC_VAR(theBoard->mApp->mMusic->mBaseBPM);
-	SYNC_VAR(theBoard->mApp->mMusic->mBaseModSpeed);
-	SYNC_VAR(theBoard->mApp->mMusic->mMusicBurstState);
-	SYNC_VAR(theBoard->mApp->mMusic->mBurstStateCounter);
-	SYNC_VAR(theBoard->mApp->mMusic->mMusicDrumsState);
-	SYNC_VAR(theBoard->mApp->mMusic->mQueuedDrumTrackPackedOrder);
-	SYNC_VAR(theBoard->mApp->mMusic->mDrumsStateCounter);
-	SYNC_VAR(theBoard->mApp->mMusic->mPauseOffset);
-	SYNC_VAR(theBoard->mApp->mMusic->mPauseOffsetDrums);
-	SYNC_VAR(theBoard->mApp->mMusic->mPaused);
-	SYNC_VAR(theBoard->mApp->mMusic->mMusicDisabled);
-	SYNC_VAR(theBoard->mApp->mMusic->mFadeOutCounter);
-	SYNC_VAR(theBoard->mApp->mMusic->mFadeOutDuration);
-	SYNC_VAR(theBoard->mApp->mMusic->mQueuedDrumTrackPosition);
-
-	SYNC_GAMEOBJECT(theBoard->mSeedBank);
-	SYNC_VAR(theBoard->mSeedBank->mNumPackets);
-	SYNC_ARRAY(theBoard->mSeedBank->mSeedPackets);
-	SYNC_VAR(theBoard->mSeedBank->mCutSceneDarken);
-	SYNC_VAR(theBoard->mSeedBank->mConveyorBeltCounter);
-#if LAWN_USE_UNFINISHED_GAMEPAD_SUPPORT
-	SYNC_VAR(theBoard->mSeedBank->mIndexGamepad);
-	SYNC_VAR(theBoard->mSeedBank->mAxisProgress);
-#endif
-
-	SYNC_ARRAY(theBoard->mAdvice->mLabel);
-	SYNC_VAR(theBoard->mAdvice->mDisplayTime);
-	SYNC_VAR(theBoard->mAdvice->mDuration);
-	SYNC_VAR(theBoard->mAdvice->mMessageStyle);
-	SYNC_ARRAY(theBoard->mAdvice->mTextReanimID);
-	SYNC_VAR(theBoard->mAdvice->mReanimType);
-	SYNC_VAR(theBoard->mAdvice->mSlideOffTime);
-	SYNC_ARRAY(theBoard->mAdvice->mLabelNext);
-	SYNC_VAR(theBoard->mAdvice->mMessageStyleNext);
-
-	SYNC_VAR(theBoard->mCursorPreview->mGridX);
-	SYNC_VAR(theBoard->mCursorPreview->mGridY);
-
-	SYNC_VAR(theBoard->mCursorObject->mSeedBankIndex);
-	SYNC_VAR(theBoard->mCursorObject->mType);
-	SYNC_VAR(theBoard->mCursorObject->mImitaterType);
-	SYNC_VAR(theBoard->mCursorObject->mCursorType);
-	SYNC_VAR(theBoard->mCursorObject->mCoinID);
-	SYNC_VAR(theBoard->mCursorObject->mGlovePlantID);
-	SYNC_VAR(theBoard->mCursorObject->mDuplicatorPlantID);
-	SYNC_VAR(theBoard->mCursorObject->mCobCannonPlantID);
-	SYNC_VAR(theBoard->mCursorObject->mHammerDownCounter);
-	SYNC_VAR(theBoard->mCursorObject->mReanimCursorID);
-
-	SYNC_DATA_ARRAY(Zombie, theBoard->mZombies)
-	SYNC_DATA_ARRAY(Plant, theBoard->mPlants)
-	SYNC_DATA_ARRAY(Projectile, theBoard->mProjectiles)
-	theContext.SyncVar(theBoard->mCoins.mMaxUsedCount, "theBoard->mCoins"
-													   ".mMaxUsedCount");
-	theContext.SyncVar(theBoard->mCoins.mFreeListHead, "theBoard->mCoins"
-													   ".mFreeListHead");
-	theContext.SyncVar(theBoard->mCoins.mSize, "theBoard->mCoins"
-											   ".mSize");
-	theContext.SyncBytes(theBoard->mCoins.mBlock,
-						 sizeof(DataArray<Coin>::DataArrayItem) * theBoard->mCoins.mMaxUsedCount,
-						 "theBoard->mCoins"
-						 ".mBlock");
-	SYNC_DATA_ARRAY(LawnMower, theBoard->mLawnMowers)
-	SYNC_DATA_ARRAY(GridItem, theBoard->mGridItems)
-	SYNC_DATA_ARRAY(TodParticleSystem, theBoard->mApp->mEffectSystem->mParticleHolder->mParticleSystems)
-	SYNC_DATA_ARRAY(TodParticleEmitter, theBoard->mApp->mEffectSystem->mParticleHolder->mEmitters)
-	SYNC_DATA_ARRAY(TodParticle, theBoard->mApp->mEffectSystem->mParticleHolder->mParticles)
-	SYNC_DATA_ARRAY(Reanimation, theBoard->mApp->mEffectSystem->mReanimationHolder->mReanimations)
-	SYNC_DATA_ARRAY(Trail, theBoard->mApp->mEffectSystem->mTrailHolder->mTrails)
-	SYNC_DATA_ARRAY(Attachment, theBoard->mApp->mEffectSystem->mAttachmentHolder->mAttachments)
-
-	TodParticleSystem *aParticle = nullptr;
-	while (theBoard->mApp->mEffectSystem->mParticleHolder->mParticleSystems.IterateNext(aParticle))
 	{
-		SyncParticleSystem(theBoard, aParticle, theContext);
+		Plant *aPlant = nullptr;
+		while (theBoard->mPlants.IterateNext(aPlant))
+		{
+			aPlant->mApp = theBoard->mApp;
+			aPlant->mBoard = theBoard;
+		}
+	}
+	{
+		Zombie *aZombie = nullptr;
+		while (theBoard->mZombies.IterateNext(aZombie))
+		{
+			aZombie->mApp = theBoard->mApp;
+			aZombie->mBoard = theBoard;
+		}
+	}
+	{
+		Projectile *aProjectile = nullptr;
+		while (theBoard->mProjectiles.IterateNext(aProjectile))
+		{
+			aProjectile->mApp = theBoard->mApp;
+			aProjectile->mBoard = theBoard;
+		}
+	}
+	{
+		Coin *aCoin = nullptr;
+		while (theBoard->mCoins.IterateNext(aCoin))
+		{
+			aCoin->mApp = theBoard->mApp;
+			aCoin->mBoard = theBoard;
+		}
+	}
+	{
+		LawnMower *aLawnMower = nullptr;
+		while (theBoard->mLawnMowers.IterateNext(aLawnMower))
+		{
+			aLawnMower->mApp = theBoard->mApp;
+			aLawnMower->mBoard = theBoard;
+		}
+	}
+	{
+		GridItem *aGridItem = nullptr;
+		while (theBoard->mGridItems.IterateNext(aGridItem))
+		{
+			aGridItem->mApp = theBoard->mApp;
+			aGridItem->mBoard = theBoard;
+		}
 	}
 
-	Reanimation *aReanimation = nullptr;
-	while (theBoard->mApp->mEffectSystem->mReanimationHolder->mReanimations.IterateNext(aReanimation))
-	{
-		SyncReanimation(theBoard, aReanimation, theContext);
-	}
-
-	Trail *aTrail = nullptr;
-	while (theBoard->mApp->mEffectSystem->mTrailHolder->mTrails.IterateNext(aTrail))
-	{
-		SyncTrail(theBoard, aTrail, theContext);
-	}
-
-	Plant *aPlant = nullptr;
-	while (theBoard->mPlants.IterateNext(aPlant))
-	{
-		aPlant->mApp = theBoard->mApp;
-		aPlant->mBoard = theBoard;
-	}
-
-	Zombie *aZombie = nullptr;
-	while (theBoard->mZombies.IterateNext(aZombie))
-	{
-		aZombie->mApp = theBoard->mApp;
-		aZombie->mBoard = theBoard;
-	}
-
-	Projectile *aProjectile = nullptr;
-	while (theBoard->mProjectiles.IterateNext(aProjectile))
-	{
-		aProjectile->mApp = theBoard->mApp;
-		aProjectile->mBoard = theBoard;
-	}
-
-	Coin *aCoin = nullptr;
-	while (theBoard->mCoins.IterateNext(aCoin))
-	{
-		aCoin->mApp = theBoard->mApp;
-		aCoin->mBoard = theBoard;
-	}
-
-	LawnMower *aLawnMower = nullptr;
-	while (theBoard->mLawnMowers.IterateNext(aLawnMower))
-	{
-		aLawnMower->mApp = theBoard->mApp;
-		aLawnMower->mBoard = theBoard;
-	}
-
-	GridItem *aGridItem = nullptr;
-	while (theBoard->mGridItems.IterateNext(aGridItem))
-	{
-		aGridItem->mApp = theBoard->mApp;
-		aGridItem->mBoard = theBoard;
-	}
-
-	//Always resync. just incase
 	theBoard->mAdvice->mApp = theBoard->mApp;
 	theBoard->mCursorObject->mApp = theBoard->mApp;
 	theBoard->mCursorObject->mBoard = theBoard;
@@ -723,37 +520,54 @@ void LawnSyncGame(Board* theBoard, SaveContext &theContext)
 	theBoard->mApp->mMusic->mMusicInterface = theBoard->mApp->mMusicInterface;
 }
 
-bool LawnLoadGame(Board *theBoard, const std::string &theFilePath)
+//0x481FE0
+bool LawnLoadGame(Board *theBoard, const SexyString &theFilePath)
 {
-	std::ifstream aReader(theFilePath + ".data", std::ios::binary);
-	SaveContext theContext;
-	theContext.mBinaryReader = &aReader;
-	theContext.mReading = true;
-	theContext.LoadScheme(theFilePath + ".schema");
-
-	LawnSyncGame(theBoard, theContext);
-	if (aReader.fail())
+	SaveGameContext aContext;
+	aContext.mFailed = false;
+	aContext.mReading = true;
+	if (!gSexyAppBase->ReadBufferFromFile(theFilePath, &aContext.mBuffer, false))
 	{
-		TodErrorMessageBox("Save file read error or truncated file", "Save File Error");
 		return false;
 	}
+
+	SaveFileHeader aHeader;
+	aContext.SyncBytes(&aHeader, sizeof(aHeader));
+	if (aHeader.mMagicNumber != SAVE_FILE_MAGIC_NUMBER || aHeader.mBuildVersion != SAVE_FILE_VERSION ||
+		aHeader.mBuildDate != SAVE_FILE_DATE
+#ifdef GOTY
+			&& aHeader.mBuildDate != SAVE_FILE_DATE2
+#endif
+	)
+	{
+		return false;
+	}
+
+	SyncBoard(aContext, theBoard);
+	if (aContext.mFailed)
+	{
+		return false;
+	}
+
+	TodTrace("Loaded save game");
+	FixBoardAfterLoad(theBoard);
 	theBoard->mApp->mGameScene = GameScenes::SCENE_PLAYING;
 	return true;
 }
 
-bool LawnSaveGame(Board *theBoard, const std::string &theFilePath)
+//0x4820D0
+bool LawnSaveGame(Board *theBoard, const SexyString &theFilePath)
 {
-	std::ofstream aWriter(theFilePath + ".data", std::ios::binary);
-	std::ofstream aSchemaWriter(theFilePath + ".schema", std::ios::binary);
+	SaveGameContext aContext;
+	aContext.mFailed = false;
+	aContext.mReading = false;
 
-	SaveContext theContext;
-	theContext.mWriter = &aWriter;
-	theContext.mReading = false;
-	theContext.mCurrentOffset = 0;
+	SaveFileHeader aHeader;
+	aHeader.mMagicNumber = SAVE_FILE_MAGIC_NUMBER;
+	aHeader.mBuildVersion = SAVE_FILE_VERSION;
+	aHeader.mBuildDate = SAVE_FILE_DATE;
 
-	LawnSyncGame(theBoard, theContext);
-	aSchemaWriter << theContext.mSchema;
-	aSchemaWriter.close();
-	aWriter.close();
-	return true;
+	aContext.SyncBytes(&aHeader, sizeof(aHeader));
+	SyncBoard(aContext, theBoard);
+	return gSexyAppBase->WriteBufferToFile(theFilePath, &aContext.mBuffer);
 }
