@@ -29,7 +29,11 @@ template <class T> class BLOOM_API Registry : public IRegistry
 	bool mFrozen = false;
 
   public:
-	Registry() = default;
+	static BLOOM_EXTERN_OR_INLINE Registry *gInstance;
+	Registry()
+	{
+		gInstance = this;
+	}
 	Registry(const Registry &theCopied) = delete;
 	Registry &operator=(const Registry &theCopied) = delete;
 	
@@ -52,6 +56,10 @@ template <class T> class BLOOM_API Registry : public IRegistry
 	const T *GetByResourceId(const std::string &theResourceIdAsString) const
 	{
 		return mTypesByResourceId[theResourceIdAsString];
+	}
+	const T &GetDefaultType() const
+	{
+		return *mTypes[0];
 	}
 	int GetNumOfTypes() const
 	{

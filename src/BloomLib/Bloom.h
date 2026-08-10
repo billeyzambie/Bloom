@@ -3,7 +3,9 @@
 #ifdef BLOOM_EXPORT
 #define BLOOM_API __declspec(dllexport)
 #define BLOOM_GLOBAL inline __declspec(dllexport)
+#define BLOOM_EXTERN_OR_INLINE inline
 #else
 #define BLOOM_API __declspec(dllimport)
 #define BLOOM_GLOBAL extern __declspec(dllimport)
+#define BLOOM_EXTERN_OR_INLINE extern
 #endif

@@ -4,28 +4,61 @@
 #include <string.h>
 #include "../Sexy.TodLib/TodDebug.h"
 #include "../Sexy.TodLib/TodCommon.h"
+#include "../Lawn/System/SaveGame.h"
 
 #include "Bloom.h"
+#include "NamespacedString.h"
+#include "Registry.h"
 
-#include "../Lawn/Projectile/Projectile.h"
-
-enum
-{
-	DATA_ARRAY_INDEX_MASK = 65535,
-	DATA_ARRAY_KEY_MASK = -65536,
-	DATA_ARRAY_KEY_SHIFT = 16,
-	DATA_ARRAY_MAX_SIZE = 65536,
-	DATA_ARRAY_KEY_FIRST = 1
-};
+//#include "../Lawn/Projectile/Projectile.h"
 
 template <typename T> class BLOOM_API BloomDataArray
 {
   public:
+	enum
+	{
+		DATA_ARRAY_INDEX_MASK = 65535,
+		DATA_ARRAY_KEY_MASK = -65536,
+		DATA_ARRAY_KEY_SHIFT = 16,
+		DATA_ARRAY_MAX_SIZE = 65536,
+		DATA_ARRAY_KEY_FIRST = 1
+	};
+
 	class BLOOM_API DataArrayItem
 	{
 	  public:
 		T mItem;
 		unsigned int mID;
+		void Sync(SaveGameContext &theContext)
+		{
+			theContext.SyncUint(mID);
+			if (mID & DATA_ARRAY_KEY_MASK)
+			{
+
+				if (theContext.mReading)
+				{
+					ResourceId aResId;
+					theContext.SyncResourceId(aResId);
+					const Registry<T::Type> &aRegistry = *Registry<T::Type>::gInstance;
+					const T::Type *aType = aRegistry.GetByResourceId(aResId);
+					if (aType)
+					{
+						new (&mItem) T(*aType);
+						mItem.Sync(theContext);
+					}
+					else
+					{
+						new (&mItem) T(aRegistry.GetDefaultType());
+						mItem.Sync(theContext);
+					}
+				}
+				else
+				{
+					theContext.SyncResourceId(const_cast<ResourceId &>(mItem.mType->mResourceId));
+					mItem.Sync(theContext);
+				}
+			}
+		}
 	};
 
   public:
@@ -54,10 +87,21 @@ template <typename T> class BLOOM_API BloomDataArray
 		DataArrayDispose();
 	}
 
+	void DataArraySync(SaveGameContext &theContext)
+	{
+		theContext.SyncUint(mFreeListHead);
+		theContext.SyncUint(mMaxUsedCount);
+		theContext.SyncUint(mSize);
+		for (size_t i = 0; i < mMaxUsedCount; i++)
+			mBlock[i].Sync(theContext);
+	}
+
 	void DataArrayInitialize(unsigned int theMaxSize, const char *theName)
 	{
 		TOD_ASSERT(mBlock == nullptr);
 		mBlock = (DataArrayItem *)operator new(sizeof(DataArrayItem) * theMaxSize);
+		for (size_t i = 0; i < theMaxSize; i++)
+			mBlock[i].mID = 0u;
 		mMaxSize = theMaxSize;
 		mNextKey = 1001U;
 		mName = theName;
@@ -133,7 +177,9 @@ template <typename T> class BLOOM_API BloomDataArray
 		TOD_ASSERT(mFreeListHead <= mMaxUsedCount, "DataArrayAlloc error in %s", mName);
 		unsigned int aNext = mMaxUsedCount;
 		if (mFreeListHead == mMaxUsedCount)
+		{
 			mFreeListHead = ++mMaxUsedCount;
+		}
 		else
 		{
 			aNext = mFreeListHead;

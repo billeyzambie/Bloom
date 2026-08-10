@@ -1415,17 +1415,17 @@ void Plant::UpdateTorchwood()
 	Projectile *aProjectile = nullptr;
 	while (mBoard->IterateProjectiles(aProjectile))
 	{
-		if ((aProjectile->mRow == mRow) && (aProjectile->mProjectileType == OldProjectileType::PROJECTILE_PEA ||
-											aProjectile->mProjectileType == OldProjectileType::PROJECTILE_SNOWPEA))
+		if ((aProjectile->mRow == mRow) && (*aProjectile->mType == OldProjectileType::PROJECTILE_PEA ||
+											*aProjectile->mType == OldProjectileType::PROJECTILE_SNOWPEA))
 		{
 			Rect aProjectileRect = aProjectile->GetProjectileRect();
 			if (GetRectOverlap(aAttackRect, aProjectileRect) >= 10)
 			{
-				if (aProjectile->mProjectileType == OldProjectileType::PROJECTILE_PEA)
+				if (*aProjectile->mType == OldProjectileType::PROJECTILE_PEA)
 				{
 					aProjectile->ConvertToFireball(mPlantCol);
 				}
-				else if (aProjectile->mProjectileType == OldProjectileType::PROJECTILE_SNOWPEA)
+				else if (*aProjectile->mType == OldProjectileType::PROJECTILE_SNOWPEA)
 				{
 					aProjectile->ConvertToPea(mPlantCol);
 				}

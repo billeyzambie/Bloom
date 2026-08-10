@@ -3,6 +3,7 @@
 
 #include "../ConstEnums.h"
 #include "../Sexy.TodLib/DataArray.h"
+#include "../BloomLib/BloomDataArray.h"
 #include "../SexyAppFramework/Widget.h"
 #include "../SexyAppFramework/ButtonListener.h"
 
@@ -111,7 +112,7 @@ class BLOOM_API Board : public Widget, public ButtonListener
 	LawnApp *mApp;
 	DataArray<Zombie> mZombies;
 	DataArray<Plant> mPlants;
-	DataArray<Projectile> mProjectiles;
+	BloomDataArray<Projectile> mProjectiles;
 	DataArray<Coin> mCoins;
 	DataArray<LawnMower> mLawnMowers;
 	DataArray<GridItem> mGridItems;

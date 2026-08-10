@@ -31,11 +31,12 @@ struct SaveFileHeader
 class SaveGameContext
 {
   public:
-	Buffer mBuffer; //+0x0
-	bool mFailed;	//+0x20
-	bool mReading;	//+0x21
+	Buffer mBuffer;			//+0x0
+	bool mFailed = false;	//+0x20
+	const bool mReading;	//+0x21
 
   public:
+	SaveGameContext(bool theReading);
 	inline int ByteLeftToRead()
 	{
 		return (mBuffer.mDataBitSize - mBuffer.mReadBitPos + 7) / 8;

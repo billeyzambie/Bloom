@@ -7,6 +7,7 @@
 
 class Plant;
 class Zombie;
+class SaveGameContext;
 namespace Sexy
 {
 class Graphics;
@@ -16,7 +17,7 @@ using namespace Sexy;
 class BLOOM_API ProjectileDefinition
 {
   public:
-	OldProjectileType mProjectileType;
+	OldProjectileType mType;
 	int mImageRow;
 	int mDamage;
 };
@@ -27,7 +28,7 @@ class BLOOM_API Projectile : public GameObject
   public:
 	typedef ProjectileType Type;
 
-	const ProjectileType *mProjectileType;
+	const ProjectileType *mType;
 	ProjectileMotion mMotionType;
 	int mFrame;
 	int mNumFrames;
@@ -58,6 +59,8 @@ class BLOOM_API Projectile : public GameObject
   public:
 	Projectile(const ProjectileType &theProjectileType);
 	~Projectile();
+
+	void Sync(SaveGameContext &theContext);
 
 	/// @brief Initialize the Projectile
 	/// @param theX The X coordinate

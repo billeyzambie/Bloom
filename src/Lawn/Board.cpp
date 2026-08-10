@@ -8126,7 +8126,7 @@ void Board::DrawDebugObjectRects(Graphics *g)
 			Projectile *aProjectile = nullptr;
 			while (IterateProjectiles(aProjectile))
 			{
-				if (aProjectile->mProjectileType == OldProjectileType::PROJECTILE_COBBIG)
+				if (aProjectile->mType == OldProjectileType::PROJECTILE_COBBIG)
 				{
 					g->SetColor(Color(255, 0, 0));
 					Rect aDamageRect = aProjectile->GetProjectileRect();

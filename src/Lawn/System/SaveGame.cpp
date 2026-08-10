@@ -35,6 +35,11 @@ static unsigned int SAVE_FILE_DATE2 = crc32(0, (Bytef *)FILE_COMPILE_TIME_STRING
 
 typedef unsigned char uchar;
 
+SaveGameContext::SaveGameContext(bool theReading)
+	: mReading(theReading)
+{
+}
+
 //0x4813D0
 void SaveGameContext::SyncBytes(void *theDest, int theReadSize)
 {
@@ -399,18 +404,18 @@ void SyncBoard(SaveGameContext &theContext, Board *theBoard)
 {
 	theContext.SyncBytes(&theBoard->mPaused, sizeof(Board) - offsetof(Board, mPaused));
 
-	SyncDataArray(theContext, theBoard->mZombies);												 //0x482190
-	SyncDataArray(theContext, theBoard->mPlants);												 //0x482280
-	SyncDataArray(theContext, theBoard->mProjectiles);											 //0x482370
-	SyncDataArray(theContext, theBoard->mCoins);												 //0x482460
-	SyncDataArray(theContext, theBoard->mLawnMowers);											 //0x482550
-	SyncDataArray(theContext, theBoard->mGridItems);											 //0x482650
-	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mParticleHolder->mParticleSystems); //0x482740
-	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mParticleHolder->mEmitters);		 //0x482830
-	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mParticleHolder->mParticles);		 //0x482920
-	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mReanimationHolder->mReanimations); //0x482920
-	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mTrailHolder->mTrails);			 //0x482650
-	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mAttachmentHolder->mAttachments);	 //0x482A10
+	SyncDataArray(theContext, theBoard->mZombies);
+	SyncDataArray(theContext, theBoard->mPlants);
+	theBoard->mProjectiles.DataArraySync(theContext);									 
+	SyncDataArray(theContext, theBoard->mCoins);												 
+	SyncDataArray(theContext, theBoard->mLawnMowers);											 
+	SyncDataArray(theContext, theBoard->mGridItems);											 
+	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mParticleHolder->mParticleSystems); 
+	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mParticleHolder->mEmitters);		 
+	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mParticleHolder->mParticles);		 
+	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mReanimationHolder->mReanimations); 
+	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mTrailHolder->mTrails);			 
+	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mAttachmentHolder->mAttachments);	 
 
 	{
 		TodParticleSystem *aParticle = nullptr;
@@ -532,9 +537,7 @@ void FixBoardAfterLoad(Board *theBoard)
 //0x481FE0
 bool LawnLoadGame(Board *theBoard, const SexyString &theFilePath)
 {
-	SaveGameContext aContext;
-	aContext.mFailed = false;
-	aContext.mReading = true;
+	SaveGameContext aContext = {true};
 	if (!gSexyAppBase->ReadBufferFromFile(theFilePath, &aContext.mBuffer, false))
 	{
 		return false;
@@ -567,9 +570,7 @@ bool LawnLoadGame(Board *theBoard, const SexyString &theFilePath)
 //0x4820D0
 bool LawnSaveGame(Board *theBoard, const SexyString &theFilePath)
 {
-	SaveGameContext aContext;
-	aContext.mFailed = false;
-	aContext.mReading = false;
+	SaveGameContext aContext = {false};
 
 	SaveFileHeader aHeader;
 	aHeader.mMagicNumber = SAVE_FILE_MAGIC_NUMBER;

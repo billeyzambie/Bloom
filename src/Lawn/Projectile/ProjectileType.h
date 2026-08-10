@@ -28,7 +28,7 @@ class BLOOM_API ProjectileType : public BloomType
 	};
 	struct ModifierContext
 	{
-		const ProjectileType &mProjectileType;
+		const ProjectileType &mType;
 		const LawnApp &mLawnApp;
 		const PlayerInfo &mPlayerInfo;
 		Attributes &mAttributes;
