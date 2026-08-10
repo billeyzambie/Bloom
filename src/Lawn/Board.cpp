@@ -2399,7 +2399,7 @@ bool Board::HasValidCobCannonSpot()
 	return false;
 }
 
-Projectile *Board::AddProjectile(int theX, int theY, int theRenderOrder, int theRow, ProjectileType theProjectileType)
+Projectile *Board::AddProjectile(int theX, int theY, int theRenderOrder, int theRow, OldProjectileType theProjectileType)
 {
 	Projectile *aProjectile = mProjectiles.DataArrayAlloc();
 	aProjectile->ProjectileInitialize(theX, theY, theRenderOrder, theRow, theProjectileType);
@@ -8126,7 +8126,7 @@ void Board::DrawDebugObjectRects(Graphics *g)
 			Projectile *aProjectile = nullptr;
 			while (IterateProjectiles(aProjectile))
 			{
-				if (aProjectile->mProjectileType == ProjectileType::PROJECTILE_COBBIG)
+				if (aProjectile->mProjectileType == OldProjectileType::PROJECTILE_COBBIG)
 				{
 					g->SetColor(Color(255, 0, 0));
 					Rect aDamageRect = aProjectile->GetProjectileRect();

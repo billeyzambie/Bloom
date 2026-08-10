@@ -307,7 +307,7 @@ class BLOOM_API Board : public Widget, public ButtonListener
 	/// @param theRenderOrder The render order to draw the Projectile on
 	/// @param theRow The row to spawn the Projectile on
 	/// @param theProjectileType The type of Projectile to setup
-	Projectile *AddProjectile(int theX, int theY, int theRenderOrder, int theRow, ProjectileType theProjectileType);
+	Projectile *AddProjectile(int theX, int theY, int theRenderOrder, int theRow, OldProjectileType theProjectileType);
 
 	/// @brief Add a Coin to the Board
 	/// @param theX The Coin X coordinate

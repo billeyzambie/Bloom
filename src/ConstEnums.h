@@ -811,7 +811,7 @@ enum ProjectileMotion
 	MOTION_FLOAT_OVER = 8,
 	MOTION_HOMING = 9
 };
-enum ProjectileType
+enum OldProjectileType
 {
 	PROJECTILE_PEA = 0,
 	PROJECTILE_SNOWPEA = 1,

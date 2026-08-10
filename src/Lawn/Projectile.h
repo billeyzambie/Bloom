@@ -15,7 +15,7 @@ using namespace Sexy;
 class BLOOM_API ProjectileDefinition
 {
   public:
-	ProjectileType mProjectileType;
+	OldProjectileType mProjectileType;
 	int mImageRow;
 	int mDamage;
 };
@@ -38,7 +38,7 @@ class BLOOM_API Projectile : public GameObject
 	bool mDead;
 	int mAnimTicksPerFrame;
 	ProjectileMotion mMotionType;
-	ProjectileType mProjectileType;
+	OldProjectileType mProjectileType;
 	int mProjectileAge;
 	int mClickBackoffCounter;
 	float mRotation;
@@ -62,7 +62,7 @@ class BLOOM_API Projectile : public GameObject
 	/// @param theRenderOrder The render order to draw the Projectile on
 	/// @param theRow The row to spawn the Projectile on
 	/// @param theProjectileType The type of Projectile to setup
-	void ProjectileInitialize(int theX, int theY, int theRenderOrder, int theRow, ProjectileType theProjectileType);
+	void ProjectileInitialize(int theX, int theY, int theRenderOrder, int theRow, OldProjectileType theProjectileType);
 	/// @brief Update the Projectile
 	void Update();
 	/// @brief Draw the Projectile
