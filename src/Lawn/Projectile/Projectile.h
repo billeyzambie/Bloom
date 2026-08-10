@@ -1,8 +1,9 @@
 #ifndef __PROJECTILE_H__
 #define __PROJECTILE_H__
 
-#include "../ConstEnums.h"
-#include "GameObject.h"
+#include "../../ConstEnums.h"
+#include "../GameObject.h"
+#include "ProjectileType.h"
 
 class Plant;
 class Zombie;
@@ -24,6 +25,10 @@ extern BLOOM_API ProjectileDefinition gProjectileDefinition[NUM_PROJECTILES];
 class BLOOM_API Projectile : public GameObject
 {
   public:
+	typedef ProjectileType Type;
+
+	const ProjectileType *mProjectileType;
+	ProjectileMotion mMotionType;
 	int mFrame;
 	int mNumFrames;
 	int mAnimCounter;
@@ -37,8 +42,6 @@ class BLOOM_API Projectile : public GameObject
 	float mShadowY;
 	bool mDead;
 	int mAnimTicksPerFrame;
-	ProjectileMotion mMotionType;
-	OldProjectileType mProjectileType;
 	int mProjectileAge;
 	int mClickBackoffCounter;
 	float mRotation;
@@ -53,7 +56,7 @@ class BLOOM_API Projectile : public GameObject
 	int mLastPortalX;
 
   public:
-	Projectile();
+	Projectile(const ProjectileType &theProjectileType);
 	~Projectile();
 
 	/// @brief Initialize the Projectile
@@ -62,7 +65,7 @@ class BLOOM_API Projectile : public GameObject
 	/// @param theRenderOrder The render order to draw the Projectile on
 	/// @param theRow The row to spawn the Projectile on
 	/// @param theProjectileType The type of Projectile to setup
-	void ProjectileInitialize(int theX, int theY, int theRenderOrder, int theRow, OldProjectileType theProjectileType);
+	void ProjectileInitialize(int theX, int theY, int theRenderOrder, int theRow);
 	/// @brief Update the Projectile
 	void Update();
 	/// @brief Draw the Projectile

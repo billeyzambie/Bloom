@@ -8,7 +8,7 @@
 
 #include "Plant.h"
 #include "Zombie.h"
-#include "Projectile.h"
+#include "Projectile/Projectile.h"
 #include "Coin.h"
 #include "LawnMower.h"
 #include "GridItem.h"
