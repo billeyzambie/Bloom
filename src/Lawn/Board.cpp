@@ -32,6 +32,7 @@
 #include "../SexyAppFramework/SoundInstance.h"
 
 #include "StoreItem/StoreItemTypes.h"
+#include "Projectile/ProjectileTypes.h"
 
 #define SEXY_PERF_ENABLED
 #include "../SexyAppFramework/PerfTimer.h"
@@ -2399,10 +2400,10 @@ bool Board::HasValidCobCannonSpot()
 	return false;
 }
 
-Projectile *Board::AddProjectile(int theX, int theY, int theRenderOrder, int theRow, OldProjectileType theProjectileType)
+Projectile *Board::AddProjectile(int theX, int theY, int theRenderOrder, int theRow, const ProjectileType &theProjectileType)
 {
-	Projectile *aProjectile = mProjectiles.DataArrayAlloc();
-	aProjectile->ProjectileInitialize(theX, theY, theRenderOrder, theRow, theProjectileType);
+	Projectile *aProjectile = mProjectiles.DataArrayAlloc(theProjectileType);
+	aProjectile->ProjectileInitialize(theX, theY, theRenderOrder, theRow);
 	return aProjectile;
 }
 
@@ -8126,7 +8127,7 @@ void Board::DrawDebugObjectRects(Graphics *g)
 			Projectile *aProjectile = nullptr;
 			while (IterateProjectiles(aProjectile))
 			{
-				if (aProjectile->mType == OldProjectileType::PROJECTILE_COBBIG)
+				if (aProjectile->mType == ProjectileTypes::COBBIG)
 				{
 					g->SetColor(Color(255, 0, 0));
 					Rect aDamageRect = aProjectile->GetProjectileRect();

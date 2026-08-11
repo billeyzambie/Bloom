@@ -184,7 +184,7 @@ set(HEADERS_TO_COPY
     "Lawn/GameObject.h"
     "Lawn/Plant.h"
     "Lawn/Zombie.h"
-    "Lawn/Projectile.h"
+    "Lawn/Projectile/Projectile.h"
     "Lawn/Coin.h"
     "Lawn/LawnMower.h"
     "Lawn/GridItem.h"

@@ -7,6 +7,7 @@
 #include "ZenGarden.h"
 #include "Challenge.h"
 #include "Projectile/Projectile.h"
+#include "Projectile/ProjectileTypes.h"
 #include "SeedPacket.h"
 #include "../LawnApp.h"
 #include "CursorObject.h"
@@ -932,7 +933,7 @@ void Plant::StarFruitFire()
 	for (int i = 0; i < 5; i++)
 	{
 		Projectile *aProjectile =
-			mBoard->AddProjectile(mX + 25, mY + 25, mRenderOrder - 1, mRow, OldProjectileType::PROJECTILE_STAR);
+			mBoard->AddProjectile(mX + 25, mY + 25, mRenderOrder - 1, mRow, ProjectileTypes::STAR);
 		aProjectile->mDamageRangeFlags = GetDamageRangeFlags(PlantWeapon::WEAPON_PRIMARY);
 		aProjectile->mMotionType = ProjectileMotion::MOTION_STAR;
 
@@ -4636,7 +4637,7 @@ void Plant::Fire(Zombie *theTargetZombie, int theRow, PlantWeapon thePlantWeapon
 		return;
 	}
 
-	OldProjectileType aProjectileType;
+	const ProjectileType *aProjectileType = nullptr;
 	switch (mSeedType)
 	{
 	case SeedType::SEED_PEASHOOTER:
@@ -4645,34 +4646,34 @@ void Plant::Fire(Zombie *theTargetZombie, int theRow, PlantWeapon thePlantWeapon
 	case SeedType::SEED_SPLITPEA:
 	case SeedType::SEED_GATLINGPEA:
 	case SeedType::SEED_LEFTPEATER:
-		aProjectileType = OldProjectileType::PROJECTILE_PEA;
+		aProjectileType = ProjectileTypes::PEA;
 		break;
 	case SeedType::SEED_SNOWPEA:
-		aProjectileType = OldProjectileType::PROJECTILE_SNOWPEA;
+		aProjectileType = ProjectileTypes::SNOWPEA;
 		break;
 	case SeedType::SEED_PUFFSHROOM:
 	case SeedType::SEED_SCAREDYSHROOM:
 	case SeedType::SEED_SEASHROOM:
-		aProjectileType = OldProjectileType::PROJECTILE_PUFF;
+		aProjectileType = ProjectileTypes::PUFF;
 		break;
 	case SeedType::SEED_CACTUS:
 	case SeedType::SEED_CATTAIL:
-		aProjectileType = OldProjectileType::PROJECTILE_SPIKE;
+		aProjectileType = ProjectileTypes::SPIKE;
 		break;
 	case SeedType::SEED_CABBAGEPULT:
-		aProjectileType = OldProjectileType::PROJECTILE_CABBAGE;
+		aProjectileType = ProjectileTypes::CABBAGE;
 		break;
 	case SeedType::SEED_KERNELPULT:
-		aProjectileType = OldProjectileType::PROJECTILE_KERNEL;
+		aProjectileType = ProjectileTypes::KERNEL;
 		break;
 	case SeedType::SEED_MELONPULT:
-		aProjectileType = OldProjectileType::PROJECTILE_MELON;
+		aProjectileType = ProjectileTypes::MELON;
 		break;
 	case SeedType::SEED_WINTERMELON:
-		aProjectileType = OldProjectileType::PROJECTILE_WINTERMELON;
+		aProjectileType = ProjectileTypes::WINTERMELON;
 		break;
 	case SeedType::SEED_COBCANNON:
-		aProjectileType = OldProjectileType::PROJECTILE_COBBIG;
+		aProjectileType = ProjectileTypes::COBBIG;
 		break;
 	default:
 		TOD_ASSERT();
@@ -4680,7 +4681,7 @@ void Plant::Fire(Zombie *theTargetZombie, int theRow, PlantWeapon thePlantWeapon
 	}
 	if (mSeedType == SeedType::SEED_KERNELPULT && thePlantWeapon == PlantWeapon::WEAPON_SECONDARY)
 	{
-		aProjectileType = OldProjectileType::PROJECTILE_BUTTER;
+		aProjectileType = ProjectileTypes::BUTTER;
 	}
 
 	mApp->PlayFoley(FoleyType::FOLEY_THROW);
@@ -4821,7 +4822,7 @@ void Plant::Fire(Zombie *theTargetZombie, int theRow, PlantWeapon thePlantWeapon
 		mApp->AddTodParticle(aOriginX + 27, aOriginY + 13, aRenderPosition, ParticleEffect::PARTICLE_PUFFSHROOM_MUZZLE);
 	}
 
-	Projectile *aProjectile = mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder - 1, theRow, aProjectileType);
+	Projectile *aProjectile = mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder - 1, theRow, *aProjectileType);
 	aProjectile->mDamageRangeFlags = GetDamageRangeFlags(thePlantWeapon);
 
 	if (mSeedType == SeedType::SEED_CABBAGEPULT || mSeedType == SeedType::SEED_KERNELPULT ||

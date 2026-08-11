@@ -5,7 +5,8 @@
 #include "GridItem.h"
 #include "LawnMower.h"
 #include "Challenge.h"
-#include "Projectile.h"
+#include "Projectile/Projectile.h"
+#include "Projectile/ProjectileTypes.h"
 #include "../LawnApp.h"
 #include "../Resources.h"
 #include "System/PlayerInfo.h"
@@ -1669,7 +1670,7 @@ void Zombie::ZombieCatapultFire(Plant *thePlant)
 	mApp->PlayFoley(FoleyType::FOLEY_BASKETBALL);
 
 	Projectile *aProjectile =
-		mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, OldProjectileType::PROJECTILE_BASKETBALL);
+		mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, ProjectileTypes::BASKETBALL);
 	float aRangeX = aOriginX - aTargetX - 20.0f;
 	float aRangeY = aTargetY - aOriginY;
 	if (aRangeX < 40.0f)
@@ -2466,13 +2467,13 @@ void Zombie::UpdateZombiePeaHead()
 		{
 			aOriginX += 90.0f * mScaleZombie;
 			Projectile *aProjectile =
-				mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, OldProjectileType::PROJECTILE_PEA);
+				mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, ProjectileTypes::PEA);
 			aProjectile->mDamageRangeFlags = GetBit(DamageRangeFlags::DAMAGES_GROUND);
 		}
 		else
 		{
 			Projectile *aProjectile =
-				mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, OldProjectileType::PROJECTILE_ZOMBIE_PEA);
+				mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, ProjectileTypes::ZOMBIE_PEA);
 			aProjectile->mMotionType = ProjectileMotion::MOTION_BACKWARDS;
 			aProjectile->mDamageRangeFlags = GetBit(DamageRangeFlags::DAMAGES_MINDCONTROLLED);
 
@@ -2574,13 +2575,13 @@ void Zombie::UpdateZombieGatlingHead()
 		{
 			aOriginX += 90.0f * mScaleZombie;
 			Projectile *aProjectile =
-				mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, OldProjectileType::PROJECTILE_PEA);
+				mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, ProjectileTypes::PEA);
 			aProjectile->mDamageRangeFlags = GetBit(DamageRangeFlags::DAMAGES_GROUND);
 		}
 		else
 		{
 			Projectile *aProjectile =
-				mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, OldProjectileType::PROJECTILE_ZOMBIE_PEA);
+				mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, ProjectileTypes::ZOMBIE_PEA);
 			aProjectile->mMotionType = ProjectileMotion::MOTION_BACKWARDS;
 		}
 

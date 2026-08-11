@@ -8,7 +8,7 @@
 #include "LawnMower.h"
 #include "SeedPacket.h"
 #include "../LawnApp.h"
-#include "Projectile.h"
+#include "Projectile/Projectile.h"
 #include "ResourceInclude.h"
 #include "CursorObject.h"
 #include "ToolTipWidget.h"
