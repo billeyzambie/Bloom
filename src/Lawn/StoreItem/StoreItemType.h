@@ -27,11 +27,11 @@ class BLOOM_API StoreItemType : public BloomType
   public:
 	struct Attributes
 	{
+		ImageGetter mIcon = {};
 		int mCost = 0;
 		int mBuyCount = 1;
 		int mMaxBuyCount = 1;
 		int mUnlockLevel = 1;
-		ImageGetter mIcon = {};
 		int mDrawOffsetX = 0;
 		int mDrawOffsetY = 0;
 		bool mUnavailable = false;

@@ -14,15 +14,6 @@ class Graphics;
 };
 using namespace Sexy;
 
-class BLOOM_API ProjectileDefinition
-{
-  public:
-	OldProjectileType mType;
-	int mImageRow;
-	int mDamage;
-};
-extern BLOOM_API ProjectileDefinition gProjectileDefinition[NUM_PROJECTILES];
-
 class BLOOM_API Projectile : public GameObject
 {
   public:
@@ -99,9 +90,6 @@ class BLOOM_API Projectile : public GameObject
 	/// @brief Deal splash damage to the Zombue
 	/// @param theZombie The Zombie to hit
 	void DoSplashDamage(Zombie *theZombie);
-	/// @brief Get the Projectile's Definition
-	/// @return Projectile Definition, asserts if it doesn't exist
-	ProjectileDefinition &GetProjectileDef();
 	/// @brief Get the damage flags that affect the Zombie
 	/// @param theZombie The Zombie that it needs to hit
 	/// @return Flags that determine that damage types are dealt (see DamageFlags enum)

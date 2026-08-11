@@ -3,15 +3,16 @@
 #include "../BloomLib/Registry.h"
 #include "StoreItem/StoreItemType.h"
 #include "StoreItem/StoreItemGroup.h"
+#include "Projectile/ProjectileType.h"
 
 namespace Registries
 {
 
 BLOOM_GLOBAL Registry<StoreItemType> STORE_ITEMS;
-
 BLOOM_GLOBAL Registry<StoreItemGroup> STORE_ITEM_GROUPS;
+BLOOM_GLOBAL Registry<ProjectileType> PROJECTILES;
 
-constexpr int NUM_REGISTRIES = 2;
+constexpr int NUM_REGISTRIES = 3;
 
 extern BLOOM_API const std::array<IRegistry *, NUM_REGISTRIES> REGISTRIES;
 

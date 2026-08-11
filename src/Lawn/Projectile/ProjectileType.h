@@ -3,6 +3,7 @@
 #include "../BloomLib/BloomType.h"
 #include "../BloomLib/PatchHolder.h"
 #include "../BloomLib/EventList.h"
+#include "../BloomLib/ImageGetter.h"
 
 #include "../ConstEnums.h"
 #include "../Resources.h"
@@ -25,6 +26,7 @@ class BLOOM_API ProjectileType : public BloomType
   public:
 	struct Attributes
 	{
+		int mDamage = 20;
 	};
 	struct ModifierContext
 	{
