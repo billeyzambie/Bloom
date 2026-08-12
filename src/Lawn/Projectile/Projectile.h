@@ -20,6 +20,7 @@ class BLOOM_API Projectile : public GameObject
 	typedef ProjectileType Type;
 
 	const ProjectileType *mType;
+	ProjectileAttributes mAttributes;
 	ProjectileMotion mMotionType;
 	int mFrame;
 	int mNumFrames;

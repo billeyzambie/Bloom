@@ -283,7 +283,7 @@ void Projectile::CheckForCollision()
 		Plant *aPlant = FindCollisionTargetPlant();
 		if (aPlant)
 		{
-			aPlant->mPlantHealth -= mType->mAttributes.mDamage;
+			aPlant->mPlantHealth -= mAttributes.mDamage;
 			aPlant->mEatenFlashCountdown = std::max(aPlant->mEatenFlashCountdown, 25);
 
 			mApp->PlayFoley(FoleyType::FOLEY_SPLAT);
@@ -438,8 +438,8 @@ void Projectile::DoSplashDamage(Zombie *theZombie)
 		}
 	}
 
-	int aOriginalDamage = mType->mAttributes.mDamage;
-	int aSplashDamage = mType->mAttributes.mDamage / 3;
+	int aOriginalDamage = mAttributes.mDamage;
+	int aSplashDamage = mAttributes.mDamage / 3;
 	int aMaxSplashDamageAmount = aSplashDamage * 7;
 	if (mType == ProjectileTypes::FIREBALL)
 	{
@@ -584,7 +584,7 @@ void Projectile::UpdateLobMotion()
 		}
 		else
 		{
-			aPlant->mPlantHealth -= mType->mAttributes.mDamage;
+			aPlant->mPlantHealth -= mAttributes.mDamage;
 			aPlant->mEatenFlashCountdown = std::max(aPlant->mEatenFlashCountdown, 25);
 			mApp->PlayFoley(FoleyType::FOLEY_SPLAT);
 			Die();
@@ -812,7 +812,7 @@ void Projectile::DoImpact(Zombie *theZombie)
 	else if (theZombie)
 	{
 		unsigned int aDamageFlags = GetDamageFlags(theZombie);
-		theZombie->TakeDamage(mType->mAttributes.mDamage, aDamageFlags);
+		theZombie->TakeDamage(mAttributes.mDamage, aDamageFlags);
 	}
 
 	float aLastPosX = mPosX - mVelX;
@@ -920,6 +920,7 @@ void Projectile::DoImpact(Zombie *theZombie)
 
 void Projectile::Update()
 {
+	mAttributes = mType->mAttributes;
 	mProjectileAge++;
 	if (mApp->mGameScene != GameScenes::SCENE_PLAYING && !mBoard->mCutScene->ShouldRunUpsellBoard())
 		return;
@@ -949,72 +950,11 @@ void Projectile::Update()
 
 void Projectile::Draw(Graphics *g)
 {
-	Image *aImage;
-	float aScale = 1.0f;
-	if (mType == ProjectileTypes::COBBIG)
+	Image *aImage = mAttributes.mImage;
+	float aScale = mAttributes.mScale;
+	if (mType == ProjectileTypes::PUFF)
 	{
-		aImage = IMAGE_REANIM_COBCANNON_COB;
-		aScale = 0.9f;
-	}
-	else if (mType == ProjectileTypes::PEA ||
-			 mType == ProjectileTypes::ZOMBIE_PEA)
-	{
-		aImage = IMAGE_PROJECTILEPEA;
-	}
-	else if (mType == ProjectileTypes::SNOWPEA)
-	{
-		aImage = IMAGE_PROJECTILESNOWPEA;
-	}
-	else if (mType == ProjectileTypes::FIREBALL)
-	{
-		aImage = nullptr;
-	}
-	else if (mType == ProjectileTypes::SPIKE)
-	{
-		aImage = IMAGE_PROJECTILECACTUS;
-	}
-	else if (mType == ProjectileTypes::STAR)
-	{
-		aImage = IMAGE_PROJECTILE_STAR;
-	}
-	else if (mType == ProjectileTypes::PUFF)
-	{
-		aImage = IMAGE_PUFFSHROOM_PUFF1;
 		aScale = TodAnimateCurveFloat(0, 30, mProjectileAge, 0.3f, 1.0f, TodCurves::CURVE_LINEAR);
-	}
-	else if (mType == ProjectileTypes::BASKETBALL)
-	{
-		aImage = IMAGE_REANIM_ZOMBIE_CATAPULT_BASKETBALL;
-		aScale = 1.1f;
-	}
-	else if (mType == ProjectileTypes::CABBAGE)
-	{
-		aImage = IMAGE_REANIM_CABBAGEPULT_CABBAGE;
-		aScale = 1.0f;
-	}
-	else if (mType == ProjectileTypes::KERNEL)
-	{
-		aImage = IMAGE_REANIM_CORNPULT_KERNAL;
-		aScale = 0.95f;
-	}
-	else if (mType == ProjectileTypes::BUTTER)
-	{
-		aImage = IMAGE_REANIM_CORNPULT_BUTTER;
-		aScale = 0.8f;
-	}
-	else if (mType == ProjectileTypes::MELON)
-	{
-		aImage = IMAGE_REANIM_MELONPULT_MELON;
-		aScale = 1.0f;
-	}
-	else if (mType == ProjectileTypes::WINTERMELON)
-	{
-		aImage = IMAGE_REANIM_WINTERMELON_PROJECTILE;
-		aScale = 1.0f;
-	}
-	else
-	{
-		TOD_ASSERT();
 	}
 
 	bool aMirror = false;

@@ -26,6 +26,8 @@ class BLOOM_API ProjectileType : public BloomType
   public:
 	struct Attributes
 	{
+		ImageGetter mImage;
+		float mScale = 1;
 		int mDamage = 20;
 	};
 	struct ModifierContext
