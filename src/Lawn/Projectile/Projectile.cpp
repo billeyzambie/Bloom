@@ -15,7 +15,7 @@
 #include "../System/SaveGame.h"
 
 Projectile::Projectile(const ProjectileType &theType) 
-	: mType(&theType)
+	: mType(&theType), mAttributes(theType.mAttributes)
 {
 }
 

@@ -1,5 +1,6 @@
 #include "ImageGetter.h"
 #include "../LawnApp.h"
+#include "../Resources.h"
 #include "../Sexy.TodLib/TodDebug.h"
 #include "../SexyAppFramework/ResourceManager.h"
 
@@ -20,6 +21,58 @@ ImageGetter::ImageGetter(std::string_view theNamespace, std::string_view theBare
 ImageGetter::ImageGetter() 
 	: mSupplied(true)
 {
+}
+
+ImageGetter::ImageGetter(const ImageGetter &theCopied)
+	: mSupplied(theCopied.mSupplied), mImage(theCopied.mImage)
+{
+	if (!mSupplied)
+		mImageId = theCopied.mImageId;
+}
+
+ImageGetter::ImageGetter(ImageGetter &&theMoved) noexcept
+	: mImageId(std::move(theMoved.mImageId)), mSupplied(theMoved.mSupplied), mImage(theMoved.mImage)
+{
+	theMoved.mImageId = {};
+	theMoved.mSupplied = true;
+	theMoved.mImage = nullptr;
+}
+
+ImageGetter &ImageGetter::operator=(const ImageGetter &theCopied)
+{
+	if (!theCopied.mSupplied && mSupplied && mImageId == theCopied.mImageId)
+	{
+		theCopied.mImage = mImage;
+		theCopied.mSupplied = true;
+	}
+
+	mSupplied = theCopied.mSupplied;
+	mImage = theCopied.mImage;
+	if (!mSupplied)
+		mImageId = theCopied.mImageId;
+
+	return *this;
+}
+
+ImageGetter &ImageGetter::operator=(ImageGetter &&theMoved) noexcept
+{
+	mImageId = std::move(theMoved.mImageId);
+	mSupplied = theMoved.mSupplied;
+	mImage = theMoved.mImage;
+
+	theMoved.mImageId = {};
+	theMoved.mSupplied = true;
+	theMoved.mImage = nullptr;
+
+	return *this;
+}
+
+const ResourceId &ImageGetter::GetResourceId() const
+{
+	if (mImage != nullptr && mImageId.IsEmpty())
+		mImageId = Sexy::GetIdByImage(mImage);
+
+	return mImageId;
 }
 
 void ImageGetter::TrySupply() const
