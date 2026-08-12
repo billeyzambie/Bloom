@@ -174,8 +174,10 @@ void StoreItemType::Update(const LawnApp &theLawnApp)
 
 void StoreItemType::Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int thePosX, int thePosY, bool theIsForHighlight) const
 {
-	if (mAttributes.mIcon)
-		g->DrawImage(mAttributes.mIcon, thePosX + mAttributes.mDrawOffsetX, thePosY + mAttributes.mDrawOffsetY);
+	Sexy::Image *anIcon = GetIcon();
+
+	if (anIcon)
+		g->DrawImage(anIcon, thePosX + mAttributes.mDrawOffsetX, thePosY + mAttributes.mDrawOffsetY);
 	
 	int aCount = mAttributes.mBuyCount;
 
@@ -185,4 +187,11 @@ void StoreItemType::Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int the
 		aCountLabel += std::to_string(aCount);
 		TodDrawString(g, aCountLabel, thePosX + 56, thePosY + 62, Sexy::FONT_HOUSEOFTERROR16, Color::White, DS_ALIGN_RIGHT);
 	}
+}
+
+Sexy::Image *StoreItemType::GetIcon() const
+{
+	if (mAttributes.mIconOverride)
+		return mAttributes.mIconOverride;
+	return mBaseIcon;
 }

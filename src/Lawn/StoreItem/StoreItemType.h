@@ -27,7 +27,7 @@ class BLOOM_API StoreItemType : public BloomType
   public:
 	struct Attributes
 	{
-		ImageGetter mIcon = {};
+		Sexy::Image *mIconOverride = nullptr;
 		int mCost = 0;
 		int mBuyCount = 1;
 		int mMaxBuyCount = 1;
@@ -60,6 +60,8 @@ class BLOOM_API StoreItemType : public BloomType
 	EventList<ModifierContext> mModifiers;
 	EventList<PurchaseContext> mOnPurchase;
 
+	ImageGetter mBaseIcon;
+
 	const StoreItemGroup *mGroup = nullptr;
 	ListInsertion<StoreItemType> mInsertion;
 
@@ -81,6 +83,8 @@ class BLOOM_API StoreItemType : public BloomType
 
 	void Update(const LawnApp &theLawnApp);
 	virtual void Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int thePosX, int thePosY, bool theIsForHighlight) const;
+
+	Sexy::Image *GetIcon() const;
 };
 
 typedef StoreItemType::Attributes StoreItemAttributes;

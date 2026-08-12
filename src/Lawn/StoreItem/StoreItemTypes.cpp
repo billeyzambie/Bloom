@@ -23,7 +23,7 @@ namespace StoreItemTypes
 const auto &GATLING_PEA = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 500;
-	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "gatling_pea", anAttributes);
+	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "GATLING_PEA", anAttributes);
 	aStoreItemType->mSeedType = SeedType::SEED_GATLINGPEA;
 
 	return (StoreItemType *)aStoreItemType;
@@ -32,7 +32,7 @@ const auto &GATLING_PEA = Registries::STORE_ITEMS.Register([]() {
 const auto &TWIN_SUNFLOWER = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 500;
-	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "twin_sunflower", anAttributes);
+	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "TWIN_SUNFLOWER", anAttributes);
 	aStoreItemType->mSeedType = SeedType::SEED_TWINSUNFLOWER;
 
 	return (StoreItemType *)aStoreItemType;
@@ -42,7 +42,7 @@ const auto &GLOOM_SHROOM = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 750;
 	anAttributes.mUnlockLevel = 34;
-	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "gloom_shroom", anAttributes);
+	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "GLOOM_SHROOM", anAttributes);
 	aStoreItemType->mSeedType = SeedType::SEED_GLOOMSHROOM;
 
 	return (StoreItemType *)aStoreItemType;
@@ -52,7 +52,7 @@ const auto &CATTAIL = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 1000;
 	anAttributes.mUnlockLevel = 34;
-	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "cattail", anAttributes);
+	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "CATTAIL", anAttributes);
 	aStoreItemType->mSeedType = SeedType::SEED_CATTAIL;
 
 	return (StoreItemType *)aStoreItemType;
@@ -62,7 +62,7 @@ const auto &WINTER_MELON = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 1000;
 	anAttributes.mUnlockLevel = 50;
-	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "wintermelon", anAttributes);
+	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "WINTERMELON", anAttributes);
 	aStoreItemType->mSeedType = SeedType::SEED_WINTERMELON;
 
 	return (StoreItemType *)aStoreItemType;
@@ -72,7 +72,7 @@ const auto &GOLD_MAGNET = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 300;
 	anAttributes.mUnlockLevel = 41;
-	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "gold_magnet", anAttributes);
+	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "GOLD_MAGNET", anAttributes);
 	aStoreItemType->mSeedType = SeedType::SEED_GOLD_MAGNET;
 
 	return (StoreItemType *)aStoreItemType;
@@ -82,7 +82,7 @@ const auto &SPIKEROCK = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 750;
 	anAttributes.mUnlockLevel = 41;
-	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "spikerock", anAttributes);
+	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "SPIKEROCK", anAttributes);
 	aStoreItemType->mSeedType = SeedType::SEED_SPIKEROCK;
 
 	return (StoreItemType *)aStoreItemType;
@@ -92,7 +92,7 @@ const auto &COB_CANNON = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 2000;
 	anAttributes.mUnlockLevel = 50;
-	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "cob_cannon", anAttributes);
+	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "COB_CANNON", anAttributes);
 	aStoreItemType->mSeedType = SeedType::SEED_COBCANNON;
 
 	return (StoreItemType *)aStoreItemType;
@@ -102,7 +102,7 @@ const auto &IMITATER = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 3000;
 	anAttributes.mUnlockLevel = 50;
-	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "imitater", anAttributes);
+	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "IMITATER", anAttributes);
 	aStoreItemType->mSeedType = SeedType::SEED_IMITATER;
 
 	return (StoreItemType *)aStoreItemType;
@@ -112,14 +112,14 @@ const auto &BONUS_LAWN_MOWER = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mMaxBuyCount = 2;
 	anAttributes.mUnavailable = true;
-	auto *aStoreItemType = new StoreItemType("PVZ", "bonus_lawn_mower", anAttributes);	//what even is this
+	auto *aStoreItemType = new StoreItemType("PVZ", "BONUS_LAWN_MOWER", anAttributes);	//what even is this
 	return aStoreItemType;
 });
 
 const auto &POTTED_MARIGOLD_1 = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 250;
-	auto *aStoreItemType = new PottedPlantStoreItemType("PVZ", "potted_marigold_1", anAttributes);
+	auto *aStoreItemType = new PottedPlantStoreItemType("PVZ", "POTTED_MARIGOLD_1", anAttributes);
 
 	aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
 
@@ -129,7 +129,7 @@ const auto &POTTED_MARIGOLD_1 = Registries::STORE_ITEMS.Register([]() {
 const auto &POTTED_MARIGOLD_2 = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 250;
-	auto *aStoreItemType = new PottedPlantStoreItemType("PVZ", "potted_marigold_2", anAttributes);
+	auto *aStoreItemType = new PottedPlantStoreItemType("PVZ", "POTTED_MARIGOLD_2", anAttributes);
 
 	aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
 
@@ -139,7 +139,7 @@ const auto &POTTED_MARIGOLD_2 = Registries::STORE_ITEMS.Register([]() {
 const auto &POTTED_MARIGOLD_3 = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mCost = 250;
-	auto *aStoreItemType = new PottedPlantStoreItemType("PVZ", "potted_marigold_3", anAttributes);
+	auto *aStoreItemType = new PottedPlantStoreItemType("PVZ", "POTTED_MARIGOLD_3", anAttributes);
 
 	aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
 
@@ -151,11 +151,10 @@ const auto &GOLD_WATERING_CAN = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mCost = 1000;
 	anAttributes.mDrawOffsetX = -14;
 	anAttributes.mDrawOffsetY = -4;
-	anAttributes.mIcon = {"PVZ", "IMAGE_WATERINGCANGOLD"};
-	auto *aStoreItemType = new StoreItemType("PVZ", "gold_watering_can", anAttributes);
+	auto *aStoreItemType = new StoreItemType("PVZ", "GOLD_WATERING_CAN", anAttributes);
 
 	aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
-
+	aStoreItemType->mBaseIcon = {"PVZ", "IMAGE_WATERINGCANGOLD"};
 	return aStoreItemType;
 });
 
@@ -164,11 +163,10 @@ const auto &FERTILIZER = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mCost = 75;
 	anAttributes.mDrawOffsetX = -11;
 	anAttributes.mDrawOffsetY = -2;
-	anAttributes.mIcon = {"PVZ", "IMAGE_FERTILIZER"};
 	anAttributes.mBuyCount = 5;
 	anAttributes.mMaxBuyCount = 15;
-	auto *aStoreItemType = new StoreItemType("PVZ", "fertilizer", anAttributes);
-
+	auto *aStoreItemType = new StoreItemType("PVZ", "FERTILIZER", anAttributes);
+	aStoreItemType->mBaseIcon = {"PVZ", "IMAGE_FERTILIZER"};
 	aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
 
 	return aStoreItemType;
@@ -179,11 +177,10 @@ const auto &BUG_SPRAY = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mCost = 100;
 	anAttributes.mDrawOffsetX = -12;
 	anAttributes.mDrawOffsetY = 3;
-	anAttributes.mIcon = {"PVZ", "IMAGE_BUG_SPRAY"};
 	anAttributes.mBuyCount = 5;
 	anAttributes.mMaxBuyCount = 15;
-	auto *aStoreItemType = new StoreItemType("PVZ", "bug_spray", anAttributes);
-
+	auto *aStoreItemType = new StoreItemType("PVZ", "BUG_SPRAY", anAttributes);
+	aStoreItemType->mBaseIcon = {"PVZ", "IMAGE_BUG_SPRAY"};
 	aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
 
 	return aStoreItemType;
@@ -194,11 +191,10 @@ const auto &PHONOGRAPH = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mCost = 1500;
 	anAttributes.mDrawOffsetX = -12;
 	anAttributes.mDrawOffsetY = 3;
-	anAttributes.mIcon = {"PVZ", "IMAGE_PHONOGRAPH"};
-	auto *aStoreItemType = new StoreItemType("PVZ", "phonograph", anAttributes);
+	auto *aStoreItemType = new StoreItemType("PVZ", "PHONOGRAPH", anAttributes);
 
 	aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
-
+	aStoreItemType->mBaseIcon = {"PVZ", "IMAGE_PHONOGRAPH"};
 	return aStoreItemType;
 });
 
@@ -207,11 +203,10 @@ const auto &GARDENING_GLOVE = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mCost = 100;
 	anAttributes.mDrawOffsetX = -12;
 	anAttributes.mDrawOffsetY = 3;
-	anAttributes.mIcon = {"PVZ", "IMAGE_ZEN_GARDENGLOVE"};
-	auto *aStoreItemType = new StoreItemType("PVZ", "gardening_glove", anAttributes);
+	auto *aStoreItemType = new StoreItemType("PVZ", "GARDENING_GLOVE", anAttributes);
 
 	aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
-
+	aStoreItemType->mBaseIcon = {"PVZ", "IMAGE_ZEN_GARDENGLOVE"};
 	return aStoreItemType;
 });
 
@@ -221,11 +216,10 @@ const auto &MUSHROOM_GARDEN = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mUnlockLevel = 50;
 	anAttributes.mDrawOffsetX = -8;
 	anAttributes.mDrawOffsetY = 2;
-	anAttributes.mIcon = {"PVZ", "IMAGE_STORE_MUSHROOMGARDENICON"};
-	auto *aStoreItemType = new StoreItemType("PVZ", "mushroom_garden", anAttributes);
+	auto *aStoreItemType = new StoreItemType("PVZ", "MUSHROOM_GARDEN", anAttributes);
 
 	aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
-
+	aStoreItemType->mBaseIcon = {"PVZ", "IMAGE_STORE_MUSHROOMGARDENICON"};
 	return aStoreItemType;
 });
 
@@ -235,8 +229,7 @@ const auto &WHEEL_BARROW = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mUnlockLevel = 50;
 	anAttributes.mDrawOffsetX = -12;
 	anAttributes.mDrawOffsetY = 3;
-	anAttributes.mIcon = {"PVZ", "IMAGE_ZEN_WHEELBARROW"};
-	auto *aStoreItemType = new StoreItemType("PVZ", "wheel_barrow", anAttributes);
+	auto *aStoreItemType = new StoreItemType("PVZ", "WHEEL_BARROW", anAttributes);
 
 	aStoreItemType->mModifiers.Add([](StoreItemModifierContext &theContext) {
 		if (!theContext.mPlayerInfo.GetStoreItemData(MUSHROOM_GARDEN).mPurchases &&
@@ -245,6 +238,7 @@ const auto &WHEEL_BARROW = Registries::STORE_ITEMS.Register([]() {
 	});
 
 	aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
+	aStoreItemType->mBaseIcon = {"PVZ", "IMAGE_ZEN_WHEELBARROW"};
 
 	return aStoreItemType;
 });
@@ -255,11 +249,11 @@ const auto &STINKY_THE_SNAIL = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mUnlockLevel = 50;
 	anAttributes.mDrawOffsetX = -24;
 	anAttributes.mDrawOffsetY = 14;
-	anAttributes.mIcon = {"PVZ", "IMAGE_REANIM_STINKY_TURN3"};
-	auto *aStoreItemType = new StoreItemType("PVZ", "stinky_the_snail", anAttributes);
+	auto *aStoreItemType = new StoreItemType("PVZ", "STINKY_THE_SNAIL", anAttributes);
 	aStoreItemType->mOnPurchase.Add(OnPurchaseSetPurchasesToCurrentTime);
 
 	aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
+	aStoreItemType->mBaseIcon = {"PVZ", "IMAGE_REANIM_STINKY_TURN3"};
 
 	return aStoreItemType;
 });
@@ -270,8 +264,7 @@ const auto &PACKET_UPGRADE = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mDrawOffsetX = -7;
 	anAttributes.mDrawOffsetY = 7;
 	anAttributes.mMaxBuyCount = 4;
-	anAttributes.mIcon = {"PVZ", "IMAGE_STORE_PACKETUPGRADE"};
-	auto *aStoreItemType = new PacketUpgradeStoreItemType("PVZ", "packet_upgrade", anAttributes);
+	auto *aStoreItemType = new PacketUpgradeStoreItemType("PVZ", "PACKET_UPGRADE", anAttributes);
 
 	aStoreItemType->mModifiers.Add([](StoreItemModifierContext &theContext) {
 		int aPurchase = theContext.mStoreItemData.mPurchases;
@@ -284,10 +277,10 @@ const auto &PACKET_UPGRADE = Registries::STORE_ITEMS.Register([]() {
 		auto *aStoreScreen = theContext.mStoreScreen;
 		if (aStoreScreen)
 		{
-			SexyString aDialogLines =
-				StrFormat(TodStringTranslate("[NOW_YOU_CAN_CHOOSE_X_SEEDS]").c_str(), 6 + theContext.mStoreItemData.mPurchases);
-			Dialog *aDialog = anApp.DoDialog(
-				DIALOG_UPGRADED, true, "[MORE_SLOTS]", aDialogLines, "[DIALOG_BUTTON_OK]", Dialog::BUTTONS_FOOTER);
+			SexyString aDialogLines = StrFormat(TodStringTranslate("[NOW_YOU_CAN_CHOOSE_X_SEEDS]").c_str(),
+												6 + theContext.mStoreItemData.mPurchases);
+			Dialog *aDialog = anApp.DoDialog(DIALOG_UPGRADED, true, "[MORE_SLOTS]", aDialogLines, "[DIALOG_BUTTON_OK]",
+											 Dialog::BUTTONS_FOOTER);
 
 			aStoreScreen->mWaitForDialog = true;
 			aDialog->WaitForResult(true);
@@ -302,6 +295,7 @@ const auto &PACKET_UPGRADE = Registries::STORE_ITEMS.Register([]() {
 
 	aStoreItemType->mGroup = StoreItemGroups::UPGRADES;
 	aStoreItemType->mInsertion = ListInsertion<StoreItemType>::First();
+	aStoreItemType->mBaseIcon = {"PVZ", "IMAGE_STORE_PACKETUPGRADE"};
 
 	return (StoreItemType *)aStoreItemType;
 });
@@ -311,12 +305,12 @@ const auto &POOL_CLEANER = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mCost = 100;
 	anAttributes.mDrawOffsetX = 1;
 	anAttributes.mDrawOffsetY = 7;
-	anAttributes.mIcon = {"PVZ", "IMAGE_ICON_POOLCLEANER"};
-	auto *aStoreItemType = new StoreItemType("PVZ", "pool_cleaner", anAttributes);
+	auto *aStoreItemType = new StoreItemType("PVZ", "POOL_CLEANER", anAttributes);
 
 	aStoreItemType->mGroup = StoreItemGroups::UPGRADES;
 	aStoreItemType->mInsertion = ListInsertion<StoreItemType>::After(PACKET_UPGRADE);
-
+	aStoreItemType->mBaseIcon = {"PVZ", "IMAGE_ICON_POOLCLEANER"};
+	
 	return aStoreItemType;
 });
 
@@ -326,11 +320,11 @@ const auto &ROOF_CLEANER = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mUnlockLevel = 41;
 	anAttributes.mDrawOffsetX = 0;
 	anAttributes.mDrawOffsetY = 28;
-	anAttributes.mIcon = {"PVZ", "IMAGE_ICON_ROOFCLEANER"};
-	auto *aStoreItemType = new StoreItemType("PVZ", "roof_cleaner", anAttributes);
+	auto *aStoreItemType = new StoreItemType("PVZ", "ROOF_CLEANER", anAttributes);
 
 	aStoreItemType->mGroup = StoreItemGroups::UPGRADES;
 	aStoreItemType->mInsertion = ListInsertion<StoreItemType>::After(POOL_CLEANER);
+	aStoreItemType->mBaseIcon = {"PVZ", "IMAGE_ICON_ROOFCLEANER"};
 
 	return aStoreItemType;
 });
@@ -341,11 +335,11 @@ const auto &RAKE = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mDrawOffsetX = -5;
 	anAttributes.mDrawOffsetY = 10;
 	anAttributes.mBuyCount = 3;
-	anAttributes.mIcon = {"PVZ", "IMAGE_ICON_RAKE"};
-	auto *aStoreItemType = new StoreItemType("PVZ", "rake", anAttributes);
+	auto *aStoreItemType = new StoreItemType("PVZ", "RAKE", anAttributes);
 
 	aStoreItemType->mGroup = StoreItemGroups::UPGRADES;
 	aStoreItemType->mInsertion = ListInsertion<StoreItemType>::Before(GATLING_PEA);
+	aStoreItemType->mBaseIcon = {"PVZ", "IMAGE_ICON_RAKE"};
 
 	return aStoreItemType;
 });
@@ -356,11 +350,11 @@ const auto &AQUARIUM_GARDEN = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mUnlockLevel = 50;
 	anAttributes.mDrawOffsetX = -8;
 	anAttributes.mDrawOffsetY = 2;
-	anAttributes.mIcon = {"PVZ", "IMAGE_STORE_AQUARIUMGARDENICON"};
-	auto *aStoreItemType = new StoreItemType("PVZ", "aquarium_garden", anAttributes);
+	auto *aStoreItemType = new StoreItemType("PVZ", "AQUARIUM_GARDEN", anAttributes);
 
 	aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
 	aStoreItemType->mInsertion = ListInsertion<StoreItemType>::After(MUSHROOM_GARDEN);
+	aStoreItemType->mBaseIcon = {"PVZ", "IMAGE_STORE_AQUARIUMGARDENICON"};
 
 	return aStoreItemType;
 });
@@ -368,7 +362,7 @@ const auto &AQUARIUM_GARDEN = Registries::STORE_ITEMS.Register([]() {
 const auto &CHOCOLATE = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
 	anAttributes.mUnavailable = true;
-	auto *aStoreItemType = new StoreItemType("PVZ", "chocolate", anAttributes);
+	auto *aStoreItemType = new StoreItemType("PVZ", "CHOCOLATE", anAttributes);
 
 	aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
 
@@ -381,16 +375,14 @@ const auto &TREE_OF_WISDOM = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mUnlockLevel = 50;
 	anAttributes.mDrawOffsetX = -8;
 	anAttributes.mDrawOffsetY = 2;
-	anAttributes.mIcon = {"PVZ", "IMAGE_STORE_TREEOFWISDOMICON"};
-	auto *aStoreItemType = new StoreItemType("PVZ", "tree_of_wisdom", anAttributes);
+	auto *aStoreItemType = new StoreItemType("PVZ", "TREE_OF_WISDOM", anAttributes);
 	aStoreItemType->mOnPurchase.Add([](StoreItemPurchaseContext &theContext) {
 		theContext.mApp.mPlayerInfo->mChallengeRecords[GAMEMODE_TREE_OF_WISDOM] = 1;
-		
 		auto *aStoreScreen = theContext.mStoreScreen;
 		if (aStoreScreen)
 		{
-			LawnDialog *aDialog = (LawnDialog *)aStoreScreen->mApp->DoDialog(DIALOG_STORE_PURCHASE, true, "[VISIT_TREE_HEADER]",
-															   "[VISIT_TREE_BODY]", "", Dialog::BUTTONS_YES_NO);
+			LawnDialog *aDialog = (LawnDialog *)aStoreScreen->mApp->DoDialog(
+				DIALOG_STORE_PURCHASE, true, "[VISIT_TREE_HEADER]", "[VISIT_TREE_BODY]", "", Dialog::BUTTONS_YES_NO);
 			aDialog->mLawnYesButton->SetLabel("[DIALOG_BUTTON_YES]");
 			aDialog->mLawnNoButton->SetLabel("[DIALOG_BUTTON_NO]");
 
@@ -407,6 +399,7 @@ const auto &TREE_OF_WISDOM = Registries::STORE_ITEMS.Register([]() {
 	});
 
 	aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
+	aStoreItemType->mBaseIcon = {"PVZ", "IMAGE_STORE_TREEOFWISDOMICON"};
 
 	return aStoreItemType;
 });
@@ -417,17 +410,19 @@ const auto &TREE_FOOD = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mUnlockLevel = 50;
 	anAttributes.mDrawOffsetX = -8;
 	anAttributes.mDrawOffsetY = -2;
-	anAttributes.mIcon = {"PVZ", "IMAGE_TREEFOOD"};
 	anAttributes.mMaxBuyCount = 10;
-	auto *aStoreItemType = new StoreItemType("PVZ", "tree_food", anAttributes);
+	auto *aStoreItemType = new StoreItemType("PVZ", "TREE_FOOD", anAttributes);
 
-	aStoreItemType->mModifiers.Add([](StoreItemModifierContext &theContext) {
-		if (!theContext.mPlayerInfo.GetStoreItemData(TREE_OF_WISDOM).mPurchases ||
-			!theContext.mPlayerInfo.GetStoreItemData(TREE_FOOD).mTotalPurchasesEver)
-			theContext.mAttributes.mComingSoon = true;
-	});
+	aStoreItemType->mModifiers.Add(
+		[](StoreItemModifierContext &theContext) {
+			if (!theContext.mPlayerInfo.GetStoreItemData(TREE_OF_WISDOM).mPurchases ||
+			   !theContext.mPlayerInfo.GetStoreItemData(TREE_FOOD).mTotalPurchasesEver)
+			   theContext.mAttributes.mComingSoon = true;
+		}
+	);
 
 	aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
+	aStoreItemType->mBaseIcon = {"PVZ", "IMAGE_TREEFOOD"};						   
 
 	return aStoreItemType;
 });
@@ -438,11 +433,10 @@ const auto &FIRST_AID = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mUnlockLevel = 50;
 	anAttributes.mDrawOffsetX = -1;
 	anAttributes.mDrawOffsetY = 13;
-	anAttributes.mIcon = {"PVZ", "IMAGE_STORE_FIRSTAIDWALLNUTICON"};
-	auto *aStoreItemType = new StoreItemType("PVZ", "first_aid", anAttributes);
+	auto *aStoreItemType = new StoreItemType("PVZ", "FIRST_AID", anAttributes);
 
 	aStoreItemType->mGroup = StoreItemGroups::UPGRADES;
-
+	aStoreItemType->mBaseIcon = {"PVZ", "IMAGE_STORE_FIRSTAIDWALLNUTICON"};
 	return aStoreItemType;
 });
 
@@ -451,9 +445,9 @@ const auto &PLANTS_VS_ZOMBIES = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mCost = 200;
 	anAttributes.mDrawOffsetX = 0;
 	anAttributes.mDrawOffsetY = -9;
-	anAttributes.mIcon = {"PVZ", "IMAGE_STORE_PVZICON"};
 	anAttributes.mUnavailable = true;
-	auto *aStoreItemType = new StoreItemType("PVZ", "pvz", anAttributes);
+	auto *aStoreItemType = new StoreItemType("PVZ", "PVZ", anAttributes);
+	aStoreItemType->mBaseIcon = {"PVZ", "IMAGE_STORE_PVZICON"};
 	return aStoreItemType;
 });
 
@@ -462,8 +456,8 @@ const auto &CUSTOM_TEST = Registries::STORE_ITEMS.Register([]() {
 	anAttributes.mCost = 200;
 	anAttributes.mDrawOffsetX = 9;
 	anAttributes.mDrawOffsetY = 37;
-	anAttributes.mIcon = {"PVZ", "IMAGE_BRAIN"};
-	auto *aStoreItemType = new StoreItemType("PVZ", "custom_test", anAttributes);
+	auto *aStoreItemType = new StoreItemType("PVZ", "CUSTOM_TEST", anAttributes);
+	aStoreItemType->mBaseIcon = {"PVZ", "IMAGE_BRAIN"};
 
 	//aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
 	//aStoreItemType->mInsertion = ListInsertion<StoreItemType>::Before(SPIKEROCK);

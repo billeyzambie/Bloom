@@ -950,7 +950,7 @@ void Projectile::Update()
 
 void Projectile::Draw(Graphics *g)
 {
-	Image *aImage = mAttributes.mImage;
+	Image *aImage = GetImage();
 	float aScale = mAttributes.mScale;
 	if (mType == ProjectileTypes::PUFF)
 	{
@@ -1151,4 +1151,11 @@ void Projectile::ConvertToPea(int theGridX)
 	//mType = OldProjectileType::PROJECTILE_PEA;
 	mHitTorchwoodGridX = theGridX;
 	mApp->PlayFoley(FoleyType::FOLEY_THROW);
+}
+
+Sexy::Image *Projectile::GetImage() const
+{
+	if (mAttributes.mImageOverride)
+		return mAttributes.mImageOverride;
+	return mType->mBaseImage;
 }

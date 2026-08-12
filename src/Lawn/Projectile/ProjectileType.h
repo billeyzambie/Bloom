@@ -26,7 +26,7 @@ class BLOOM_API ProjectileType : public BloomType
   public:
 	struct Attributes
 	{
-		ImageGetter mImage;
+		Sexy::Image *mImageOverride = nullptr;
 		float mScale = 1;
 		int mDamage = 20;
 	};
@@ -41,6 +41,7 @@ class BLOOM_API ProjectileType : public BloomType
 	Attributes mAttributeBaseValues;
 	Attributes mAttributes;
 	EventList<ModifierContext> mModifiers;
+	ImageGetter mBaseImage;
 
   public:
 	ProjectileType(const std::string &theModName, const std::string &theTypeName, const Attributes &theAttributes);

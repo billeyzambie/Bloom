@@ -121,6 +121,7 @@ class BLOOM_API Projectile : public GameObject
 	/// @brief Is the Pea Projectile about to hit a Torchwood
 	/// @return True if the Projectile is in the Torchwood's range, false otherwise
 	bool PeaAboutToHitTorchwood();
+	Sexy::Image *GetImage() const;
 };
 
 #endif
