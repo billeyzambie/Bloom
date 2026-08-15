@@ -5,6 +5,7 @@
 #include "Common.h"
 
 #include "../BloomLib/Bloom.h"
+#include "../BloomLib/NamespacedString.h"
 
 namespace Sexy
 {

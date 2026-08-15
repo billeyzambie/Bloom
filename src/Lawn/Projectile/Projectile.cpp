@@ -13,6 +13,7 @@
 #include "../System/Achievements.h"
 #include "../../Sexy.TodLib/Attachment.h"
 #include "../System/SaveGame.h"
+#include "../../BloomLib/BoundedSync.h"
 
 Projectile::Projectile(const ProjectileType &theType) 
 	: mType(&theType), mAttributes(theType.mAttributes)
@@ -24,10 +25,10 @@ Projectile::~Projectile()
 	AttachmentDie(mAttachmentID);
 }
 
-void Projectile::Sync(SaveGameContext& theContext)
+void Projectile::Sync(BoundedSync &theSync)
 {
-	theContext.SyncBytes(&mX, sizeof(GameObject) - offsetof(GameObject, mX));
-	theContext.SyncBytes(&mMotionType, sizeof(Projectile) - offsetof(Projectile, mMotionType));
+	theSync.SyncBytes(&mX, sizeof(GameObject) - offsetof(GameObject, mX));
+	theSync.SyncBytes(&mMotionType, sizeof(Projectile) - offsetof(Projectile, mMotionType));
 }
 
 void Projectile::ProjectileInitialize(

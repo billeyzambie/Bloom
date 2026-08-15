@@ -33,8 +33,6 @@ static unsigned int SAVE_FILE_DATE =
 static unsigned int SAVE_FILE_DATE2 = crc32(0, (Bytef *)FILE_COMPILE_TIME_STRING2, strlen(FILE_COMPILE_TIME_STRING2));
 #endif
 
-typedef unsigned char uchar;
-
 SaveGameContext::SaveGameContext(bool theReading)
 	: mReading(theReading)
 {
@@ -71,12 +69,12 @@ void SaveGameContext::SyncBytes(void *theDest, int theReadSize)
 		}
 		else
 		{
-			mBuffer.ReadBytes((uchar *)theDest, theReadSize);
+			mBuffer.ReadBytes((uint8_t *)theDest, theReadSize);
 		}
 	}
 	else
 	{
-		mBuffer.WriteBytes((uchar *)theDest, theReadSize);
+		mBuffer.WriteBytes((uint8_t *)theDest, theReadSize);
 	}
 }
 
@@ -102,14 +100,14 @@ void SaveGameContext::SyncResourceId(ResourceId &theResourceId)
 {
 	if (mReading)
 	{
-		std::string aString = mBuffer.ReadString();
 		size_t aNamespaceLength = mBuffer.ReadShort();
+		std::string aString = mBuffer.ReadString();
 		theResourceId = {std::move(aString), aNamespaceLength};
 	}
 	else
 	{
-		mBuffer.WriteString(theResourceId.AsString());
 		mBuffer.WriteShort(theResourceId.NamespaceView().size());
+		mBuffer.WriteString(theResourceId.AsString());
 	}
 }
 

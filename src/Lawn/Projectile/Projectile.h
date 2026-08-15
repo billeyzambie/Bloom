@@ -52,7 +52,7 @@ class BLOOM_API Projectile : public GameObject
 	Projectile(const ProjectileType &theProjectileType);
 	~Projectile();
 
-	void Sync(SaveGameContext &theContext);
+	void Sync(BoundedSync &theSync);
 
 	/// @brief Initialize the Projectile
 	/// @param theX The X coordinate

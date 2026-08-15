@@ -9,6 +9,7 @@
 #include "Bloom.h"
 #include "NamespacedString.h"
 #include "Registry.h"
+#include "BoundedSync.h"
 
 //#include "../Lawn/Projectile/Projectile.h"
 
@@ -44,19 +45,20 @@ template <typename T> class BLOOM_API BloomDataArray
 					if (aType)
 					{
 						new (&mItem) T(*aType);
-						mItem.Sync(theContext);
 					}
 					else
 					{
 						new (&mItem) T(aRegistry.GetDefaultType());
-						mItem.Sync(theContext);
 					}
 				}
 				else
 				{
 					theContext.SyncResourceId(const_cast<ResourceId &>(mItem.mType->mResourceId));
-					mItem.Sync(theContext);
 				}
+
+				BoundedSync aSync = {theContext};
+				mItem.Sync(aSync);
+				aSync.Finish();
 			}
 		}
 	};

@@ -4,7 +4,6 @@
 #include <string>
 #include "../../Sexy.TodLib/TodList.h"
 #include "../../SexyAppFramework/Buffer.h"
-#include "../../BloomLib/NamespacedString.h"
 
 class Board;
 class Trail;
