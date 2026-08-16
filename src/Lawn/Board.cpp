@@ -9267,10 +9267,10 @@ void Board::KeyChar(SexyChar theChar)
 					{
 						AddPlant(x, y, SeedType::SEED_LILYPAD, SeedType::SEED_NONE);
 					}
-					if (CanPlantAt(x, y, SeedType::SEED_THREEPEATER) == PlantingReason::PLANTING_OK)
-					{
-						AddPlant(x, y, SeedType::SEED_THREEPEATER, SeedType::SEED_NONE);
-					}
+					//if (CanPlantAt(x, y, SeedType::SEED_THREEPEATER) == PlantingReason::PLANTING_OK)
+					//{
+					//	AddPlant(x, y, SeedType::SEED_THREEPEATER, SeedType::SEED_NONE);
+					//}
 				}
 			}
 

@@ -534,7 +534,7 @@ void Projectile::UpdateLobMotion()
 		{
 			aMinCollisionZ += 40.0f;
 		}
-
+		
 		if (mPosZ <= aMinCollisionZ)
 		{
 			return;

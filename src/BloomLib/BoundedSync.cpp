@@ -66,9 +66,12 @@ void BoundedSync::SyncBytes(void *theDest, int theReadSize)
 		if (aReadSize != theReadSize || BytesLeftToRead() < theReadSize)
 		{
 			memset(theDest, 0, theReadSize);
+
+			if (aReadSize > theReadSize)
+				return;
 		}
 			
-		mBuffer.ReadBytes((uint8_t *)theDest, std::min(theReadSize, std::min(aReadSize, BytesLeftToRead())));
+		mBuffer.ReadBytes((uint8_t *)theDest, std::min(aReadSize, BytesLeftToRead()));
 	}
 	else
 	{
