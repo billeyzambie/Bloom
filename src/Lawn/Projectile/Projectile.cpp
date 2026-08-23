@@ -12,6 +12,7 @@
 #include "../../Sexy.TodLib/Reanimator.h"
 #include "../System/Achievements.h"
 #include "../../Sexy.TodLib/Attachment.h"
+#include "../../Sexy.TodLib/TodParticle.h"
 #include "../System/SaveGame.h"
 #include "../../BloomLib/BoundedSync.h"
 
@@ -844,11 +845,6 @@ void Projectile::DoImpact(Zombie *theZombie)
 		mApp->PlaySample(SOUND_DOOMSHROOM);
 		mBoard->ShakeBoard(3, -4);
 	}
-	else if (mType == ProjectileTypes::PEA)
-	{
-		aSplatPosX -= 15.0f;
-		aEffect = ParticleEffect::PARTICLE_PEA_SPLAT;
-	}
 	else if (mType == ProjectileTypes::SNOWPEA)
 	{
 		aSplatPosX -= 15.0f;
@@ -891,9 +887,16 @@ void Projectile::DoImpact(Zombie *theZombie)
 			theZombie->ApplyButter();
 		}
 	}
+	else
+	{
+		aSplatPosX -= 15.0f;
+		aEffect = ParticleEffect::PARTICLE_PEA_SPLAT;
+	}
 
 	if (aEffect != ParticleEffect::PARTICLE_NONE)
 	{
+		TodParticleSystem *aParticle;
+
 		if (theZombie)
 		{
 			float aPosX = aSplatPosX + 52.0f - theZombie->mX;
@@ -913,11 +916,24 @@ void Projectile::DoImpact(Zombie *theZombie)
 			}
 
 			aPosY = ClampFloat(aPosY, 20.0f, 100.0f);
-			theZombie->AddAttachedParticle(aPosX, aPosY, aEffect);
+			aParticle = theZombie->AddAttachedParticle(aPosX, aPosY, aEffect);
 		}
 		else
 		{
-			mApp->AddTodParticle(aSplatPosX, aSplatPosY, mRenderOrder + 1, aEffect);
+			aParticle = mApp->AddTodParticle(aSplatPosX, aSplatPosY, mRenderOrder + 1, aEffect);
+		}
+
+		if (aEffect == ParticleEffect::PARTICLE_PEA_SPLAT && mType != ProjectileTypes::PEA)
+		{
+			for (TodListNode<ParticleEmitterID> *aNode = aParticle->mEmitterList.mHead; aNode != nullptr;
+				 aNode = aNode->mNext)
+			{
+				TodParticleEmitter *anEmitter =
+					aParticle->mParticleHolder->mEmitters.DataArrayGet((unsigned int)aNode->mValue);
+				
+				anEmitter->mImageOverride = GetImage();
+				anEmitter->mScaleOverride = 0.5f;
+			}
 		}
 	}
 

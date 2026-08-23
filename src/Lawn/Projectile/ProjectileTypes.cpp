@@ -143,7 +143,7 @@ const auto &ZOMBIE_PEA = Registries::PROJECTILES.Register([]() {
 const auto &CUSTOM_TEST = Registries::PROJECTILES.Register([]() {
 	ProjectileAttributes anAttributes;
 	anAttributes.mShadowOffsetX = 3.0f;
-	anAttributes.mDamage = 40;
+	anAttributes.mDamage = 30;
 	auto *aProjectileType = new ProjectileType("PVZ", "CUSTOM_TEST", anAttributes);
 	aProjectileType->mBaseImage = {"PVZ", "IMAGE_BRAIN"};
 	return aProjectileType;
