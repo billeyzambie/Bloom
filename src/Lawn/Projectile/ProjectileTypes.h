@@ -3,6 +3,8 @@
 #include "ProjectileType.h"
 #include "../BloomLib/RegistryTypeHolder.h"
 
+#define INCLUDE_CUSTOM_PROJECTILE_TEST
+
 namespace ProjectileTypes
 {
 
@@ -20,5 +22,9 @@ extern BLOOM_API const RegistryTypeHolder<ProjectileType> &KERNEL;
 extern BLOOM_API const RegistryTypeHolder<ProjectileType> &COBBIG;
 extern BLOOM_API const RegistryTypeHolder<ProjectileType> &BUTTER;
 extern BLOOM_API const RegistryTypeHolder<ProjectileType> &ZOMBIE_PEA;
+
+#ifdef INCLUDE_CUSTOM_PROJECTILE_TEST
+extern BLOOM_API const RegistryTypeHolder<ProjectileType> &CUSTOM_TEST;
+#endif
 
 }

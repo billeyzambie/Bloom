@@ -474,6 +474,8 @@ void Projectile::DoSplashDamage(Zombie *theZombie)
 
 void Projectile::UpdateLobMotion()
 {
+	static std::unordered_map<const Type *, int> aMap;
+
 	if (mType == ProjectileTypes::COBBIG && mPosZ < -700.0f)
 	{
 		mVelZ = 8.0f;
@@ -507,26 +509,12 @@ void Projectile::UpdateLobMotion()
 			return;
 		}
 
-		float aMinCollisionZ = 0.0f;
-		if (mType == ProjectileTypes::BUTTER)
-		{
-			aMinCollisionZ = -32.0f;
-		}
-		else if (mType == ProjectileTypes::BASKETBALL)
+		float aMinCollisionZ = mHeight - 72;
+		if (mType == ProjectileTypes::BASKETBALL)
 		{
 			aMinCollisionZ = 60.0f;
 		}
-		else if (mType == ProjectileTypes::MELON ||
-				 mType == ProjectileTypes::WINTERMELON)
-		{
-			aMinCollisionZ = -35.0f;
-		}
-		else if (mType == ProjectileTypes::CABBAGE ||
-				 mType == ProjectileTypes::KERNEL)
-		{
-			aMinCollisionZ = -30.0f;
-		}
-		else if (mType == ProjectileTypes::COBBIG)
+		if (mType == ProjectileTypes::COBBIG)
 		{
 			aMinCollisionZ = -60.0f;
 		}
@@ -539,7 +527,24 @@ void Projectile::UpdateLobMotion()
 		{
 			return;
 		}
+
+		if (!aMap.contains(mType))
+		{
+			int aDiff = aMinCollisionZ - mHeight;
+			aMap[mType] = aDiff;
+
+			std::cout << std::endl;
+
+			std::cout << mType->mResourceId.AsString() << ": " << std::endl;
+			std::cout << "  mHeight: " << mHeight << std::endl;
+			std::cout << "  aMinCollisionZ: " << aMinCollisionZ << std::endl;
+			std::cout << "  aDiff: " << aDiff << std::endl;
+
+			std::cout << std::endl;
+		}
 	}
+
+
 
 	Plant *aPlant = nullptr;
 	Zombie *aZombie = nullptr;
@@ -952,7 +957,7 @@ void Projectile::Update()
 void Projectile::Draw(Graphics *g)
 {
 	Image *aImage = GetImage();
-	float aScale = mAttributes.mScale;
+	float aScale = mAttributes.mVisualScale;
 	if (mType == ProjectileTypes::PUFF)
 	{
 		aScale = TodAnimateCurveFloat(0, 30, mProjectileAge, 0.3f, 1.0f, TodCurves::CURVE_LINEAR);
@@ -998,7 +1003,7 @@ void Projectile::Draw(Graphics *g)
 void Projectile::DrawShadow(Graphics *g)
 {
 	int aCelCol = 0;
-	float aScale = 1.0f;
+	float aScale = mAttributes.mShadowScale;
 	float aStretch = 1.0f;
 	float aOffsetX = mPosX - mX;
 	float aOffsetY = mPosY - mY;
@@ -1023,50 +1028,19 @@ void Projectile::DrawShadow(Graphics *g)
 		aCelCol = 1;
 	}
 
-	switch (*mType)
+	aOffsetX += mAttributes.mShadowOffsetX;
+
+	if (mType == ProjectileTypes::COBBIG)
 	{
-	case OldProjectileType::PROJECTILE_PEA:
-	case OldProjectileType::PROJECTILE_ZOMBIE_PEA:
-		aOffsetX += 3.0f;
-		break;
-
-	case OldProjectileType::PROJECTILE_SNOWPEA:
-		aOffsetX += -1.0f;
-		aScale = 1.3f;
-		break;
-
-	case OldProjectileType::PROJECTILE_STAR:
-		aOffsetX += 7.0f;
-		break;
-
-	case OldProjectileType::PROJECTILE_CABBAGE:
-	case OldProjectileType::PROJECTILE_KERNEL:
-	case OldProjectileType::PROJECTILE_BUTTER:
-	case OldProjectileType::PROJECTILE_MELON:
-	case OldProjectileType::PROJECTILE_WINTERMELON:
-		aOffsetX += 3.0f;
-		aOffsetY += 10.0f;
-		aScale = 1.6f;
-		break;
-
-	case OldProjectileType::PROJECTILE_PUFF:
-		return;
-
-	case OldProjectileType::PROJECTILE_COBBIG:
-		aScale = 1.0f;
 		aStretch = 3.0f;
-		aOffsetX += 57.0f;
-		break;
-
-	case OldProjectileType::PROJECTILE_FIREBALL:
-		aScale = 1.4f;
-		break;
+		aOffsetY -= 10.0f;
 	}
 
 	if (mMotionType == ProjectileMotion::MOTION_LOBBED)
 	{
 		float aHeight = ClampFloat(-mPosZ, 0.0f, 200.0f);
 		aScale *= 200.0f / (aHeight + 200.0f);
+		aOffsetY += 10.0f;
 	}
 
 	TodDrawImageCelScaledF(
