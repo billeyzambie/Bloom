@@ -15,6 +15,35 @@ template <class T> Transformer<T> Unsubscribe(Transformer<T> theContextTransform
 	return Event<T>::GetInstance().Remove(theContextTransformer);
 }
 
-}
+} // namespace Events
+
+class Plant;
+class Zombie;
+
+struct BLOOM_API PlantEatenContext
+{
+	bool mCanceled;
+	Plant &mEatenPlant;
+	Zombie &mEaterZombie;
+};
 
 template class Event<PlantEatenContext>;
+
+struct BLOOM_API PlantHurtContext
+{
+	Plant &mHurtPlant;
+	Zombie *mDamagerZombie;
+	Projectile *mDamagerProjectile;
+};
+
+template class Event<PlantHurtContext>;
+
+struct BLOOM_API ZombieHurtContext
+{
+	Zombie &mHurtZombie;
+	Plant *mDamagerPlant;
+	Zombie *mDamagerZombie;
+	Projectile *mDamagerProjectile;
+};
+
+template class Event<ZombieHurtContext>;

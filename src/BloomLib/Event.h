@@ -2,7 +2,6 @@
 
 #include "BillFunctional.h"
 #include "EventList.h"
-#include "PlantEatenContext.h"
 
 template <class T> class BLOOM_API Event
 {

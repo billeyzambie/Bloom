@@ -932,7 +932,7 @@ void Projectile::DoImpact(Zombie *theZombie)
 					aParticle->mParticleHolder->mEmitters.DataArrayGet((unsigned int)aNode->mValue);
 				
 				anEmitter->mImageOverride = GetImage();
-				anEmitter->mScaleOverride = 0.5f;
+				anEmitter->mScaleOverride = 0.33f;
 			}
 		}
 	}
