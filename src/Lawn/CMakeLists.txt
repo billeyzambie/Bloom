@@ -161,7 +161,6 @@ endforeach()
 #kinda stupid
 set(HEADERS_TO_COPY
     "BloomLib/Bloom.h"
-    "BloomLib/PlantEatenContext.h"
     "BloomLib/Events.h"
     "BloomLib/Event.h"
     "BloomLib/RegistryTypeHolder.h"

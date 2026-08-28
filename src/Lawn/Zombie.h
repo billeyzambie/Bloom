@@ -78,6 +78,7 @@ class Plant;
 class Reanimation;
 class TodParticleSystem;
 class Zombatar;
+class DamageParams;
 class BLOOM_API Zombie : public GameObject
 {
   public:
@@ -253,7 +254,7 @@ class BLOOM_API Zombie : public GameObject
 	/// @brief Deal damage to the Zombie
 	/// @param theDamage Damage to deal
 	/// @param theDamageFlags Bitmask of damage types
-	void TakeDamage(int theDamage, unsigned int theDamageFlags);
+	void TakeDamage(DamageParams &theDamage);
 
 	/// @brief Change the row of the Zombie
 	/// @param theRow The row to switch to
@@ -532,24 +533,24 @@ class BLOOM_API Zombie : public GameObject
 	/// @param theDamage Amount of damage to apply
 	/// @param theDamageFlags Bitmask of damage type flags
 	/// @return Remaining damage after applying to the flying state
-	int TakeFlyingDamage(int theDamage, unsigned int theDamageFlags);
+	int TakeFlyingDamage(DamageParams &theDamage);
 
 	/// @brief Applies damage to the Zombie's shield
 	/// @param theDamage Amount of damage to apply
 	/// @param theDamageFlags Bitmask of damage type flags
 	/// @return Remaining damage after the shield absorbs what it can
-	int TakeShieldDamage(int theDamage, unsigned int theDamageFlags);
+	int TakeShieldDamage(DamageParams &theDamage);
 
 	/// @brief Applies damage to the Zombie's helmet
 	/// @param theDamage Amount of damage to apply
 	/// @param theDamageFlags Bitmask of damage type flags
 	/// @return Remaining damage after the helmet absorbs what it can
-	int TakeHelmDamage(int theDamage, unsigned int theDamageFlags);
+	int TakeHelmDamage(DamageParams &theDamage);
 
 	/// @brief Applies damage directly to the Zombie's body
 	/// @param theDamage Amount of damage to apply
 	/// @param theDamageFlags Bitmask of damage type flags
-	void TakeBodyDamage(int theDamage, unsigned int theDamageFlags);
+	void TakeBodyDamage(DamageParams &theDamage);
 
 	/// @brief Attaches a shield to this Zombie and sets up the associated Reanimation
 	void AttachShield();

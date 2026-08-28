@@ -9,6 +9,7 @@
 #include "System/PopDRMComm.h"
 #include "System/TypingCheck.h"
 #include "System/Achievements.h"
+#include "System/DamageParams.h"
 #include "Widget/AwardScreen.h"
 #include "../Sexy.TodLib/Trail.h"
 #include "Widget/ChallengeScreen.h"
@@ -9163,7 +9164,8 @@ void Board::KeyChar(SexyChar theChar)
 		}
 		if (theChar == 'd')
 		{
-			aBossZombie->TakeDamage(10000, 0U);
+			DamageParams aDamage = DamageParams::FromNowhere(10000, 0U);
+			aBossZombie->TakeDamage(aDamage);
 			return;
 		}
 	}
@@ -10647,7 +10649,10 @@ void Board::KillAllZombiesInRadius(
 				}
 				else
 				{
-					aZombie->TakeDamage(1800, GetBit(DamageFlags::DAMAGE_HITS_SHIELD_AND_BODY) | GetBit(DamageFlags::DAMAGE_DOESNT_LEAVE_BODY));
+					DamageParams aDamage =
+						DamageParams::FromNowhere(1800, GetBit(DamageFlags::DAMAGE_HITS_SHIELD_AND_BODY) |
+															GetBit(DamageFlags::DAMAGE_DOESNT_LEAVE_BODY));
+					aZombie->TakeDamage(aDamage);
 				}
 			}
 		}

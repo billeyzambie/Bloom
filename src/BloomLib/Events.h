@@ -19,6 +19,7 @@ template <class T> Transformer<T> Unsubscribe(Transformer<T> theContextTransform
 
 class Plant;
 class Zombie;
+class DamageParams;
 
 struct BLOOM_API PlantEatenContext
 {
@@ -32,8 +33,7 @@ template class Event<PlantEatenContext>;
 struct BLOOM_API PlantHurtContext
 {
 	Plant &mHurtPlant;
-	Zombie *mDamagerZombie;
-	Projectile *mDamagerProjectile;
+	DamageParams &mDamage;
 };
 
 template class Event<PlantHurtContext>;
@@ -41,9 +41,7 @@ template class Event<PlantHurtContext>;
 struct BLOOM_API ZombieHurtContext
 {
 	Zombie &mHurtZombie;
-	Plant *mDamagerPlant;
-	Zombie *mDamagerZombie;
-	Projectile *mDamagerProjectile;
+	DamageParams &mDamage;
 };
 
 template class Event<ZombieHurtContext>;

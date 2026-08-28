@@ -8,6 +8,7 @@
 #include "../Resources.h"
 #include "MessageWidget.h"
 #include "System/ReanimationLawn.h"
+#include "System/DamageParams.h"
 #include "../Sexy.TodLib/TodFoley.h"
 #include "../Sexy.TodLib/Reanimator.h"
 #include "../Sexy.TodLib/TodParticle.h"
@@ -682,7 +683,8 @@ void GridItem::UpdateRake()
 			Zombie *aZombie = RakeFindZombie();
 			if (aZombie)
 			{
-				aZombie->TakeDamage(1800, 0U);
+				DamageParams aDamage = DamageParams::FromNowhere(1800, 0U);
+				aZombie->TakeDamage(aDamage);
 				mApp->PlayFoley(FoleyType::FOLEY_BONK);
 			}
 		}

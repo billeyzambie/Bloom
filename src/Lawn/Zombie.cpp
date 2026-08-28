@@ -12,6 +12,7 @@
 #include "System/PlayerInfo.h"
 #include "System/Music.h"
 #include "System/Achievements.h"
+#include "System/DamageParams.h"
 #include "Widget/AlmanacDialog.h"
 #include "Widget/ZombatarWidget.h"
 #include "../Sexy.TodLib/TodFoley.h"
@@ -2106,7 +2107,9 @@ void Zombie::UpdateZombieSnorkel()
 	{
 		if (!mHasHead)
 		{
-			TakeDamage(1800, GetBit(DamageFlags::DAMAGE_BYPASSES_SHIELD) | GetBit(DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH));
+			DamageParams aDamage = DamageParams::FromNowhere(1800, GetBit(DamageFlags::DAMAGE_BYPASSES_SHIELD) |
+																	   GetBit(DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH));
+			TakeDamage(aDamage);
 		}
 		else if (mX <= 25 && !aBackwards)
 		{
@@ -2239,7 +2242,8 @@ void Zombie::UpdateZombieGargantuar()
 				Zombie *aZombie = FindZombieTarget();
 				if (aZombie)
 				{
-					aZombie->TakeDamage(1500, 0U);
+					DamageParams aDamage = DamageParams::DirectlyFromZombie(1500, 0u, this);
+					aZombie->TakeDamage(aDamage);
 				}
 			}
 			else
@@ -2249,7 +2253,8 @@ void Zombie::UpdateZombieGargantuar()
 				{
 					if (aPlant->mSeedType == SeedType::SEED_SPIKEROCK)
 					{
-						TakeDamage(20, GetBit(DamageFlags::DAMAGE_SPIKE));
+						DamageParams aDamage = DamageParams::DirectlyFromPlant(20, GetBit(DamageFlags::DAMAGE_SPIKE), aPlant);
+						TakeDamage(aDamage);
 						aPlant->SpikeRockTakeDamage();
 						if (aPlant->mPlantHealth <= 0)
 						{
@@ -2264,7 +2269,8 @@ void Zombie::UpdateZombieGargantuar()
 				Zombie *aZombie = FindZombieTarget();
 				if (aZombie)
 				{
-					aZombie->TakeDamage(1500, 0U);
+					DamageParams aDamage = DamageParams::DirectlyFromZombie(1500, 0u, this);
+					aZombie->TakeDamage(aDamage);
 				}
 
 				if (mApp->IsScaryPotterLevel())
@@ -2679,6 +2685,13 @@ void Zombie::UpdateZombieSquashHead()
 				Rect aAttackRect(aDestX - 73, mPosY + 4, 65, 90);
 
 				Zombie *aZombie = nullptr;
+
+				DamageParams aDamage = DamageParams::DirectlyFromZombie(
+					1800,
+					GetBit(DamageFlags::DAMAGE_HITS_SHIELD_AND_BODY) |
+					GetBit(DamageFlags::DAMAGE_DOESNT_LEAVE_BODY),
+					this
+				);
 				while (mBoard->IterateZombies(aZombie))
 				{
 					if ((aZombie->mRow == mRow || aZombie->mZombieType == ZombieType::ZOMBIE_BOSS) &&
@@ -2688,7 +2701,7 @@ void Zombie::UpdateZombieSquashHead()
 						if (GetRectOverlap(aAttackRect, aZombieRect) >
 							(aZombie->mZombieType == ZombieType::ZOMBIE_FOOTBALL ? -20 : 0))
 						{
-							aZombie->TakeDamage(1800, GetBit(DamageFlags::DAMAGE_HITS_SHIELD_AND_BODY) | GetBit(DamageFlags::DAMAGE_DOESNT_LEAVE_BODY));
+							aZombie->TakeDamage(aDamage);
 						}
 					}
 				}
@@ -2715,7 +2728,12 @@ void Zombie::UpdateZombieSquashHead()
 		aHeadReanim->ReanimationDie();
 		mSpecialHeadReanimID = ReanimationID::REANIMATIONID_NULL;
 
-		TakeDamage(1800, GetBit(DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH) | GetBit(DamageFlags::DAMAGE_BYPASSES_SHIELD));
+		DamageParams aDamage = DamageParams::FromNowhere(
+			1800,
+			GetBit(DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH) |
+			GetBit(DamageFlags::DAMAGE_BYPASSES_SHIELD)
+		);
+		TakeDamage(aDamage);
 	}
 }
 
@@ -2798,7 +2816,8 @@ void Zombie::UpdateZombieBobsled()
 	mBoard->mIceTimer[mRow] = std::max(500, mBoard->mIceTimer[mRow]);
 	if (mPosX + 10.0f < mBoard->mIceMinX[mRow] && GetBobsledPosition() == 0)
 	{
-		TakeDamage(6, GetBit(DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH));
+		DamageParams aDamage = DamageParams::FromNowhere(6, GetBit(DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH));
+		TakeDamage(aDamage);
 	}
 }
 
@@ -3382,7 +3401,8 @@ void Zombie::UpdateZombiquarium()
 
 		if (mZombieAge % 100 == 0)
 		{
-			TakeDamage(10, GetBit(DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH));
+			DamageParams aDamage = DamageParams::FromNowhere(10, GetBit(DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH));
+			TakeDamage(aDamage);
 			if (IsDeadOrDying())
 			{
 				mApp->PlaySample(SOUND_ZOMBAQUARIUM_DIE);
@@ -4652,7 +4672,9 @@ void Zombie::CheckForBoardEdge()
 	}
 	if (mX <= aEdgeX + 70 && !mHasHead)
 	{
-		TakeDamage(1800, GetBit(DamageFlags::DAMAGE_BYPASSES_SHIELD) | GetBit(DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH));
+		DamageParams aDamage = DamageParams::FromNowhere(1800, GetBit(DamageFlags::DAMAGE_BYPASSES_SHIELD) |
+												GetBit(DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH));
+		TakeDamage(aDamage);
 	}
 }
 
@@ -4763,7 +4785,11 @@ void Zombie::UpdatePlaying()
 
 			if (Rand(5) == 0)
 			{
-				TakeDamage(aDamage, GetBit(DamageFlags::DAMAGE_BYPASSES_SHIELD) | GetBit(DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH));
+
+				DamageParams aDamageParams = DamageParams::FromNowhere(aDamage, GetBit(DamageFlags::DAMAGE_BYPASSES_SHIELD) |
+														   GetBit(DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH));
+
+				TakeDamage(aDamageParams);
 			}
 		}
 	}
@@ -7287,7 +7313,14 @@ void Zombie::EatPlant(Plant *thePlant)
 
 void Zombie::EatZombie(Zombie *theZombie)
 {
-	theZombie->TakeDamage(DAMAGE_PER_EAT, GetBit(DamageFlags::DAMAGE_BYPASSES_SHIELD) | GetBit(DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH));
+	DamageParams aDamage = DamageParams::DirectlyFromZombie(
+		DAMAGE_PER_EAT,
+		GetBit(DamageFlags::DAMAGE_BYPASSES_SHIELD) 
+		| GetBit(DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH),
+		this
+	);
+
+	theZombie->TakeDamage(aDamage);
 	StartEating();
 	if (theZombie->mBodyHealth <= 0)
 	{
@@ -7768,9 +7801,14 @@ void Zombie::DropShield(unsigned int theDamageFlags)
 	mShieldType = ShieldType::SHIELDTYPE_NONE;
 }
 
-int Zombie::TakeShieldDamage(int theDamage, unsigned int theDamageFlags)
+int Zombie::TakeShieldDamage(DamageParams &theDamage)
 {
-	if (!TestBit(theDamageFlags, (int)DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH))
+
+
+	int anAmount = theDamage.mAmount;
+	unsigned int aFlags = theDamage.mFlags;
+
+	if (!TestBit(aFlags, (int)DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH))
 	{
 		mShieldJustGotShotCounter = 25;
 		if (mJustGotShotCounter < 0)
@@ -7779,8 +7817,8 @@ int Zombie::TakeShieldDamage(int theDamage, unsigned int theDamageFlags)
 		}
 	}
 
-	if (!TestBit(theDamageFlags, (int)DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH) &&
-		!TestBit(theDamageFlags, (int)DamageFlags::DAMAGE_HITS_SHIELD_AND_BODY))
+	if (!TestBit(aFlags, (int)DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH) &&
+		!TestBit(aFlags, (int)DamageFlags::DAMAGE_HITS_SHIELD_AND_BODY))
 	{
 		mShieldRecoilCounter = 12;
 		if (mShieldType == ShieldType::SHIELDTYPE_DOOR || mShieldType == ShieldType::SHIELDTYPE_LADDER)
@@ -7790,12 +7828,12 @@ int Zombie::TakeShieldDamage(int theDamage, unsigned int theDamageFlags)
 	}
 
 	int aDamageIndexBeforeDamage = GetShieldDamageIndex();
-	int aDamageActual = std::min(mShieldHealth, theDamage);
-	int aDamageRemaining = theDamage - aDamageActual;
+	int aDamageActual = std::min(mShieldHealth, anAmount);
+	int aDamageRemaining = anAmount - aDamageActual;
 	mShieldHealth -= aDamageActual;
 	if (mShieldHealth == 0)
 	{
-		DropShield(theDamageFlags);
+		DropShield(aFlags);
 		return aDamageRemaining;
 	}
 
@@ -7891,24 +7929,29 @@ void Zombie::DropHelm(unsigned int theDamageFlags)
 	mHelmType = HelmType::HELMTYPE_NONE;
 }
 
-int Zombie::TakeHelmDamage(int theDamage, unsigned int theDamageFlags)
+int Zombie::TakeHelmDamage(DamageParams &theDamage)
 {
-	if (!TestBit(theDamageFlags, (int)DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH))
+
+
+	int anAmount = theDamage.mAmount;
+	unsigned int aFlags = theDamage.mFlags;
+
+	if (!TestBit(aFlags, (int)DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH))
 	{
 		mJustGotShotCounter = 25;
 	}
 
 	int aDamageIndexBeforeDamage = GetHelmDamageIndex();
-	int aDamageActual = std::min(mHelmHealth, theDamage);
-	int aDamageRemaining = theDamage - aDamageActual;
+	int aDamageActual = std::min(mHelmHealth, anAmount);
+	int aDamageRemaining = anAmount - aDamageActual;
 	mHelmHealth -= aDamageActual;
-	if (TestBit(theDamageFlags, (int)DamageFlags::DAMAGE_FREEZE))
+	if (TestBit(aFlags, (int)DamageFlags::DAMAGE_FREEZE))
 	{
 		ApplyChill(false);
 	}
 	if (mHelmHealth == 0)
 	{
-		DropHelm(theDamageFlags);
+		DropHelm(aFlags);
 		return aDamageRemaining;
 	}
 
@@ -7977,57 +8020,67 @@ int Zombie::TakeHelmDamage(int theDamage, unsigned int theDamageFlags)
 	return aDamageRemaining;
 }
 
-int Zombie::TakeFlyingDamage(int theDamage, unsigned int theDamageFlags)
+int Zombie::TakeFlyingDamage(DamageParams &theDamage)
 {
-	if (!TestBit(theDamageFlags, (int)DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH))
+
+
+	int anAmount = theDamage.mAmount;
+	unsigned int aFlags = theDamage.mFlags;
+
+	if (!TestBit(aFlags, (int)DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH))
 	{
 		mJustGotShotCounter = 25;
 	}
 
-	int aDamageActual = std::min(mFlyingHealth, theDamage);
-	int aDamageRemaining = theDamage - aDamageActual;
+	int aDamageActual = std::min(mFlyingHealth, anAmount);
+	int aDamageRemaining = anAmount - aDamageActual;
 	mFlyingHealth -= aDamageActual;
 	if (mFlyingHealth == 0)
 	{
-		LandFlyer(theDamageFlags);
+		LandFlyer(aFlags);
 	}
 
 	return aDamageRemaining;
 }
 
-void Zombie::TakeBodyDamage(int theDamage, unsigned int theDamageFlags)
+void Zombie::TakeBodyDamage(DamageParams &theDamage)
 {
-	if (!TestBit(theDamageFlags, (int)DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH))
+
+
+	int anAmount = theDamage.mAmount;
+	unsigned int aFlags = theDamage.mFlags;
+
+	if (!TestBit(aFlags, (int)DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH))
 	{
 		mJustGotShotCounter = 25;
 	}
 
-	if (TestBit(theDamageFlags, (int)DamageFlags::DAMAGE_FREEZE))
+	if (TestBit(aFlags, (int)DamageFlags::DAMAGE_FREEZE))
 	{
 		ApplyChill(false);
 	}
 
 	int aBodyHealthOrigin = mBodyHealth;
 	int aDamageIndexBeforeDamage = GetBodyDamageIndex();
-	mBodyHealth -= theDamage;
+	mBodyHealth -= anAmount;
 	int aDamageIndexAfterDamage = GetBodyDamageIndex();
 	if (mZombieType == ZombieType::ZOMBIE_ZAMBONI)
 	{
 		Reanimation *aBodyReanim = mApp->ReanimationGet(mBodyReanimID);
-		if (!TestBit(theDamageFlags, (int)DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH))
+		if (!TestBit(aFlags, (int)DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH))
 		{
 			mApp->PlayFoley(FoleyType::FOLEY_SHIELD_HIT);
 		}
 
-		if (TestBit(theDamageFlags, (int)DamageFlags::DAMAGE_SPIKE))
+		if (TestBit(aFlags, (int)DamageFlags::DAMAGE_SPIKE))
 		{
 			aBodyReanim->SetImageOverride("Zombie_zamboni_1", IMAGE_REANIM_ZOMBIE_ZAMBONI_1_DAMAGE2);
 			aBodyReanim->SetImageOverride("Zombie_zamboni_2", IMAGE_REANIM_ZOMBIE_ZAMBONI_2_DAMAGE2);
-			ZamboniDeath(theDamageFlags);
+			ZamboniDeath(aFlags);
 		}
 		else if (mBodyHealth <= 0)
 		{
-			ZamboniDeath(theDamageFlags);
+			ZamboniDeath(aFlags);
 		}
 		else if (aDamageIndexBeforeDamage != aDamageIndexAfterDamage)
 		{
@@ -8047,10 +8100,10 @@ void Zombie::TakeBodyDamage(int theDamage, unsigned int theDamageFlags)
 	else if (mZombieType == ZombieType::ZOMBIE_CATAPULT)
 	{
 		Reanimation *aBodyReanim = mApp->ReanimationGet(mBodyReanimID);
-		if (TestBit(theDamageFlags, (int)DamageFlags::DAMAGE_SPIKE) || mBodyHealth <= 0)
+		if (TestBit(aFlags, (int)DamageFlags::DAMAGE_SPIKE) || mBodyHealth <= 0)
 		{
 			aBodyReanim->SetImageOverride("Zombie_catapult_siding", IMAGE_REANIM_ZOMBIE_CATAPULT_SIDING_DAMAGE);
-			CatapultDeath(theDamageFlags);
+			CatapultDeath(aFlags);
 		}
 		else if (aDamageIndexBeforeDamage != aDamageIndexAfterDamage)
 		{
@@ -8094,7 +8147,7 @@ void Zombie::TakeBodyDamage(int theDamage, unsigned int theDamageFlags)
 	}
 	else if (mZombieType == ZombieType::ZOMBIE_BOSS)
 	{
-		if (!TestBit(theDamageFlags, (int)DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH))
+		if (!TestBit(aFlags, (int)DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH))
 		{
 			mApp->PlayFoley(FoleyType::FOLEY_SHIELD_HIT);
 		}
@@ -8139,7 +8192,7 @@ void Zombie::TakeBodyDamage(int theDamage, unsigned int theDamageFlags)
 	}
 	else
 	{
-		UpdateDamageStates(theDamageFlags);
+		UpdateDamageStates(aFlags);
 	}
 
 	if (mBodyHealth <= 0)
@@ -8147,38 +8200,51 @@ void Zombie::TakeBodyDamage(int theDamage, unsigned int theDamageFlags)
 
 
 		mBodyHealth = 0;
-		PlayDeathAnim(theDamageFlags);
+		PlayDeathAnim(aFlags);
 		DropLoot();
 	}
 }
 
-void Zombie::TakeDamage(int theDamage, unsigned int theDamageFlags)
+void Zombie::TakeDamage(DamageParams &theDamage)
 {
+
+
+	int anAmount = theDamage.mAmount;
+	unsigned int aFlags = theDamage.mFlags;
+
 	if (mZombiePhase == ZombiePhase::PHASE_JACK_IN_THE_BOX_POPPING || IsDeadOrDying())
 		return;
 
-	int aDamageRemaining = theDamage;
+	int aDamageRemaining = anAmount;
 
 	if (IsFlying())
 	{
-		aDamageRemaining = TakeFlyingDamage(aDamageRemaining, theDamageFlags);
+		theDamage.mAmount = aDamageRemaining;
+		theDamage.mZombieDamageType = ZombieDamageType::FLYING;
+		aDamageRemaining = TakeFlyingDamage(theDamage);
 	}
 	if (aDamageRemaining > 0 && mShieldType != ShieldType::SHIELDTYPE_NONE &&
-		!TestBit(theDamageFlags, (int)DamageFlags::DAMAGE_BYPASSES_SHIELD))
+		!TestBit(aFlags, (int)DamageFlags::DAMAGE_BYPASSES_SHIELD))
 	{
-		aDamageRemaining = TakeShieldDamage(aDamageRemaining, theDamageFlags);
-		if (TestBit(theDamageFlags, (int)DamageFlags::DAMAGE_HITS_SHIELD_AND_BODY))
+		theDamage.mAmount = aDamageRemaining;
+		theDamage.mZombieDamageType = ZombieDamageType::SHIELD;
+		aDamageRemaining = TakeShieldDamage(theDamage);
+		if (TestBit(aFlags, (int)DamageFlags::DAMAGE_HITS_SHIELD_AND_BODY))
 		{
-			aDamageRemaining = theDamage;
+			aDamageRemaining = anAmount;
 		}
 	}
 	if (aDamageRemaining > 0 && mHelmType != HelmType::HELMTYPE_NONE)
 	{
-		aDamageRemaining = TakeHelmDamage(aDamageRemaining, theDamageFlags);
+		theDamage.mAmount = aDamageRemaining;
+		theDamage.mZombieDamageType = ZombieDamageType::HELMET;
+		aDamageRemaining = TakeHelmDamage(theDamage);
 	}
 	if (aDamageRemaining > 0)
 	{
-		TakeBodyDamage(aDamageRemaining, theDamageFlags);
+		theDamage.mAmount = aDamageRemaining;
+		theDamage.mZombieDamageType = ZombieDamageType::BODY;
+		TakeBodyDamage(theDamage);
 	}
 }
 
@@ -8577,7 +8643,8 @@ void Zombie::HitIceTrap()
 		mBoard->RemoveParticleByType(ParticleEffect::PARTICLE_ZOMBIE_BOSS_FIREBALL);
 	}
 
-	TakeDamage(20, GetBit(DamageFlags::DAMAGE_HITS_SHIELD_AND_BODY));
+	DamageParams aDamage = DamageParams::FromNowhere(20, GetBit(DamageFlags::DAMAGE_HITS_SHIELD_AND_BODY));
+	TakeDamage(aDamage);
 	UpdateAnimSpeed();
 }
 
@@ -8819,7 +8886,9 @@ void Zombie::ApplyBurn()
 
 	if (mBodyHealth >= 1800 || mZombieType == ZombieType::ZOMBIE_BOSS)
 	{
-		TakeDamage(1800, GetBit(DamageFlags::DAMAGE_HITS_SHIELD_AND_BODY) | GetBit(DamageFlags::DAMAGE_DOESNT_LEAVE_BODY));
+		DamageParams aDamage = DamageParams::FromNowhere(1800, GetBit(DamageFlags::DAMAGE_HITS_SHIELD_AND_BODY) |
+																   GetBit(DamageFlags::DAMAGE_DOESNT_LEAVE_BODY));
+		TakeDamage(aDamage);
 		return;
 	}
 

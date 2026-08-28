@@ -14,6 +14,7 @@
 #include "../../Sexy.TodLib/Attachment.h"
 #include "../../Sexy.TodLib/TodParticle.h"
 #include "../System/SaveGame.h"
+#include "../System/DamageParams.h"
 #include "../../BloomLib/BoundedSync.h"
 
 Projectile::Projectile(const ProjectileType &theType) 
@@ -463,11 +464,20 @@ void Projectile::DoSplashDamage(Zombie *theZombie)
 			unsigned int aDamageFlags = GetDamageFlags(aZombie);
 			if (aZombie == theZombie)
 			{
-				aZombie->TakeDamage(aOriginalDamage, aDamageFlags);
+				DamageParams aDamage = DamageParams::FromPlantProjectile(
+					aOriginalDamage, aDamageFlags,
+					nullptr, this
+				);
+				aZombie->TakeDamage(aDamage);
 			}
 			else
 			{
-				aZombie->TakeDamage(aSplashDamage, aDamageFlags);
+				
+				DamageParams aDamage = DamageParams::FromPlantProjectile(
+					aSplashDamage, aDamageFlags,
+					nullptr, this
+				);
+				aZombie->TakeDamage(aDamage);
 			}
 		}
 	}
@@ -818,8 +828,8 @@ void Projectile::DoImpact(Zombie *theZombie)
 	}
 	else if (theZombie)
 	{
-		unsigned int aDamageFlags = GetDamageFlags(theZombie);
-		theZombie->TakeDamage(mAttributes.mDamage, aDamageFlags);
+		DamageParams aDamage = DamageParams::FromPlantProjectile(mAttributes.mDamage, GetDamageFlags(theZombie), nullptr, this);
+		theZombie->TakeDamage(aDamage);
 	}
 
 	float aLastPosX = mPosX - mVelX;
