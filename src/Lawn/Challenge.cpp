@@ -18,7 +18,7 @@
 #include "../GameConstants.h"
 #include "System/PlayerInfo.h"
 #include "System/Achievements.h"
-#include "System/DamageParams.h"
+#include "System/Damage.h"
 #include "Widget/GameButton.h"
 #include "Widget/StoreScreen.h"
 #include "../Sexy.TodLib/TodDebug.h"
@@ -1135,7 +1135,7 @@ void Challenge::MouseDownWhackAZombie(int theX, int theY)
 				mApp->PlayFoley(FOLEY_PLASTIC_HIT);
 			}
 			
-			DamageParams aDamage = DamageParams::FromNowhere(900, 0U);
+			Damage aDamage = Damage::FromNowhere(900, 0U);
 			aZombie->TakeHelmDamage(aDamage);
 		}
 		else
@@ -2211,7 +2211,7 @@ void Challenge::SpawnLevelAward(int theGridX, int theGridY)
 		{
 			if (!aZombie->IsDeadOrDying())
 			{
-				DamageParams aDamage = DamageParams::FromNowhere(1800, 0U);
+				Damage aDamage = Damage::FromNowhere(1800, 0U);
 				aZombie->TakeDamage(aDamage);
 			}
 		}

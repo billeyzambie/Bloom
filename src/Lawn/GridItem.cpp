@@ -8,7 +8,7 @@
 #include "../Resources.h"
 #include "MessageWidget.h"
 #include "System/ReanimationLawn.h"
-#include "System/DamageParams.h"
+#include "System/Damage.h"
 #include "../Sexy.TodLib/TodFoley.h"
 #include "../Sexy.TodLib/Reanimator.h"
 #include "../Sexy.TodLib/TodParticle.h"
@@ -16,7 +16,7 @@
 
 using namespace Sexy;
 
-GridItem::GridItem()
+GridItem::GridItem() : GameObject(GameObjectType::OBJECT_TYPE_GRID_ITEM)
 {
 	mApp = (LawnApp *)gSexyAppBase;
 	mPosX = 0.0f;
@@ -683,7 +683,7 @@ void GridItem::UpdateRake()
 			Zombie *aZombie = RakeFindZombie();
 			if (aZombie)
 			{
-				DamageParams aDamage = DamageParams::FromNowhere(1800, 0U);
+				Damage aDamage = Damage::DirectlyFrom(this, 1800, 0U);
 				aZombie->TakeDamage(aDamage);
 				mApp->PlayFoley(FoleyType::FOLEY_BONK);
 			}

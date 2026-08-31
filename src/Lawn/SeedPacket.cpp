@@ -13,7 +13,7 @@
 
 bool mIgnorePacketSpriteScale = false;
 
-SeedPacket::SeedPacket()
+SeedPacket::SeedPacket() : GameObject(GameObjectType::OBJECT_TYPE_SEEDPACKET)
 {
 	mSlotMachiningPosition = 0.0f;
 	mPacketType = SeedType::SEED_NONE;
@@ -967,7 +967,7 @@ bool SeedPacket::MouseHitTest(int theX, int theY, HitResult *theHitResult)
 	return false;
 }
 
-SeedBank::SeedBank()
+SeedBank::SeedBank() : GameObject(GameObjectType::OBJECT_TYPE_NONE)
 {
 	mWidth = IMAGE_SEEDBANK->GetWidth();
 	mHeight = IMAGE_SEEDBANK->GetHeight();

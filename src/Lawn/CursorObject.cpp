@@ -9,7 +9,7 @@
 
 #include "StoreItem/StoreItemTypes.h"
 
-CursorObject::CursorObject()
+CursorObject::CursorObject() : GameObject(GameObjectType::OBJECT_TYPE_NONE)
 {
 	mType = SeedType::SEED_NONE;
 	mImitaterType = SeedType::SEED_NONE;
@@ -221,7 +221,7 @@ void CursorObject::Draw(Graphics *g)
 	}
 }
 
-CursorPreview::CursorPreview()
+CursorPreview::CursorPreview() : GameObject(GameObjectType::OBJECT_TYPE_NONE)
 {
 	mX = 0;
 	mY = 0;

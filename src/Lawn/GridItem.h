@@ -21,7 +21,7 @@ class BLOOM_API MotionTrailFrame
 	float mAnimTime;
 };
 
-class BLOOM_API GridItem
+class BLOOM_API GridItem : public GameObject
 {
   public:
 	LawnApp *mApp;

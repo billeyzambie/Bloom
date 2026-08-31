@@ -1257,6 +1257,10 @@ class BLOOM_API Board : public Widget, public ButtonListener
 	/// @param theZombieType The type to count
 	int CountZombieByType(ZombieType theZombieType);
 
+	GameObjectID GameObjectGetID(GameObject *theGameObject);
+
+	GameObject *GameObjectTryToGet(GameObjectID theID);
+
 	/// @brief Is the specified ZombieType spawned only
 	/// @param theZombieType The ZombieType to check
 	/// @return True if the ZombieType can only be spawned by other Zombies, false otherwise

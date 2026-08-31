@@ -15,7 +15,7 @@
 #include "System/PlayerInfo.h"
 #include "System/ReanimationLawn.h"
 #include "System/Achievements.h"
-#include "System/DamageParams.h"
+#include "System/Damage.h"
 #include "../Sexy.TodLib/TodFoley.h"
 #include "../Sexy.TodLib/TodDebug.h"
 #include "../Sexy.TodLib/Attachment.h"
@@ -81,7 +81,7 @@ PlantDefinition gPlantDefs[SeedType::NUM_SEED_TYPES] = {
 };
 
 
-Plant::Plant()
+Plant::Plant() : GameObject(GameObjectType::OBJECT_TYPE_PLANT)
 {
 }
 
@@ -699,7 +699,7 @@ void Plant::DoRowAreaDamage(int theDamage, unsigned int theDamageFlags)
 					}
 				}
 
-				DamageParams aDamageParams = DamageParams::DirectlyFromPlant(aDamage, theDamageFlags, this);
+				Damage aDamageParams = Damage::DirectlyFrom(this, aDamage, theDamageFlags);
 				aZombie->TakeDamage(aDamageParams);
 				mApp->PlayFoley(FoleyType::FOLEY_SPLAT);
 			}
@@ -1452,7 +1452,7 @@ void Plant::DoSquashDamage()
 			if (GetRectOverlap(aAttackRect, aZombieRect) >
 				(aZombie->mZombieType == ZombieType::ZOMBIE_FOOTBALL ? -20 : 0))
 			{
-				DamageParams aDamage = DamageParams::DirectlyFromPlant(1800, GetBit(DamageFlags::DAMAGE_HITS_SHIELD_AND_BODY) | GetBit(DamageFlags::DAMAGE_DOESNT_LEAVE_BODY), this);
+				Damage aDamage = Damage::DirectlyFrom(this, 1800, GetBit(DamageFlags::DAMAGE_HITS_SHIELD_AND_BODY) | GetBit(DamageFlags::DAMAGE_DOESNT_LEAVE_BODY));
 				aZombie->TakeDamage(aDamage);
 			}
 		}
@@ -1848,7 +1848,7 @@ void Plant::UpdateChomper()
 			if (doBite)
 			{
 				mApp->PlayFoley(FoleyType::FOLEY_SPLAT);
-				DamageParams aDamage = DamageParams::DirectlyFromPlant(40, 0U, this);
+				Damage aDamage = Damage::DirectlyFrom(this, 40, 0U);
 				aZombie->TakeDamage(aDamage);
 				mState = PlantState::STATE_CHOMPER_BITING_MISSED;
 			}
@@ -2503,17 +2503,17 @@ void Plant::UpdateBowling()
 
 		if (mSeedType == SeedType::SEED_GIANT_WALLNUT)
 		{
-			DamageParams aDamage = DamageParams::DirectlyFromPlant(1800, 0U, this);
+			Damage aDamage = Damage::DirectlyFrom(this, 1800, 0U);
 			aZombie->TakeDamage(aDamage);
 		}
 		else if (aZombie->mShieldType == ShieldType::SHIELDTYPE_DOOR && mState != PlantState::STATE_NOTREADY)
 		{
-			DamageParams aDamage = DamageParams::DirectlyFromPlant(1800, 0U, this);
+			Damage aDamage = Damage::DirectlyFrom(this, 1800, 0U);
 			aZombie->TakeDamage(aDamage);
 		}
 		else if (aZombie->mShieldType != ShieldType::SHIELDTYPE_NONE)
 		{
-			DamageParams aDamage = DamageParams::DirectlyFromPlant(400, 0U, this);
+			Damage aDamage = Damage::DirectlyFrom(this, 400, 0U);
 			aZombie->TakeShieldDamage(aDamage);
 		}
 		else if (aZombie->mHelmType != HelmType::HELMTYPE_NONE)
@@ -2527,12 +2527,12 @@ void Plant::UpdateBowling()
 				mApp->PlayFoley(FoleyType::FOLEY_PLASTIC_HIT);
 			}
 
-			DamageParams aDamage = DamageParams::DirectlyFromPlant(900, 0U, this);
+			Damage aDamage = Damage::DirectlyFrom(this, 900, 0U);
 			aZombie->TakeHelmDamage(aDamage);
 		}
 		else
 		{
-			DamageParams aDamage = DamageParams::DirectlyFromPlant(1800, 0U, this);
+			Damage aDamage = Damage::DirectlyFrom(this, 1800, 0U);
 			aZombie->TakeDamage(aDamage);
 		}
 

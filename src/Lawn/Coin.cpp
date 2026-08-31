@@ -18,7 +18,7 @@
 
 #include "StoreItem/StoreItemTypes.h"
 
-Coin::Coin()
+Coin::Coin() : GameObject(GameObjectType::OBJECT_TYPE_COIN)
 {
 }
 

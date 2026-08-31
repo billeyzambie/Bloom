@@ -9,7 +9,7 @@
 #include "System/PopDRMComm.h"
 #include "System/TypingCheck.h"
 #include "System/Achievements.h"
-#include "System/DamageParams.h"
+#include "System/Damage.h"
 #include "Widget/AwardScreen.h"
 #include "../Sexy.TodLib/Trail.h"
 #include "Widget/ChallengeScreen.h"
@@ -9164,7 +9164,7 @@ void Board::KeyChar(SexyChar theChar)
 		}
 		if (theChar == 'd')
 		{
-			DamageParams aDamage = DamageParams::FromNowhere(10000, 0U);
+			Damage aDamage = Damage::FromNowhere(10000, 0U);
 			aBossZombie->TakeDamage(aDamage);
 			return;
 		}
@@ -10649,8 +10649,8 @@ void Board::KillAllZombiesInRadius(
 				}
 				else
 				{
-					DamageParams aDamage =
-						DamageParams::FromNowhere(1800, GetBit(DamageFlags::DAMAGE_HITS_SHIELD_AND_BODY) |
+					Damage aDamage =
+						Damage::FromNowhere(1800, GetBit(DamageFlags::DAMAGE_HITS_SHIELD_AND_BODY) |
 															GetBit(DamageFlags::DAMAGE_DOESNT_LEAVE_BODY));
 					aZombie->TakeDamage(aDamage);
 				}
@@ -10835,6 +10835,43 @@ int Board::NumberZombiesInWave(int theWaveIndex)
 
 	TOD_ASSERT();
 	return 0;
+}
+
+GameObjectID Board::GameObjectGetID(GameObject *theGameObject)
+{
+	if (!theGameObject)
+		return {};
+	if (Zombie *aZombie = theGameObject->TryAsZombie())
+		return (ZombieID)mZombies.DataArrayGetID(aZombie);
+	if (Plant *aPlant = theGameObject->TryAsPlant())
+		return (PlantID)mPlants.DataArrayGetID(aPlant);
+	if (Projectile *aProjectile = theGameObject->TryAsProjectile())
+		return (ProjectileID)mProjectiles.DataArrayGetID(aProjectile);
+	if (GridItem *aGridItem = theGameObject->TryAsGridItem())
+		return (GridItemID)mGridItems.DataArrayGetID(aGridItem);
+
+	TOD_ASSERT();
+	return {};
+}
+
+GameObject *Board::GameObjectTryToGet(GameObjectID theID)
+{
+	switch (theID.mType)
+	{
+	default:
+		TOD_ASSERT();
+		return nullptr;
+	case GameObjectType::OBJECT_TYPE_NONE:
+		return nullptr;
+	case GameObjectType::OBJECT_TYPE_PLANT:
+		return mPlants.DataArrayGet(theID.mID);
+	case GameObjectType::OBJECT_TYPE_ZOMBIE:
+		return mZombies.DataArrayGet(theID.mID);
+	case GameObjectType::OBJECT_TYPE_PROJECTILE:
+		return mProjectiles.DataArrayGet(theID.mID);
+	case GameObjectType::OBJECT_TYPE_GRID_ITEM:
+		return mGridItems.DataArrayGet(theID.mID);
+	}
 }
 
 bool Board::IsZombieTypeSpawnedOnly(ZombieType theZombieType)

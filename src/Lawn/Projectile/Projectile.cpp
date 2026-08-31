@@ -14,11 +14,12 @@
 #include "../../Sexy.TodLib/Attachment.h"
 #include "../../Sexy.TodLib/TodParticle.h"
 #include "../System/SaveGame.h"
-#include "../System/DamageParams.h"
+#include "../System/Damage.h"
 #include "../../BloomLib/BoundedSync.h"
 
 Projectile::Projectile(const ProjectileType &theType) 
-	: mType(&theType), mAttributes(theType.mAttributes)
+	: mType(&theType), mAttributes(theType.mAttributes),
+	GameObject(GameObjectType::OBJECT_TYPE_PROJECTILE)
 {
 }
 
@@ -34,7 +35,8 @@ void Projectile::Sync(BoundedSync &theSync)
 }
 
 void Projectile::ProjectileInitialize(
-	int theX, int theY, int theRenderOrder, int theRow)
+	int theX, int theY, int theRenderOrder, int theRow, GameObject* theOwner
+)
 {
 	int aGridX = mBoard->PixelToGridXKeepOnBoard(theX, theY);
 	mPosX = theX;
@@ -50,6 +52,7 @@ void Projectile::ProjectileInitialize(
 	mFrame = 0;
 	mNumFrames = 1;
 	mRow = theRow;
+	mOwner = mBoard->GameObjectGetID(theOwner);
 	mCobTargetX = 0.0f;
 	mDamageRangeFlags = 0;
 	mDead = false;
@@ -464,19 +467,13 @@ void Projectile::DoSplashDamage(Zombie *theZombie)
 			unsigned int aDamageFlags = GetDamageFlags(aZombie);
 			if (aZombie == theZombie)
 			{
-				DamageParams aDamage = DamageParams::FromPlantProjectile(
-					aOriginalDamage, aDamageFlags,
-					nullptr, this
-				);
+				Damage aDamage = Damage::FromProjectile(this, aOriginalDamage, aDamageFlags);
 				aZombie->TakeDamage(aDamage);
 			}
 			else
 			{
 				
-				DamageParams aDamage = DamageParams::FromPlantProjectile(
-					aSplashDamage, aDamageFlags,
-					nullptr, this
-				);
+				Damage aDamage = Damage::FromProjectile(this, aSplashDamage, aDamageFlags);
 				aZombie->TakeDamage(aDamage);
 			}
 		}
@@ -828,7 +825,7 @@ void Projectile::DoImpact(Zombie *theZombie)
 	}
 	else if (theZombie)
 	{
-		DamageParams aDamage = DamageParams::FromPlantProjectile(mAttributes.mDamage, GetDamageFlags(theZombie), nullptr, this);
+		Damage aDamage = Damage::FromProjectile(this, mAttributes.mDamage, GetDamageFlags(theZombie));
 		theZombie->TakeDamage(aDamage);
 	}
 

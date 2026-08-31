@@ -22,6 +22,7 @@ class BLOOM_API Projectile : public GameObject
 	const ProjectileType *mType;
 	ProjectileAttributes mAttributes;
 	ProjectileMotion mMotionType;
+	GameObjectID mOwner;
 	int mFrame;
 	int mNumFrames;
 	int mAnimCounter;
@@ -60,7 +61,7 @@ class BLOOM_API Projectile : public GameObject
 	/// @param theRenderOrder The render order to draw the Projectile on
 	/// @param theRow The row to spawn the Projectile on
 	/// @param theProjectileType The type of Projectile to setup
-	void ProjectileInitialize(int theX, int theY, int theRenderOrder, int theRow);
+	void ProjectileInitialize(int theX, int theY, int theRenderOrder, int theRow, GameObject *theOwner);
 	/// @brief Update the Projectile
 	void Update();
 	/// @brief Draw the Projectile
