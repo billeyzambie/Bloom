@@ -11,6 +11,13 @@ Damage::Damage(
 {
 }
 
+GameObject *Damage::GetDirectDamager() const
+{
+	if (mDamagerProjectile)
+		return mDamagerProjectile;
+	return mDamager;
+}
+
 Damage Damage::DirectlyFrom(GameObject *theDamager, int theAmount, unsigned int theFlags)
 {
 	return {theAmount, theFlags, theDamager, nullptr};

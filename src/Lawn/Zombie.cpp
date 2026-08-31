@@ -7812,7 +7812,11 @@ void Zombie::DropShield(unsigned int theDamageFlags)
 
 int Zombie::TakeShieldDamage(Damage &theDamage)
 {
-
+	GameObjectHurtBeforeContext aBeforeContext = {*this, theDamage};
+	if (Event<GameObjectHurtBeforeContext>::Fire(aBeforeContext).mCanceled)
+	{
+		return theDamage.mAmount;
+	}
 
 	int anAmount = theDamage.mAmount;
 	unsigned int aFlags = theDamage.mFlags;
@@ -7882,6 +7886,9 @@ int Zombie::TakeShieldDamage(Damage &theDamage)
 		}
 	}
 
+	GameObjectHurtAfterContext anAfterContext = {*this, theDamage};
+	Event<GameObjectHurtAfterContext>::Fire(anAfterContext);
+
 	return aDamageRemaining;
 }
 
@@ -7940,7 +7947,11 @@ void Zombie::DropHelm(unsigned int theDamageFlags)
 
 int Zombie::TakeHelmDamage(Damage &theDamage)
 {
-
+	GameObjectHurtBeforeContext aBeforeContext = {*this, theDamage};
+	if (Event<GameObjectHurtBeforeContext>::Fire(aBeforeContext).mCanceled)
+	{
+		return theDamage.mAmount;
+	}
 
 	int anAmount = theDamage.mAmount;
 	unsigned int aFlags = theDamage.mFlags;
@@ -8026,12 +8037,20 @@ int Zombie::TakeHelmDamage(Damage &theDamage)
 			aHeadReanim->SetImageOverride("anim_idle", IMAGE_REANIM_TALLNUT_CRACKED2);
 		}
 	}
+
+	GameObjectHurtAfterContext anAfterContext = {*this, theDamage};
+	Event<GameObjectHurtAfterContext>::Fire(anAfterContext);
+
 	return aDamageRemaining;
 }
 
 int Zombie::TakeFlyingDamage(Damage &theDamage)
 {
-
+	GameObjectHurtBeforeContext aBeforeContext = {*this, theDamage};
+	if (Event<GameObjectHurtBeforeContext>::Fire(aBeforeContext).mCanceled)
+	{
+		return theDamage.mAmount;
+	}
 
 	int anAmount = theDamage.mAmount;
 	unsigned int aFlags = theDamage.mFlags;
@@ -8049,12 +8068,19 @@ int Zombie::TakeFlyingDamage(Damage &theDamage)
 		LandFlyer(aFlags);
 	}
 
+	GameObjectHurtAfterContext anAfterContext = {*this, theDamage};
+	Event<GameObjectHurtAfterContext>::Fire(anAfterContext);
+
 	return aDamageRemaining;
 }
 
 void Zombie::TakeBodyDamage(Damage &theDamage)
 {
-
+	GameObjectHurtBeforeContext aBeforeContext = {*this, theDamage};
+	if (Event<GameObjectHurtBeforeContext>::Fire(aBeforeContext).mCanceled)
+	{
+		return;
+	}
 
 	int anAmount = theDamage.mAmount;
 	unsigned int aFlags = theDamage.mFlags;
@@ -8212,12 +8238,13 @@ void Zombie::TakeBodyDamage(Damage &theDamage)
 		PlayDeathAnim(aFlags);
 		DropLoot();
 	}
+
+	GameObjectHurtAfterContext anAfterContext = {*this, theDamage};
+	Event<GameObjectHurtAfterContext>::Fire(anAfterContext);
 }
 
 void Zombie::TakeDamage(Damage &theDamage)
 {
-
-
 	int anAmount = theDamage.mAmount;
 	unsigned int aFlags = theDamage.mFlags;
 

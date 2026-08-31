@@ -10841,17 +10841,23 @@ GameObjectID Board::GameObjectGetID(GameObject *theGameObject)
 {
 	if (!theGameObject)
 		return {};
-	if (Zombie *aZombie = theGameObject->TryAsZombie())
-		return (ZombieID)mZombies.DataArrayGetID(aZombie);
-	if (Plant *aPlant = theGameObject->TryAsPlant())
-		return (PlantID)mPlants.DataArrayGetID(aPlant);
-	if (Projectile *aProjectile = theGameObject->TryAsProjectile())
-		return (ProjectileID)mProjectiles.DataArrayGetID(aProjectile);
-	if (GridItem *aGridItem = theGameObject->TryAsGridItem())
-		return (GridItemID)mGridItems.DataArrayGetID(aGridItem);
-
-	TOD_ASSERT();
-	return {};
+	
+	switch (theGameObject->mGameObjectType)
+	{
+	default:
+		TOD_ASSERT();
+		return {};
+	case GameObjectType::OBJECT_TYPE_NONE:
+		return {};
+	case GameObjectType::OBJECT_TYPE_PLANT:
+		return (PlantID)mPlants.DataArrayGetID((Plant *)theGameObject);
+	case GameObjectType::OBJECT_TYPE_ZOMBIE:
+		return (ZombieID)mZombies.DataArrayGetID((Zombie *)theGameObject);
+	case GameObjectType::OBJECT_TYPE_PROJECTILE:
+		return (ProjectileID)mProjectiles.DataArrayGetID((Projectile *)theGameObject);
+	case GameObjectType::OBJECT_TYPE_GRID_ITEM:
+		return (GridItemID)mGridItems.DataArrayGetID((GridItem *)theGameObject);
+	}
 }
 
 GameObject *Board::GameObjectTryToGet(GameObjectID theID)

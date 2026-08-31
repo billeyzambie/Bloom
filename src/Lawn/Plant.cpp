@@ -23,6 +23,7 @@
 #include "../Sexy.TodLib/TodParticle.h"
 #include "../Sexy.TodLib/EffectSystem.h"
 #include "../Sexy.TodLib/TodStringFile.h"
+#include "../BloomLib/Event.h"
 
 PlantDefinition gPlantDefs[SeedType::NUM_SEED_TYPES] = { 
     { SeedType::SEED_PEASHOOTER,        nullptr, ReanimationType::REANIM_PEASHOOTER,    0,  100,    750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "PEASHOOTER" },
@@ -5419,6 +5420,11 @@ void Plant::PlayIdleAnim(float theRate)
 }
 void Plant::TakeDamage(Damage &theDamage)
 {
+	GameObjectHurtBeforeContext aBeforeContext = {*this, theDamage};
+	if (Event<GameObjectHurtBeforeContext>::Fire(aBeforeContext).mCanceled)
+	{
+		return;
+	}
 
 	int anAmount = theDamage.mAmount;
 	unsigned int aFlags = theDamage.mFlags;
@@ -5439,4 +5445,7 @@ void Plant::TakeDamage(Damage &theDamage)
 		mPlantHealth = 0;
 		Die();
 	}
+
+	GameObjectHurtAfterContext anAfterContext = {*this, theDamage};
+	Event<GameObjectHurtAfterContext>::Fire(anAfterContext);
 }

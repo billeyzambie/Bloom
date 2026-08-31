@@ -26,6 +26,8 @@ struct BLOOM_API Damage
 	Projectile *mDamagerProjectile;
 	ZombieDamageType mZombieDamageType = ZombieDamageType::BODY;
 
+	GameObject *GetDirectDamager() const;
+
 	static Damage DirectlyFrom(GameObject *theDamager, int theAmount, unsigned int theFlags);
 	static Damage FromProjectile(Projectile *theDamagerProjectile, int theAmount, unsigned int theFlags);
 	static Damage FromNowhere(int theAmount, unsigned int theFlags);

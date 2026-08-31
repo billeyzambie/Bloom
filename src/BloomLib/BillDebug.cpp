@@ -7,6 +7,11 @@
 
 void OnGameStart()
 {
+	Events::Subscribe(+[](GameObjectHurtBeforeContext &theContext) {
+		Plant *aPlant = theContext.mHurtPlantOrZombie.TryAsPlant();
+		if (aPlant && aPlant->mSeedType == SEED_PEASHOOTER)
+			theContext.mCanceled = true;
+	});
 	/*Events::Subscribe(+[](PlantEatenContext &theContext) {
 		auto *aPlant = theContext.mEatenPlant;
 

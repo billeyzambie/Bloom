@@ -17,9 +17,15 @@ template <class T> Transformer<T> Unsubscribe(Transformer<T> theContextTransform
 
 } // namespace Events
 
+class GameObject;
 class Plant;
 class Zombie;
 class Damage;
+
+template <class T> struct BLOOM_API MakeCancelable : public T
+{
+	bool mCanceled = false;
+};
 
 struct BLOOM_API PlantEatenContext
 {
@@ -30,18 +36,13 @@ struct BLOOM_API PlantEatenContext
 
 template class Event<PlantEatenContext>;
 
-struct BLOOM_API PlantHurtContext
+struct BLOOM_API GameObjectHurtAfterContext
 {
-	Plant &mHurtPlant;
+	GameObject &mHurtPlantOrZombie;
 	Damage &mDamage;
 };
 
-template class Event<PlantHurtContext>;
+using GameObjectHurtBeforeContext = MakeCancelable<GameObjectHurtAfterContext>;
 
-struct BLOOM_API ZombieHurtContext
-{
-	Zombie &mHurtZombie;
-	Damage &mDamage;
-};
-
-template class Event<ZombieHurtContext>;
+template class Event<GameObjectHurtAfterContext>;
+template class Event<GameObjectHurtBeforeContext>;
