@@ -2401,10 +2401,10 @@ bool Board::HasValidCobCannonSpot()
 	return false;
 }
 
-Projectile *Board::AddProjectile(int theX, int theY, int theRenderOrder, int theRow, const ProjectileType &theProjectileType)
+Projectile *Board::AddProjectile(int theX, int theY, int theRenderOrder, int theRow, const ProjectileType &theProjectileType, GameObject *theProjectileOwner)
 {
 	Projectile *aProjectile = mProjectiles.DataArrayAlloc(theProjectileType);
-	aProjectile->ProjectileInitialize(theX, theY, theRenderOrder, theRow);
+	aProjectile->ProjectileInitialize(theX, theY, theRenderOrder, theRow, theProjectileOwner);
 	return aProjectile;
 }
 
@@ -10864,13 +10864,13 @@ GameObject *Board::GameObjectTryToGet(GameObjectID theID)
 	case GameObjectType::OBJECT_TYPE_NONE:
 		return nullptr;
 	case GameObjectType::OBJECT_TYPE_PLANT:
-		return mPlants.DataArrayGet(theID.mID);
+		return mPlants.DataArrayTryToGet(theID.mID);
 	case GameObjectType::OBJECT_TYPE_ZOMBIE:
-		return mZombies.DataArrayGet(theID.mID);
+		return mZombies.DataArrayTryToGet(theID.mID);
 	case GameObjectType::OBJECT_TYPE_PROJECTILE:
-		return mProjectiles.DataArrayGet(theID.mID);
+		return mProjectiles.DataArrayTryToGet(theID.mID);
 	case GameObjectType::OBJECT_TYPE_GRID_ITEM:
-		return mGridItems.DataArrayGet(theID.mID);
+		return mGridItems.DataArrayTryToGet(theID.mID);
 	}
 }
 

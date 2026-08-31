@@ -1671,7 +1671,7 @@ void Zombie::ZombieCatapultFire(Plant *thePlant)
 	mApp->PlayFoley(FoleyType::FOLEY_BASKETBALL);
 
 	Projectile *aProjectile =
-		mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, ProjectileTypes::BASKETBALL);
+		mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, ProjectileTypes::BASKETBALL, this);
 	float aRangeX = aOriginX - aTargetX - 20.0f;
 	float aRangeY = aTargetY - aOriginY;
 	if (aRangeX < 40.0f)
@@ -2255,7 +2255,9 @@ void Zombie::UpdateZombieGargantuar()
 					{
 						Damage aDamage = Damage::DirectlyFrom(aPlant, 20, GetBit(DamageFlags::DAMAGE_SPIKE));
 						TakeDamage(aDamage);
-						aPlant->SpikeRockTakeDamage();
+
+						Damage aDamageToSpikeRock = Damage::DirectlyFrom(this, 50, 0u);
+						aPlant->SpikeRockTakeDamage(aDamageToSpikeRock);
 						if (aPlant->mPlantHealth <= 0)
 						{
 							SquishAllInSquare(aPlant->mPlantCol, aPlant->mRow, ZombieAttackType::ATTACKTYPE_CHEW);
@@ -2473,13 +2475,13 @@ void Zombie::UpdateZombiePeaHead()
 		{
 			aOriginX += 90.0f * mScaleZombie;
 			Projectile *aProjectile =
-				mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, ProjectileTypes::PEA);
+				mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, ProjectileTypes::PEA, this);
 			aProjectile->mDamageRangeFlags = GetBit(DamageRangeFlags::DAMAGES_GROUND);
 		}
 		else
 		{
 			Projectile *aProjectile =
-				mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, ProjectileTypes::ZOMBIE_PEA);
+				mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, ProjectileTypes::ZOMBIE_PEA, this);
 			aProjectile->mMotionType = ProjectileMotion::MOTION_BACKWARDS;
 			aProjectile->mDamageRangeFlags = GetBit(DamageRangeFlags::DAMAGES_MINDCONTROLLED);
 
@@ -2581,13 +2583,13 @@ void Zombie::UpdateZombieGatlingHead()
 		{
 			aOriginX += 90.0f * mScaleZombie;
 			Projectile *aProjectile =
-				mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, ProjectileTypes::PEA);
+				mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, ProjectileTypes::PEA, this);
 			aProjectile->mDamageRangeFlags = GetBit(DamageRangeFlags::DAMAGES_GROUND);
 		}
 		else
 		{
 			Projectile *aProjectile =
-				mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, ProjectileTypes::ZOMBIE_PEA);
+				mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, ProjectileTypes::ZOMBIE_PEA, this);
 			aProjectile->mMotionType = ProjectileMotion::MOTION_BACKWARDS;
 		}
 
@@ -7272,21 +7274,28 @@ void Zombie::EatPlant(Plant *thePlant)
 			mBoard->AddCoin(thePlant->mX, thePlant->mY, CoinType::COIN_SUN, CoinMotion::COIN_MOTION_FROM_PLANT);
 		}
 	}
-
-	thePlant->mPlantHealth -= DAMAGE_PER_EAT;
+	
+	Damage aDamage = Damage::DirectlyFrom(
+		this,
+		DAMAGE_PER_EAT,
+		GetBit(DamageFlags::DAMAGE_BYPASSES_SHIELD) 
+		| GetBit(DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH)
+	);
+	thePlant->TakeDamage(aDamage);
 	thePlant->mRecentlyEatenCountdown = 50;
 	if (mApp->IsIZombieLevel() && mJustGotShotCounter < -500)
 	{
 		if (thePlant->mSeedType == SeedType::SEED_WALLNUT || thePlant->mSeedType == SeedType::SEED_TALLNUT ||
 			thePlant->mSeedType == SeedType::SEED_PUMPKINSHELL)
 		{
-			thePlant->mPlantHealth -= DAMAGE_PER_EAT;
+			thePlant->TakeDamage(aDamage);
 		}
 	}
 
 	if (thePlant->mPlantHealth <= 0)
 	{
-		if (Event<PlantEatenContext>::Fire({false, *thePlant, *this}).mCanceled)
+		PlantEatenContext aContext = {false, *thePlant, *this};
+		if (Event<PlantEatenContext>::Fire(aContext).mCanceled)
 		{
 			thePlant->mPlantHealth = anOriginalPlantHealth;
 			return;

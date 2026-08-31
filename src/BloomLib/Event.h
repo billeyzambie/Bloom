@@ -21,11 +21,6 @@ template <class T> class BLOOM_API Event
 		return GetInstance().mSubscriptions.Fire(theContext);
 	}
 
-	static T Fire(T &&theContext)
-	{
-		return GetInstance().mSubscriptions.Fire(std::move(theContext));
-	}
-
 	Transformer<T> Add(Transformer<T> theTransformer, EventPriority thePriority = EventPriority::DEFAULT)
 	{
 		return mSubscriptions.Add({theTransformer, thePriority});

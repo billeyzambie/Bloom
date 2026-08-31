@@ -8,6 +8,7 @@
 class Plant;
 class Zombie;
 class SaveGameContext;
+class BoundedSync;
 namespace Sexy
 {
 class Graphics;

@@ -65,17 +65,4 @@ template <typename T> class BLOOM_API EventList
 		}
 		return theContext;
 	}
-	T Fire(T &&theContext) const
-	{
-		for (auto &anElement : mElements)
-		{
-			anElement.mTransformer(theContext);
-			if constexpr (IsEventCancellable<T>)
-			{
-				if (theContext.mCanceled)
-					break;
-			}
-		}
-		return theContext;
-	}
 };

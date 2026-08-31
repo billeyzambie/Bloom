@@ -138,6 +138,7 @@ class Coin;
 class Zombie;
 class Reanimation;
 class TodParticleSystem;
+struct Damage;
 
 class BLOOM_API Plant : public GameObject
 {
@@ -550,7 +551,7 @@ class BLOOM_API Plant : public GameObject
 	void UpdateReanim();
 
 	/// @brief Deal damage to the SpikeRock
-	void SpikeRockTakeDamage();
+	void SpikeRockTakeDamage(Damage &theDamage);
 
 	/// @brief Is the Plant spiky?
 	/// @return True if the Plant is spiky, false otherwise
@@ -587,6 +588,10 @@ class BLOOM_API Plant : public GameObject
 	/// @brief Should it draw the magnet items ontop
 	/// @return True if it has an attracted item, false otherwise
 	bool DrawMagnetItemsOnTop();
+
+	/// @brief Deal damage to the Plant
+	/// @param theDamage Damage to deal
+	void TakeDamage(Damage &theDamage);
 };
 /// @brief Get the Plant's height offset on a grid
 /// @param theBoard [OPTIONAL] The Board for specific position cases

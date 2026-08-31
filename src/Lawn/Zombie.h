@@ -253,7 +253,6 @@ class BLOOM_API Zombie : public GameObject
 
 	/// @brief Deal damage to the Zombie
 	/// @param theDamage Damage to deal
-	/// @param theDamageFlags Bitmask of damage types
 	void TakeDamage(Damage &theDamage);
 
 	/// @brief Change the row of the Zombie

@@ -289,8 +289,8 @@ void Projectile::CheckForCollision()
 		Plant *aPlant = FindCollisionTargetPlant();
 		if (aPlant)
 		{
-			aPlant->mPlantHealth -= mAttributes.mDamage;
-			aPlant->mEatenFlashCountdown = std::max(aPlant->mEatenFlashCountdown, 25);
+			Damage aDamage = Damage::FromProjectile(this, mAttributes.mDamage, 0u);
+			aPlant->TakeDamage(aDamage);
 
 			mApp->PlayFoley(FoleyType::FOLEY_SPLAT);
 			mApp->AddTodParticle(mPosX - 3.0f, mPosY + 17.0f, mRenderOrder + 1, ParticleEffect::PARTICLE_PEA_SPLAT);
@@ -482,8 +482,6 @@ void Projectile::DoSplashDamage(Zombie *theZombie)
 
 void Projectile::UpdateLobMotion()
 {
-	static std::unordered_map<const Type *, int> aMap;
-
 	if (mType == ProjectileTypes::COBBIG && mPosZ < -700.0f)
 	{
 		mVelZ = 8.0f;
@@ -535,24 +533,7 @@ void Projectile::UpdateLobMotion()
 		{
 			return;
 		}
-
-		if (!aMap.contains(mType))
-		{
-			int aDiff = aMinCollisionZ - mHeight;
-			aMap[mType] = aDiff;
-
-			std::cout << std::endl;
-
-			std::cout << mType->mResourceId.AsString() << ": " << std::endl;
-			std::cout << "  mHeight: " << mHeight << std::endl;
-			std::cout << "  aMinCollisionZ: " << aMinCollisionZ << std::endl;
-			std::cout << "  aDiff: " << aDiff << std::endl;
-
-			std::cout << std::endl;
-		}
 	}
-
-
 
 	Plant *aPlant = nullptr;
 	Zombie *aZombie = nullptr;
@@ -598,8 +579,8 @@ void Projectile::UpdateLobMotion()
 		}
 		else
 		{
-			aPlant->mPlantHealth -= mAttributes.mDamage;
-			aPlant->mEatenFlashCountdown = std::max(aPlant->mEatenFlashCountdown, 25);
+			Damage aDamage = Damage::FromProjectile(this, mAttributes.mDamage, 0u);
+			aPlant->TakeDamage(aDamage);
 			mApp->PlayFoley(FoleyType::FOLEY_SPLAT);
 			Die();
 		}

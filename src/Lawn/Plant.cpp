@@ -633,13 +633,13 @@ bool Plant::IsOnHighGround()
 	return mBoard && mBoard->mGridSquareType[mPlantCol][mRow] == GridSquareType::GRIDSQUARE_HIGH_GROUND;
 }
 
-void Plant::SpikeRockTakeDamage()
+void Plant::SpikeRockTakeDamage(Damage &theDamage)
 {
 	Reanimation *aBodyReanim = mApp->ReanimationGet(mBodyReanimID);
 
 	SpikeweedAttack();
 
-	mPlantHealth -= 50;
+	TakeDamage(theDamage);
 	if (mPlantHealth <= 300)
 	{
 		aBodyReanim->AssignRenderGroupToTrack("bigspike3", RENDER_GROUP_HIDDEN);
@@ -691,7 +691,8 @@ void Plant::DoRowAreaDamage(int theDamage, unsigned int theDamageFlags)
 
 					if (mSeedType == SeedType::SEED_SPIKEROCK)
 					{
-						SpikeRockTakeDamage();
+						Damage aDamageToSpikeRock = Damage::DirectlyFrom(aZombie, 50, 0u);
+						SpikeRockTakeDamage(aDamageToSpikeRock);
 					}
 					else
 					{
@@ -935,7 +936,7 @@ void Plant::StarFruitFire()
 	for (int i = 0; i < 5; i++)
 	{
 		Projectile *aProjectile =
-			mBoard->AddProjectile(mX + 25, mY + 25, mRenderOrder - 1, mRow, ProjectileTypes::STAR);
+			mBoard->AddProjectile(mX + 25, mY + 25, mRenderOrder - 1, mRow, ProjectileTypes::STAR, this);
 		aProjectile->mDamageRangeFlags = GetDamageRangeFlags(PlantWeapon::WEAPON_PRIMARY);
 		aProjectile->mMotionType = ProjectileMotion::MOTION_STAR;
 
@@ -4835,7 +4836,7 @@ void Plant::Fire(Zombie *theTargetZombie, int theRow, PlantWeapon thePlantWeapon
 		mApp->AddTodParticle(aOriginX + 27, aOriginY + 13, aRenderPosition, ParticleEffect::PARTICLE_PUFFSHROOM_MUZZLE);
 	}
 
-	Projectile *aProjectile = mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder - 1, theRow, *aProjectileType);
+	Projectile *aProjectile = mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder - 1, theRow, *aProjectileType, this);
 	aProjectile->mDamageRangeFlags = GetDamageRangeFlags(thePlantWeapon);
 
 	if (mSeedType == SeedType::SEED_CABBAGEPULT || mSeedType == SeedType::SEED_KERNELPULT ||
@@ -5414,5 +5415,28 @@ void Plant::PlayIdleAnim(float theRate)
 		{
 			aBodyReanim->mAnimRate = 0.0f;
 		}
+	}
+}
+void Plant::TakeDamage(Damage &theDamage)
+{
+
+	int anAmount = theDamage.mAmount;
+	unsigned int aFlags = theDamage.mFlags;
+
+	if (!TestBit(aFlags, (int)DamageFlags::DAMAGE_DOESNT_CAUSE_FLASH))
+	{
+		mEatenFlashCountdown = std::max(mEatenFlashCountdown, 25);
+	}
+
+	if (TestBit(aFlags, (int)DamageFlags::DAMAGE_FREEZE))
+	{
+		//no plant freezing yet
+	}
+	mPlantHealth -= anAmount;
+
+	if (mPlantHealth <= 0)
+	{
+		mPlantHealth = 0;
+		Die();
 	}
 }
