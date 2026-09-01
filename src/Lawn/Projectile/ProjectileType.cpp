@@ -32,7 +32,7 @@ void ProjectileType::Update(const LawnApp &theLawnApp)
 	mModifiers.Fire(aContext);
 }
 
-Projectile* ProjectileType::InstantiateInBuffer(void* theBuffer) const
+Projectile* ProjectileType::Instantiate(void* theBuffer) const
 {
 	return new (theBuffer) Projectile(*this);
 }

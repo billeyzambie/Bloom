@@ -18,7 +18,7 @@
 #include "../../BloomLib/BoundedSync.h"
 
 Projectile::Projectile(const ProjectileType &theType) 
-	: mType(&theType), mAttributes(theType.mAttributes),
+	: mType(theType), mAttributes(theType.mAttributes),
 	GameObject(GameObjectType::OBJECT_TYPE_PROJECTILE)
 {
 }
@@ -894,7 +894,7 @@ void Projectile::DoImpact(Zombie *theZombie)
 
 void Projectile::Update()
 {
-	mAttributes = mType->mAttributes;
+	mAttributes = mType.mAttributes;
 	mProjectileAge++;
 	if (mApp->mGameScene != GameScenes::SCENE_PLAYING && !mBoard->mCutScene->ShouldRunUpsellBoard())
 		return;
@@ -1100,5 +1100,5 @@ Sexy::Image *Projectile::GetImage() const
 {
 	if (mAttributes.mImageOverride)
 		return mAttributes.mImageOverride;
-	return mType->mBaseImage;
+	return mType.mBaseImage;
 }

@@ -54,16 +54,16 @@ template <typename T> class BLOOM_API BloomDataArray
 					const T::Type *aType = aRegistry.GetByResourceId(aResId);
 					if (aType)
 					{
-						aType->InstantiateInBuffer(mBuffer);
+						aType->Instantiate(mBuffer);
 					}
 					else
 					{
-						aRegistry.GetDefaultType().InstantiateInBuffer(mBuffer);
+						aRegistry.GetDefaultType().Instantiate(mBuffer);
 					}
 				}
 				else
 				{
-					theContext.SyncResourceId(const_cast<ResourceId &>(Item().mType->mResourceId));
+					theContext.SyncResourceId(const_cast<ResourceId &>(Item().mType.mResourceId));
 				}
 
 				BoundedSync aSync = {theContext};
@@ -205,7 +205,7 @@ template <typename T> class BLOOM_API BloomDataArray
 			mNextKey = 1;
 		mSize++;
 
-		return theType.InstantiateInBuffer(aNewItem);
+		return theType.Instantiate(aNewItem);
 	}
 
 	T *DataArrayTryToGet(unsigned int theId)

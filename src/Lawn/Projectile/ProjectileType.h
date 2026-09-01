@@ -7,7 +7,6 @@
 
 #include "../ConstEnums.h"
 #include "../Resources.h"
-#include "Projectile.h"
 
 namespace Sexy
 {
@@ -52,7 +51,7 @@ class BLOOM_API ProjectileType : public BloomType
 	operator OldProjectileType() const;
 	virtual void CopyFrom(const ProjectileType &theOther);
 	void Update(const LawnApp &theLawnApp);
-	Projectile *InstantiateInBuffer(void *theBuffer) const;
+	Projectile *Instantiate(void *theBuffer) const;
 };
 
 typedef ProjectileType::Attributes ProjectileAttributes;

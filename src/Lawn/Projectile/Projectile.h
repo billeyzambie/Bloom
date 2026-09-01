@@ -20,7 +20,7 @@ class BLOOM_API Projectile final : public GameObject
   public:
 	typedef ProjectileType Type;
 
-	const ProjectileType *mType;
+	const ProjectileType &mType;
 	ProjectileAttributes mAttributes;
 	ProjectileMotion mMotionType;
 	GameObjectID mOwner;
