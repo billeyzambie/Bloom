@@ -25,11 +25,21 @@ template <typename T> class BLOOM_API BloomDataArray
 		DATA_ARRAY_KEY_FIRST = 1
 	};
 
+	static_assert(
+		std::is_final_v<T> 
+			? T::Type::INSTANCE_MAX_SIZE == sizeof(T) 
+			: T::Type::INSTANCE_MAX_SIZE >= sizeof(T) + 12
+	);
+
 	class BLOOM_API DataArrayItem
 	{
 	  public:
-		T mItem;
+		alignas(T) char mBuffer[T::Type::INSTANCE_MAX_SIZE];
 		unsigned int mID;
+		T &Item()
+		{
+			return reinterpret_cast<T &>(mBuffer);
+		}
 		void Sync(SaveGameContext &theContext)
 		{
 			theContext.SyncUint(mID);
@@ -44,20 +54,20 @@ template <typename T> class BLOOM_API BloomDataArray
 					const T::Type *aType = aRegistry.GetByResourceId(aResId);
 					if (aType)
 					{
-						new (&mItem) T(*aType);
+						aType->InstantiateInBuffer(mBuffer);
 					}
 					else
 					{
-						new (&mItem) T(aRegistry.GetDefaultType());
+						aRegistry.GetDefaultType().InstantiateInBuffer(mBuffer);
 					}
 				}
 				else
 				{
-					theContext.SyncResourceId(const_cast<ResourceId &>(mItem.mType->mResourceId));
+					theContext.SyncResourceId(const_cast<ResourceId &>(Item().mType->mResourceId));
 				}
 
 				BoundedSync aSync = {theContext};
-				mItem.Sync(aSync);
+				Item().Sync(aSync);
 				aSync.Finish();
 			}
 		}
@@ -195,8 +205,7 @@ template <typename T> class BLOOM_API BloomDataArray
 			mNextKey = 1;
 		mSize++;
 
-		new (aNewItem) T(theType);
-		return (T *)aNewItem;
+		return theType.InstantiateInBuffer(aNewItem);
 	}
 
 	T *DataArrayTryToGet(unsigned int theId)
@@ -205,12 +214,12 @@ template <typename T> class BLOOM_API BloomDataArray
 			return nullptr;
 
 		DataArrayItem *aBlock = &mBlock[theId & DATA_ARRAY_INDEX_MASK];
-		return aBlock->mID == theId ? &aBlock->mItem : nullptr;
+		return aBlock->mID == theId ? &aBlock->Item() : nullptr;
 	}
 
 	T *DataArrayGet(unsigned int theId)
 	{
 		TOD_ASSERT(DataArrayTryToGet(theId) != nullptr, "Failed: DataArrayGet(0x%x) for %s", theId, mName);
-		return &mBlock[(short)theId].mItem;
+		return &mBlock[(short)theId].Item();
 	}
 };

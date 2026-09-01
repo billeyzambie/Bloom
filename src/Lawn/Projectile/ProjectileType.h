@@ -7,6 +7,7 @@
 
 #include "../ConstEnums.h"
 #include "../Resources.h"
+#include "Projectile.h"
 
 namespace Sexy
 {
@@ -16,14 +17,14 @@ class Graphics;
 
 class LawnApp;
 class PlayerInfo;
-class StoreScreen;
 
-class StoreItem;
-class StoreItemGroup;
+class Projectile;
 
 class BLOOM_API ProjectileType : public BloomType
 {
   public:
+	static constexpr size_t INSTANCE_MAX_SIZE = 200;
+
 	struct Attributes
 	{
 		Sexy::Image *mImageOverride = nullptr;
@@ -47,11 +48,11 @@ class BLOOM_API ProjectileType : public BloomType
 	EventList<ModifierContext> mModifiers;
 	ImageGetter mBaseImage;
 
-  public:
 	ProjectileType(const std::string &theModName, const std::string &theTypeName, const Attributes &theAttributes);
 	operator OldProjectileType() const;
 	virtual void CopyFrom(const ProjectileType &theOther);
 	void Update(const LawnApp &theLawnApp);
+	Projectile *InstantiateInBuffer(void *theBuffer) const;
 };
 
 typedef ProjectileType::Attributes ProjectileAttributes;

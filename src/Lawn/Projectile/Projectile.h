@@ -15,7 +15,7 @@ class Graphics;
 };
 using namespace Sexy;
 
-class BLOOM_API Projectile : public GameObject
+class BLOOM_API Projectile final : public GameObject
 {
   public:
 	typedef ProjectileType Type;

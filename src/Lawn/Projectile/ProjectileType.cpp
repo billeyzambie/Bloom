@@ -1,4 +1,5 @@
 #include "ProjectileType.h"
+#include "Projectile.h"
 #include "../LawnApp.h"
 #include "../Sexy.TodLib/TodDebug.h"
 
@@ -29,4 +30,9 @@ void ProjectileType::Update(const LawnApp &theLawnApp)
 	ProjectileModifierContext aContext{*this, theLawnApp, *theLawnApp.mPlayerInfo, mAttributes};
 
 	mModifiers.Fire(aContext);
+}
+
+Projectile* ProjectileType::InstantiateInBuffer(void* theBuffer) const
+{
+	return new (theBuffer) Projectile(*this);
 }
