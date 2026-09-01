@@ -38,7 +38,7 @@ template class Event<PlantEatenContext>;
 
 struct BLOOM_API GameObjectHurtAfterContext
 {
-	GameObject &mHurtPlantOrZombie;
+	GameObject &mHurtGameObject;
 	Damage &mDamage;
 };
 

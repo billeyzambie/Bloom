@@ -4882,6 +4882,21 @@ void Plant::Fire(Zombie *theTargetZombie, int theRow, PlantWeapon thePlantWeapon
 		aProjectile->mVelY = 0.0f;
 		aProjectile->mVelZ = aRangeY / 120.0f - 7.0f;
 		aProjectile->mAccZ = 0.115f;
+		aProjectile->mRotationSpeed = RandRangeFloat(-0.08f, -0.02f);
+
+		if (mSeedType == SeedType::SEED_CABBAGEPULT || mSeedType == SeedType::SEED_KERNELPULT)
+		{
+			aProjectile->mRotation = DEG_TO_RAD(-50.4f);
+		}
+		else
+		{
+			aProjectile->mRotation = DEG_TO_RAD(-72.0f);
+		}
+
+		if (aProjectile->mType == ProjectileTypes::KERNEL)
+		{
+			aProjectile->mRotation = 0.0f;
+		}
 	}
 	else if (mSeedType == SeedType::SEED_THREEPEATER)
 	{
@@ -4906,6 +4921,15 @@ void Plant::Fire(Zombie *theTargetZombie, int theRow, PlantWeapon thePlantWeapon
 	{
 		aProjectile->mMotionType = ProjectileMotion::MOTION_BACKWARDS;
 	}
+	else if (mSeedType == SeedType::SEED_STARFRUIT)
+	{
+		aProjectile->mShadowY += 15.0f;
+		aProjectile->mRotationSpeed = RandRangeFloat(0.05f, 0.1f);
+		if (Rand(2) == 0)
+		{
+			aProjectile->mRotationSpeed = -aProjectile->mRotationSpeed;
+		}
+	}
 	else if (mSeedType == SeedType::SEED_LEFTPEATER)
 	{
 		aProjectile->mMotionType = ProjectileMotion::MOTION_BACKWARDS;
@@ -4926,6 +4950,7 @@ void Plant::Fire(Zombie *theTargetZombie, int theRow, PlantWeapon thePlantWeapon
 		aProjectile->mVelZ = -8.0f;
 		aProjectile->mCobTargetX = mTargetX - 40;
 		aProjectile->mCobTargetRow = mBoard->PixelToGridYKeepOnBoard(mTargetX, mTargetY);
+		aProjectile->mRotation = PI / 2;
 	}
 }
 

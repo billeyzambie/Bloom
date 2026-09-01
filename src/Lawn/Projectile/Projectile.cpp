@@ -67,29 +67,13 @@ void Projectile::ProjectileInitialize(
 	mRenderOrder = theRenderOrder;
 	mRotation = 0.0f;
 	mRotationSpeed = 0.0f;
-	mWidth = 40;
-	mHeight = 40;
+	mWidth = mAttributes.mWidth;
+	mHeight = mAttributes.mHeight;
 	mProjectileAge = 0;
 	mClickBackoffCounter = 0;
 	mAnimTicksPerFrame = 0;
 
-	if (mType == ProjectileTypes::CABBAGE || mType == ProjectileTypes::BUTTER)
-	{
-		mRotation = DEG_TO_RAD(-50.4f);
-		mRotationSpeed = RandRangeFloat(-0.08f, -0.02f);
-	}
-	else if (mType == ProjectileTypes::MELON ||
-			 mType == ProjectileTypes::WINTERMELON)
-	{
-		mRotation = DEG_TO_RAD(-72.0f);
-		mRotationSpeed = RandRangeFloat(-0.08f, -0.02f);
-	}
-	else if (mType == ProjectileTypes::KERNEL)
-	{
-		mRotation = 0.0f;
-		mRotationSpeed = RandRangeFloat(-0.2f, -0.08f);
-	}
-	else if (mType == ProjectileTypes::SNOWPEA)
+	if (mType == ProjectileTypes::SNOWPEA)
 	{
 		TodParticleSystem *aParticle =
 			mApp->AddTodParticle(mPosX + 8.0f, mPosY + 13.0f, 400000, ParticleEffect::PARTICLE_SNOWPEA_TRAIL);
@@ -99,31 +83,11 @@ void Projectile::ProjectileInitialize(
 	{
 		TOD_ASSERT();
 	}
-	else if (mType == ProjectileTypes::COBBIG)
-	{
-		mWidth = IMAGE_REANIM_COBCANNON_COB->GetWidth();
-		mHeight = IMAGE_REANIM_COBCANNON_COB->GetHeight();
-		mRotation = PI / 2;
-	}
 	else if (mType == ProjectileTypes::PUFF)
 	{
 		TodParticleSystem *aParticle =
 			mApp->AddTodParticle(mPosX + 13.0f, mPosY + 13.0f, 400000, ParticleEffect::PARTICLE_PUFFSHROOM_TRAIL);
 		AttachParticle(mAttachmentID, aParticle, 13.0f, 13.0f);
-	}
-	else if (mType == ProjectileTypes::BASKETBALL)
-	{
-		mRotation = RandRangeFloat(0.0f, 2 * PI);
-		mRotationSpeed = RandRangeFloat(0.05f, 0.1f);
-	}
-	else if (mType == ProjectileTypes::STAR)
-	{
-		mShadowY += 15.0f;
-		mRotationSpeed = RandRangeFloat(0.05f, 0.1f);
-		if (Rand(2) == 0)
-		{
-			mRotationSpeed = -mRotationSpeed;
-		}
 	}
 
 	mAnimCounter = 0;

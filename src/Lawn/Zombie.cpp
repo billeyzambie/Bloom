@@ -1683,6 +1683,8 @@ void Zombie::ZombieCatapultFire(Plant *thePlant)
 	aProjectile->mVelY = 0.0f;
 	aProjectile->mVelZ = aRangeY / 120.0f - 7.0f;
 	aProjectile->mAccZ = 0.115f;
+	aProjectile->mRotation = RandRangeFloat(0.0f, 2 * PI);
+	aProjectile->mRotationSpeed = RandRangeFloat(0.05f, 0.1f);
 }
 
 Plant *Zombie::FindCatapultTarget()

@@ -27,9 +27,11 @@ class BLOOM_API ProjectileType : public BloomType
 	struct Attributes
 	{
 		Sexy::Image *mImageOverride = nullptr;
+		float mVisualScale = 1.0f;
 		float mShadowOffsetX = 0.0f;
 		float mShadowScale = 1.0f;
-		float mVisualScale = 1.0f;
+		int mWidth = 40;
+		int mHeight = 40;
 		int mDamage = 20;
 	};
 	struct ModifierContext
