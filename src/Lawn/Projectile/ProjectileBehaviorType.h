@@ -16,7 +16,7 @@ class BLOOM_API ProjectileBehaviorType : public BloomType
 
 	struct Attributes
 	{
-		int mLol = 0;
+		int mUnused = 0;
 	};
 	PatchHolder<ProjectileBehaviorType> *mPatchHolder;
 	Attributes mAttributeBaseValues;
@@ -33,10 +33,29 @@ class BLOOM_API ProjectileBehaviorType : public BloomType
 
   protected:
 	template <ValidInstanceClass T>
-	ProjectileBehavior *InstantiateCustomClass(void *theBuffer) const
+	ProjectileBehavior *InstantiateClass(void *theBuffer) const
 	{
+		static_assert(
+			(void *)(ProjectileBehavior *)(-1) == (void *)(T *)(ProjectileBehavior *)(-1),
+			"Custom class must have the bloom base class first in its inherited list"
+		);
 		return new (theBuffer) T(*this);
 	}
 };
 
 typedef ProjectileBehaviorType::Attributes ProjectileBehaviorAttributes;
+
+template <class T> class CustomProjectileBehaviorType : public ProjectileBehaviorType
+{
+  public:
+	CustomProjectileBehaviorType(
+		const std::string &theModName,
+		const std::string &theTypeName,
+		const Attributes &theAttributes = {}
+	) : ProjectileBehaviorType(theModName, theTypeName, theAttributes);
+
+	virtual ProjectileBehavior *Instantiate(void *theBuffer) const override
+	{
+		return InstantiateClass<T>();
+	}
+};

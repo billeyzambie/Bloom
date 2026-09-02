@@ -18,6 +18,9 @@ class LawnApp;
 class PlayerInfo;
 
 class Projectile;
+class ProjectileBehaviorType;
+
+template <class T> class RegistryTypeHolder;
 
 class BLOOM_API ProjectileType : public BloomType
 {
@@ -46,6 +49,7 @@ class BLOOM_API ProjectileType : public BloomType
 	Attributes mAttributes;
 	EventList<ModifierContext> mModifiers;
 	ImageGetter mBaseImage;
+	ProjectileBehaviorType &mBehaviorType;
 
 	ProjectileType(const std::string &theModName, const std::string &theTypeName, const Attributes &theAttributes);
 	operator OldProjectileType() const;

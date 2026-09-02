@@ -24,5 +24,5 @@ void ProjectileBehaviorType::Update(const LawnApp &theLawnApp)
 
 ProjectileBehavior *ProjectileBehaviorType::Instantiate(void *theBuffer) const
 {
-	return InstantiateCustomClass<ProjectileBehavior>(theBuffer);
+	return InstantiateClass<ProjectileBehavior>(theBuffer);
 }
