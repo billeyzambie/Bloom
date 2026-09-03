@@ -21,6 +21,8 @@ Projectile::Projectile(const ProjectileType &theType)
 	: mType(theType), mAttributes(theType.mAttributes),
 	GameObject(GameObjectType::OBJECT_TYPE_PROJECTILE)
 {
+	TOD_ASSERT(mType.mBehaviorType);
+	mBehavior.Initialize(*mType.mBehaviorType);
 }
 
 Projectile::~Projectile()
@@ -889,6 +891,8 @@ void Projectile::DoImpact(Zombie *theZombie)
 		}
 	}
 
+	mBehavior->DoImpact(*this, *theZombie);
+
 	Die();
 }
 
@@ -920,6 +924,8 @@ void Projectile::Update()
 
 	UpdateMotion();
 	AttachmentUpdateAndMove(mAttachmentID, mPosX, mPosY + mPosZ);
+
+	mBehavior->Update(*this);
 }
 
 void Projectile::Draw(Graphics *g)

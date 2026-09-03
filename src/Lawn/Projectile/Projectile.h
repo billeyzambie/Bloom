@@ -4,6 +4,8 @@
 #include "../../ConstEnums.h"
 #include "../GameObject.h"
 #include "ProjectileType.h"
+#include "ProjectileBehavior.h"
+#include "../../BloomLib/PolymorphicWrapper.h"
 
 class Plant;
 class Zombie;
@@ -22,6 +24,7 @@ class BLOOM_API Projectile final : public GameObject
 
 	const ProjectileType &mType;
 	ProjectileAttributes mAttributes;
+	PolymorphicWrapper<ProjectileBehavior> mBehavior;
 	ProjectileMotion mMotionType;
 	GameObjectID mOwner;
 	int mFrame;

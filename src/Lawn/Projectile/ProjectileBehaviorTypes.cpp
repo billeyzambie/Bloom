@@ -3,20 +3,24 @@
 #include "../Registries.h"
 
 #include "../Board.h"
+#include "../../LawnApp.h"
 #include "../Zombie.h"
+#include "../../Sexy.TodLib/TodFoley.h"
 #include "Projectile.h"
 #include "ProjectileBehavior.h"
 
-class TestProjectileBehavior : public ProjectileBehavior
+class TestBehavior : public ProjectileBehavior
 {
+  public:
 	int mCounter = 0;
-	TestProjectileBehavior(const ProjectileBehaviorType &theType) 
+	TestBehavior(const ProjectileBehaviorType &theType)
 		: ProjectileBehavior(theType) {};
 	virtual void Update(Projectile &theProjectile) override
 	{
 	}
 	virtual void DoImpact(Projectile &theProjectile, Zombie &theZombie) override
 	{
+		theZombie.StartMindControlled();
 	}
 };
 
@@ -29,7 +33,8 @@ const auto &NOTHING = Registries::PROJECTILE_BEHAVIORS.Register([]() {
 });
 
 const auto &TEST = Registries::PROJECTILE_BEHAVIORS.Register([]() {
-	ProjectileBehaviorType *aProjectileType = new ProjectileBehaviorType("PVZ", "TEST");
+	ProjectileBehaviorType *aProjectileType 
+		= new CustomProjectileBehaviorType<TestBehavior>("PVZ", "TEST");
 	return aProjectileType;
 });
 

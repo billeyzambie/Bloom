@@ -3,6 +3,7 @@
 #include "../BloomLib/Registry.h"
 #include "StoreItem/StoreItemType.h"
 #include "StoreItem/StoreItemGroup.h"
+#include "Projectile/ProjectileBehaviorType.h"
 #include "Projectile/ProjectileType.h"
 
 namespace Registries

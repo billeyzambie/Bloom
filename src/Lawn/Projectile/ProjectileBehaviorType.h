@@ -35,10 +35,6 @@ class BLOOM_API ProjectileBehaviorType : public BloomType
 	template <ValidInstanceClass T>
 	ProjectileBehavior *InstantiateClass(void *theBuffer) const
 	{
-		static_assert(
-			(void *)(ProjectileBehavior *)(-1) == (void *)(T *)(ProjectileBehavior *)(-1),
-			"Custom class must have the bloom base class first in its inherited list"
-		);
 		return new (theBuffer) T(*this);
 	}
 };
@@ -52,10 +48,12 @@ template <class T> class CustomProjectileBehaviorType : public ProjectileBehavio
 		const std::string &theModName,
 		const std::string &theTypeName,
 		const Attributes &theAttributes = {}
-	) : ProjectileBehaviorType(theModName, theTypeName, theAttributes);
+	) : ProjectileBehaviorType(theModName, theTypeName, theAttributes)
+	{
+	}
 
 	virtual ProjectileBehavior *Instantiate(void *theBuffer) const override
 	{
-		return InstantiateClass<T>();
+		return InstantiateClass<T>(theBuffer);
 	}
 };

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../../BloomLib/Bloom.h"
+#include "ProjectileBehaviorType.h"
 
-class ProjectileBehaviorType;
 class Projectile;
 class Zombie;
 

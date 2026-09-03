@@ -25,7 +25,7 @@ template <class T> class RegistryTypeHolder;
 class BLOOM_API ProjectileType : public BloomType
 {
   public:
-	static constexpr size_t INSTANCE_MAX_SIZE = 200;
+	static constexpr size_t INSTANCE_MAX_SIZE = 240;
 
 	struct Attributes
 	{
@@ -49,7 +49,7 @@ class BLOOM_API ProjectileType : public BloomType
 	Attributes mAttributes;
 	EventList<ModifierContext> mModifiers;
 	ImageGetter mBaseImage;
-	ProjectileBehaviorType &mBehaviorType;
+	const ProjectileBehaviorType *mBehaviorType = nullptr;
 
 	ProjectileType(const std::string &theModName, const std::string &theTypeName, const Attributes &theAttributes);
 	operator OldProjectileType() const;
