@@ -939,7 +939,13 @@ void Plant::StarFruitFire()
 		Projectile *aProjectile =
 			mBoard->AddProjectile(mX + 25, mY + 25, mRenderOrder - 1, mRow, ProjectileTypes::STAR, this);
 		aProjectile->mDamageRangeFlags = GetDamageRangeFlags(PlantWeapon::WEAPON_PRIMARY);
-		aProjectile->mMotionType = ProjectileMotion::MOTION_STAR;
+		aProjectile->mMotionType = ProjectileMotion::MOTION_STRAIGHT;
+		aProjectile->mShadowY += 15.0f;
+		aProjectile->mRotationSpeed = RandRangeFloat(0.05f, 0.1f);
+		if (Rand(2) == 0)
+		{
+			aProjectile->mRotationSpeed = -aProjectile->mRotationSpeed;
+		}
 
 		switch (i)
 		{
@@ -4654,8 +4660,8 @@ void Plant::Fire(Zombie *theTargetZombie, int theRow, PlantWeapon thePlantWeapon
 	case SeedType::SEED_PEASHOOTER:
 	#ifdef INCLUDE_CUSTOM_PROJECTILE_TEST
 		aProjectileType = ProjectileTypes::CUSTOM_TEST;
-	#endif
 		break;
+	#endif
 	case SeedType::SEED_REPEATER:
 	case SeedType::SEED_THREEPEATER:
 	case SeedType::SEED_SPLITPEA:
@@ -4913,22 +4919,13 @@ void Plant::Fire(Zombie *theTargetZombie, int theRow, PlantWeapon thePlantWeapon
 			aProjectile->mShadowY -= 80.0f;
 		}
 	}
-	else if (mSeedType == SeedType::SEED_PUFFSHROOM || mSeedType == SeedType::SEED_SEASHROOM)
-	{
-		aProjectile->mMotionType = ProjectileMotion::MOTION_PUFF;
-	}
+	//else if (mSeedType == SeedType::SEED_PUFFSHROOM || mSeedType == SeedType::SEED_SEASHROOM)
+	//{
+	//	aProjectile->mMotionType = ProjectileMotion::MOTION_PUFF;
+	//}
 	else if (mSeedType == SeedType::SEED_SPLITPEA && thePlantWeapon == PlantWeapon::WEAPON_SECONDARY)
 	{
 		aProjectile->mMotionType = ProjectileMotion::MOTION_BACKWARDS;
-	}
-	else if (mSeedType == SeedType::SEED_STARFRUIT)
-	{
-		aProjectile->mShadowY += 15.0f;
-		aProjectile->mRotationSpeed = RandRangeFloat(0.05f, 0.1f);
-		if (Rand(2) == 0)
-		{
-			aProjectile->mRotationSpeed = -aProjectile->mRotationSpeed;
-		}
 	}
 	else if (mSeedType == SeedType::SEED_LEFTPEATER)
 	{
@@ -4951,6 +4948,11 @@ void Plant::Fire(Zombie *theTargetZombie, int theRow, PlantWeapon thePlantWeapon
 		aProjectile->mCobTargetX = mTargetX - 40;
 		aProjectile->mCobTargetRow = mBoard->PixelToGridYKeepOnBoard(mTargetX, mTargetY);
 		aProjectile->mRotation = PI / 2;
+	}
+
+	if (aProjectile->mMotionType == ProjectileMotion::MOTION_STRAIGHT && aProjectile->mVelX == 0)
+	{
+		aProjectile->mVelX = 3.33f;
 	}
 }
 

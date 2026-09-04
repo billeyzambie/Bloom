@@ -22,7 +22,7 @@ Projectile::Projectile(const ProjectileType &theType)
 	GameObject(GameObjectType::OBJECT_TYPE_PROJECTILE)
 {
 	TOD_ASSERT(mType.mBehaviorType);
-	mBehavior.Initialize(*mType.mBehaviorType);
+	mBehaviors.Initialize(mType);
 }
 
 Projectile::~Projectile()
@@ -33,7 +33,7 @@ Projectile::~Projectile()
 void Projectile::Sync(BoundedSync &theSync)
 {
 	theSync.SyncBytes(&mX, sizeof(GameObject) - offsetof(GameObject, mX));
-	theSync.SyncBytes(&mMotionType, sizeof(Projectile) - offsetof(Projectile, mMotionType));
+	theSync.SyncBytes(&mMotionType, offsetof(Projectile, mBehaviors) - offsetof(Projectile, mMotionType));
 }
 
 void Projectile::ProjectileInitialize(
@@ -205,7 +205,7 @@ Zombie *Projectile::FindCollisionTarget()
 
 void Projectile::CheckForCollision()
 {
-	if (mMotionType == ProjectileMotion::MOTION_PUFF && mProjectileAge >= 75)
+	if (mType == ProjectileTypes::PUFF && mProjectileAge >= 75)
 	{
 		Die();
 		return;
@@ -233,7 +233,7 @@ void Projectile::CheckForCollision()
 		return;
 	}
 
-	if (mMotionType == ProjectileMotion::MOTION_STAR && (mPosY > 600.0f || mPosY < 0.0f))
+	if (mMotionType == ProjectileMotion::MOTION_STRAIGHT && (mPosY > 600.0f || mPosY < 0.0f))
 	{
 		Die();
 		return;
@@ -349,7 +349,7 @@ unsigned int Projectile::GetDamageFlags(Zombie *theZombie)
 	{
 		SetBit(aDamageFlags, (int)DamageFlags::DAMAGE_BYPASSES_SHIELD, true);
 	}
-	else if (mMotionType == ProjectileMotion::MOTION_STAR && mVelX < 0.0f)
+	else if (mMotionType == ProjectileMotion::MOTION_STRAIGHT && mVelX < 0.0f)
 	{
 		SetBit(aDamageFlags, (int)DamageFlags::DAMAGE_BYPASSES_SHIELD, true);
 	}
@@ -601,7 +601,7 @@ void Projectile::UpdateNormalMotion()
 		mShadowY += mVelY;
 		mRow = mBoard->PixelToGridYKeepOnBoard(mPosX, mPosY);
 	}
-	else if (mMotionType == ProjectileMotion::MOTION_STAR)
+	else if (mMotionType == ProjectileMotion::MOTION_STRAIGHT)
 	{
 		mPosY += mVelY;
 		mPosX += mVelX;
@@ -648,7 +648,7 @@ void Projectile::UpdateNormalMotion()
 	}
 	else
 	{
-		mPosX += 3.33f;
+		TOD_ASSERT();
 	}
 
 	if (mApp->mGameMode == GameMode::GAMEMODE_CHALLENGE_HIGH_GRAVITY)
@@ -891,7 +891,8 @@ void Projectile::DoImpact(Zombie *theZombie)
 		}
 	}
 
-	mBehavior->DoImpact(*this, *theZombie);
+	ProjectileBehavior::DoImpactContext aContext = {*this, theZombie};
+	mBehaviors.Fire(&ProjectileBehavior::DoImpact, aContext);
 
 	Die();
 }
@@ -925,7 +926,7 @@ void Projectile::Update()
 	UpdateMotion();
 	AttachmentUpdateAndMove(mAttachmentID, mPosX, mPosY + mPosZ);
 
-	mBehavior->Update(*this);
+	mBehaviors.Fire(&ProjectileBehavior::Update, *this);
 }
 
 void Projectile::Draw(Graphics *g)

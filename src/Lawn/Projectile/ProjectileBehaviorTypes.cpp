@@ -5,22 +5,20 @@
 #include "../Board.h"
 #include "../../LawnApp.h"
 #include "../Zombie.h"
-#include "../../Sexy.TodLib/TodFoley.h"
 #include "Projectile.h"
 #include "ProjectileBehavior.h"
 
 class TestBehavior : public ProjectileBehavior
 {
   public:
-	int mCounter = 0;
 	TestBehavior(const ProjectileBehaviorType &theType)
 		: ProjectileBehavior(theType) {};
-	virtual void Update(Projectile &theProjectile) override
+	virtual void VirtualUpdate(Projectile &theProjectile) override
 	{
+		theProjectile.mVelY = -sin(mRunTime / 10.0f) * 4;
 	}
-	virtual void DoImpact(Projectile &theProjectile, Zombie &theZombie) override
+	virtual void DoImpact(DoImpactContext &theProjectile) override
 	{
-		theZombie.StartMindControlled();
 	}
 };
 

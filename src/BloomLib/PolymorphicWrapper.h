@@ -10,16 +10,20 @@ template <class T> class PolymorphicWrapper
 	T *mObject = nullptr;
   public:
 	PolymorphicWrapper() = default;
+	PolymorphicWrapper(const T::Type &theType)
+	{
+		Initialize(theType);
+	}
 	~PolymorphicWrapper()
 	{
 		if (mObject)
 			mObject->~T();
 	}
-	void Initialize(const T::Type &theType)
+	T *Initialize(const T::Type &theType)
 	{
 		if (mObject)
 			Clear();
-		mObject = theType.Instantiate(mBuffer);
+		return mObject = theType.Instantiate(mBuffer);
 	}
 	T *TryGet()
 	{
@@ -33,6 +37,14 @@ template <class T> class PolymorphicWrapper
 	T *operator->()
 	{
 		return mObject;
+	}
+	operator T *()
+	{
+		return TryGet();
+	}
+	operator T &()
+	{
+		return Get();
 	}
 	bool Clear()
 	{

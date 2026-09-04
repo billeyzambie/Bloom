@@ -5,7 +5,7 @@
 #include "../GameObject.h"
 #include "ProjectileType.h"
 #include "ProjectileBehavior.h"
-#include "../../BloomLib/PolymorphicWrapper.h"
+#include "../../BloomLib/BehaviorList.h"
 
 class Plant;
 class Zombie;
@@ -24,7 +24,6 @@ class BLOOM_API Projectile final : public GameObject
 
 	const ProjectileType &mType;
 	ProjectileAttributes mAttributes;
-	PolymorphicWrapper<ProjectileBehavior> mBehavior;
 	ProjectileMotion mMotionType;
 	GameObjectID mOwner;
 	int mFrame;
@@ -52,6 +51,9 @@ class BLOOM_API Projectile final : public GameObject
 	int mCobTargetRow;
 	ZombieID mTargetZombieID;
 	int mLastPortalX;
+
+  private:
+	BehaviorList<ProjectileBehavior> mBehaviors;
 
   public:
 	Projectile(const ProjectileType &theProjectileType);

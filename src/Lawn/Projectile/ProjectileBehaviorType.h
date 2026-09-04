@@ -7,7 +7,10 @@ class LawnApp;
 class ProjectileBehavior;
 
 template <class T>
-concept ValidInstanceClass = sizeof(T) <= T::Type::INSTANCE_MAX_SIZE;
+concept InstanceClassHasValidSize = sizeof(T) <= T::Type::INSTANCE_MAX_SIZE;
+
+template <class T>
+concept ValidInstanceClass = InstanceClassHasValidSize<T> && std::is_move_constructible_v<T>;
 
 class BLOOM_API ProjectileBehaviorType : public BloomType
 {
@@ -16,7 +19,7 @@ class BLOOM_API ProjectileBehaviorType : public BloomType
 
 	struct Attributes
 	{
-		int mUnused = 0;
+		float mUpdateRateMultiplier = 1;
 	};
 	PatchHolder<ProjectileBehaviorType> *mPatchHolder;
 	Attributes mAttributeBaseValues;

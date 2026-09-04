@@ -10,6 +10,7 @@
 #include "NamespacedString.h"
 #include "Registry.h"
 #include "BoundedSync.h"
+#include "PolymorphicWrapper.h"
 
 //#include "../Lawn/Projectile/Projectile.h"
 
@@ -34,12 +35,8 @@ template <typename T> class BLOOM_API BloomDataArray
 	class BLOOM_API DataArrayItem
 	{
 	  public:
-		alignas(T) char mBuffer[T::Type::INSTANCE_MAX_SIZE];
+		PolymorphicWrapper<T> mItem;
 		unsigned int mID;
-		T &Item()
-		{
-			return reinterpret_cast<T &>(mBuffer);
-		}
 		void Sync(SaveGameContext &theContext)
 		{
 			theContext.SyncUint(mID);
@@ -52,22 +49,19 @@ template <typename T> class BLOOM_API BloomDataArray
 					theContext.SyncResourceId(aResId);
 					const Registry<T::Type> &aRegistry = *Registry<T::Type>::gInstance;
 					const T::Type *aType = aRegistry.GetByResourceId(aResId);
-					if (aType)
+					if (!aType)
 					{
-						aType->Instantiate(mBuffer);
+						aType = &aRegistry.GetDefaultType();
 					}
-					else
-					{
-						aRegistry.GetDefaultType().Instantiate(mBuffer);
-					}
+					mItem.Initialize(*aType);
 				}
 				else
 				{
-					theContext.SyncResourceId(const_cast<ResourceId &>(Item().mType.mResourceId));
+					theContext.SyncResourceId(const_cast<ResourceId &>(mItem->mType.mResourceId));
 				}
 
-				BoundedSync aSync = {theContext};
-				Item().Sync(aSync);
+				BoundedSync aSync{theContext};
+				mItem->Sync(aSync);
 				aSync.Finish();
 			}
 		}
@@ -138,7 +132,7 @@ template <typename T> class BLOOM_API BloomDataArray
 	{
 		DataArrayItem *aItem = (DataArrayItem *)theItem;
 		TOD_ASSERT(DataArrayGet(aItem->mID) == theItem, "Failed: DataArrayFree(0x%x) in %s", theItem, mName);
-		theItem->~T();
+		aItem->mItem.Clear();
 		unsigned int anId = aItem->mID & DATA_ARRAY_INDEX_MASK;
 		aItem->mID = mFreeListHead;
 		mFreeListHead = anId;
@@ -205,7 +199,7 @@ template <typename T> class BLOOM_API BloomDataArray
 			mNextKey = 1;
 		mSize++;
 
-		return theType.Instantiate(aNewItem);
+		return aNewItem->mItem.Initialize(theType);
 	}
 
 	T *DataArrayTryToGet(unsigned int theId)
@@ -214,12 +208,12 @@ template <typename T> class BLOOM_API BloomDataArray
 			return nullptr;
 
 		DataArrayItem *aBlock = &mBlock[theId & DATA_ARRAY_INDEX_MASK];
-		return aBlock->mID == theId ? &aBlock->Item() : nullptr;
+		return aBlock->mID == theId ? &aBlock->mItem.Get() : nullptr;
 	}
 
 	T *DataArrayGet(unsigned int theId)
 	{
 		TOD_ASSERT(DataArrayTryToGet(theId) != nullptr, "Failed: DataArrayGet(0x%x) for %s", theId, mName);
-		return &mBlock[(short)theId].Item();
+		return &mBlock[(short)theId].mItem.Get();
 	}
 };
