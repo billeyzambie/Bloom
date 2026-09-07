@@ -57,6 +57,7 @@ class BLOOM_API Projectile final : public GameObject
 
   public:
 	Projectile(const ProjectileType &theProjectileType);
+	Projectile(Projectile &&theMoved) noexcept = default;
 	~Projectile();
 
 	void Sync(BoundedSync &theSync);

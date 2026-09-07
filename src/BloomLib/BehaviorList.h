@@ -4,7 +4,8 @@
 #include <vector>
 
 #include "PolymorphicWrapper.h"
-#include "../Lawn/Projectile/ProjectileBehavior.h"
+#include "BehaviorTypeList.h"
+//#include "../Lawn/Projectile/ProjectileBehavior.h"
 
 template <class T> class BehaviorList
 {
@@ -12,9 +13,20 @@ template <class T> class BehaviorList
 	std::vector<PolymorphicWrapper<T>> mBehaviors;
   
   public:
+	BehaviorList() = default;
+	BehaviorList(const BehaviorList &theCopied) = delete;
+	BehaviorList(BehaviorList &&theMoved) noexcept = default;
+	BehaviorList &operator=(const BehaviorList &theCopied) = delete;
+	BehaviorList &operator=(BehaviorList &&theMoved) noexcept = default;
 	void Initialize(const T::Owner::Type &theOwnerType)
 	{
-		mBehaviors.emplace_back(*theOwnerType.mBehaviorType);
+		TOD_ASSERT(mBehaviors.empty());
+		mBehaviors.resize(theOwnerType.mBehaviorTypes.GetBehaviorTypes().size());
+		for (size_t i = 0; i < mBehaviors.size(); i++)
+		{
+			const T::Type *aType = theOwnerType.mBehaviorTypes.GetBehaviorTypes()[i];
+			mBehaviors[i].Initialize(*aType);
+		}
 	}
 	template <class ContextT> void Fire(void (T::*theFunction)(ContextT &), ContextT &theContext)
 	{

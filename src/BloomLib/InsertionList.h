@@ -8,6 +8,7 @@
 #include "BillFunctional.h"
 #include "EventPriority.h"
 #include "ListInsertion.h"
+//#include "BehaviorTypeList.h"
 
 //struct T
 //{
@@ -20,8 +21,52 @@
 
 template <class T> class BLOOM_API InsertionList
 {
+  public:
+	static constexpr bool gContainsInsertion = requires(const T &theT) { theT.mInsertion; };
+
+	struct DirectInsertor
+	{
+		const T *mT;
+
+		DirectInsertor(const T *theT) : mT(theT)
+		{
+		}
+
+		ListInsertion<T> GetInsertion() const
+		{
+			return mT->mInsertion;
+		}
+
+		bool ExcludeFromSorting() const
+		{
+			return mT->ExcludeFromSorting();
+		}
+	};
+
+	struct StoredInsertor
+	{
+		const T *mT;
+		ListInsertion<T> mInsertion;
+
+		ListInsertion<T> GetInsertion() const
+		{
+			return mInsertion;
+		}
+
+		bool ExcludeFromSorting() const
+		{
+			return false;
+		}
+	};
+
+	using Insertor = std::conditional_t<
+		gContainsInsertion,
+		DirectInsertor,
+		StoredInsertor
+	>;
+
   private:
-	std::vector<const T *> mInsertors;
+	std::vector<Insertor> mInsertors;
 	std::vector<const T *> mResult;
 	int mTabSize;
 
@@ -32,9 +77,9 @@ template <class T> class BLOOM_API InsertionList
 		mInsertors.reserve(theTabSize);
 		mResult.reserve(theTabSize);
 	}
-	void Add(const T *theT)
+	void Add(Insertor theInsertor)
 	{
-		mInsertors.push_back(theT);
+		mInsertors.push_back(theInsertor);
 	}
 	void Clear()
 	{
@@ -48,7 +93,7 @@ template <class T> class BLOOM_API InsertionList
 	{
 		return mResult.empty();
 	}
-	std::span<const T *const> GetResult()
+	std::span<const T *const> GetResult() const
 	{
 		return mResult;
 	}
@@ -62,19 +107,21 @@ template <class T> class BLOOM_API InsertionList
 	}
 	void Refresh()
 	{
-		std::stable_sort(mInsertors.begin(), mInsertors.end(), [](const T *theT, const T *theOtherT) {
-			return theT->mInsertion.mPriority > theOtherT->mInsertion.mPriority;
+		std::stable_sort(mInsertors.begin(), mInsertors.end(), [](const Insertor &theInsertor, const Insertor &theOtherInsertor) {
+			return theInsertor.GetInsertion().mPriority > theOtherInsertor.GetInsertion().mPriority;
 		});
 
 		mResult.clear();
 		mResult.reserve(mInsertors.size());
 
-		for (const T *aT : mInsertors)
+		for (const Insertor &anInsertor : mInsertors)
 		{
-			if (aT->ExcludeFromSorting())
+			if (anInsertor.ExcludeFromSorting())
 				continue;
 
-			const ListInsertion<T> &anInsertion = aT->mInsertion;
+			const ListInsertion<T> &anInsertion = anInsertor.GetInsertion();
+
+			const T *aT = anInsertor.mT;
 
 			switch (anInsertion.mType)
 			{

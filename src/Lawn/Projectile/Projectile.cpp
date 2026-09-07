@@ -21,7 +21,6 @@ Projectile::Projectile(const ProjectileType &theType)
 	: mType(theType), mAttributes(theType.mAttributes),
 	GameObject(GameObjectType::OBJECT_TYPE_PROJECTILE)
 {
-	TOD_ASSERT(mType.mBehaviorType);
 	mBehaviors.Initialize(mType);
 }
 

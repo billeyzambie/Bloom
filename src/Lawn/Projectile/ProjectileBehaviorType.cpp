@@ -21,8 +21,3 @@ void ProjectileBehaviorType::Update(const LawnApp &theLawnApp)
 	mAttributes = mAttributeBaseValues;
 	//goofy
 }
-
-ProjectileBehavior *ProjectileBehaviorType::Instantiate(void *theBuffer) const
-{
-	return InstantiateClass<ProjectileBehavior>(theBuffer);
-}

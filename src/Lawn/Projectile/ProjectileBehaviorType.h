@@ -32,19 +32,13 @@ class BLOOM_API ProjectileBehaviorType : public BloomType
 	);
 	virtual void CopyFrom(const ProjectileBehaviorType &theOther);
 	void Update(const LawnApp &theLawnApp);
-	virtual ProjectileBehavior *Instantiate(void *theBuffer) const;
-
-  protected:
-	template <ValidInstanceClass T>
-	ProjectileBehavior *InstantiateClass(void *theBuffer) const
-	{
-		return new (theBuffer) T(*this);
-	}
+	virtual ProjectileBehavior *Instantiate(void *theBuffer) const = 0;
+	virtual ProjectileBehavior *MoveInstance(void *theDestinationBuffer, void *theSourceBuffer) const = 0;
 };
 
 typedef ProjectileBehaviorType::Attributes ProjectileBehaviorAttributes;
 
-template <class T> class CustomProjectileBehaviorType : public ProjectileBehaviorType
+template <ValidInstanceClass T> class CustomProjectileBehaviorType : public ProjectileBehaviorType
 {
   public:
 	CustomProjectileBehaviorType(
@@ -57,6 +51,11 @@ template <class T> class CustomProjectileBehaviorType : public ProjectileBehavio
 
 	virtual ProjectileBehavior *Instantiate(void *theBuffer) const override
 	{
-		return InstantiateClass<T>(theBuffer);
+		return new (theBuffer) T(*this);
+	}
+
+	virtual ProjectileBehavior *MoveInstance(void *theDestinationBuffer, void *theSourceBuffer) const override
+	{
+		return new (theDestinationBuffer) T(std::move(*reinterpret_cast<T *>(theSourceBuffer)));
 	}
 };

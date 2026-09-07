@@ -106,8 +106,7 @@ template <typename T> class BLOOM_API BloomDataArray
 	{
 		TOD_ASSERT(mBlock == nullptr);
 		mBlock = (DataArrayItem *)operator new(sizeof(DataArrayItem) * theMaxSize);
-		for (size_t i = 0; i < theMaxSize; i++)
-			mBlock[i].mID = 0u;
+		memset(mBlock, 0, sizeof(DataArrayItem) * theMaxSize);
 		mMaxSize = theMaxSize;
 		mNextKey = 1001U;
 		mName = theName;

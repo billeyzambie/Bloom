@@ -36,3 +36,8 @@ Projectile* ProjectileType::Instantiate(void* theBuffer) const
 {
 	return new (theBuffer) Projectile(*this);
 }
+
+Projectile* ProjectileType::MoveInstance(void* theDestinationBuffer, void* theSourceBuffer) const
+{
+	return new (theDestinationBuffer) Projectile(std::move(*reinterpret_cast<Projectile*>(theSourceBuffer)));
+}

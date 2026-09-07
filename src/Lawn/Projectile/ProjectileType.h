@@ -4,6 +4,7 @@
 #include "../BloomLib/PatchHolder.h"
 #include "../BloomLib/EventList.h"
 #include "../BloomLib/ImageGetter.h"
+#include "../BloomLib/BehaviorTypeList.h"
 
 #include "../ConstEnums.h"
 #include "../Resources.h"
@@ -49,13 +50,14 @@ class BLOOM_API ProjectileType : public BloomType
 	Attributes mAttributes;
 	EventList<ModifierContext> mModifiers;
 	ImageGetter mBaseImage;
-	const ProjectileBehaviorType *mBehaviorType = nullptr;
+	BehaviorTypeList<ProjectileBehaviorType> mBehaviorTypes;
 
 	ProjectileType(const std::string &theModName, const std::string &theTypeName, const Attributes &theAttributes);
 	operator OldProjectileType() const;
 	virtual void CopyFrom(const ProjectileType &theOther);
 	void Update(const LawnApp &theLawnApp);
 	Projectile *Instantiate(void *theBuffer) const;
+	Projectile *MoveInstance(void *theDestinationBuffer, void *theSourceBuffer) const;
 };
 
 typedef ProjectileType::Attributes ProjectileAttributes;

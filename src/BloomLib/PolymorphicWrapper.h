@@ -1,6 +1,6 @@
 #pragma once
 
-//#include "../Lawn/Projectile/ProjectileBehavior.h"
+#include "../Lawn/Projectile/ProjectileBehavior.h"
 #include "../Sexy.TodLib/TodDebug.h"
 
 template <class T> class PolymorphicWrapper
@@ -13,6 +13,24 @@ template <class T> class PolymorphicWrapper
 	PolymorphicWrapper(const T::Type &theType)
 	{
 		Initialize(theType);
+	}
+	PolymorphicWrapper(const PolymorphicWrapper &theCopied) = delete;
+	PolymorphicWrapper &operator=(const PolymorphicWrapper &theCopied) = delete;
+	PolymorphicWrapper(PolymorphicWrapper &&theMoved) noexcept
+	{
+		if (theMoved.IsEmpty())
+			return;
+
+		mObject = theMoved->mType.MoveInstance(mBuffer, theMoved.mBuffer);
+
+		theMoved.Clear();
+	}
+	PolymorphicWrapper& operator=(PolymorphicWrapper &&theMoved) noexcept
+	{
+		Clear();
+		new (this) PolymorphicWrapper(std::move(theMoved));
+
+		return *this;
 	}
 	~PolymorphicWrapper()
 	{
@@ -53,5 +71,9 @@ template <class T> class PolymorphicWrapper
 		mObject->~T();
 		mObject = nullptr;
 		return true;
+	}
+	bool IsEmpty() const
+	{
+		return mObject != nullptr;
 	}
 };

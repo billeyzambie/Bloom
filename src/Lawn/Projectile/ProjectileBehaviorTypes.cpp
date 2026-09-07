@@ -26,7 +26,8 @@ namespace ProjectileBehaviorTypes
 {
 
 const auto &NOTHING = Registries::PROJECTILE_BEHAVIORS.Register([]() {
-	ProjectileBehaviorType *aProjectileType = new ProjectileBehaviorType("PVZ", "NOTHING");
+	ProjectileBehaviorType *aProjectileType 
+		= new CustomProjectileBehaviorType<ProjectileBehavior>("PVZ", "NOTHING");
 	return aProjectileType;
 });
 
