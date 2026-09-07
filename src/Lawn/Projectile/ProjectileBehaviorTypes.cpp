@@ -7,6 +7,7 @@
 #include "../Zombie.h"
 #include "Projectile.h"
 #include "ProjectileBehavior.h"
+#include "ApplyButterProjectileBehavior.h"
 
 class TestBehavior : public ProjectileBehavior
 {
@@ -25,9 +26,9 @@ class TestBehavior : public ProjectileBehavior
 namespace ProjectileBehaviorTypes
 {
 
-const auto &NOTHING = Registries::PROJECTILE_BEHAVIORS.Register([]() {
+const auto &DEFAULT = Registries::PROJECTILE_BEHAVIORS.Register([]() {
 	ProjectileBehaviorType *aProjectileType 
-		= new CustomProjectileBehaviorType<ProjectileBehavior>("PVZ", "NOTHING");
+		= new CustomProjectileBehaviorType<ProjectileBehavior>("PVZ", "DEFAULT");
 	return aProjectileType;
 });
 
@@ -37,4 +38,10 @@ const auto &TEST = Registries::PROJECTILE_BEHAVIORS.Register([]() {
 	return aProjectileType;
 });
 
-}
+const auto &APPLY_BUTTER = Registries::PROJECTILE_BEHAVIORS.Register([]() {
+	ProjectileBehaviorType *aProjectileType =
+		new CustomProjectileBehaviorType<ApplyButterProjectileBehavior>("PVZ", "APPLY_BUTTER");
+	return aProjectileType;
+});
+
+} // namespace ProjectileBehaviorTypes

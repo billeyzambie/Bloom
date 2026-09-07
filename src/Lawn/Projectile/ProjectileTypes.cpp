@@ -12,7 +12,6 @@ const auto &PEA = Registries::PROJECTILES.Register([]() {
 	anAttributes.mDamage = 20;
 	auto *aProjectileType = new ProjectileType("PVZ", "PEA", anAttributes);
 	aProjectileType->mBaseImage = {"PVZ", "IMAGE_PROJECTILEPEA"};
-	aProjectileType->mBehaviorTypes.Add(ProjectileBehaviorTypes::NOTHING);
 	return aProjectileType;
 });
 
@@ -23,7 +22,6 @@ const auto &SNOWPEA = Registries::PROJECTILES.Register([]() {
 	anAttributes.mDamage = 20;
 	auto *aProjectileType = new ProjectileType("PVZ", "SNOWPEA", anAttributes);
 	aProjectileType->mBaseImage = {"PVZ", "IMAGE_PROJECTILESNOWPEA"};
-	aProjectileType->mBehaviorTypes.Add(ProjectileBehaviorTypes::NOTHING);
 	return aProjectileType;
 });
 
@@ -34,7 +32,6 @@ const auto &CABBAGE = Registries::PROJECTILES.Register([]() {
 	anAttributes.mDamage = 40;
 	auto *aProjectileType = new ProjectileType("PVZ", "CABBAGE", anAttributes);
 	aProjectileType->mBaseImage = {"PVZ", "IMAGE_REANIM_CABBAGEPULT_CABBAGE"};
-	aProjectileType->mBehaviorTypes.Add(ProjectileBehaviorTypes::NOTHING);
 	return aProjectileType;
 });
 
@@ -45,7 +42,6 @@ const auto &MELON = Registries::PROJECTILES.Register([]() {
 	anAttributes.mDamage = 80;
 	auto *aProjectileType = new ProjectileType("PVZ", "MELON", anAttributes);
 	aProjectileType->mBaseImage = {"PVZ", "IMAGE_REANIM_MELONPULT_MELON"};
-	aProjectileType->mBehaviorTypes.Add(ProjectileBehaviorTypes::NOTHING);
 	return aProjectileType;
 });
 
@@ -54,7 +50,6 @@ const auto &PUFF = Registries::PROJECTILES.Register([]() {
 	anAttributes.mDamage = 20;
 	auto *aProjectileType = new ProjectileType("PVZ", "PUFF", anAttributes);
 	aProjectileType->mBaseImage = {"PVZ", "IMAGE_PUFFSHROOM_PUFF1"};
-	aProjectileType->mBehaviorTypes.Add(ProjectileBehaviorTypes::NOTHING);
 	return aProjectileType;
 });
 
@@ -65,7 +60,6 @@ const auto &WINTERMELON = Registries::PROJECTILES.Register([]() {
 	anAttributes.mDamage = 80;
 	auto *aProjectileType = new ProjectileType("PVZ", "WINTERMELON", anAttributes);
 	aProjectileType->mBaseImage = {"PVZ", "IMAGE_REANIM_WINTERMELON_PROJECTILE"};
-	aProjectileType->mBehaviorTypes.Add(ProjectileBehaviorTypes::NOTHING);
 	return aProjectileType;
 });
 
@@ -74,7 +68,6 @@ const auto &FIREBALL = Registries::PROJECTILES.Register([]() {
 	anAttributes.mShadowScale = 1.4f;
 	anAttributes.mDamage = 40;
 	auto *aProjectileType = new ProjectileType("PVZ", "FIREBALL", anAttributes);
-	aProjectileType->mBehaviorTypes.Add(ProjectileBehaviorTypes::NOTHING);
 	return aProjectileType;
 });
 
@@ -84,7 +77,6 @@ const auto &STAR = Registries::PROJECTILES.Register([]() {
 	anAttributes.mDamage = 20;
 	auto *aProjectileType = new ProjectileType("PVZ", "STAR", anAttributes);
 	aProjectileType->mBaseImage = {"PVZ", "IMAGE_PROJECTILE_STAR"};
-	aProjectileType->mBehaviorTypes.Add(ProjectileBehaviorTypes::NOTHING);
 	return aProjectileType;
 });
 
@@ -93,7 +85,6 @@ const auto &SPIKE = Registries::PROJECTILES.Register([]() {
 	anAttributes.mDamage = 20;
 	auto *aProjectileType = new ProjectileType("PVZ", "SPIKE", anAttributes);
 	aProjectileType->mBaseImage = {"PVZ", "IMAGE_PROJECTILECACTUS"};
-	aProjectileType->mBehaviorTypes.Add(ProjectileBehaviorTypes::NOTHING);
 	return aProjectileType;
 });
 
@@ -103,7 +94,6 @@ const auto &BASKETBALL = Registries::PROJECTILES.Register([]() {
 	anAttributes.mDamage = 75;
 	auto *aProjectileType = new ProjectileType("PVZ", "BASKETBALL", anAttributes);
 	aProjectileType->mBaseImage = {"PVZ", "IMAGE_REANIM_ZOMBIE_CATAPULT_BASKETBALL"};
-	aProjectileType->mBehaviorTypes.Add(ProjectileBehaviorTypes::NOTHING);
 	return aProjectileType;
 });
 
@@ -115,7 +105,6 @@ const auto &KERNEL = Registries::PROJECTILES.Register([]() {
 	anAttributes.mDamage = 20;
 	auto *aProjectileType = new ProjectileType("PVZ", "KERNEL", anAttributes);
 	aProjectileType->mBaseImage = {"PVZ", "IMAGE_REANIM_CORNPULT_KERNAL"};
-	aProjectileType->mBehaviorTypes.Add(ProjectileBehaviorTypes::NOTHING);
 
 	return aProjectileType;
 });
@@ -130,7 +119,6 @@ const auto &COBBIG = Registries::PROJECTILES.Register([]() {
 	anAttributes.mDamage = 300;
 	auto *aProjectileType = new ProjectileType("PVZ", "COBBIG", anAttributes);
 	aProjectileType->mBaseImage = {"PVZ", "IMAGE_REANIM_COBCANNON_COB"};
-	aProjectileType->mBehaviorTypes.Add(ProjectileBehaviorTypes::NOTHING);
 	return aProjectileType;
 });
 
@@ -142,7 +130,7 @@ const auto &BUTTER = Registries::PROJECTILES.Register([]() {
 	anAttributes.mDamage = 40;
 	auto *aProjectileType = new ProjectileType("PVZ", "BUTTER", anAttributes);
 	aProjectileType->mBaseImage = {"PVZ", "IMAGE_REANIM_CORNPULT_BUTTER"};
-	aProjectileType->mBehaviorTypes.Add(ProjectileBehaviorTypes::NOTHING);
+	aProjectileType->mBehaviorTypes.Add(ProjectileBehaviorTypes::APPLY_BUTTER);
 	return aProjectileType;
 });
 
@@ -152,7 +140,6 @@ const auto &ZOMBIE_PEA = Registries::PROJECTILES.Register([]() {
 	anAttributes.mDamage = 20;
 	auto *aProjectileType = new ProjectileType("PVZ", "ZOMBIE_PEA", anAttributes);
 	aProjectileType->mBaseImage = {"PVZ", "IMAGE_PROJECTILEPEA"};
-	aProjectileType->mBehaviorTypes.Add(ProjectileBehaviorTypes::NOTHING);
 	return aProjectileType;
 });
 

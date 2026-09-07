@@ -758,142 +758,11 @@ void Projectile::PlayImpactSound(Zombie *theZombie)
 
 void Projectile::DoImpact(Zombie *theZombie)
 {
-	PlayImpactSound(theZombie);
-
-	if (IsSplashDamage(theZombie))
-	{
-		if (mType == ProjectileTypes::FIREBALL && theZombie)
-		{
-			theZombie->RemoveColdEffects();
-		}
-
-		DoSplashDamage(theZombie);
-	}
-	else if (theZombie)
-	{
-		Damage aDamage = Damage::FromProjectile(this, mAttributes.mDamage, GetDamageFlags(theZombie));
-		theZombie->TakeDamage(aDamage);
-	}
-
-	float aLastPosX = mPosX - mVelX;
-	float aLastPosY = mPosY + mPosZ - mVelY - mVelZ;
-	ParticleEffect aEffect = ParticleEffect::PARTICLE_NONE;
-	float aSplatPosX = mPosX + 12.0f;
-	float aSplatPosY = mPosY + 12.0f;
-	if (mType == ProjectileTypes::MELON)
-	{
-		mApp->AddTodParticle(
-			aLastPosX + 30.0f, aLastPosY + 30.0f, mRenderOrder + 1, ParticleEffect::PARTICLE_MELONSPLASH);
-	}
-	else if (mType == ProjectileTypes::WINTERMELON)
-	{
-		mApp->AddTodParticle(
-			aLastPosX + 30.0f, aLastPosY + 30.0f, mRenderOrder + 1, ParticleEffect::PARTICLE_WINTERMELON);
-	}
-	else if (mType == ProjectileTypes::COBBIG)
-	{
-		int aRenderOrder = Board::MakeRenderOrder(RenderLayer::RENDER_LAYER_GROUND, mCobTargetRow, 2);
-		mApp->AddTodParticle(mPosX + 80.0f, mPosY + 40.0f, aRenderOrder, ParticleEffect::PARTICLE_BLASTMARK);
-		mApp->AddTodParticle(mPosX + 80.0f, mPosY + 40.0f, mRenderOrder + 1, ParticleEffect::PARTICLE_POPCORNSPLASH);
-		mApp->PlaySample(SOUND_DOOMSHROOM);
-		mBoard->ShakeBoard(3, -4);
-	}
-	else if (mType == ProjectileTypes::SNOWPEA)
-	{
-		aSplatPosX -= 15.0f;
-		aEffect = ParticleEffect::PARTICLE_SNOWPEA_SPLAT;
-	}
-	else if (mType == ProjectileTypes::FIREBALL)
-	{
-		if (IsSplashDamage(theZombie))
-		{
-			Reanimation *aFireReanim = mApp->AddReanimation(
-				mPosX + 38.0f, mPosY - 20.0f, mRenderOrder + 1, ReanimationType::REANIM_JALAPENO_FIRE);
-			aFireReanim->mAnimTime = 0.25f;
-			aFireReanim->mAnimRate = 24.0f;
-			aFireReanim->OverrideScale(0.7f, 0.4f);
-		}
-	}
-	else if (mType == ProjectileTypes::STAR)
-	{
-		aEffect = ParticleEffect::PARTICLE_STAR_SPLAT;
-	}
-	else if (mType == ProjectileTypes::PUFF)
-	{
-		aSplatPosX -= 20.0f;
-		aEffect = ParticleEffect::PARTICLE_PUFF_SPLAT;
-	}
-	else if (mType == ProjectileTypes::CABBAGE)
-	{
-		aSplatPosX = aLastPosX - 38.0f;
-		aSplatPosY = aLastPosY + 23.0f;
-		aEffect = ParticleEffect::PARTICLE_CABBAGE_SPLAT;
-	}
-	else if (mType == ProjectileTypes::BUTTER)
-	{
-		aSplatPosX = aLastPosX - 20.0f;
-		aSplatPosY = aLastPosY + 63.0f;
-		aEffect = ParticleEffect::PARTICLE_BUTTER_SPLAT;
-
-		if (theZombie)
-		{
-			theZombie->ApplyButter();
-		}
-	}
-	else
-	{
-		aSplatPosX -= 15.0f;
-		aEffect = ParticleEffect::PARTICLE_PEA_SPLAT;
-	}
-
-	if (aEffect != ParticleEffect::PARTICLE_NONE)
-	{
-		TodParticleSystem *aParticle;
-
-		if (theZombie)
-		{
-			float aPosX = aSplatPosX + 52.0f - theZombie->mX;
-			float aPosY = aSplatPosY - theZombie->mY;
-			if (theZombie->mZombiePhase == ZombiePhase::PHASE_SNORKEL_WALKING_IN_POOL ||
-				theZombie->mZombiePhase == ZombiePhase::PHASE_DOLPHIN_WALKING_IN_POOL)
-			{
-				aPosY += 60.0f;
-			}
-			if (mMotionType == ProjectileMotion::MOTION_BACKWARDS)
-			{
-				aPosX -= 80.0f;
-			}
-			else if (mPosX > theZombie->mX + 40 && mMotionType != ProjectileMotion::MOTION_LOBBED)
-			{
-				aPosX -= 60.0f;
-			}
-
-			aPosY = ClampFloat(aPosY, 20.0f, 100.0f);
-			aParticle = theZombie->AddAttachedParticle(aPosX, aPosY, aEffect);
-		}
-		else
-		{
-			aParticle = mApp->AddTodParticle(aSplatPosX, aSplatPosY, mRenderOrder + 1, aEffect);
-		}
-
-		if (aEffect == ParticleEffect::PARTICLE_PEA_SPLAT && mType != ProjectileTypes::PEA)
-		{
-			for (TodListNode<ParticleEmitterID> *aNode = aParticle->mEmitterList.mHead; aNode != nullptr;
-				 aNode = aNode->mNext)
-			{
-				TodParticleEmitter *anEmitter =
-					aParticle->mParticleHolder->mEmitters.DataArrayGet((unsigned int)aNode->mValue);
-				
-				anEmitter->mImageOverride = GetImage();
-				anEmitter->mScaleOverride = 0.33f;
-			}
-		}
-	}
-
 	ProjectileBehavior::DoImpactContext aContext = {*this, theZombie};
 	mBehaviors.Fire(&ProjectileBehavior::DoImpact, aContext);
 
-	Die();
+	if (aContext.mShouldDie)
+		Die();
 }
 
 void Projectile::Update()
@@ -902,28 +771,6 @@ void Projectile::Update()
 	mProjectileAge++;
 	if (mApp->mGameScene != GameScenes::SCENE_PLAYING && !mBoard->mCutScene->ShouldRunUpsellBoard())
 		return;
-
-	int aTime = 20;
-	if (mType != ProjectileTypes::PUFF &&
-		mType != ProjectileTypes::FIREBALL &&
-		mType != ProjectileTypes::STAR &&
-		mType != ProjectileTypes::BASKETBALL)
-	{
-		aTime = 0;
-	}
-	if (mProjectileAge > aTime)
-	{
-		mRenderOrder = Board::MakeRenderOrder(RenderLayer::RENDER_LAYER_PROJECTILE, mRow, 0);
-	}
-
-	if (mClickBackoffCounter > 0)
-	{
-		mClickBackoffCounter--;
-	}
-	mRotation += mRotationSpeed;
-
-	UpdateMotion();
-	AttachmentUpdateAndMove(mAttachmentID, mPosX, mPosY + mPosZ);
 
 	mBehaviors.Fire(&ProjectileBehavior::Update, *this);
 }

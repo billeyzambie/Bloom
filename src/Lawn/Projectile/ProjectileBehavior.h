@@ -16,7 +16,8 @@ class BLOOM_API ProjectileBehavior
 	struct DoImpactContext
 	{
 		Projectile &mProjectile;
-		Zombie *mZombie;
+		Zombie *mTargetZombie;
+		bool mShouldDie = true;
 	};
 
 	const ProjectileBehaviorType &mType;

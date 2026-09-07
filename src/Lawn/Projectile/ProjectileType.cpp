@@ -1,3 +1,4 @@
+#include "ProjectileBehaviorTypes.h"
 #include "ProjectileType.h"
 #include "Projectile.h"
 #include "../LawnApp.h"
@@ -8,6 +9,10 @@ ProjectileType::ProjectileType(const std::string &theModName, const std::string 
 	: BloomType(theModName, theTypeName),
 	mAttributeBaseValues(theAttributes), mAttributes(theAttributes)
 {
+	mBehaviorTypes.Add(
+		ProjectileBehaviorTypes::DEFAULT,
+		ListInsertion<ProjectileBehaviorType>::Last(EventPriority::HIGH)
+	);
 }
 
 ProjectileType::operator OldProjectileType() const
@@ -32,12 +37,12 @@ void ProjectileType::Update(const LawnApp &theLawnApp)
 	mModifiers.Fire(aContext);
 }
 
-Projectile* ProjectileType::Instantiate(void* theBuffer) const
+Projectile *ProjectileType::Instantiate(void *theBuffer) const
 {
 	return new (theBuffer) Projectile(*this);
 }
 
-Projectile* ProjectileType::MoveInstance(void* theDestinationBuffer, void* theSourceBuffer) const
+Projectile *ProjectileType::MoveInstance(void *theDestinationBuffer, void *theSourceBuffer) const
 {
 	return new (theDestinationBuffer) Projectile(std::move(*reinterpret_cast<Projectile*>(theSourceBuffer)));
 }
