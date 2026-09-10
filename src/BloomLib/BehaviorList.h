@@ -32,6 +32,11 @@ template <class T> class BehaviorList
 	{
 		for (auto &aBehavior : mBehaviors)
 		{
+			if constexpr (requires() { theContext.mCanceled; })
+			{
+				if (theContext.mCanceled)
+					return;
+			}
 			(aBehavior->*theFunction)(theContext);
 		}
 	}

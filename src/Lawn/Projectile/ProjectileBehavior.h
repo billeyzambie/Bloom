@@ -18,6 +18,7 @@ class BLOOM_API ProjectileBehavior
 		Projectile &mProjectile;
 		Zombie *mTargetZombie;
 		bool mShouldDie = true;
+		bool mCanceled = false;
 	};
 
 	const ProjectileBehaviorType &mType;

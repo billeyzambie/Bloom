@@ -238,7 +238,7 @@ void Projectile::CheckForCollision()
 		return;
 	}
 
-	if ((mType == ProjectileTypes::PEA || mType == ProjectileTypes::STAR) &&
+	if (mMotionType == ProjectileMotion::MOTION_STRAIGHT &&
 		mShadowY - mPosY > 90.0f)
 	{
 		return;

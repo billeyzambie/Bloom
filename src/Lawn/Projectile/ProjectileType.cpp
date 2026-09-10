@@ -9,10 +9,7 @@ ProjectileType::ProjectileType(const std::string &theModName, const std::string 
 	: BloomType(theModName, theTypeName),
 	mAttributeBaseValues(theAttributes), mAttributes(theAttributes)
 {
-	mBehaviorTypes.Add(
-		ProjectileBehaviorTypes::DEFAULT,
-		ListInsertion<ProjectileBehaviorType>::Last(EventPriority::HIGH)
-	);
+	mBehaviorTypes.Add(ProjectileBehaviorTypes::DEFAULT);
 }
 
 ProjectileType::operator OldProjectileType() const

@@ -186,7 +186,7 @@ void DefaultProjectileBehavior::DoImpact(DoImpactContext &theImpactContext)
 			aParticle = aProjectile.mApp->AddTodParticle(aSplatPosX, aSplatPosY, aProjectile.mRenderOrder + 1, aEffect);
 		}
 
-		if (aEffect == ParticleEffect::PARTICLE_PEA_SPLAT && mType != ProjectileTypes::PEA)
+		if (aEffect == ParticleEffect::PARTICLE_PEA_SPLAT && aProjectile.mType != ProjectileTypes::PEA)
 		{
 			for (TodListNode<ParticleEmitterID> *aNode = aParticle->mEmitterList.mHead; aNode != nullptr;
 				 aNode = aNode->mNext)

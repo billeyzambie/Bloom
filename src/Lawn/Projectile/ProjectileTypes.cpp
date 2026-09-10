@@ -150,7 +150,12 @@ const auto &CUSTOM_TEST = Registries::PROJECTILES.Register([]() {
 	anAttributes.mDamage = 30;
 	auto *aProjectileType = new ProjectileType("PVZ", "CUSTOM_TEST", anAttributes);
 	aProjectileType->mBaseImage = {"PVZ", "IMAGE_BRAIN"};
-	aProjectileType->mBehaviorTypes.Add(ProjectileBehaviorTypes::TEST);
+
+	aProjectileType->mBehaviorTypes.Add(
+		ProjectileBehaviorTypes::TEST,
+		ListInsertion<ProjectileBehaviorType>::Before(ProjectileBehaviorTypes::DEFAULT)
+	);
+
 	return aProjectileType;
 });
 #endif

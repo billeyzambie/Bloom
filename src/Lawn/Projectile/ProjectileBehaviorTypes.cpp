@@ -8,18 +8,34 @@
 #include "Projectile.h"
 #include "ProjectileBehavior.h"
 #include "ApplyButterProjectileBehavior.h"
+#include "DefaultProjectileBehavior.h"
 
 class TestBehavior : public ProjectileBehavior
 {
   public:
+	ZombieID mLastHitZombie = ZombieID::ZOMBIEID_NULL;
 	TestBehavior(const ProjectileBehaviorType &theType)
 		: ProjectileBehavior(theType) {};
 	virtual void VirtualUpdate(Projectile &theProjectile) override
 	{
-		theProjectile.mVelY = -sin(mRunTime / 10.0f) * 4;
+		//theProjectile.mVelY = -sin(mRunTime / 10.0f) * 4;
 	}
-	virtual void DoImpact(DoImpactContext &theProjectile) override
+	virtual void DoImpact(DoImpactContext &theContext) override
 	{
+		Zombie *aZombie = theContext.mTargetZombie;
+
+		if (!aZombie)
+			return;
+
+		ZombieID aZombieId = theContext.mProjectile.mBoard->ZombieGetID(aZombie);
+
+		if (aZombieId == mLastHitZombie)
+		{
+			theContext.mCanceled = true;
+		}
+
+		mLastHitZombie = aZombieId;
+		theContext.mShouldDie = false;
 	}
 };
 
@@ -28,7 +44,7 @@ namespace ProjectileBehaviorTypes
 
 const auto &DEFAULT = Registries::PROJECTILE_BEHAVIORS.Register([]() {
 	ProjectileBehaviorType *aProjectileType 
-		= new CustomProjectileBehaviorType<ProjectileBehavior>("PVZ", "DEFAULT");
+		= new CustomProjectileBehaviorType<DefaultProjectileBehavior>("PVZ", "DEFAULT");
 	return aProjectileType;
 });
 
