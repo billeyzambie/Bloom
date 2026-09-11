@@ -1,4 +1,4 @@
-#include "DefaultProjectileBehavior.h"
+#include "MainProjectileBehavior.h"
 #include "ProjectileTypes.h"
 #include "Projectile.h"
 #include "../Board.h"

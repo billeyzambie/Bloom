@@ -338,7 +338,7 @@ bool Projectile::IsSplashDamage(Zombie *theZombie)
 
 unsigned int Projectile::GetDamageFlags(Zombie *theZombie)
 {
-	unsigned int aDamageFlags = 0U;
+	unsigned int aDamageFlags = mAttributes.mDamageFlags;
 
 	if (IsSplashDamage(theZombie))
 	{
@@ -351,12 +351,6 @@ unsigned int Projectile::GetDamageFlags(Zombie *theZombie)
 	else if (mMotionType == ProjectileMotion::MOTION_STRAIGHT && mVelX < 0.0f)
 	{
 		SetBit(aDamageFlags, (int)DamageFlags::DAMAGE_BYPASSES_SHIELD, true);
-	}
-
-	if (mType == ProjectileTypes::SNOWPEA ||
-		mType == ProjectileTypes::WINTERMELON)
-	{
-		SetBit(aDamageFlags, (int)DamageFlags::DAMAGE_FREEZE, true);
 	}
 
 	return aDamageFlags;

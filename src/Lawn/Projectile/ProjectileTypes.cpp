@@ -2,6 +2,7 @@
 #include "ProjectileBehaviorTypes.h"
 #include "ProjectileType.h"
 #include "../Registries.h"
+#include "../../Sexy.TodLib/TodCommon.h"
 
 namespace ProjectileTypes
 {
@@ -20,6 +21,8 @@ const auto &SNOWPEA = Registries::PROJECTILES.Register([]() {
 	anAttributes.mShadowOffsetX = -1.0f;
 	anAttributes.mShadowScale = 1.3f;
 	anAttributes.mDamage = 20;
+	SetBit(anAttributes.mDamageFlags, (int)DamageFlags::DAMAGE_FREEZE, true);
+
 	auto *aProjectileType = new ProjectileType("PVZ", "SNOWPEA", anAttributes);
 	aProjectileType->mBaseImage = {"PVZ", "IMAGE_PROJECTILESNOWPEA"};
 	return aProjectileType;
@@ -58,6 +61,8 @@ const auto &WINTERMELON = Registries::PROJECTILES.Register([]() {
 	anAttributes.mShadowOffsetX = 3.0f;
 	anAttributes.mShadowScale = 1.6f;
 	anAttributes.mDamage = 80;
+	SetBit(anAttributes.mDamageFlags, (int)DamageFlags::DAMAGE_FREEZE, true);
+
 	auto *aProjectileType = new ProjectileType("PVZ", "WINTERMELON", anAttributes);
 	aProjectileType->mBaseImage = {"PVZ", "IMAGE_REANIM_WINTERMELON_PROJECTILE"};
 	return aProjectileType;
@@ -153,7 +158,7 @@ const auto &CUSTOM_TEST = Registries::PROJECTILES.Register([]() {
 
 	aProjectileType->mBehaviorTypes.Add(
 		ProjectileBehaviorTypes::TEST,
-		ListInsertion<ProjectileBehaviorType>::Before(ProjectileBehaviorTypes::DEFAULT)
+		ListInsertion<ProjectileBehaviorType>::Before(ProjectileBehaviorTypes::MAIN)
 	);
 
 	return aProjectileType;

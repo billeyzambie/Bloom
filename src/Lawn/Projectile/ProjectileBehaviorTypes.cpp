@@ -8,7 +8,7 @@
 #include "Projectile.h"
 #include "ProjectileBehavior.h"
 #include "ApplyButterProjectileBehavior.h"
-#include "DefaultProjectileBehavior.h"
+#include "MainProjectileBehavior.h"
 
 class TestBehavior : public ProjectileBehavior
 {
@@ -18,7 +18,7 @@ class TestBehavior : public ProjectileBehavior
 		: ProjectileBehavior(theType) {};
 	virtual void VirtualUpdate(Projectile &theProjectile) override
 	{
-		//theProjectile.mVelY = -sin(mRunTime / 10.0f) * 4;
+		theProjectile.mVelY = -sin(mRunTime / 5.0f) * 2;
 	}
 	virtual void DoImpact(DoImpactContext &theContext) override
 	{
@@ -42,21 +42,21 @@ class TestBehavior : public ProjectileBehavior
 namespace ProjectileBehaviorTypes
 {
 
-const auto &DEFAULT = Registries::PROJECTILE_BEHAVIORS.Register([]() {
+const auto &MAIN = Registries::PROJECTILE_BEHAVIORS.Register([]() {
 	ProjectileBehaviorType *aProjectileType 
-		= new CustomProjectileBehaviorType<DefaultProjectileBehavior>("PVZ", "DEFAULT");
-	return aProjectileType;
-});
-
-const auto &TEST = Registries::PROJECTILE_BEHAVIORS.Register([]() {
-	ProjectileBehaviorType *aProjectileType 
-		= new CustomProjectileBehaviorType<TestBehavior>("PVZ", "TEST");
+		= new CustomProjectileBehaviorType<DefaultProjectileBehavior>("PVZ", "MAIN");
 	return aProjectileType;
 });
 
 const auto &APPLY_BUTTER = Registries::PROJECTILE_BEHAVIORS.Register([]() {
 	ProjectileBehaviorType *aProjectileType =
 		new CustomProjectileBehaviorType<ApplyButterProjectileBehavior>("PVZ", "APPLY_BUTTER");
+	return aProjectileType;
+});
+
+const auto &TEST = Registries::PROJECTILE_BEHAVIORS.Register([]() {
+	ProjectileBehaviorType *aProjectileType = 
+		new CustomProjectileBehaviorType<TestBehavior>("PVZ", "TEST");
 	return aProjectileType;
 });
 

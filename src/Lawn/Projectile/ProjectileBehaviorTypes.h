@@ -5,7 +5,7 @@
 
 namespace ProjectileBehaviorTypes
 {
-	extern BLOOM_API const RegistryTypeHolder<ProjectileBehaviorType> &DEFAULT;
+	extern BLOOM_API const RegistryTypeHolder<ProjectileBehaviorType> &MAIN;
 	extern BLOOM_API const RegistryTypeHolder<ProjectileBehaviorType> &TEST;
 	extern BLOOM_API const RegistryTypeHolder<ProjectileBehaviorType> &APPLY_BUTTER;
 }

@@ -26,7 +26,7 @@ template <class T> class RegistryTypeHolder;
 class BLOOM_API ProjectileType : public BloomType
 {
   public:
-	static constexpr size_t INSTANCE_MAX_SIZE = 232;
+	static constexpr size_t INSTANCE_MAX_SIZE = 240;
 
 	struct Attributes
 	{
@@ -37,6 +37,7 @@ class BLOOM_API ProjectileType : public BloomType
 		int mWidth = 40;
 		int mHeight = 40;
 		int mDamage = 20;
+		unsigned int mDamageFlags = 0;
 	};
 	struct ModifierContext
 	{

@@ -9,7 +9,7 @@ ProjectileType::ProjectileType(const std::string &theModName, const std::string 
 	: BloomType(theModName, theTypeName),
 	mAttributeBaseValues(theAttributes), mAttributes(theAttributes)
 {
-	mBehaviorTypes.Add(ProjectileBehaviorTypes::DEFAULT);
+	mBehaviorTypes.Add(ProjectileBehaviorTypes::MAIN);
 }
 
 ProjectileType::operator OldProjectileType() const
