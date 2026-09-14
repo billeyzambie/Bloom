@@ -28,22 +28,16 @@ void SplashProjectileBehavior::DoImpact(DoImpactContext &theContext)
 
 bool SplashProjectileBehavior::IsSplashDamage(Projectile &theProjectile, Zombie &theCentralTarget)
 {
-	return mAttributes.mAbilityEnabled;
+	return true;
 
-	//if (mType == ProjectileTypes::FIREBALL && theZombie.IsFireResistant())
-	//	return false;
-	//
-	//return mType == ProjectileTypes::MELON || mType == ProjectileTypes::WINTERMELON ||
-	//	   mType == ProjectileTypes::FIREBALL;
+	if (mType == ProjectileTypes::FIREBALL && theZombie.IsFireResistant())
+		return false;
 }
 
 bool SplashProjectileBehavior::IsZombieHitBySplash(Projectile &theProjectile, Zombie &theTarget)
 {
 	Rect aProjectileRect = theProjectile.GetProjectileRect();
-	if (mType == ProjectileTypes::FIREBALL)
-	{
-		aProjectileRect.mWidth = 100;
-	}
+	aProjectileRect.mWidth = mAttributes.mAbilityWidth;
 
 	int aRowDeviation = theTarget.mRow - theProjectile.mRow;
 	Rect aZombieRect = theTarget.GetZombieRect();
@@ -56,14 +50,10 @@ bool SplashProjectileBehavior::IsZombieHitBySplash(Projectile &theProjectile, Zo
 	{
 		aRowDeviation = 0;
 	}
-	if (theProjectile.mType == ProjectileTypes::FIREBALL)
-	{
-		if (aRowDeviation != 0)
-		{
-			return false;
-		}
-	}
-	else if (aRowDeviation > 1 || aRowDeviation < -1)
+	if (
+		aRowDeviation > mAttributes.mAbilityHeight / 2 
+		|| aRowDeviation < -mAttributes.mAbilityHeight / 2
+	)
 	{
 		return false;
 	}
@@ -85,12 +75,8 @@ void SplashProjectileBehavior::DoSplashDamage(Projectile &theProjectile, Zombie 
 	}
 
 	int aOriginalDamage = theProjectile.mAttributes.mDamage;
-	int aSplashDamage = theProjectile.mAttributes.mDamage / 3;
-	int aMaxSplashDamageAmount = aSplashDamage * 7;
-	if (theProjectile.mType == ProjectileTypes::FIREBALL)
-	{
-		aMaxSplashDamageAmount = aOriginalDamage;
-	}
+	int aSplashDamage = theProjectile.mAttributes.mDamage * mAttributes.mAbilityIntensity;
+	int aMaxSplashDamageAmount = aSplashDamage * mAttributes.mAbilityMax;
 	int aSplashDamageAmount = aSplashDamage * aZombiesGetSplashed;
 	if (aSplashDamageAmount > aMaxSplashDamageAmount)
 	{

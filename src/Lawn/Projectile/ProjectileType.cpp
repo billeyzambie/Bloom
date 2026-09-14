@@ -23,6 +23,7 @@ void ProjectileType::CopyFrom(const ProjectileType &theOther)
 {
 	mAttributeBaseValues = theOther.mAttributeBaseValues;
 	mModifiers = theOther.mModifiers;
+	mBehaviorTypes = theOther.mBehaviorTypes;
 }
 
 void ProjectileType::Update(const LawnApp &theLawnApp)

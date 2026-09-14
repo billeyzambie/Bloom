@@ -56,12 +56,21 @@ const auto &APPLY_BUTTER = Registries::PROJECTILE_BEHAVIORS.Register([]() {
 });
 
 const auto &MELON_SPLASH = Registries::PROJECTILE_BEHAVIORS.Register([]() {
+	ProjectileBehaviorAttributes anAttributes;
+	anAttributes.mAbilityWidth = 60;
+	anAttributes.mAbilityHeight = 3;
+
 	ProjectileBehaviorType *aProjectileType =
 		new CustomProjectileBehaviorType<SplashProjectileBehavior>("PVZ", "MELON_SPLASH");
 	return aProjectileType;
 });
 
 const auto &FIRE = Registries::PROJECTILE_BEHAVIORS.Register([]() {
+	ProjectileBehaviorAttributes anAttributes;
+	anAttributes.mAbilityWidth = 100;
+	anAttributes.mAbilityHeight = 1;
+	anAttributes.mAbilityMax = 1;
+
 	ProjectileBehaviorType *aProjectileType =
 		new CustomProjectileBehaviorType<SplashProjectileBehavior>("PVZ", "FIRE");
 	return aProjectileType;

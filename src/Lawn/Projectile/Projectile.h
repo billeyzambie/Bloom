@@ -53,6 +53,7 @@ class BLOOM_API Projectile final : public GameObject
 	int mLastPortalX;
 
   private:
+	//Better way that doesn't use heap allocation maybe later
 	BehaviorList<ProjectileBehavior> mBehaviors;
 
   public:
