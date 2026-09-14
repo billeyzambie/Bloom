@@ -17,11 +17,6 @@ void SplashProjectileBehavior::DoImpact(DoImpactContext &theContext)
 
 	if (aZombie && IsSplashDamage(aProjectile, *aZombie))
 	{
-		if (aProjectile.mType == ProjectileTypes::FIREBALL && aZombie)
-		{
-			aZombie->RemoveColdEffects();
-		}
-
 		DoSplashDamage(aProjectile, *aZombie);
 	}
 }
@@ -29,9 +24,6 @@ void SplashProjectileBehavior::DoImpact(DoImpactContext &theContext)
 bool SplashProjectileBehavior::IsSplashDamage(Projectile &theProjectile, Zombie &theCentralTarget)
 {
 	return true;
-
-	if (mType == ProjectileTypes::FIREBALL && theZombie.IsFireResistant())
-		return false;
 }
 
 bool SplashProjectileBehavior::IsZombieHitBySplash(Projectile &theProjectile, Zombie &theTarget)
@@ -41,10 +33,6 @@ bool SplashProjectileBehavior::IsZombieHitBySplash(Projectile &theProjectile, Zo
 
 	int aRowDeviation = theTarget.mRow - theProjectile.mRow;
 	Rect aZombieRect = theTarget.GetZombieRect();
-	if (theTarget.IsFireResistant() && mType == ProjectileTypes::FIREBALL)
-	{
-		return false;
-	}
 
 	if (theTarget.mZombieType == ZombieType::ZOMBIE_BOSS)
 	{

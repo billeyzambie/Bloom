@@ -10,6 +10,7 @@
 #include "ApplyButterProjectileBehavior.h"
 #include "MainProjectileBehavior.h"
 #include "SplashProjectileBehavior.h"
+#include "FireProjectileBehavior.h"
 
 class TestBehavior : public ProjectileBehavior
 {
@@ -72,7 +73,7 @@ const auto &FIRE = Registries::PROJECTILE_BEHAVIORS.Register([]() {
 	anAttributes.mAbilityMax = 1;
 
 	ProjectileBehaviorType *aProjectileType =
-		new CustomProjectileBehaviorType<SplashProjectileBehavior>("PVZ", "FIRE");
+		new CustomProjectileBehaviorType<FireProjectileBehavior>("PVZ", "FIRE");
 	return aProjectileType;
 });
 
