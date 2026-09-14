@@ -17,7 +17,7 @@ class BLOOM_API ProjectileBehavior
 	{
 		Projectile &mProjectile;
 		//Custom projectiles are currently always allied to plants,
-		//they'll be able to be on the side of zombies when the advance team API comes out
+		//they'll be able to be allied to zombies when the advanced team API comes out
 		Zombie *mTargetZombie;
 		bool mShouldDie = true;
 		bool mCanceled = false;
