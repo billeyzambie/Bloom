@@ -253,7 +253,8 @@ class BLOOM_API Zombie : public GameObject
 
 	/// @brief Deal damage to the Zombie
 	/// @param theDamage Damage to deal
-	void TakeDamage(Damage &theDamage);
+	/// @param theFlipDamageFlags Whether to damage the body instead of the shield or the shield instead of the body
+	void TakeDamage(Damage &theDamage, bool theFlipDamageFlags = false);
 
 	/// @brief Change the row of the Zombie
 	/// @param theRow The row to switch to

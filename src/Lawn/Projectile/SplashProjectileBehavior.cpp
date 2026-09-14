@@ -81,9 +81,8 @@ void SplashProjectileBehavior::DoSplashDamage(Projectile &theProjectile, Zombie 
 			unsigned int aDamageFlags = theProjectile.GetDamageFlags(aZombie);
 			if (aZombie == &theCentralTarget)
 			{
-				//Damage aDamage = Damage::FromProjectile(&theProjectile, aOriginalDamage, aDamageFlags);
-				//aZombie->TakeDamage(aDamage);
-				//TODO: damage the zombie's body/shield instead of its shield/body
+				Damage aDamage = Damage::FromProjectile(&theProjectile, aOriginalDamage, aDamageFlags);
+				aZombie->TakeDamage(aDamage, true);
 			}
 			else
 			{

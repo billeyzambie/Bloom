@@ -8245,15 +8245,28 @@ void Zombie::TakeBodyDamage(Damage &theDamage)
 	Event<GameObjectHurtAfterContext>::Fire(anAfterContext);
 }
 
-void Zombie::TakeDamage(Damage &theDamage)
+void Zombie::TakeDamage(Damage &theDamage, bool theFlipShieldAndBody)
 {
 	int anAmount = theDamage.mAmount;
-	unsigned int aFlags = theDamage.mFlags;
+	unsigned int &aFlags = theDamage.mFlags;
 
 	if (mZombiePhase == ZombiePhase::PHASE_JACK_IN_THE_BOX_POPPING || IsDeadOrDying())
 		return;
 
 	int aDamageRemaining = anAmount;
+
+	if (theFlipShieldAndBody)
+	{
+		if (TestBit(aFlags, (int)DamageFlags::DAMAGE_HITS_SHIELD_AND_BODY)
+			|| mShieldType == ShieldType::SHIELDTYPE_NONE)
+		{
+			return;
+		}
+		if (TestBit(aFlags, (int)DamageFlags::DAMAGE_BYPASSES_SHIELD))
+		{
+			SetBit(aFlags, (int)DamageFlags::DAMAGE_BYPASSES_SHIELD, false);
+		}
+	}
 
 	if (IsFlying())
 	{

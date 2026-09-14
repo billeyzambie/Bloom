@@ -16,6 +16,8 @@ class BLOOM_API ProjectileBehavior
 	struct DoImpactContext
 	{
 		Projectile &mProjectile;
+		//Custom projectiles are currently always allied to plants,
+		//they'll be able to be on the side of zombies when the advance team API comes out
 		Zombie *mTargetZombie;
 		bool mShouldDie = true;
 		bool mCanceled = false;
