@@ -2702,7 +2702,7 @@ void Zombie::UpdateZombieSquashHead()
 						aZombie->EffectedByDamage(GetBit(DamageRangeFlags::DAMAGES_GROUND) | GetBit(DamageRangeFlags::DAMAGES_SUBMERGED) | GetBit(DamageRangeFlags::DAMAGES_DOG)))
 					{
 						Rect aZombieRect = aZombie->GetZombieRect();
-						if (GetRectOverlap(aAttackRect, aZombieRect) >
+						if (GetRectXOverlap(aAttackRect, aZombieRect) >
 							(aZombie->mZombieType == ZombieType::ZOMBIE_FOOTBALL ? -20 : 0))
 						{
 							aZombie->TakeDamage(aDamage);
@@ -4333,7 +4333,7 @@ Plant *Zombie::IsStandingOnSpikeweed()
 			(!mOnHighGround || aPlant->IsOnHighGround()))
 		{
 			Rect aPlantAttackRect = aPlant->GetPlantAttackRect(PlantWeapon::WEAPON_PRIMARY);
-			if (GetRectOverlap(aPlantAttackRect, aZombieRect) > 0)
+			if (GetRectXOverlap(aPlantAttackRect, aZombieRect) > 0)
 			{
 				return aPlant;
 			}
@@ -6616,7 +6616,7 @@ Plant *Zombie::FindPlantTarget(ZombieAttackType theAttackType)
 		if (aPlant->mRow == mRow)
 		{
 			Rect aPlantRect = aPlant->GetPlantRect();
-			if (GetRectOverlap(aAttackRect, aPlantRect) >= 20 && CanTargetPlant(aPlant, theAttackType))
+			if (GetRectXOverlap(aAttackRect, aPlantRect) >= 20 && CanTargetPlant(aPlant, theAttackType))
 			{
 				return aPlant;
 			}
@@ -6645,7 +6645,7 @@ Zombie *Zombie::FindZombieTarget()
 			aZombie->mRow == mRow)
 		{
 			Rect aZombieRect = aZombie->GetZombieRect();
-			int aOverlap = GetRectOverlap(aAttackRect, aZombieRect);
+			int aOverlap = GetRectXOverlap(aAttackRect, aZombieRect);
 			if (aOverlap >= 20 || (aOverlap > 0 && aZombie->mIsEating))
 			{
 				return aZombie;
@@ -6746,7 +6746,7 @@ void Zombie::CheckSquish(ZombieAttackType theAttackType)
 		if (aPlant->mRow == mRow)
 		{
 			Rect aPlantRect = aPlant->GetPlantRect();
-			if (GetRectOverlap(aAttackRect, aPlantRect) >= 20 && CanTargetPlant(aPlant, theAttackType) &&
+			if (GetRectXOverlap(aAttackRect, aPlantRect) >= 20 && CanTargetPlant(aPlant, theAttackType) &&
 				!aPlant->IsSpiky())
 			{
 				SquishAllInSquare(aPlant->mPlantCol, aPlant->mRow, theAttackType);

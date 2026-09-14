@@ -45,6 +45,9 @@ const auto &MELON = Registries::PROJECTILES.Register([]() {
 	anAttributes.mDamage = 80;
 	auto *aProjectileType = new ProjectileType("PVZ", "MELON", anAttributes);
 	aProjectileType->mBaseImage = {"PVZ", "IMAGE_REANIM_MELONPULT_MELON"};
+
+	aProjectileType->mBehaviorTypes.Add(ProjectileBehaviorTypes::MELON_SPLASH);
+
 	return aProjectileType;
 });
 
@@ -65,6 +68,9 @@ const auto &WINTERMELON = Registries::PROJECTILES.Register([]() {
 
 	auto *aProjectileType = new ProjectileType("PVZ", "WINTERMELON", anAttributes);
 	aProjectileType->mBaseImage = {"PVZ", "IMAGE_REANIM_WINTERMELON_PROJECTILE"};
+
+	aProjectileType->mBehaviorTypes.Add(ProjectileBehaviorTypes::MELON_SPLASH);
+
 	return aProjectileType;
 });
 
@@ -73,6 +79,9 @@ const auto &FIREBALL = Registries::PROJECTILES.Register([]() {
 	anAttributes.mShadowScale = 1.4f;
 	anAttributes.mDamage = 40;
 	auto *aProjectileType = new ProjectileType("PVZ", "FIREBALL", anAttributes);
+
+	aProjectileType->mBehaviorTypes.Add(ProjectileBehaviorTypes::FIRE);
+
 	return aProjectileType;
 });
 

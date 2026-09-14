@@ -9,6 +9,7 @@
 #include "ProjectileBehavior.h"
 #include "ApplyButterProjectileBehavior.h"
 #include "MainProjectileBehavior.h"
+#include "SplashProjectileBehavior.h"
 
 class TestBehavior : public ProjectileBehavior
 {
@@ -51,6 +52,18 @@ const auto &MAIN = Registries::PROJECTILE_BEHAVIORS.Register([]() {
 const auto &APPLY_BUTTER = Registries::PROJECTILE_BEHAVIORS.Register([]() {
 	ProjectileBehaviorType *aProjectileType =
 		new CustomProjectileBehaviorType<ApplyButterProjectileBehavior>("PVZ", "APPLY_BUTTER");
+	return aProjectileType;
+});
+
+const auto &MELON_SPLASH = Registries::PROJECTILE_BEHAVIORS.Register([]() {
+	ProjectileBehaviorType *aProjectileType =
+		new CustomProjectileBehaviorType<SplashProjectileBehavior>("PVZ", "MELON_SPLASH");
+	return aProjectileType;
+});
+
+const auto &FIRE = Registries::PROJECTILE_BEHAVIORS.Register([]() {
+	ProjectileBehaviorType *aProjectileType =
+		new CustomProjectileBehaviorType<SplashProjectileBehavior>("PVZ", "FIRE");
 	return aProjectileType;
 });
 

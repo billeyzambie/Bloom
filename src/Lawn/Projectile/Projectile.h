@@ -98,7 +98,8 @@ class BLOOM_API Projectile final : public GameObject
 	bool CantHitHighGround();
 	/// @brief Deal splash damage to the Zombue
 	/// @param theZombie The Zombie to hit
-	void DoSplashDamage(Zombie *theZombie);
+	//void DoSplashDamage(Zombie *theZombie);
+
 	/// @brief Get the damage flags that affect the Zombie
 	/// @param theZombie The Zombie that it needs to hit
 	/// @return Flags that determine that damage types are dealt (see DamageFlags enum)
@@ -118,14 +119,16 @@ class BLOOM_API Projectile final : public GameObject
 	/// @brief Does the Projectile deal Splash-Damage
 	/// @param theZombie The Zombie to check
 	/// @return True if the Projectile can deal Splash-Damage to the Zombie, false otherwise
-	bool IsSplashDamage(Zombie *theZombie);
+	//bool IsSplashDamage(Zombie *theZombie);
+
 	/// @brief Play the impact sound of hitting the Zombie
 	/// @param theZombie The Zombie to determine the correct sound
 	void PlayImpactSound(Zombie *theZombie);
 	/// @brief Is the Zombie able to be hit by the Splash-Damage
 	/// @param theZombie The Zombie to check
 	/// @return True if the Zombie is in range, false otherwise
-	bool IsZombieHitBySplash(Zombie *theZombie);
+	//bool IsZombieHitBySplash(Zombie *theZombie);
+	
 	/// @brief Is the Pea Projectile about to hit a Torchwood
 	/// @return True if the Projectile is in the Torchwood's range, false otherwise
 	bool PeaAboutToHitTorchwood();

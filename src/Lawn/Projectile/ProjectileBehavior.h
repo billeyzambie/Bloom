@@ -28,7 +28,7 @@ class BLOOM_API ProjectileBehavior
 	ProjectileBehavior(const ProjectileBehaviorType &theType);
 	virtual ~ProjectileBehavior() = default;
 
-	virtual void DoImpact(DoImpactContext &theProjectile);
+	virtual void DoImpact(DoImpactContext &theContext);
 
 	void Update(Projectile &theProjectile);
 

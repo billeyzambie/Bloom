@@ -10055,7 +10055,7 @@ Zombie *Board::ZombieTryToGet(ZombieID theZombieID)
 /// @return The overlap between the 2 rectangles
 /// @param rect1 Rectangle 1
 /// @param rect2 Rectangle 2
-int GetRectOverlap(const Rect &rect1, const Rect &rect2)
+int GetRectXOverlap(const Rect &rect1, const Rect &rect2)
 {
 	int xmax, rmin, rmax;
 

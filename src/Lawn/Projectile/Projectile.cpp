@@ -116,7 +116,7 @@ Plant *Projectile::FindCollisionTargetPlant()
 		}
 
 		Rect aPlantRect = aPlant->GetPlantRect();
-		if (GetRectOverlap(aProjectileRect, aPlantRect) > 8)
+		if (GetRectXOverlap(aProjectileRect, aPlantRect) > 8)
 		{
 			if (mType == ProjectileTypes::ZOMBIE_PEA)
 			{
@@ -150,7 +150,7 @@ bool Projectile::PeaAboutToHitTorchwood()
 			Rect aProjectileRect = GetProjectileRect();
 			aProjectileRect.mX += 40;
 
-			if (GetRectOverlap(aPlantAttackRect, aProjectileRect) > 10)
+			if (GetRectXOverlap(aPlantAttackRect, aProjectileRect) > 10)
 			{
 				return true;
 			}
@@ -188,7 +188,7 @@ Zombie *Projectile::FindCollisionTarget()
 			}
 
 			Rect aZombieRect = aZombie->GetZombieRect();
-			if (GetRectOverlap(aProjectileRect, aZombieRect) > 0)
+			if (GetRectXOverlap(aProjectileRect, aZombieRect) > 0)
 			{
 				if (aBestZombie == nullptr || aZombie->mX < aMinX)
 				{
@@ -223,7 +223,7 @@ void Projectile::CheckForCollision()
 		{
 			Rect aProjectileRect = GetProjectileRect();
 			Rect aZombieRect = aZombie->GetZombieRect();
-			if (GetRectOverlap(aProjectileRect, aZombieRect) >= 0 && mPosY > aZombieRect.mY &&
+			if (GetRectXOverlap(aProjectileRect, aZombieRect) >= 0 && mPosY > aZombieRect.mY &&
 				mPosY < aZombieRect.mY + aZombieRect.mHeight)
 			{
 				DoImpact(aZombie);
@@ -326,25 +326,15 @@ void Projectile::CheckForHighGround()
 	}
 }
 
-bool Projectile::IsSplashDamage(Zombie *theZombie)
-{
-	if (mType == ProjectileTypes::FIREBALL && theZombie && theZombie->IsFireResistant())
-		return false;
-
-	return mType == ProjectileTypes::MELON ||
-		   mType == ProjectileTypes::WINTERMELON ||
-		   mType == ProjectileTypes::FIREBALL;
-}
-
 unsigned int Projectile::GetDamageFlags(Zombie *theZombie)
 {
 	unsigned int aDamageFlags = mAttributes.mDamageFlags;
 
-	if (IsSplashDamage(theZombie))
-	{
-		SetBit(aDamageFlags, (int)DamageFlags::DAMAGE_HITS_SHIELD_AND_BODY, true);
-	}
-	else if (mMotionType == ProjectileMotion::MOTION_LOBBED || mMotionType == ProjectileMotion::MOTION_BACKWARDS)
+	//if (IsSplashDamage(theZombie))
+	//{
+	//	SetBit(aDamageFlags, (int)DamageFlags::DAMAGE_HITS_SHIELD_AND_BODY, true);
+	//}
+	if (mMotionType == ProjectileMotion::MOTION_LOBBED || mMotionType == ProjectileMotion::MOTION_BACKWARDS)
 	{
 		SetBit(aDamageFlags, (int)DamageFlags::DAMAGE_BYPASSES_SHIELD, true);
 	}
@@ -354,89 +344,6 @@ unsigned int Projectile::GetDamageFlags(Zombie *theZombie)
 	}
 
 	return aDamageFlags;
-}
-
-bool Projectile::IsZombieHitBySplash(Zombie *theZombie)
-{
-	Rect aProjectileRect = GetProjectileRect();
-	if (mType == ProjectileTypes::FIREBALL)
-	{
-		aProjectileRect.mWidth = 100;
-	}
-
-	int aRowDeviation = theZombie->mRow - mRow;
-	Rect aZombieRect = theZombie->GetZombieRect();
-	if (theZombie->IsFireResistant() && mType == ProjectileTypes::FIREBALL)
-	{
-		return false;
-	}
-
-	if (theZombie->mZombieType == ZombieType::ZOMBIE_BOSS)
-	{
-		aRowDeviation = 0;
-	}
-	if (mType == ProjectileTypes::FIREBALL)
-	{
-		if (aRowDeviation != 0)
-		{
-			return false;
-		}
-	}
-	else if (aRowDeviation > 1 || aRowDeviation < -1)
-	{
-		return false;
-	}
-
-	return theZombie->EffectedByDamage((unsigned int)mDamageRangeFlags) &&
-		   GetRectOverlap(aProjectileRect, aZombieRect) >= 0;
-}
-
-void Projectile::DoSplashDamage(Zombie *theZombie)
-{
-	int aZombiesGetSplashed = 0;
-	Zombie *aZombie = nullptr;
-	while (mBoard->IterateZombies(aZombie))
-	{
-		if (aZombie != theZombie && IsZombieHitBySplash(aZombie))
-		{
-			aZombiesGetSplashed++;
-		}
-	}
-
-	int aOriginalDamage = mAttributes.mDamage;
-	int aSplashDamage = mAttributes.mDamage / 3;
-	int aMaxSplashDamageAmount = aSplashDamage * 7;
-	if (mType == ProjectileTypes::FIREBALL)
-	{
-		aMaxSplashDamageAmount = aOriginalDamage;
-	}
-	int aSplashDamageAmount = aSplashDamage * aZombiesGetSplashed;
-	if (aSplashDamageAmount > aMaxSplashDamageAmount)
-	{
-		//aSplashDamage *= aMaxSplashDamageAmount / aSplashDamage;
-		aSplashDamage = aOriginalDamage * aMaxSplashDamageAmount / (aSplashDamageAmount * 3);
-		aSplashDamage = std::max(aSplashDamage, 1);
-	}
-
-	aZombie = nullptr;
-	while (mBoard->IterateZombies(aZombie))
-	{
-		if (IsZombieHitBySplash(aZombie))
-		{
-			unsigned int aDamageFlags = GetDamageFlags(aZombie);
-			if (aZombie == theZombie)
-			{
-				Damage aDamage = Damage::FromProjectile(this, aOriginalDamage, aDamageFlags);
-				aZombie->TakeDamage(aDamage);
-			}
-			else
-			{
-				
-				Damage aDamage = Damage::FromProjectile(this, aSplashDamage, aDamageFlags);
-				aZombie->TakeDamage(aDamage);
-			}
-		}
-	}
 }
 
 void Projectile::UpdateLobMotion()
@@ -717,7 +624,7 @@ void Projectile::PlayImpactSound(Zombie *theZombie)
 		mApp->PlayFoley(FoleyType::FOLEY_BUTTER);
 		aPlaySplatSound = false;
 	}
-	else if (mType == ProjectileTypes::FIREBALL && IsSplashDamage(theZombie))
+	else if (mType == ProjectileTypes::FIREBALL && theZombie && !theZombie->IsFireResistant())
 	{
 		mApp->PlayFoley(FoleyType::FOLEY_IGNITE);
 		aPlayHelmSound = false;

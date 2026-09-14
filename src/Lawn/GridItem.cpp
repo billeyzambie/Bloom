@@ -651,7 +651,7 @@ Zombie *GridItem::RakeFindZombie()
 			aZombie->EffectedByDamage(GetBit(DamageRangeFlags::DAMAGES_GROUND)))
 		{
 			Rect aZombieRect = aZombie->GetZombieRect();
-			if (GetRectOverlap(aRakeRect, aZombieRect) >= 0)
+			if (GetRectXOverlap(aRakeRect, aZombieRect) >= 0)
 			{
 				return aZombie;
 			}

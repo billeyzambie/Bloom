@@ -1273,7 +1273,7 @@ extern BLOOM_API bool gShownMoreSunTutorial;
 /// @param rect1 The first Rectangle
 /// @param rect2 The second Rectangle
 /// @return The maximum overlap between the 2 Rectangles
-BLOOM_API int GetRectOverlap(const Rect &rect1, const Rect &rect2);
+BLOOM_API int GetRectXOverlap(const Rect &rect1, const Rect &rect2);
 
 /// @brief Does the Circle overlap the Rectangle
 /// @param theCircleX The circle's X coordinate

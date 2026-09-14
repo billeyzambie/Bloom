@@ -18,3 +18,9 @@ class BLOOM_API BloomType
 	BloomType &operator=(const BloomType &theCopied) = delete;
 	bool operator==(const BloomType &theOther) const;
 };
+
+template <class T>
+concept InstanceClassHasValidSize = sizeof(T) <= T::Type::INSTANCE_MAX_SIZE;
+
+template <class T>
+concept ValidInstanceClass = InstanceClassHasValidSize<T> && std::is_move_constructible_v<T>;

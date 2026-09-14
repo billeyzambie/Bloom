@@ -16,10 +16,10 @@ DefaultProjectileBehavior::DefaultProjectileBehavior(const ProjectileBehaviorTyp
 void DefaultProjectileBehavior::VirtualUpdate(Projectile &theProjectile)
 {
 	int aTime = 20;
-	if (mType != ProjectileTypes::PUFF 
-		&& mType != ProjectileTypes::FIREBALL 
-		&& mType != ProjectileTypes::STAR 
-		&& mType != ProjectileTypes::BASKETBALL)
+	if (theProjectile.mType != ProjectileTypes::PUFF 
+		&& theProjectile.mType != ProjectileTypes::FIREBALL 
+		&& theProjectile.mType != ProjectileTypes::STAR 
+		&& theProjectile.mType != ProjectileTypes::BASKETBALL)
 	{
 		aTime = 0;
 	}
@@ -53,16 +53,7 @@ void DefaultProjectileBehavior::DoImpact(DoImpactContext &theImpactContext)
 
 	aProjectile.PlayImpactSound(aZombie);
 
-	if (aProjectile.IsSplashDamage(aZombie))
-	{
-		if (mType == ProjectileTypes::FIREBALL && aZombie)
-		{
-			aZombie->RemoveColdEffects();
-		}
-
-		aProjectile.DoSplashDamage(aZombie);
-	}
-	else if (aZombie)
+	if (aZombie)
 	{
 		Damage aDamage = Damage::FromProjectile(
 			&aProjectile,
@@ -86,7 +77,7 @@ void DefaultProjectileBehavior::DoImpact(DoImpactContext &theImpactContext)
 			ParticleEffect::PARTICLE_MELONSPLASH
 		);
 	}
-	else if (mType == ProjectileTypes::WINTERMELON)
+	else if (aProjectile.mType == ProjectileTypes::WINTERMELON)
 	{
 		aProjectile.mApp->AddTodParticle(
 			aLastPosX + 30.0f,
@@ -95,7 +86,7 @@ void DefaultProjectileBehavior::DoImpact(DoImpactContext &theImpactContext)
 			ParticleEffect::PARTICLE_WINTERMELON
 		);
 	}
-	else if (mType == ProjectileTypes::COBBIG)
+	else if (aProjectile.mType == ProjectileTypes::COBBIG)
 	{
 		int aRenderOrder = Board::MakeRenderOrder(
 			RenderLayer::RENDER_LAYER_GROUND,
@@ -108,14 +99,14 @@ void DefaultProjectileBehavior::DoImpact(DoImpactContext &theImpactContext)
 		aProjectile.mApp->PlaySample(SOUND_DOOMSHROOM);
 		aProjectile.mBoard->ShakeBoard(3, -4);
 	}
-	else if (mType == ProjectileTypes::SNOWPEA)
+	else if (aProjectile.mType == ProjectileTypes::SNOWPEA)
 	{
 		aSplatPosX -= 15.0f;
 		aEffect = ParticleEffect::PARTICLE_SNOWPEA_SPLAT;
 	}
-	else if (mType == ProjectileTypes::FIREBALL)
+	else if (aProjectile.mType == ProjectileTypes::FIREBALL)
 	{
-		if (aProjectile.IsSplashDamage(aZombie))
+		if (!aZombie->IsFireResistant())
 		{
 			Reanimation *aFireReanim = aProjectile.mApp->AddReanimation(
 				aProjectile.mPosX + 38.0f,
@@ -128,22 +119,22 @@ void DefaultProjectileBehavior::DoImpact(DoImpactContext &theImpactContext)
 			aFireReanim->OverrideScale(0.7f, 0.4f);
 		}
 	}
-	else if (mType == ProjectileTypes::STAR)
+	else if (aProjectile.mType == ProjectileTypes::STAR)
 	{
 		aEffect = ParticleEffect::PARTICLE_STAR_SPLAT;
 	}
-	else if (mType == ProjectileTypes::PUFF)
+	else if (aProjectile.mType == ProjectileTypes::PUFF)
 	{
 		aSplatPosX -= 20.0f;
 		aEffect = ParticleEffect::PARTICLE_PUFF_SPLAT;
 	}
-	else if (mType == ProjectileTypes::CABBAGE)
+	else if (aProjectile.mType == ProjectileTypes::CABBAGE)
 	{
 		aSplatPosX = aLastPosX - 38.0f;
 		aSplatPosY = aLastPosY + 23.0f;
 		aEffect = ParticleEffect::PARTICLE_CABBAGE_SPLAT;
 	}
-	else if (mType == ProjectileTypes::BUTTER)
+	else if (aProjectile.mType == ProjectileTypes::BUTTER)
 	{
 		aSplatPosX = aLastPosX - 20.0f;
 		aSplatPosY = aLastPosY + 63.0f;

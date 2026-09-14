@@ -209,7 +209,7 @@ void LawnMower::Update()
 				GetBit(DamageRangeFlags::DAMAGES_UNDERGROUND)))
 		{
 			Rect aZombieRect = aZombie->GetZombieRect();
-			int aOverlap = GetRectOverlap(aAttackRect, aZombieRect);
+			int aOverlap = GetRectXOverlap(aAttackRect, aZombieRect);
 			if (aOverlap > (aZombie->mZombieType == ZombieType::ZOMBIE_BALLOON ? 20 : 0))
 			{
 				if (mMowerState != LawnMowerState::MOWER_READY ||

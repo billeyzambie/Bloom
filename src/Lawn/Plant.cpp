@@ -681,7 +681,7 @@ void Plant::DoRowAreaDamage(int theDamage, unsigned int theDamageFlags)
 		if (aZombie->mOnHighGround == IsOnHighGround() && aZombie->EffectedByDamage(aDamageRangeFlags))
 		{
 			Rect aZombieRect = aZombie->GetZombieRect();
-			if (GetRectOverlap(aAttackRect, aZombieRect) > 0)
+			if (GetRectXOverlap(aAttackRect, aZombieRect) > 0)
 			{
 				int aDamage = theDamage;
 				if ((aZombie->mZombieType == ZombieType::ZOMBIE_ZAMBONI ||
@@ -1430,7 +1430,7 @@ void Plant::UpdateTorchwood()
 											aProjectile->mType == OldProjectileType::PROJECTILE_SNOWPEA))
 		{
 			Rect aProjectileRect = aProjectile->GetProjectileRect();
-			if (GetRectOverlap(aAttackRect, aProjectileRect) >= 10)
+			if (GetRectXOverlap(aAttackRect, aProjectileRect) >= 10)
 			{
 				if (aProjectile->mType == OldProjectileType::PROJECTILE_PEA)
 				{
@@ -1457,7 +1457,7 @@ void Plant::DoSquashDamage()
 			aZombie->EffectedByDamage(aDamageRangeFlags))
 		{
 			Rect aZombieRect = aZombie->GetZombieRect();
-			if (GetRectOverlap(aAttackRect, aZombieRect) >
+			if (GetRectXOverlap(aAttackRect, aZombieRect) >
 				(aZombie->mZombieType == ZombieType::ZOMBIE_FOOTBALL ? -20 : 0))
 			{
 				Damage aDamage = Damage::DirectlyFrom(this, 1800, GetBit(DamageFlags::DAMAGE_HITS_SHIELD_AND_BODY) | GetBit(DamageFlags::DAMAGE_DOESNT_LEAVE_BODY));
@@ -1491,7 +1491,7 @@ Zombie *Plant::FindSquashTarget()
 				 aZombie->mZombiePhase != ZombiePhase::PHASE_DOLPHIN_RIDING &&
 				 aZombie->mZombiePhase != ZombiePhase::PHASE_DOLPHIN_IN_JUMP && !aZombie->IsBobsledTeamWithSled()))
 			{
-				int aRange = -GetRectOverlap(aAttackRect, aZombieRect);
+				int aRange = -GetRectXOverlap(aAttackRect, aZombieRect);
 				if (aRange <= (aZombie->mIsEating ? 110 : 70))
 				{
 					int aPlantX = aAttackRect.mX;
@@ -5071,7 +5071,7 @@ Zombie *Plant::FindTargetZombie(int theRow, PlantWeapon thePlantWeapon)
 			}
 
 			Rect aZombieRect = aZombie->GetZombieRect();
-			if (!needPortalCheck && GetRectOverlap(aAttackRect, aZombieRect) < -aExtraRange)
+			if (!needPortalCheck && GetRectXOverlap(aAttackRect, aZombieRect) < -aExtraRange)
 			{
 				continue;
 			}
@@ -5114,7 +5114,7 @@ int Plant::DistanceToClosestZombie()
 		if (aZombie->mRow == mRow && aZombie->EffectedByDamage(aDamageRangeFlags))
 		{
 			Rect aZombieRect = aZombie->GetZombieRect();
-			int aDistance = -GetRectOverlap(aAttackRect, aZombieRect);
+			int aDistance = -GetRectXOverlap(aAttackRect, aZombieRect);
 			if (aDistance < aClosestDistance)
 			{
 				aClosestDistance = std::max(aDistance, 0);
