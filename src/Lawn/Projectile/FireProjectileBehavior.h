@@ -4,6 +4,7 @@
 
 class BLOOM_API FireProjectileBehavior : public SplashProjectileBehavior
 {
+  public:
 	FireProjectileBehavior(const ProjectileBehaviorType &theType);
 	virtual bool IsSplashDamage(Projectile &theProjectile, Zombie &theCentralTarget) override;
 	virtual bool IsZombieHitBySplash(Projectile &theProjectile, Zombie &theTarget) override;

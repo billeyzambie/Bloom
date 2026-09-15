@@ -4,9 +4,15 @@ Bloom is a project that aims to revolutionize Plants vs. Zombies modding by allo
 
 Each mod is an independent C++ project that does not modify the game's source and is loaded by Bloom at runtime.
 
+## Making a mod
+
+Making a mod is technically possible but very impractical as there is no Bloom installer yet. And even if there was, you wouldn't be able to do much since only custom store items and (almost) projectiles are supported at the moment.
+
+A Bloom installer and a guide for how to make a mod will be made after custom plants become supported, since that is the most important feature for modding.
+
 ## Principles
 
-Mods should easily add content and modify both vanilla and each other in depth without incompatiblities. For example, it should be possible to make a plant food mod without special casing a plant food ability for every vanilla plant, and instead just doing something based on what kinds of *behaviors* the plant has, eg. speeding up its shooter behavior or giving its projectiles an effect that makes them bigger.
+Mods should easily add content and modify both vanilla and other mods in depth without incompatibilities. For example, it should be possible to make a plant food mod without special casing a plant food ability for every vanilla plant, and instead just doing something based on what kinds of *behaviors* the plant has, eg. speeding up its shooter behavior or giving its projectiles an effect that makes them bigger. This way the plant food mod can work on any plant from any mod, even if the modder didn't know about the plant food mod when they made their plant.
 
 ## Progress
 
@@ -25,7 +31,8 @@ Almost done. Not every vanilla edge case will be able to be replicated by Bloom 
 ### Other Custom Content
 Content will be made "custom" (able to be added and modified by Bloom) in this order:
 1. Store items
-2. Projectiles
+2. Projectiles (we are here)
+3. Plants
 4. Zombies
 5. Minigames
 6. Adventure levels

@@ -82,7 +82,19 @@ void Projectile::ProjectileInitialize(
 	}
 	else if (mType == ProjectileTypes::FIREBALL)
 	{
-		TOD_ASSERT();
+		float aOffsetX = -25.0f;
+		float aOffsetY = -25.0f;
+		Reanimation *aFirePeaReanim = mApp->AddReanimation(0.0f, 0.0f, 0, ReanimationType::REANIM_FIRE_PEA);
+		if (mMotionType == ProjectileMotion::MOTION_BACKWARDS)
+		{
+			aFirePeaReanim->OverrideScale(-1.0f, 1.0f);
+			aOffsetX += 80.0f;
+		}
+
+		aFirePeaReanim->SetPosition(mPosX + aOffsetX, mPosY + aOffsetY);
+		aFirePeaReanim->mLoopType = ReanimLoopType::REANIM_LOOP;
+		aFirePeaReanim->mAnimRate = RandRangeFloat(50.0f, 80.0f);
+		AttachReanim(mAttachmentID, aFirePeaReanim, aOffsetX, aOffsetY);
 	}
 	else if (mType == ProjectileTypes::PUFF)
 	{
@@ -814,29 +826,34 @@ Rect Projectile::GetProjectileRect()
 	}
 }
 
+Projectile &Projectile::Transform(const ProjectileType &theType, bool thePassAttachment)
+{
+	GameObject *anOwner = mBoard->GameObjectTryToGet(mOwner);
+
+	Projectile *aTransformed = mBoard->AddProjectile(mX, mY, mRenderOrder, mRow, theType, anOwner);
+
+	AttachmentID aTransformedAttachment = aTransformed->mAttachmentID;
+
+	memcpy(&aTransformed->mX, &mX, sizeof(GameObject) - offsetof(GameObject, mX));
+	memcpy(&aTransformed->mMotionType, &mMotionType, offsetof(Projectile, mBehaviors) - offsetof(Projectile, mMotionType));
+
+	if (thePassAttachment)
+		mAttachmentID = AttachmentID::ATTACHMENTID_NULL;
+	else
+		aTransformed->mAttachmentID = aTransformedAttachment;
+
+	Die();
+	return *aTransformed;
+}
+
 void Projectile::ConvertToFireball(int theGridX)
 {
 	if (mHitTorchwoodGridX == theGridX)
 		return;
 
-	//mType = OldProjectileType::PROJECTILE_FIREBALL;
-
-	mHitTorchwoodGridX = theGridX;
 	mApp->PlayFoley(FoleyType::FOLEY_FIREPEA);
-
-	float aOffsetX = -25.0f;
-	float aOffsetY = -25.0f;
-	Reanimation *aFirePeaReanim = mApp->AddReanimation(0.0f, 0.0f, 0, ReanimationType::REANIM_FIRE_PEA);
-	if (mMotionType == ProjectileMotion::MOTION_BACKWARDS)
-	{
-		aFirePeaReanim->OverrideScale(-1.0f, 1.0f);
-		aOffsetX += 80.0f;
-	}
-
-	aFirePeaReanim->SetPosition(mPosX + aOffsetX, mPosY + aOffsetY);
-	aFirePeaReanim->mLoopType = ReanimLoopType::REANIM_LOOP;
-	aFirePeaReanim->mAnimRate = RandRangeFloat(50.0f, 80.0f);
-	AttachReanim(mAttachmentID, aFirePeaReanim, aOffsetX, aOffsetY);
+	Projectile &aTransformed = Transform(ProjectileTypes::FIREBALL);
+	aTransformed.mHitTorchwoodGridX = theGridX;
 }
 
 void Projectile::ConvertToPea(int theGridX)
@@ -844,10 +861,9 @@ void Projectile::ConvertToPea(int theGridX)
 	if (mHitTorchwoodGridX == theGridX)
 		return;
 
-	AttachmentDie(mAttachmentID);
-	//mType = OldProjectileType::PROJECTILE_PEA;
-	mHitTorchwoodGridX = theGridX;
 	mApp->PlayFoley(FoleyType::FOLEY_THROW);
+	Projectile &aTransformed = Transform(ProjectileTypes::PEA);
+	aTransformed.mHitTorchwoodGridX = theGridX;
 }
 
 Sexy::Image *Projectile::GetImage() const

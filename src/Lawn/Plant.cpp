@@ -1426,8 +1426,8 @@ void Plant::UpdateTorchwood()
 	Projectile *aProjectile = nullptr;
 	while (mBoard->IterateProjectiles(aProjectile))
 	{
-		if ((aProjectile->mRow == mRow) && (aProjectile->mType == OldProjectileType::PROJECTILE_PEA ||
-											aProjectile->mType == OldProjectileType::PROJECTILE_SNOWPEA))
+		if ((aProjectile->mRow == mRow) && (aProjectile->mType == ProjectileTypes::PEA ||
+											aProjectile->mType == ProjectileTypes::SNOWPEA))
 		{
 			Rect aProjectileRect = aProjectile->GetProjectileRect();
 			if (GetRectXOverlap(aAttackRect, aProjectileRect) >= 10)
