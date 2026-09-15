@@ -44,7 +44,6 @@ class BLOOM_API Projectile final : public GameObject
 	float mRotation;
 	float mRotationSpeed;
 	bool mOnHighGround;
-	int mDamageRangeFlags;
 	int mHitTorchwoodGridX;
 	AttachmentID mAttachmentID;
 	float mCobTargetX;
@@ -105,6 +104,7 @@ class BLOOM_API Projectile final : public GameObject
 	/// @param theZombie The Zombie that it needs to hit
 	/// @return Flags that determine that damage types are dealt (see DamageFlags enum)
 	unsigned int GetDamageFlags(Zombie *theZombie);
+	unsigned int GetDamageRangeFlags();
 	/// @brief Get the World-Space collision rect
 	/// @return World-Space rect
 	Rect GetProjectileRect();

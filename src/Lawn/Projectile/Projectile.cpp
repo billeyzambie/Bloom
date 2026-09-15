@@ -55,7 +55,6 @@ void Projectile::ProjectileInitialize(
 	mRow = theRow;
 	mOwner = mBoard->GameObjectGetID(theOwner);
 	mCobTargetX = 0.0f;
-	mDamageRangeFlags = 0;
 	mDead = false;
 	mAttachmentID = AttachmentID::ATTACHMENTID_NULL;
 	mCobTargetRow = 0;
@@ -184,7 +183,7 @@ Zombie *Projectile::FindCollisionTarget()
 	Zombie *aZombie = nullptr;
 	while (mBoard->IterateZombies(aZombie))
 	{
-		bool isEffected = aZombie->EffectedByDamage((unsigned int)mDamageRangeFlags);
+		bool isEffected = aZombie->EffectedByDamage(GetDamageRangeFlags());
 
 		if ((aZombie->mZombieType == ZombieType::ZOMBIE_BOSS || aZombie->mRow == mRow) && isEffected)
 		{
@@ -231,7 +230,7 @@ void Projectile::CheckForCollision()
 	if (mMotionType == ProjectileMotion::MOTION_HOMING)
 	{
 		Zombie *aZombie = mBoard->ZombieTryToGet(mTargetZombieID);
-		if (aZombie && aZombie->EffectedByDamage((unsigned int)mDamageRangeFlags))
+		if (aZombie && aZombie->EffectedByDamage(GetDamageRangeFlags()))
 		{
 			Rect aProjectileRect = GetProjectileRect();
 			Rect aZombieRect = aZombie->GetZombieRect();
@@ -247,12 +246,6 @@ void Projectile::CheckForCollision()
 	if (mMotionType == ProjectileMotion::MOTION_STRAIGHT && (mPosY > 600.0f || mPosY < 0.0f))
 	{
 		Die();
-		return;
-	}
-
-	if (mMotionType == ProjectileMotion::MOTION_STRAIGHT &&
-		mShadowY - mPosY > 90.0f)
-	{
 		return;
 	}
 
@@ -356,6 +349,37 @@ unsigned int Projectile::GetDamageFlags(Zombie *theZombie)
 	}
 
 	return aDamageFlags;
+}
+
+unsigned int Projectile::GetDamageRangeFlags()
+{
+	unsigned int aDamageRangeFlags = 0;
+
+	if (mType == ProjectileTypes::COBBIG)
+	{
+		return (-1) & ~(GetBit(DamageRangeFlags::DAMAGES_MINDCONTROLLED));
+	}
+
+	if (mType == ProjectileTypes::ZOMBIE_PEA || mType == ProjectileTypes::BASKETBALL)
+	{
+		SetBit(aDamageRangeFlags, DamageRangeFlags::DAMAGES_MINDCONTROLLED, true);
+	}
+
+	if (mMotionType == ProjectileMotion::MOTION_STRAIGHT && mShadowY - mPosY > 90.0f)
+	{
+		SetBit(aDamageRangeFlags, DamageRangeFlags::DAMAGES_FLYING, true);
+	}
+	else
+	{
+		SetBit(aDamageRangeFlags, DamageRangeFlags::DAMAGES_GROUND, true);
+	}
+
+	if (mMotionType == ProjectileMotion::MOTION_LOBBED)
+	{
+		SetBit(aDamageRangeFlags, DamageRangeFlags::DAMAGES_SUBMERGED, true);
+	}
+
+	return aDamageRangeFlags;
 }
 
 void Projectile::UpdateLobMotion()
@@ -466,7 +490,7 @@ void Projectile::UpdateLobMotion()
 	else if (mType == ProjectileTypes::COBBIG)
 	{
 		int aBeforeGargantuarCount = mBoard->GetLiveGargantuarCount();
-		mBoard->KillAllZombiesInRadius(mRow, mPosX + 80, mPosY + 40, 115, 1, true, mDamageRangeFlags);
+		mBoard->KillAllZombiesInRadius(mRow, mPosX + 80, mPosY + 40, 115, 1, true, GetDamageRangeFlags());
 		int aAfterGargantuarCount = mBoard->GetLiveGargantuarCount();
 		mBoard->mGargantuarsKillsByCornCob += aBeforeGargantuarCount - aAfterGargantuarCount;
 		if (mBoard->mGargantuarsKillsByCornCob >= 2)
@@ -491,7 +515,7 @@ void Projectile::UpdateNormalMotion()
 	else if (mMotionType == ProjectileMotion::MOTION_HOMING)
 	{
 		Zombie *aZombie = mBoard->ZombieTryToGet(mTargetZombieID);
-		if (aZombie && aZombie->EffectedByDamage((unsigned int)mDamageRangeFlags))
+		if (aZombie && aZombie->EffectedByDamage(GetDamageRangeFlags()))
 		{
 			Rect aZombieRect = aZombie->GetZombieRect();
 			SexyVector2 aTargetCenter(aZombie->ZombieTargetLeadX(0.0f), aZombieRect.mY + aZombieRect.mHeight / 2);
@@ -830,20 +854,26 @@ Projectile &Projectile::Transform(const ProjectileType &theType, bool thePassAtt
 {
 	GameObject *anOwner = mBoard->GameObjectTryToGet(mOwner);
 
-	Projectile *aTransformed = mBoard->AddProjectile(mX, mY, mRenderOrder, mRow, theType, anOwner);
+	Projectile &aTransformed = *mBoard->mProjectiles.DataArrayAlloc(theType);
 
-	AttachmentID aTransformedAttachment = aTransformed->mAttachmentID;
+	memcpy(&aTransformed.mX, &mX, sizeof(GameObject) - offsetof(GameObject, mX));
+	memcpy(&aTransformed.mMotionType, &mMotionType, offsetof(Projectile, mBehaviors) - offsetof(Projectile, mMotionType));
 
-	memcpy(&aTransformed->mX, &mX, sizeof(GameObject) - offsetof(GameObject, mX));
-	memcpy(&aTransformed->mMotionType, &mMotionType, offsetof(Projectile, mBehaviors) - offsetof(Projectile, mMotionType));
+	aTransformed.ProjectileInitialize(mX, mY, mRenderOrder, mRow, anOwner);
 
 	if (thePassAttachment)
+	{
+		AttachmentDie(aTransformed.mAttachmentID);
+		aTransformed.mAttachmentID = mAttachmentID;
 		mAttachmentID = AttachmentID::ATTACHMENTID_NULL;
+	}
 	else
-		aTransformed->mAttachmentID = aTransformedAttachment;
+	{
+		aTransformed.mAttachmentID = AttachmentID::ATTACHMENTID_NULL;
+	}
 
 	Die();
-	return *aTransformed;
+	return aTransformed;
 }
 
 void Projectile::ConvertToFireball(int theGridX)

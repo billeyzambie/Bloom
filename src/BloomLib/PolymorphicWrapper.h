@@ -74,6 +74,6 @@ template <class T> class PolymorphicWrapper
 	}
 	bool IsEmpty() const
 	{
-		return mObject != nullptr;
+		return mObject == nullptr;
 	}
 };

@@ -2478,15 +2478,12 @@ void Zombie::UpdateZombiePeaHead()
 			aOriginX += 90.0f * mScaleZombie;
 			Projectile *aProjectile =
 				mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, ProjectileTypes::PEA, this);
-			aProjectile->mDamageRangeFlags = GetBit(DamageRangeFlags::DAMAGES_GROUND);
 		}
 		else
 		{
 			Projectile *aProjectile =
 				mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, ProjectileTypes::ZOMBIE_PEA, this);
 			aProjectile->mMotionType = ProjectileMotion::MOTION_BACKWARDS;
-			aProjectile->mDamageRangeFlags = GetBit(DamageRangeFlags::DAMAGES_MINDCONTROLLED);
-
 		}
 
 		mPhaseCounter = 150;
@@ -2586,7 +2583,6 @@ void Zombie::UpdateZombieGatlingHead()
 			aOriginX += 90.0f * mScaleZombie;
 			Projectile *aProjectile =
 				mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, ProjectileTypes::PEA, this);
-			aProjectile->mDamageRangeFlags = GetBit(DamageRangeFlags::DAMAGES_GROUND);
 		}
 		else
 		{

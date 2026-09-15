@@ -938,7 +938,6 @@ void Plant::StarFruitFire()
 	{
 		Projectile *aProjectile =
 			mBoard->AddProjectile(mX + 25, mY + 25, mRenderOrder - 1, mRow, ProjectileTypes::STAR, this);
-		aProjectile->mDamageRangeFlags = GetDamageRangeFlags(PlantWeapon::WEAPON_PRIMARY);
 		aProjectile->mMotionType = ProjectileMotion::MOTION_STRAIGHT;
 		aProjectile->mShadowY += 15.0f;
 		aProjectile->mRotationSpeed = RandRangeFloat(0.05f, 0.1f);
@@ -4844,7 +4843,6 @@ void Plant::Fire(Zombie *theTargetZombie, int theRow, PlantWeapon thePlantWeapon
 	}
 
 	Projectile *aProjectile = mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder - 1, theRow, *aProjectileType, this);
-	aProjectile->mDamageRangeFlags = GetDamageRangeFlags(thePlantWeapon);
 
 	if (mSeedType == SeedType::SEED_CABBAGEPULT || mSeedType == SeedType::SEED_KERNELPULT ||
 		mSeedType == SeedType::SEED_MELONPULT || mSeedType == SeedType::SEED_WINTERMELON)
@@ -4940,7 +4938,6 @@ void Plant::Fire(Zombie *theTargetZombie, int theRow, PlantWeapon thePlantWeapon
 	else if (mSeedType == SeedType::SEED_COBCANNON)
 	{
 		aProjectile->mVelX = 0.001f;
-		aProjectile->mDamageRangeFlags = GetDamageRangeFlags(PlantWeapon::WEAPON_PRIMARY);
 		aProjectile->mMotionType = ProjectileMotion::MOTION_LOBBED;
 		aProjectile->mVelY = 0.0f;
 		aProjectile->mAccZ = 0.0f;

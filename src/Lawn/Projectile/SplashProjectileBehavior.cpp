@@ -46,7 +46,7 @@ bool SplashProjectileBehavior::IsZombieHitBySplash(Projectile &theProjectile, Zo
 		return false;
 	}
 
-	return theTarget.EffectedByDamage((unsigned int)theProjectile.mDamageRangeFlags) &&
+	return theTarget.EffectedByDamage(theProjectile.GetDamageRangeFlags()) &&
 		   GetRectXOverlap(aProjectileRect, aZombieRect) >= 0;
 }
 

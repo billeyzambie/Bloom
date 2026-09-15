@@ -140,7 +140,10 @@ void DefaultProjectileBehavior::DoImpact(DoImpactContext &theImpactContext)
 		aSplatPosY = aLastPosY + 63.0f;
 		aEffect = ParticleEffect::PARTICLE_BUTTER_SPLAT;
 	}
-	else
+	else if (
+		aProjectile.mType == ProjectileTypes::PEA 
+		|| aProjectile.mType.GetNumericalId() >= OldProjectileType::NUM_PROJECTILES
+	)
 	{
 		aSplatPosX -= 15.0f;
 		aEffect = ParticleEffect::PARTICLE_PEA_SPLAT;
@@ -177,7 +180,7 @@ void DefaultProjectileBehavior::DoImpact(DoImpactContext &theImpactContext)
 			aParticle = aProjectile.mApp->AddTodParticle(aSplatPosX, aSplatPosY, aProjectile.mRenderOrder + 1, aEffect);
 		}
 
-		if (aEffect == ParticleEffect::PARTICLE_PEA_SPLAT && aProjectile.mType != ProjectileTypes::PEA)
+		if (aProjectile.mType.GetNumericalId() >= OldProjectileType::NUM_PROJECTILES)
 		{
 			for (TodListNode<ParticleEmitterID> *aNode = aParticle->mEmitterList.mHead; aNode != nullptr;
 				 aNode = aNode->mNext)
