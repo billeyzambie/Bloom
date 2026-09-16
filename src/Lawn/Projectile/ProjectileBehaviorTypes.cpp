@@ -11,6 +11,7 @@
 #include "MainProjectileBehavior.h"
 #include "SplashProjectileBehavior.h"
 #include "FireProjectileBehavior.h"
+#include "HomingProjectileBehavior.h"
 
 class TestBehavior : public ProjectileBehavior
 {
@@ -70,6 +71,11 @@ const auto &FIRE = Registries::PROJECTILE_BEHAVIORS.Register([]() {
 	anAttributes.mAbilityMax = 1;
 
 	ProjectileBehaviorType *aProjectileType = new TypeOf<FireProjectileBehavior>("PVZ", "FIRE");
+	return aProjectileType;
+});
+
+const auto &HOMING = Registries::PROJECTILE_BEHAVIORS.Register([]() {
+	ProjectileBehaviorType *aProjectileType = new TypeOf<HomingProjectileBehavior>("PVZ", "HOMING");
 	return aProjectileType;
 });
 

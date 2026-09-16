@@ -56,7 +56,7 @@ void SplashProjectileBehavior::DoSplashDamage(Projectile &theProjectile, Zombie 
 	Zombie *aZombie = nullptr;
 	while (theProjectile.mBoard->IterateZombies(aZombie))
 	{
-		if (aZombie != &theCentralTarget && IsZombieHitBySplash(theProjectile, theCentralTarget))
+		if (aZombie != &theCentralTarget && IsZombieHitBySplash(theProjectile, *aZombie))
 		{
 			aZombiesGetSplashed++;
 		}
@@ -69,7 +69,8 @@ void SplashProjectileBehavior::DoSplashDamage(Projectile &theProjectile, Zombie 
 	if (aSplashDamageAmount > aMaxSplashDamageAmount)
 	{
 		//aSplashDamage *= aMaxSplashDamageAmount / aSplashDamage;
-		aSplashDamage = aOriginalDamage * aMaxSplashDamageAmount / (aSplashDamageAmount * 3);
+		aSplashDamage = aOriginalDamage * aMaxSplashDamageAmount 
+			/ (aSplashDamageAmount / mAttributes.mAbilityIntensity);
 		aSplashDamage = std::max(aSplashDamage, 1);
 	}
 

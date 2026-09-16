@@ -1,5 +1,4 @@
 #include "ProjectileBehavior.h"
-#include "../../SexyAppFramework/Common.h"
 
 ProjectileBehavior::ProjectileBehavior(const ProjectileBehaviorType &theType) 
 	: mType(theType), mAttributes(mType.mAttributes)
@@ -8,16 +7,15 @@ ProjectileBehavior::ProjectileBehavior(const ProjectileBehaviorType &theType)
 
 void ProjectileBehavior::Update(Projectile &theProjectile)
 {
-	int aNumOfTimesToUpdate = std::floor(mAttributes.mUpdateRateMultiplier);
-	if (Sexy::Rand(1.0f) < mAttributes.mUpdateRateMultiplier - aNumOfTimesToUpdate)
-		aNumOfTimesToUpdate++;
-
-	mAttributes = mType.mAttributes;
-
-	for (int i = 0; i < aNumOfTimesToUpdate; i++)
-		VirtualUpdate(theProjectile);
-
-	mRunTime += aNumOfTimesToUpdate;
+	//int aNumOfTimesToUpdate = std::floor(mAttributes.mUpdateRateMultiplier);
+	//if (Sexy::Rand(1.0f) < mAttributes.mUpdateRateMultiplier - aNumOfTimesToUpdate)
+	//	aNumOfTimesToUpdate++;
+	//
+	//mAttributes = mType.mAttributes;
+	//
+	//for (int i = 0; i < aNumOfTimesToUpdate; i++)
+	VirtualUpdate(theProjectile);
+	mRunTime++;
 }
 
 void ProjectileBehavior::VirtualUpdate(Projectile &theProjectile)

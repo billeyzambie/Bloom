@@ -10,6 +10,7 @@
 template <class T> class BehaviorList
 {
   private:
+	//Better way that doesn't use heap allocation maybe later
 	std::vector<PolymorphicWrapper<T>> mBehaviors;
   
   public:
@@ -27,6 +28,15 @@ template <class T> class BehaviorList
 			const T::Type *aType = theOwnerType.mBehaviorTypes.GetBehaviorTypes()[i];
 			mBehaviors[i].Initialize(*aType);
 		}
+	}
+	T *Get(const T::Type &theType)
+	{
+		for (auto &aBehavior : mBehaviors)
+		{
+			if (aBehavior->mType == theType)
+				return &*aBehavior;
+		}
+		return nullptr;
 	}
 	template <class ContextT> void Fire(void (T::*theFunction)(ContextT &), ContextT &theContext)
 	{

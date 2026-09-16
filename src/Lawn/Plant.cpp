@@ -8,6 +8,8 @@
 #include "Challenge.h"
 #include "Projectile/Projectile.h"
 #include "Projectile/ProjectileTypes.h"
+#include "Projectile/ProjectileBehaviorTypes.h"
+#include "Projectile/HomingProjectileBehavior.h"
 #include "SeedPacket.h"
 #include "../LawnApp.h"
 #include "CursorObject.h"
@@ -4932,8 +4934,15 @@ void Plant::Fire(Zombie *theTargetZombie, int theRow, PlantWeapon thePlantWeapon
 	else if (mSeedType == SeedType::SEED_CATTAIL)
 	{
 		aProjectile->mVelX = 2.0f;
-		aProjectile->mMotionType = ProjectileMotion::MOTION_HOMING;
-		aProjectile->mTargetZombieID = mBoard->ZombieGetID(theTargetZombie);
+
+		ProjectileBehavior *aBehavior = aProjectile->mBehaviors.Get(ProjectileBehaviorTypes::HOMING);
+
+		if (aBehavior)
+		{
+			auto *aHomingBehavior = static_cast<HomingProjectileBehavior *>(aBehavior);
+			if (theTargetZombie)
+				aHomingBehavior->mTargetZombieId = theTargetZombie->GetId();
+		}
 	}
 	else if (mSeedType == SeedType::SEED_COBCANNON)
 	{

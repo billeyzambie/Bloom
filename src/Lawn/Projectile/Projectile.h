@@ -48,11 +48,7 @@ class BLOOM_API Projectile final : public GameObject
 	AttachmentID mAttachmentID;
 	float mCobTargetX;
 	int mCobTargetRow;
-	ZombieID mTargetZombieID;
 	int mLastPortalX;
-
-  private:
-	//Better way that doesn't use heap allocation maybe later
 	BehaviorList<ProjectileBehavior> mBehaviors;
 
   public:
@@ -113,9 +109,8 @@ class BLOOM_API Projectile final : public GameObject
 	Plant *FindCollisionTargetPlant();
 	/// @brief Transform the Projectile to another type (by killing it and creating a new one)
 	/// @param theType The type to transform to
-	/// @param thePassAttachment Whether to pass the projectile's attachment to the new projectile
 	/// @returns The new projectile
-	Projectile &Transform(const ProjectileType &theType, bool thePassAttachment = false);
+	Projectile &Transform(const ProjectileType &theType);
 	/// @brief Convert the Projectile to a FireBall
 	/// @param theGridX The Torchwood's grid X coordinate to avoid changing the Projectile again on the same grid
 	void ConvertToFireball(int theGridX);

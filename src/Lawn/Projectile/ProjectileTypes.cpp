@@ -99,6 +99,14 @@ const auto &SPIKE = Registries::PROJECTILES.Register([]() {
 	anAttributes.mDamage = 20;
 	auto *aProjectileType = new ProjectileType("PVZ", "SPIKE", anAttributes);
 	aProjectileType->mBaseImage = {"PVZ", "IMAGE_PROJECTILECACTUS"};
+
+	aProjectileType->mBehaviorTypes.Add(
+		ProjectileBehaviorTypes::HOMING,
+		ListInsertion<ProjectileBehaviorType>::Before(ProjectileBehaviorTypes::MAIN)
+	);
+
+	aProjectileType->mBehaviorTypes.Add(ProjectileBehaviorTypes::FIRE);
+
 	return aProjectileType;
 });
 
@@ -131,6 +139,11 @@ const auto &COBBIG = Registries::PROJECTILES.Register([]() {
 	anAttributes.mWidth = 162;
 	anAttributes.mHeight = 78;
 	anAttributes.mDamage = 300;
+	anAttributes.mDamageRangeFlags =
+		GetBit(DamageRangeFlags::DAMAGES_GROUND) | GetBit(DamageRangeFlags::DAMAGES_FLYING) |
+		GetBit(DamageRangeFlags::DAMAGES_DOG) | GetBit(DamageRangeFlags::DAMAGES_SUBMERGED) |
+		GetBit(DamageRangeFlags::DAMAGES_DYING) | GetBit(DamageRangeFlags::DAMAGES_UNDERGROUND) |
+		GetBit(DamageRangeFlags::DAMAGES_OFF_GROUND);
 	auto *aProjectileType = new ProjectileType("PVZ", "COBBIG", anAttributes);
 	aProjectileType->mBaseImage = {"PVZ", "IMAGE_REANIM_COBCANNON_COB"};
 	return aProjectileType;

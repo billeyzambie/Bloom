@@ -58,7 +58,6 @@ void Projectile::ProjectileInitialize(
 	mDead = false;
 	mAttachmentID = AttachmentID::ATTACHMENTID_NULL;
 	mCobTargetRow = 0;
-	mTargetZombieID = ZombieID::ZOMBIEID_NULL;
 	mOnHighGround = mBoard->mGridSquareType[aGridX][theRow] == GridSquareType::GRIDSQUARE_HIGH_GROUND;
 	if (mBoard->StageHasRoof())
 	{
@@ -227,22 +226,6 @@ void Projectile::CheckForCollision()
 		return;
 	}
 
-	if (mMotionType == ProjectileMotion::MOTION_HOMING)
-	{
-		Zombie *aZombie = mBoard->ZombieTryToGet(mTargetZombieID);
-		if (aZombie && aZombie->EffectedByDamage(GetDamageRangeFlags()))
-		{
-			Rect aProjectileRect = GetProjectileRect();
-			Rect aZombieRect = aZombie->GetZombieRect();
-			if (GetRectXOverlap(aProjectileRect, aZombieRect) >= 0 && mPosY > aZombieRect.mY &&
-				mPosY < aZombieRect.mY + aZombieRect.mHeight)
-			{
-				DoImpact(aZombie);
-			}
-		}
-		return;
-	}
-
 	if (mMotionType == ProjectileMotion::MOTION_STRAIGHT && (mPosY > 600.0f || mPosY < 0.0f))
 	{
 		Die();
@@ -284,7 +267,7 @@ void Projectile::CheckForCollision()
 
 bool Projectile::CantHitHighGround()
 {
-	if (mMotionType == ProjectileMotion::MOTION_BACKWARDS || mMotionType == ProjectileMotion::MOTION_HOMING)
+	if (mMotionType == ProjectileMotion::MOTION_BACKWARDS)
 		return false;
 
 	return (mType == ProjectileTypes::PEA ||
@@ -353,12 +336,7 @@ unsigned int Projectile::GetDamageFlags(Zombie *theZombie)
 
 unsigned int Projectile::GetDamageRangeFlags()
 {
-	unsigned int aDamageRangeFlags = 0;
-
-	if (mType == ProjectileTypes::COBBIG)
-	{
-		return (-1) & ~(GetBit(DamageRangeFlags::DAMAGES_MINDCONTROLLED));
-	}
+	unsigned int aDamageRangeFlags = mAttributes.mDamageRangeFlags;
 
 	if (mType == ProjectileTypes::ZOMBIE_PEA || mType == ProjectileTypes::BASKETBALL)
 	{
@@ -512,41 +490,12 @@ void Projectile::UpdateNormalMotion()
 	{
 		mPosX -= 3.33f;
 	}
-	else if (mMotionType == ProjectileMotion::MOTION_HOMING)
-	{
-		Zombie *aZombie = mBoard->ZombieTryToGet(mTargetZombieID);
-		if (aZombie && aZombie->EffectedByDamage(GetDamageRangeFlags()))
-		{
-			Rect aZombieRect = aZombie->GetZombieRect();
-			SexyVector2 aTargetCenter(aZombie->ZombieTargetLeadX(0.0f), aZombieRect.mY + aZombieRect.mHeight / 2);
-			SexyVector2 aProjectileCenter(mPosX + mWidth / 2, mPosY + mHeight / 2);
-			SexyVector2 aToTarget = (aTargetCenter - aProjectileCenter).Normalize();
-			SexyVector2 aMotion(mVelX, mVelY);
-
-			aMotion += aToTarget * (0.001f * mProjectileAge);
-			aMotion = aMotion.Normalize();
-			aMotion *= 2.0f;
-
-			mVelX = aMotion.x;
-			mVelY = aMotion.y;
-			mRotation = -atan2(mVelY, mVelX);
-		}
-
-		mPosY += mVelY;
-		mPosX += mVelX;
-		mShadowY += mVelY;
-		mRow = mBoard->PixelToGridYKeepOnBoard(mPosX, mPosY);
-	}
 	else if (mMotionType == ProjectileMotion::MOTION_STRAIGHT)
 	{
 		mPosY += mVelY;
 		mPosX += mVelX;
 		mShadowY += mVelY;
-
-		if (mVelY != 0.0f)
-		{
-			mRow = mBoard->PixelToGridYKeepOnBoard(mPosX, mPosY);
-		}
+		mRow = mBoard->PixelToGridYKeepOnBoard(mPosX, mPosY);
 	}
 	else if (mMotionType == ProjectileMotion::MOTION_BEE)
 	{
@@ -850,27 +799,18 @@ Rect Projectile::GetProjectileRect()
 	}
 }
 
-Projectile &Projectile::Transform(const ProjectileType &theType, bool thePassAttachment)
+Projectile &Projectile::Transform(const ProjectileType &theType)
 {
 	GameObject *anOwner = mBoard->GameObjectTryToGet(mOwner);
 
-	Projectile &aTransformed = *mBoard->mProjectiles.DataArrayAlloc(theType);
+	Projectile &aTransformed = *mBoard->AddProjectile(mX, mY, mRenderOrder, mRow, theType, anOwner);
+
+	AttachmentID anAttachmentId = aTransformed.mAttachmentID;
 
 	memcpy(&aTransformed.mX, &mX, sizeof(GameObject) - offsetof(GameObject, mX));
 	memcpy(&aTransformed.mMotionType, &mMotionType, offsetof(Projectile, mBehaviors) - offsetof(Projectile, mMotionType));
 
-	aTransformed.ProjectileInitialize(mX, mY, mRenderOrder, mRow, anOwner);
-
-	if (thePassAttachment)
-	{
-		AttachmentDie(aTransformed.mAttachmentID);
-		aTransformed.mAttachmentID = mAttachmentID;
-		mAttachmentID = AttachmentID::ATTACHMENTID_NULL;
-	}
-	else
-	{
-		aTransformed.mAttachmentID = AttachmentID::ATTACHMENTID_NULL;
-	}
+	aTransformed.mAttachmentID = anAttachmentId;
 
 	Die();
 	return aTransformed;

@@ -11030,3 +11030,8 @@ void Zombie::SetupWaterTrack(const char *theTrackName)
 	aTrackInstance->mIgnoreColorOverride = true;
 	aTrackInstance->mIgnoreClipRect = true;
 }
+
+ZombieID Zombie::GetId()
+{
+	return mBoard->ZombieGetID(this);
+}

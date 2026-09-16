@@ -1055,6 +1055,8 @@ class BLOOM_API Zombie : public GameObject
 	/// @param theZombieType The ZombieType to check
 	/// @return True if the type is a Zombotany variant, false otherwise
 	static bool IsZombotany(ZombieType theZombieType);
+
+	ZombieID GetId();
 };
 
 class ZombieDefinition

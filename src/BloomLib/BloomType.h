@@ -25,4 +25,4 @@ concept InstanceClassHasValidSize = sizeof(T) <= T::Type::INSTANCE_MAX_SIZE;
 template <class T>
 concept ValidInstanceClass = InstanceClassHasValidSize<T> && std::is_nothrow_move_constructible_v<T>;
 
-template <ValidInstanceClass T> using TypeOf = T::TypeT<T>;
+template <ValidInstanceClass T> using TypeOf = T::template TypeT<T>;

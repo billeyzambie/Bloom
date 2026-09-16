@@ -13,7 +13,6 @@ class BLOOM_API ProjectileBehaviorType : public BloomType
 
 	struct Attributes
 	{
-		float mUpdateRateMultiplier = 1;
 		short mAbilityWidth = 60;
 		//In rows, not pixels, for splash damage. Might be in pixels for a few future behaviors.
 		short mAbilityHeight = 3;
