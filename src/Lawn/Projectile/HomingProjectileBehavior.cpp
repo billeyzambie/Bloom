@@ -28,8 +28,31 @@ void HomingProjectileBehavior::VirtualUpdate(Projectile &theProjectile)
 	theProjectile.mAttributes.mDamageRangeFlags |= GetBit(DamageRangeFlags::DAMAGES_GROUND);
 	theProjectile.mAttributes.mDamageRangeFlags |= GetBit(DamageRangeFlags::DAMAGES_FLYING);
 
+	bool aCanFindNew = mNumberOfTimesFoundNewTarget + 1 < mAttributes.mAbilityMax;
+
 	Zombie *aZombie = theProjectile.mBoard->ZombieTryToGet(mTargetZombieId);
-	if (aZombie && aZombie->EffectedByDamage(theProjectile.GetDamageRangeFlags()))
+	if (!aZombie || aCanFindNew && !aZombie->mHasHead)
+	{
+		if (!aCanFindNew)
+			return;
+		
+		GameObject *aProjectileOwner = theProjectile.mBoard->GameObjectTryToGet(theProjectile.mOwner);
+		if (!aProjectileOwner)
+			return;
+
+		Plant *aPlant = aProjectileOwner->TryAsPlant();
+		if (!aPlant)
+			return;
+		
+		aZombie = aPlant->FindTargetZombie(aPlant->mRow);
+		if (!aZombie || !aZombie->mHasHead)
+			return;
+
+		mTargetZombieId = aZombie->GetId();
+		mNumberOfTimesFoundNewTarget++;
+	}
+
+	if (aZombie->EffectedByDamage(theProjectile.GetDamageRangeFlags()))
 	{
 		Rect aZombieRect = aZombie->GetZombieRect();
 		SexyVector2 aTargetCenter(aZombie->ZombieTargetLeadX(0.0f), aZombieRect.mY + aZombieRect.mHeight / 2);
@@ -39,7 +62,7 @@ void HomingProjectileBehavior::VirtualUpdate(Projectile &theProjectile)
 
 		aMotion += aToTarget * (0.001f * theProjectile.mProjectileAge);
 		aMotion = aMotion.Normalize();
-		aMotion *= 2.0f;
+		aMotion *= mAttributes.mAbilityIntensity;
 
 		theProjectile.mVelX = aMotion.x;
 		theProjectile.mVelY = aMotion.y;

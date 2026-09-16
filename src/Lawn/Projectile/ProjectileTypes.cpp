@@ -105,8 +105,6 @@ const auto &SPIKE = Registries::PROJECTILES.Register([]() {
 		ListInsertion<ProjectileBehaviorType>::Before(ProjectileBehaviorTypes::MAIN)
 	);
 
-	aProjectileType->mBehaviorTypes.Add(ProjectileBehaviorTypes::FIRE);
-
 	return aProjectileType;
 });
 

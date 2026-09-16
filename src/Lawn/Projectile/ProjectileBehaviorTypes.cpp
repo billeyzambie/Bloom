@@ -59,8 +59,10 @@ const auto &MELON_SPLASH = Registries::PROJECTILE_BEHAVIORS.Register([]() {
 	ProjectileBehaviorAttributes anAttributes;
 	anAttributes.mAbilityWidth = 60;
 	anAttributes.mAbilityHeight = 3;
+	anAttributes.mAbilityMax = 7;
+	anAttributes.mAbilityIntensity = 0.33f;
 
-	ProjectileBehaviorType *aProjectileType = new TypeOf<SplashProjectileBehavior>("PVZ", "MELON_SPLASH");
+	ProjectileBehaviorType *aProjectileType = new TypeOf<SplashProjectileBehavior>("PVZ", "MELON_SPLASH", anAttributes);
 	return aProjectileType;
 });
 
@@ -69,13 +71,18 @@ const auto &FIRE = Registries::PROJECTILE_BEHAVIORS.Register([]() {
 	anAttributes.mAbilityWidth = 100;
 	anAttributes.mAbilityHeight = 1;
 	anAttributes.mAbilityMax = 1;
+	anAttributes.mAbilityIntensity = 0.33f;
 
-	ProjectileBehaviorType *aProjectileType = new TypeOf<FireProjectileBehavior>("PVZ", "FIRE");
+	ProjectileBehaviorType *aProjectileType = new TypeOf<FireProjectileBehavior>("PVZ", "FIRE", anAttributes);
 	return aProjectileType;
 });
 
 const auto &HOMING = Registries::PROJECTILE_BEHAVIORS.Register([]() {
-	ProjectileBehaviorType *aProjectileType = new TypeOf<HomingProjectileBehavior>("PVZ", "HOMING");
+	ProjectileBehaviorAttributes anAttributes;
+	anAttributes.mAbilityMax = 1;
+	anAttributes.mAbilityIntensity = 2.0f;
+
+	ProjectileBehaviorType *aProjectileType = new TypeOf<HomingProjectileBehavior>("PVZ", "HOMING", anAttributes);
 	return aProjectileType;
 });
 
