@@ -37,10 +37,10 @@ class BLOOM_API ProjectileBehaviorType : public BloomType
 
 typedef ProjectileBehaviorType::Attributes ProjectileBehaviorAttributes;
 
-template <ValidInstanceClass T> class CustomProjectileBehaviorType : public ProjectileBehaviorType
+template <ValidInstanceClass T> class ProjectileBehaviorTypeT : public ProjectileBehaviorType
 {
   public:
-	CustomProjectileBehaviorType(
+	ProjectileBehaviorTypeT(
 		const std::string &theModName,
 		const std::string &theTypeName,
 		const Attributes &theAttributes = {}

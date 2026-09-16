@@ -27,6 +27,9 @@ template <class T> class PolymorphicWrapper
 	}
 	PolymorphicWrapper& operator=(PolymorphicWrapper &&theMoved) noexcept
 	{
+		if (this == &theMoved)
+			return *this;
+
 		Clear();
 		new (this) PolymorphicWrapper(std::move(theMoved));
 

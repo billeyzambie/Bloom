@@ -45,14 +45,12 @@ namespace ProjectileBehaviorTypes
 {
 
 const auto &MAIN = Registries::PROJECTILE_BEHAVIORS.Register([]() {
-	ProjectileBehaviorType *aProjectileType 
-		= new CustomProjectileBehaviorType<DefaultProjectileBehavior>("PVZ", "MAIN");
+	ProjectileBehaviorType *aProjectileType = new TypeOf<DefaultProjectileBehavior>("PVZ", "MAIN");
 	return aProjectileType;
 });
 
 const auto &APPLY_BUTTER = Registries::PROJECTILE_BEHAVIORS.Register([]() {
-	ProjectileBehaviorType *aProjectileType =
-		new CustomProjectileBehaviorType<ApplyButterProjectileBehavior>("PVZ", "APPLY_BUTTER");
+	ProjectileBehaviorType *aProjectileType = new TypeOf<ApplyButterProjectileBehavior>("PVZ", "APPLY_BUTTER");
 	return aProjectileType;
 });
 
@@ -61,8 +59,7 @@ const auto &MELON_SPLASH = Registries::PROJECTILE_BEHAVIORS.Register([]() {
 	anAttributes.mAbilityWidth = 60;
 	anAttributes.mAbilityHeight = 3;
 
-	ProjectileBehaviorType *aProjectileType =
-		new CustomProjectileBehaviorType<SplashProjectileBehavior>("PVZ", "MELON_SPLASH");
+	ProjectileBehaviorType *aProjectileType = new TypeOf<SplashProjectileBehavior>("PVZ", "MELON_SPLASH");
 	return aProjectileType;
 });
 
@@ -72,14 +69,12 @@ const auto &FIRE = Registries::PROJECTILE_BEHAVIORS.Register([]() {
 	anAttributes.mAbilityHeight = 1;
 	anAttributes.mAbilityMax = 1;
 
-	ProjectileBehaviorType *aProjectileType =
-		new CustomProjectileBehaviorType<FireProjectileBehavior>("PVZ", "FIRE");
+	ProjectileBehaviorType *aProjectileType = new TypeOf<FireProjectileBehavior>("PVZ", "FIRE");
 	return aProjectileType;
 });
 
 const auto &TEST = Registries::PROJECTILE_BEHAVIORS.Register([]() {
-	ProjectileBehaviorType *aProjectileType = 
-		new CustomProjectileBehaviorType<TestBehavior>("PVZ", "TEST");
+	ProjectileBehaviorType *aProjectileType = new TypeOf<TestBehavior>("PVZ", "TEST");
 	return aProjectileType;
 });
 

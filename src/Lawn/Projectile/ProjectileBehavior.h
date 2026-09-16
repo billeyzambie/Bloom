@@ -11,6 +11,7 @@ class BLOOM_API ProjectileBehavior
 {
   public:
 	typedef ProjectileBehaviorType Type;
+	template <ValidInstanceClass T> using TypeT = ProjectileBehaviorTypeT<T>;
 	typedef Projectile Owner;
 
 	struct DoImpactContext
