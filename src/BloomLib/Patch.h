@@ -2,7 +2,6 @@
 
 #include "NamespacedString.h"
 #include "BillFunctional.h"
-#include <iostream>
 
 template <class T> class BLOOM_API Patch
 {

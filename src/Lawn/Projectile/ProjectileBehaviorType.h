@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../BloomLib/BloomType.h"
-#include "../BloomLib/PatchHolder.h"
 
 class LawnApp;
 class ProjectileBehavior;

@@ -1,13 +1,15 @@
 #pragma once
 
 #include "../../BloomLib/Bloom.h"
-
-class StoreItemType;
+#include "StoreItemType.h"
 
 //Subclassing will come later
 class BLOOM_API StoreItem final
 {
   public:
+	typedef StoreItemType Type;
+	template <class T> using TypeT = StoreItemType;
+
 	const StoreItemType *mType;
 	int mPurchases = 0;
 	int mTotalPurchasesEver = 0;

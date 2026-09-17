@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../BloomLib/BloomType.h"
-#include "../BloomLib/PatchHolder.h"
 #include "../BloomLib/EventList.h"
 #include "../BloomLib/ListInsertion.h"
 #include "../BloomLib/ImageGetter.h"

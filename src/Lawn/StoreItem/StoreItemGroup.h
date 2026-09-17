@@ -2,7 +2,6 @@
 
 #include "../BloomLib/BloomType.h"
 #include "../BloomLib/EventList.h"
-#include "../BloomLib/PatchHolder.h"
 #include "../BloomLib/ListInsertion.h"
 
 class LawnApp;

@@ -19,10 +19,12 @@ class BLOOM_API BloomType
 	bool operator==(const BloomType &theOther) const;
 };
 
+template <class T> class PatchHolder;
+
 template <class T>
 concept InstanceClassHasValidSize = sizeof(T) <= T::Type::INSTANCE_MAX_SIZE;
 
 template <class T>
 concept ValidInstanceClass = InstanceClassHasValidSize<T> && std::is_nothrow_move_constructible_v<T>;
 
-template <ValidInstanceClass T> using TypeOf = T::template TypeT<T>;
+template <class T> using TypeOf = T::template TypeT<T>;
