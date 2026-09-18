@@ -11,6 +11,9 @@ class StoreScreen;
 class BLOOM_API StoreItemGroup : public BloomType
 {
   public:
+	typedef StoreItemGroup Type;
+	template <class T> using TypeT = Type;
+
 	struct Attributes
 	{
 		bool mUnavailable = false;
@@ -23,7 +26,7 @@ class BLOOM_API StoreItemGroup : public BloomType
 		const PlayerInfo &mPlayerInfo;
 		Attributes &mAttributes;
 	};
-	PatchHolder<StoreItemGroup> *mPatchHolder;
+	PatchHolder<StoreItemGroup> *mPatchHolder = nullptr;
 	Attributes mAttributeBaseValues;
 	Attributes mAttributes;
 	EventList<ModifierContext> mModifiers;

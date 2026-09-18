@@ -1,5 +1,7 @@
 #pragma once
 
+#include <array>
+
 #include "../BloomLib/Registry.h"
 #include "StoreItem/StoreItemType.h"
 #include "StoreItem/StoreItemGroup.h"

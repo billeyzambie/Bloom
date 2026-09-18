@@ -21,7 +21,7 @@ class BLOOM_API Projectile final : public GameObject
 {
   public:
 	typedef ProjectileType Type;
-	template <class T> using TypeT = ProjectileType;
+	template <class T> using TypeT = Type;
 
 	const ProjectileType &mType;
 	ProjectileAttributes mAttributes;
@@ -55,6 +55,8 @@ class BLOOM_API Projectile final : public GameObject
   public:
 	Projectile(const ProjectileType &theProjectileType);
 	Projectile(const Projectile &theCopied) = delete;
+	//to be removed
+	Projectile(Projectile &&theMoved) = default;
 	~Projectile();
 
 	void Sync(BoundedSync &theSync);

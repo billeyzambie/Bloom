@@ -20,7 +20,7 @@ class PlayerInfo;
 class Projectile;
 class ProjectileBehaviorType;
 
-template <class T> class RegistryTypeHolder;
+template <class T> class RegistryHolder;
 
 class BLOOM_API ProjectileType : public BloomType
 {
@@ -46,7 +46,7 @@ class BLOOM_API ProjectileType : public BloomType
 		const PlayerInfo &mPlayerInfo;
 		Attributes &mAttributes;
 	};
-	PatchHolder<ProjectileType> *mPatchHolder;
+	PatchHolder<ProjectileType> *mPatchHolder = nullptr;
 	Attributes mAttributeBaseValues;
 	Attributes mAttributes;
 	EventList<ModifierContext> mModifiers;

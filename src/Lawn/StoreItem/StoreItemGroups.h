@@ -6,7 +6,7 @@
 namespace StoreItemGroups
 {
 
-extern BLOOM_API const RegistryTypeHolder<StoreItemGroup> &UPGRADES;
-extern BLOOM_API const RegistryTypeHolder<StoreItemGroup> &ZEN_GARDEN;
+extern BLOOM_API const RegistryHolder<StoreItemGroup> &UPGRADES;
+extern BLOOM_API const RegistryHolder<StoreItemGroup> &ZEN_GARDEN;
 
 }

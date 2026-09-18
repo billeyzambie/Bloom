@@ -53,7 +53,7 @@ class BLOOM_API StoreItemType : public BloomType
 		LawnApp &mApp;
 		StoreItem &mStoreItemData;
 	};
-	PatchHolder<StoreItemType> *mPatchHolder;
+	PatchHolder<StoreItemType> *mPatchHolder = nullptr;
 	Attributes mAttributeBaseValues;
 	Attributes mAttributes;
 	EventList<ModifierContext> mModifiers;

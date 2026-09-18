@@ -8,7 +8,7 @@ class BLOOM_API StoreItem final
 {
   public:
 	typedef StoreItemType Type;
-	template <class T> using TypeT = StoreItemType;
+	template <class T> using TypeT = Type;
 
 	const StoreItemType *mType;
 	int mPurchases = 0;

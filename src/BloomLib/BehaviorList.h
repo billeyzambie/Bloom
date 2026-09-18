@@ -5,6 +5,7 @@
 
 #include "PolymorphicWrapper.h"
 #include "BehaviorTypeList.h"
+#include "RegistryTypeHolder.h"
 //#include "../Lawn/Projectile/ProjectileBehavior.h"
 
 template <class T> class BehaviorList
@@ -37,6 +38,21 @@ template <class T> class BehaviorList
 				return &*aBehavior;
 		}
 		return nullptr;
+	}
+	template <class S> S *Get(const TypeOf<S> &theType)
+	{
+		for (auto &aBehavior : mBehaviors)
+		{
+			if (aBehavior->mType == theType)
+				return static_cast<S *>(&*aBehavior);
+		}
+		return nullptr;
+	}
+	template <class S> S *Get(
+		const RegistryTypeHolder<S, typename T::Type> &theType
+	)
+	{
+		return Get<S>(theType.Get());
 	}
 	template <class ContextT> void Fire(void (T::*theFunction)(ContextT &), ContextT &theContext)
 	{

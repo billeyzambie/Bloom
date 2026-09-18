@@ -1,22 +1,24 @@
 #pragma once
 
+#include <functional>
+
 #include "../Sexy.TodLib/TodDebug.h"
+#include "BloomType.h"
 #include "PatchHolder.h"
 
-template <class T> class BLOOM_API RegistryTypeHolder
+template <class T> class RegistryHolder
 {
-  private:
+  protected:
 	T *mType = nullptr;
-	T *(*mSupplier)();
+	std::function<T *()> mSupplier;
 
   public:
-	RegistryTypeHolder(T *(*theSupplier)()) : mSupplier(theSupplier)
+	RegistryHolder(std::function<T *()> theSupplier) : mSupplier(std::move(theSupplier))
 	{
 	}
-	RegistryTypeHolder() : mSupplier(nullptr)
-	{
-	}
-	RegistryTypeHolder(const RegistryTypeHolder &theCopied) = delete;
+	RegistryHolder() = default;
+	virtual ~RegistryHolder() = default;
+	RegistryHolder(const RegistryHolder &theCopied) = delete;
 
 	const T *TryGet() const
 	{
@@ -25,7 +27,7 @@ template <class T> class BLOOM_API RegistryTypeHolder
 
 	const T &Get() const
 	{
-		TOD_ASSERT(mType != nullptr, "RegistryTypeHolder unwrapped before it got registered")
+		TOD_ASSERT(mType != nullptr, "RegistryHolder unwrapped before it got registered")
 		return *mType;
 	}
 
@@ -55,5 +57,32 @@ template <class T> class BLOOM_API RegistryTypeHolder
 		mType = aPatchHolder->mCurrent;
 
 		return {aPatchHolder->mCurrent, aPatchHolder->mOriginal};
+	}
+};
+
+template <class S, class T> class RegistryTypeHolder : public RegistryHolder<T>
+{
+  public:
+	using RegistryHolder<T>::RegistryHolder;
+
+	template <class U = S> const TypeOf<U> *TryGet() const
+	{
+		return static_cast<const TypeOf<U> *>(this->mType);
+	}
+
+	template <class U = S> const TypeOf<U> &Get() const
+	{
+		TOD_ASSERT(this->mType != nullptr, "RegistryHolder unwrapped before it got registered")
+		return static_cast<const TypeOf<U> &>(*this->mType);
+	}
+
+	template <class U = S> operator const TypeOf<U> *() const
+	{
+		return TryGet();
+	}
+
+	template <class U = S> operator const TypeOf<U> &() const
+	{
+		return Get();
 	}
 };

@@ -3,13 +3,14 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <memory>
 
 #include "RegistryTypeHolder.h"
+#include "BloomType.h"
 #include "NamespacedString.h"
-#include "ChunkedList.h"
 #include "Bloom.h"
 
-//#include "../Lawn/StoreItem/StoreItemType.h"
+//#include "../Lawn/Projectile/Projectile.h"
 
 class LawnApp;
 
@@ -22,13 +23,14 @@ class BLOOM_API IRegistry
 
 template <class T> class BLOOM_API Registry : public IRegistry
 {
-	ChunkedList<RegistryTypeHolder<T>, 64> mHolders;
+	std::vector<std::unique_ptr<RegistryHolder<T>>> mHolders;
 	std::vector<T *> mTypes;
-	mutable std::unordered_map<std::string, const T *> mTypesByResourceId;
+	std::unordered_map<std::string, const T *> mTypesByResourceId;
 	int mNextId = 0;
 	bool mFrozen = false;
 
   public:
+
 	static BLOOM_EXTERN_OR_INLINE Registry *gInstance;
 	Registry()
 	{
@@ -36,26 +38,42 @@ template <class T> class BLOOM_API Registry : public IRegistry
 	}
 	Registry(const Registry &theCopied) = delete;
 	Registry &operator=(const Registry &theCopied) = delete;
-	
-	const RegistryTypeHolder<T> &Register(T *(*theSupplier)())
+
+	template <class S>
+	const RegistryTypeHolder<S, T> &Register(std::function<TypeOf<S> *()> theSupplier)
 	{
 		TOD_ASSERT(!mFrozen, "Type registered too late");
-		if (!mFrozen)
-		{
-			int anId = mNextId++;
-			mHolders.EnsureIndex(anId);
-			mHolders[anId] = {theSupplier};
-			return mHolders[anId];
-		}
-		return mHolders[0];
+		int anId = mNextId++;
+		TOD_ASSERT(anId == mHolders.size());
+		auto aHolder = std::make_unique<RegistryTypeHolder<S, T>>(std::move(theSupplier));
+		auto *aHolderPtr = aHolder.get();
+		mHolders.push_back(std::move(aHolder));
+		return *aHolderPtr;
 	}
+	
+	const RegistryHolder<T> &Register(std::function<T *()> theSupplier)
+	{
+		TOD_ASSERT(!mFrozen, "Type registered too late");
+		int anId = mNextId++;
+		TOD_ASSERT(anId == mHolders.size());
+		mHolders.push_back(
+			std::make_unique<RegistryHolder<T>>(std::move(theSupplier))
+		);
+		return *mHolders[anId];
+	}
+
 	const T *GetByResourceId(const ResourceId &theResourceId) const
 	{
-		return mTypesByResourceId[theResourceId.AsString()];
+		return GetByResourceId(theResourceId.AsString());
 	}
 	const T *GetByResourceId(const std::string &theResourceIdAsString) const
 	{
-		return mTypesByResourceId[theResourceIdAsString];
+		auto anIterator = mTypesByResourceId.find(theResourceIdAsString);
+
+		if (anIterator == mTypesByResourceId.end())
+			return nullptr;
+
+		return anIterator->second;
 	}
 	const T &GetDefaultType() const
 	{
@@ -72,7 +90,7 @@ template <class T> class BLOOM_API Registry : public IRegistry
 
 		for (int i = 0; i < mNextId; i++)
 		{
-			auto [aCurrent, anOriginal] = mHolders[i].Supply();
+			auto [aCurrent, anOriginal] = mHolders[i]->Supply();
 
 			aCurrent->mNumericalId = anOriginal->mNumericalId = i;
 

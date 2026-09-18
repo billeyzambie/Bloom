@@ -8,12 +8,12 @@
 #include "../../Sexy.TodLib/TodParticle.h"
 #include "../../LawnApp.h"
 
-DefaultProjectileBehavior::DefaultProjectileBehavior(const ProjectileBehaviorType &theType)
+MainProjectileBehavior::MainProjectileBehavior(const ProjectileBehaviorType &theType)
 	: ProjectileBehavior(theType)
 {
 }
 
-void DefaultProjectileBehavior::VirtualUpdate(Projectile &theProjectile)
+void MainProjectileBehavior::VirtualUpdate(Projectile &theProjectile)
 {
 	int aTime = 20;
 	if (theProjectile.mType != ProjectileTypes::PUFF 
@@ -46,7 +46,7 @@ void DefaultProjectileBehavior::VirtualUpdate(Projectile &theProjectile)
 	);
 }
 
-void DefaultProjectileBehavior::DoImpact(DoImpactContext &theImpactContext)
+void MainProjectileBehavior::DoImpact(DoImpactContext &theImpactContext)
 {
 	Zombie *aZombie = theImpactContext.mTargetZombie;
 	Projectile &aProjectile = theImpactContext.mProjectile;

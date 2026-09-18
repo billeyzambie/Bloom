@@ -2,10 +2,10 @@
 
 #include "ProjectileBehavior.h"
 
-class BLOOM_API DefaultProjectileBehavior : public ProjectileBehavior
+class BLOOM_API MainProjectileBehavior : public ProjectileBehavior
 {
   public:
-	DefaultProjectileBehavior(const ProjectileBehaviorType &theType);
+	MainProjectileBehavior(const ProjectileBehaviorType &theType);
 	virtual void VirtualUpdate(Projectile &theProjectile) override;
 	virtual void DoImpact(DoImpactContext &theImpactContext) override;
 };

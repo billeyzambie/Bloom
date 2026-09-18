@@ -478,7 +478,7 @@ const auto &CUSTOM_TEST = Registries::STORE_ITEMS.Register([]() {
 
 } // namespace StoreItemTypes
 
-std::array<const RegistryTypeHolder<StoreItemType> *, 8> gOldStoreItemSpots[NUM_STORE_PAGES] = {
+std::array<const RegistryHolder<StoreItemType> *, 8> gOldStoreItemSpots[NUM_STORE_PAGES] = {
 	{&StoreItemTypes::PACKET_UPGRADE, &StoreItemTypes::POOL_CLEANER, &StoreItemTypes::RAKE,
 	 &StoreItemTypes::ROOF_CLEANER, &StoreItemTypes::GATLING_PEA, &StoreItemTypes::TWIN_SUNFLOWER,
 	 &StoreItemTypes::GLOOM_SHROOM, &StoreItemTypes::CATTAIL},

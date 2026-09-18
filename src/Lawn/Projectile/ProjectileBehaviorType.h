@@ -18,7 +18,7 @@ class BLOOM_API ProjectileBehaviorType : public BloomType
 		short mAbilityMax = 7;
 		float mAbilityIntensity = 0.33f;
 	};
-	PatchHolder<ProjectileBehaviorType> *mPatchHolder;
+	PatchHolder<ProjectileBehaviorType> *mPatchHolder = nullptr;
 	Attributes mAttributeBaseValues;
 	Attributes mAttributes;
 

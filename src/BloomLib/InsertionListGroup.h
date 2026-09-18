@@ -70,7 +70,7 @@ template <class GroupT, class T> class BLOOM_API InsertionListGroup
 		else
 			return GetFirstPageOfNullGroup();
 	}
-	int GetFirstPageOf(const RegistryTypeHolder<GroupT> &theGroup) const
+	int GetFirstPageOf(const RegistryHolder<GroupT> &theGroup) const
 	{
 		return GetFirstPageOf(theGroup.Get());
 	}

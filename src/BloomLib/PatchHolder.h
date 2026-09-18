@@ -1,12 +1,12 @@
 #pragma once
 
 #include <vector>
-#include <type_traits>
+#include <functional>
 #include "Patch.h"
 
 template <class T> class BLOOM_API PatchHolder
 {
-	template <class U> friend class RegistryTypeHolder;
+	template <class U> friend class RegistryHolder;
 
 	T *mOriginal;
 	T *mCurrent;
@@ -16,7 +16,8 @@ template <class T> class BLOOM_API PatchHolder
 
 	bool mDirty = false;
 
-	PatchHolder(T *(*theSupplier)()) : mOriginal(theSupplier()), mCurrent(theSupplier())
+	PatchHolder(const std::function<T *()> &theSupplier) 
+		: mOriginal(theSupplier()), mCurrent(theSupplier())
 	{
 		mOriginal->mPatchHolder = this;
 		mCurrent->mPatchHolder = this;

@@ -3,10 +3,10 @@
 #include "../Lawn/Projectile/ProjectileBehavior.h"
 #include "../Sexy.TodLib/TodDebug.h"
 
-template <class T> class PolymorphicWrapper
+template <class T, size_t INSTANCE_MAX_SIZE = T::Type::INSTANCE_MAX_SIZE> class PolymorphicWrapper
 {
   private:
-	alignas(T) char mBuffer[T::Type::INSTANCE_MAX_SIZE];
+	alignas(T) char mBuffer[INSTANCE_MAX_SIZE];
 	T *mObject = nullptr;
   public:
 	PolymorphicWrapper() = default;

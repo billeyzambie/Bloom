@@ -12,7 +12,7 @@ template <class T> class BehaviorTypeList
   public:
 	BehaviorTypeList() = default;
 	void Add(
-		const RegistryTypeHolder<T> &theBehaviorType,
+		const RegistryHolder<T> &theBehaviorType,
 		ListInsertion<T> theInsertion = ListInsertion<T>::Last()
 	)
 	{

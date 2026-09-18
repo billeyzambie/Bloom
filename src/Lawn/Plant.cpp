@@ -4935,13 +4935,12 @@ void Plant::Fire(Zombie *theTargetZombie, int theRow, PlantWeapon thePlantWeapon
 	{
 		aProjectile->mVelX = 2.0f;
 
-		ProjectileBehavior *aBehavior = aProjectile->mBehaviors.Get(ProjectileBehaviorTypes::HOMING);
+		HomingProjectileBehavior *aHomingBehavior 
+			= aProjectile->mBehaviors.Get(ProjectileBehaviorTypes::HOMING);
 
-		if (aBehavior)
+		if (aHomingBehavior)
 		{
-			auto *aHomingBehavior = static_cast<HomingProjectileBehavior *>(aBehavior);
-			if (theTargetZombie)
-				aHomingBehavior->mTargetZombieId = theTargetZombie->GetId();
+			aHomingBehavior->mTargetZombieId = theTargetZombie->GetId();
 		}
 	}
 	else if (mSeedType == SeedType::SEED_COBCANNON)
