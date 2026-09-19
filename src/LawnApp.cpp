@@ -1,6 +1,6 @@
 #include "LawnApp.h"
 #include "Lawn/Board.h"
-#include "Lawn/Plant.h"
+#include "Lawn/Actor/Plant.h"
 #include "Lawn/Zombie.h"
 #include "Lawn/Cutscene.h"
 #include "GameConstants.h"

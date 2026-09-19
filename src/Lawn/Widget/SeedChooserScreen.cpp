@@ -9,7 +9,7 @@
 #include "ImitaterDialog.h"
 #include "../System/Music.h"
 #include "../../Resources.h"
-#include "../../Lawn/Plant.h"
+#include "../../Lawn/Actor/Plant.h"
 #include "../ToolTipWidget.h"
 #include "SeedChooserScreen.h"
 #include "../../GameConstants.h"

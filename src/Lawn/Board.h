@@ -7,7 +7,7 @@
 #include "../SexyAppFramework/Widget.h"
 #include "../SexyAppFramework/ButtonListener.h"
 
-#include "Plant.h"
+#include "Actor/Plant.h"
 #include "Zombie.h"
 #include "Projectile/Projectile.h"
 #include "Coin.h"
@@ -100,7 +100,7 @@ struct BLOOM_API PlantsOnLawn
 	Plant *mNormalPlant;
 };
 
-struct BLOOM_API BungeeDropGrid
+struct BungeeDropGrid
 {
 	TodWeightedGridArray mGridArray[MAX_GRID_SIZE_X * MAX_GRID_SIZE_Y];
 	int mGridArrayCount;

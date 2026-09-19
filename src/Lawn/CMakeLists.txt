@@ -181,7 +181,7 @@ set(HEADERS_TO_COPY
     "BloomLib/ImageGetter.h"
     "BloomLib/Mod.h"
     "Lawn/GameObject.h"
-    "Lawn/Plant.h"
+    "Lawn/Actor/Plant.h"
     "Lawn/Zombie.h"
     "Lawn/Projectile/Projectile.h"
     "Lawn/Coin.h"

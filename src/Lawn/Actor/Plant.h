@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "GameObject.h"
+#include "../GameObject.h"
 
 #define MAX_MAGNET_ITEMS 5
 

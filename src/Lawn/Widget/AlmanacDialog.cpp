@@ -1,5 +1,5 @@
 #include "../Board.h"
-#include "../Plant.h"
+#include "../Actor/Plant.h"
 #include "../Zombie.h"
 #include "GameButton.h"
 #include "../SeedPacket.h"

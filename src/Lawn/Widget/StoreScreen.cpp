@@ -1,6 +1,6 @@
 #include "../Coin.h"
 #include "../Board.h"
-#include "../Plant.h"
+#include "../Actor/Plant.h"
 #include "LawnDialog.h"
 #include "GameButton.h"
 #include "StoreScreen.h"

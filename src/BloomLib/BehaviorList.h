@@ -2,6 +2,7 @@
 
 #include <array>
 #include <vector>
+#include <type_traits>
 
 #include "PolymorphicWrapper.h"
 #include "BehaviorTypeList.h"
@@ -39,7 +40,8 @@ template <class T> class BehaviorList
 		}
 		return nullptr;
 	}
-	template <class S> S *Get(const TypeOf<S> &theType)
+	template <class S, template <class> class TypeOfS>
+	S *Get(const TypeOfS<S> &theType)
 	{
 		for (auto &aBehavior : mBehaviors)
 		{
@@ -54,6 +56,16 @@ template <class T> class BehaviorList
 	{
 		return Get<S>(theType.Get());
 	}
+	//template <class S> S *Get(const TypeOf<S> &theType)
+	//{
+	//	for (auto &aBehavior : mBehaviors)
+	//	{
+	//		if (aBehavior->mType == theType)
+	//			return static_cast<S *>(&*aBehavior);
+	//	}
+	//	return nullptr;
+	//}
+
 	template <class ContextT> void Fire(void (T::*theFunction)(ContextT &), ContextT &theContext)
 	{
 		for (auto &aBehavior : mBehaviors)

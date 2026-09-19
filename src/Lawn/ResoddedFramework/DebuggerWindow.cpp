@@ -1,7 +1,7 @@
 #if LAWN_DEBUG_TOOLS
 #include "DebuggerWindow.h"
 #include "../Board.h"
-#include "../Plant.h"
+#include "../Actor/Plant.h"
 #include "../Zombie.h"
 #include "../ZenGarden.h"
 #include "../System/PlayerInfo.h"

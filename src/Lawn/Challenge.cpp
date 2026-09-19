@@ -1,6 +1,6 @@
 #include "Coin.h"
 #include "Board.h"
-#include "Plant.h"
+#include "Actor/Plant.h"
 #include "Zombie.h"
 #include "GridItem.h"
 #include "Cutscene.h"
