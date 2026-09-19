@@ -23,15 +23,23 @@ extern BLOOM_API const std::array<IRegistry *, NUM_REGISTRIES> REGISTRIES;
 }
 
 template <class S>
-const RegistryTypeHolder<S, typename S::RegistryType> &RegisterTypeOf(
+const auto &RegisterTypeOf(
 	const std::string &theModId,
 	const std::string &theTypeId,
-	const typename S::RegistryType::Attributes &theAttributes
+	const typename S::RegistryType::Attributes &theAttributes,
+	const std::function<void(
+		TypeOf<S> &,
+		typename S::RegistryType::Attributes &
+	)> &theInitializationModifier = [](
+		TypeOf<S> &,
+		typename S::RegistryType::Attributes &
+	) {}
 )
 {
 	return Registry<typename S::RegistryType>::gInstance->Register<S>(
 		theModId,
 		theTypeId,
-		theAttributes
+		theAttributes,
+		theInitializationModifier
 	);
 }

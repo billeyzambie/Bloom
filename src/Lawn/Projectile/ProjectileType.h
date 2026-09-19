@@ -22,7 +22,7 @@ class ProjectileBehaviorType;
 
 template <class T> class RegistryHolder;
 
-class BLOOM_API ProjectileType : public BloomType
+class BLOOM_API ProjectileType final : public BloomType
 {
   public:
 	static constexpr size_t INSTANCE_MAX_SIZE = 232;

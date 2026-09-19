@@ -8,6 +8,7 @@ class ApplyButterProjectileBehavior;
 class SplashProjectileBehavior;
 class FireProjectileBehavior;
 class HomingProjectileBehavior;
+class TestProjectileBehavior;
 
 namespace ProjectileBehaviorTypes
 {
@@ -19,7 +20,6 @@ extern BLOOM_API const TypeHolder<ApplyButterProjectileBehavior> &APPLY_BUTTER;
 extern BLOOM_API const TypeHolder<SplashProjectileBehavior> &MELON_SPLASH;
 extern BLOOM_API const TypeHolder<FireProjectileBehavior> &FIRE;
 extern BLOOM_API const TypeHolder<HomingProjectileBehavior> &HOMING;
-
-extern BLOOM_API const RegistryHolder<ProjectileBehaviorType> &TEST;
+extern BLOOM_API const TypeHolder<TestProjectileBehavior> &TEST;
 
 } // namespace ProjectileBehaviorTypes

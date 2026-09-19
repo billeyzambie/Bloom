@@ -7,7 +7,7 @@
 ProjectileType::ProjectileType(const std::string &theModName, const std::string &theTypeName,
 							   const ProjectileAttributes &theAttributes)
 	: BloomType(theModName, theTypeName),
-	mAttributeBaseValues(theAttributes), mAttributes(theAttributes)
+	mAttributes(theAttributes)
 {
 	mBehaviorTypes.Add(ProjectileBehaviorTypes::MAIN);
 }
@@ -21,7 +21,8 @@ ProjectileType::operator OldProjectileType() const
 
 void ProjectileType::CopyFrom(const ProjectileType &theOther)
 {
-	mAttributeBaseValues = theOther.mAttributeBaseValues;
+	mBaseImage = theOther.mBaseImage;
+	mAttributes = theOther.mAttributes;
 	mModifiers = theOther.mModifiers;
 	mBehaviorTypes = theOther.mBehaviorTypes;
 }

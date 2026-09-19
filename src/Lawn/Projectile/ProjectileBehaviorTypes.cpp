@@ -12,48 +12,14 @@
 #include "SplashProjectileBehavior.h"
 #include "FireProjectileBehavior.h"
 #include "HomingProjectileBehavior.h"
-
-class TestBehavior : public ProjectileBehavior
-{
-  public:
-	ZombieID mLastHitZombie = ZombieID::ZOMBIEID_NULL;
-	TestBehavior(const ProjectileBehaviorType &theType)
-		: ProjectileBehavior(theType) {};
-	virtual void VirtualUpdate(Projectile &theProjectile) override
-	{
-		theProjectile.mVelY = -sin(mRunTime / 5.0f) * 2;
-	}
-	virtual void DoImpact(DoImpactContext &theContext) override
-	{
-		Zombie *aZombie = theContext.mTargetZombie;
-
-		if (!aZombie)
-			return;
-
-		ZombieID aZombieId = theContext.mProjectile.mBoard->ZombieGetID(aZombie);
-
-		if (aZombieId == mLastHitZombie)
-		{
-			theContext.mCanceled = true;
-		}
-
-		mLastHitZombie = aZombieId;
-		theContext.mShouldDie = false;
-	}
-};
+#include "TestProjectileBehavior.h"
 
 namespace ProjectileBehaviorTypes
 {
 
-const auto &MAIN = RegisterTypeOf<MainProjectileBehavior>(
-	"PVZ", "MAIN",
-	{}
-);
+const auto &MAIN = RegisterTypeOf<MainProjectileBehavior>("PVZ", "MAIN", {});
 
-const auto &APPLY_BUTTER = RegisterTypeOf<ApplyButterProjectileBehavior>(
-	"PVZ", "APPLY_BUTTER",
-	{}
-);	
+const auto &APPLY_BUTTER = RegisterTypeOf<ApplyButterProjectileBehavior>("PVZ", "APPLY_BUTTER", {});
 
 const auto &MELON_SPLASH = RegisterTypeOf<SplashProjectileBehavior>(
 	"PVZ", "MELON_SPLASH",
@@ -83,9 +49,6 @@ const auto &HOMING = RegisterTypeOf<HomingProjectileBehavior>(
 	}
 );
 
-const auto &TEST = Registries::PROJECTILE_BEHAVIORS.Register([]() {
-	auto *aProjectileType = new TypeOf<TestBehavior>("PVZ", "TEST");
-	return aProjectileType;
-});
+const auto &TEST = RegisterTypeOf<TestProjectileBehavior>("PVZ", "TEST", {});
 
 } // namespace ProjectileBehaviorTypes

@@ -8,7 +8,7 @@ class LawnApp;
 class PlayerInfo;
 class StoreScreen;
 
-class BLOOM_API StoreItemGroup : public BloomType
+class BLOOM_API StoreItemGroup final : public BloomType
 {
   public:
 	typedef StoreItemGroup Type;

@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include <memory>
+#include <type_traits>
 
 #include "RegistryTypeHolder.h"
 #include "BloomType.h"
@@ -39,26 +40,44 @@ template <class T> class BLOOM_API Registry : public IRegistry
 	Registry &operator=(const Registry &theCopied) = delete;
 
 	template <class S>
-	const RegistryTypeHolder<S, T> &Register(std::function<TypeOf<S> *()> theSupplier)
+	const auto &Register(std::function<TypeOf<S> *()> theSupplier)
 	{
 		TOD_ASSERT(!mFrozen, "Type registered too late");
 		int anId = mNextId++;
 		TOD_ASSERT(anId == mHolders.size());
-		auto aHolder = std::make_unique<RegistryTypeHolder<S, T>>(std::move(theSupplier));
-		auto *aHolderPtr = aHolder.get();
-		mHolders.push_back(std::move(aHolder));
-		return *aHolderPtr;
+		if constexpr (std::is_final_v<S>)
+		{
+			auto aHolder = std::make_unique<RegistryHolder<T>>(std::move(theSupplier));
+			auto *aHolderPtr = aHolder.get();
+			mHolders.push_back(std::move(aHolder));
+			return *aHolderPtr;
+		}
+		else
+		{
+			auto aHolder = std::make_unique<RegistryTypeHolder<S, T>>(std::move(theSupplier));
+			auto *aHolderPtr = aHolder.get();
+			mHolders.push_back(std::move(aHolder));
+			return *aHolderPtr;
+		}
 	}
 
 	template <class S>
-	const RegistryTypeHolder<S, T> &Register(
+	const auto &Register(
 		const std::string &theModId,
 		const std::string &theTypeId,
-		const typename T::Attributes &theAttributes
+		const typename T::Attributes &theAttributes,
+		const std::function<void(
+			TypeOf<S> &,
+			typename S::RegistryType::Attributes &
+		)> &theInitializationModifier = [](
+			TypeOf<S> &,
+			typename S::RegistryType::Attributes &
+		) {}
 	)
 	{
 		return Register<S>([=]() {
 			auto *aType = new TypeOf<S>(theModId, theTypeId, theAttributes);
+			theInitializationModifier(*aType, aType->mAttributeBaseValues);
 			return aType;
 		});
 	}
