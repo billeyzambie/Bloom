@@ -45,46 +45,43 @@ class TestBehavior : public ProjectileBehavior
 namespace ProjectileBehaviorTypes
 {
 
-const auto &MAIN = Registries::PROJECTILE_BEHAVIORS.Register<MainProjectileBehavior>([]() {
-	auto *aProjectileType = new TypeOf<MainProjectileBehavior>("PVZ", "MAIN");
-	return aProjectileType;
-});
+const auto &MAIN = RegisterTypeOf<MainProjectileBehavior>(
+	"PVZ", "MAIN",
+	{}
+);
 
-const auto &APPLY_BUTTER = Registries::PROJECTILE_BEHAVIORS.Register<ApplyButterProjectileBehavior>([]() {
-	auto *aProjectileType = new TypeOf<ApplyButterProjectileBehavior>("PVZ", "APPLY_BUTTER");
-	return aProjectileType;
-});
+const auto &APPLY_BUTTER = RegisterTypeOf<ApplyButterProjectileBehavior>(
+	"PVZ", "APPLY_BUTTER",
+	{}
+);	
 
-const auto &MELON_SPLASH = Registries::PROJECTILE_BEHAVIORS.Register<SplashProjectileBehavior>([]() {
-	ProjectileBehaviorAttributes anAttributes;
-	anAttributes.mAbilityWidth = 60;
-	anAttributes.mAbilityHeight = 3;
-	anAttributes.mAbilityMax = 7;
-	anAttributes.mAbilityIntensity = 0.33f;
+const auto &MELON_SPLASH = RegisterTypeOf<SplashProjectileBehavior>(
+	"PVZ", "MELON_SPLASH",
+	{
+		.mAbilityWidth = 60,
+		.mAbilityHeight = 3,
+		.mAbilityMax = 7,
+		.mAbilityIntensity = 0.33f
+	}
+);
 
-	auto *aProjectileType = new TypeOf<SplashProjectileBehavior>("PVZ", "MELON_SPLASH", anAttributes);
-	return aProjectileType;
-});
+const auto &FIRE = RegisterTypeOf<FireProjectileBehavior>(
+	"PVZ", "FIRE",
+	{
+		.mAbilityWidth = 100,
+		.mAbilityHeight = 1,
+		.mAbilityMax = 1,
+		.mAbilityIntensity = 0.33f
+	}
+);
 
-const auto &FIRE = Registries::PROJECTILE_BEHAVIORS.Register<FireProjectileBehavior>([]() {
-	ProjectileBehaviorAttributes anAttributes;
-	anAttributes.mAbilityWidth = 100;
-	anAttributes.mAbilityHeight = 1;
-	anAttributes.mAbilityMax = 1;
-	anAttributes.mAbilityIntensity = 0.33f;
-
-	auto *aProjectileType = new TypeOf<FireProjectileBehavior>("PVZ", "FIRE", anAttributes);
-	return aProjectileType;
-});
-
-const auto &HOMING = Registries::PROJECTILE_BEHAVIORS.Register<HomingProjectileBehavior>([]() {
-	ProjectileBehaviorAttributes anAttributes;
-	anAttributes.mAbilityMax = 1;
-	anAttributes.mAbilityIntensity = 2.0f;
-
-	auto *aProjectileType = new TypeOf<HomingProjectileBehavior>("PVZ", "HOMING", anAttributes);
-	return aProjectileType;
-});
+const auto &HOMING = RegisterTypeOf<HomingProjectileBehavior>(
+	"PVZ", "HOMING",
+	{
+		.mAbilityMax = 1,
+		.mAbilityIntensity = 2.0f
+	}
+);
 
 const auto &TEST = Registries::PROJECTILE_BEHAVIORS.Register([]() {
 	auto *aProjectileType = new TypeOf<TestBehavior>("PVZ", "TEST");

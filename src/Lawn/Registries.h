@@ -21,3 +21,17 @@ constexpr int NUM_REGISTRIES = 4;
 extern BLOOM_API const std::array<IRegistry *, NUM_REGISTRIES> REGISTRIES;
 
 }
+
+template <class S>
+const RegistryTypeHolder<S, typename S::RegistryType> &RegisterTypeOf(
+	const std::string &theModId,
+	const std::string &theTypeId,
+	const typename S::RegistryType::Attributes &theAttributes
+)
+{
+	return Registry<typename S::RegistryType>::gInstance->Register<S>(
+		theModId,
+		theTypeId,
+		theAttributes
+	);
+}

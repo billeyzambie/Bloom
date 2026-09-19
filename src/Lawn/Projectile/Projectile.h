@@ -21,6 +21,7 @@ class BLOOM_API Projectile final : public GameObject
 {
   public:
 	typedef ProjectileType Type;
+	typedef Type RegistryType;
 	template <class T> using TypeT = Type;
 
 	const ProjectileType &mType;

@@ -12,6 +12,7 @@ class BLOOM_API StoreItemGroup : public BloomType
 {
   public:
 	typedef StoreItemGroup Type;
+	typedef Type RegistryType;
 	template <class T> using TypeT = Type;
 
 	struct Attributes

@@ -12,13 +12,13 @@ class HomingProjectileBehavior;
 namespace ProjectileBehaviorTypes
 {
 
-template <class T> using Holder = RegistryTypeHolder<T, ProjectileBehaviorType>;
+template <class T> using TypeHolder = RegistryTypeHolder<T, ProjectileBehaviorType>;
 
-extern BLOOM_API const Holder<MainProjectileBehavior> &MAIN;
-extern BLOOM_API const Holder<ApplyButterProjectileBehavior> &APPLY_BUTTER;
-extern BLOOM_API const Holder<SplashProjectileBehavior> &MELON_SPLASH;
-extern BLOOM_API const Holder<FireProjectileBehavior> &FIRE;
-extern BLOOM_API const Holder<HomingProjectileBehavior> &HOMING;
+extern BLOOM_API const TypeHolder<MainProjectileBehavior> &MAIN;
+extern BLOOM_API const TypeHolder<ApplyButterProjectileBehavior> &APPLY_BUTTER;
+extern BLOOM_API const TypeHolder<SplashProjectileBehavior> &MELON_SPLASH;
+extern BLOOM_API const TypeHolder<FireProjectileBehavior> &FIRE;
+extern BLOOM_API const TypeHolder<HomingProjectileBehavior> &HOMING;
 
 extern BLOOM_API const RegistryHolder<ProjectileBehaviorType> &TEST;
 

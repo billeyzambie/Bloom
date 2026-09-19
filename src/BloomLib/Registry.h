@@ -30,7 +30,6 @@ template <class T> class BLOOM_API Registry : public IRegistry
 	bool mFrozen = false;
 
   public:
-
 	static BLOOM_EXTERN_OR_INLINE Registry *gInstance;
 	Registry()
 	{
@@ -49,6 +48,19 @@ template <class T> class BLOOM_API Registry : public IRegistry
 		auto *aHolderPtr = aHolder.get();
 		mHolders.push_back(std::move(aHolder));
 		return *aHolderPtr;
+	}
+
+	template <class S>
+	const RegistryTypeHolder<S, T> &Register(
+		const std::string &theModId,
+		const std::string &theTypeId,
+		const typename T::Attributes &theAttributes
+	)
+	{
+		return Register<S>([=]() {
+			auto *aType = new TypeOf<S>(theModId, theTypeId, theAttributes);
+			return aType;
+		});
 	}
 	
 	const RegistryHolder<T> &Register(std::function<T *()> theSupplier)
