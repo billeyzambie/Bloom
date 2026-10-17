@@ -416,13 +416,13 @@ void ZenGarden::MouseDownWithMoneySign(Plant *thePlant)
 	aMessageText = TodReplaceNumberString(aMessageText, "{SELL_PRICE}", aPrice);
 
 	SexyString aPlantName;
-	if (thePlant->mSeedType == SeedType::SEED_SPROUT && aPottedPlant->mSeedType == SeedType::SEED_MARIGOLD)
+	if (thePlant->mType == SeedType::SEED_SPROUT && aPottedPlant->mSeedType == SeedType::SEED_MARIGOLD)
 	{
 		aPlantName = TodStringTranslate("[MARIGOLD_SPROUT]");
 	}
 	else
 	{
-		aPlantName = Plant::GetNameString(thePlant->mSeedType, thePlant->mImitaterType);
+		aPlantName = Plant::GetNameString(thePlant->mType, thePlant->mImitaterType);
 	}
 	aMessageText = TodReplaceString(aMessageText, "{PLANT_TYPE}", aPlantName);
 
@@ -518,7 +518,7 @@ void ZenGarden::PlantFulfillNeed(Plant *thePlant)
 	mApp->PlayFoley(FoleyType::FOLEY_PRIZE);
 	mApp->PlayFoley(FoleyType::FOLEY_SPAWN_SUN);
 	mBoard->AddCoin(thePlant->mX + 40, thePlant->mY, CoinType::COIN_GOLD, CoinMotion::COIN_MOTION_COIN);
-	if (Plant::IsNocturnal(thePlant->mSeedType) || Plant::IsAquatic(thePlant->mSeedType))
+	if (Plant::IsNocturnal(thePlant->mType) || Plant::IsAquatic(thePlant->mType))
 	{
 		mBoard->AddCoin(thePlant->mX + 10, thePlant->mY, CoinType::COIN_GOLD, CoinMotion::COIN_MOTION_COIN);
 		mBoard->AddCoin(thePlant->mX + 70, thePlant->mY, CoinType::COIN_GOLD, CoinMotion::COIN_MOTION_COIN);
@@ -641,7 +641,7 @@ void ZenGarden::UpdatePlantEffectState(Plant *thePlant)
 
 	Plant *aFlowerPot =
 		mBoard->GetTopPlantAt(thePlant->mPlantCol, thePlant->mRow, PlantPriority::TOPPLANT_ONLY_UNDER_PLANT);
-	if (aFlowerPot && !Plant::IsAquatic(thePlant->mSeedType))
+	if (aFlowerPot && !Plant::IsAquatic(thePlant->mType))
 	{
 		Reanimation *aPotReanim = mApp->ReanimationGet(aFlowerPot->mBodyReanimID);
 		if (thePlant->mState == PlantState::STATE_ZEN_GARDEN_WATERED ||
@@ -665,7 +665,7 @@ void ZenGarden::UpdatePlantEffectState(Plant *thePlant)
 		thePlant->SetSleeping(false);
 		AddHappyEffect(thePlant);
 	}
-	else if (Plant::IsNocturnal(thePlant->mSeedType) && !mBoard->StageIsNight())
+	else if (Plant::IsNocturnal(thePlant->mType) && !mBoard->StageIsNight())
 	{
 		thePlant->SetSleeping(true);
 	}
@@ -680,7 +680,7 @@ void ZenGarden::AddHappyEffect(Plant *thePlant)
 		thePlant->AddAttachedParticle(
 			thePlant->mX + 40, thePlant->mY + 60, thePlant->mRenderOrder - 1, ParticleEffect::PARTICLE_POTTED_ZEN_GLOW);
 	}
-	else if (Plant::IsAquatic(thePlant->mSeedType))
+	else if (Plant::IsAquatic(thePlant->mType))
 	{
 		aFlowerPot->AddAttachedParticle(aFlowerPot->mX + 40,
 										aFlowerPot->mY + 61,
@@ -1086,7 +1086,7 @@ void ZenGarden::MouseDownWithTool(int x, int y, CursorType theCursorType)
 	}
 	else if (theCursorType == CursorType::CURSOR_TYPE_GLOVE)
 	{
-		mBoard->mCursorObject->mType = aPlant->mSeedType;
+		mBoard->mCursorObject->mType = aPlant->mType;
 		mBoard->mCursorObject->mImitaterType = aPlant->mImitaterType;
 		mBoard->mCursorObject->mCursorType = CursorType::CURSOR_TYPE_PLANT_FROM_GLOVE;
 		mBoard->mCursorObject->mGlovePlantID = (PlantID)mBoard->mPlants.DataArrayGetID(aPlant);
@@ -2181,14 +2181,14 @@ void ZenGarden::SetPlantAnimSpeed(Plant *thePlant)
 	}
 
 	float aTargetRate;
-	if (thePlant->mSeedType == SeedType::SEED_PEASHOOTER || thePlant->mSeedType == SeedType::SEED_SNOWPEA ||
-		thePlant->mSeedType == SeedType::SEED_REPEATER || thePlant->mSeedType == SeedType::SEED_LEFTPEATER ||
-		thePlant->mSeedType == SeedType::SEED_GATLINGPEA || thePlant->mSeedType == SeedType::SEED_SPLITPEA ||
-		thePlant->mSeedType == SeedType::SEED_THREEPEATER || thePlant->mSeedType == SeedType::SEED_MARIGOLD)
+	if (thePlant->mType == SeedType::SEED_PEASHOOTER || thePlant->mType == SeedType::SEED_SNOWPEA ||
+		thePlant->mType == SeedType::SEED_REPEATER || thePlant->mType == SeedType::SEED_LEFTPEATER ||
+		thePlant->mType == SeedType::SEED_GATLINGPEA || thePlant->mType == SeedType::SEED_SPLITPEA ||
+		thePlant->mType == SeedType::SEED_THREEPEATER || thePlant->mType == SeedType::SEED_MARIGOLD)
 	{
 		aTargetRate = RandRangeFloat(15.0f, 20.0f);
 	}
-	else if (thePlant->mSeedType == SeedType::SEED_POTATOMINE)
+	else if (thePlant->mType == SeedType::SEED_POTATOMINE)
 	{
 		aTargetRate = 12.0f;
 	}

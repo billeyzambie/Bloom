@@ -383,7 +383,7 @@ void DebuggerWindow::DrawBoardPlants()
     if (mApp->mBoard->mDebugSelectedPlant)
     {
         Plant* p = mApp->mBoard->mDebugSelectedPlant;
-        ImGui::Text("Selected: %s  Col=%d Row=%d", SeedTypeName(p->mSeedType), p->mPlantCol, p->mRow);
+        ImGui::Text("Selected: %s  Col=%d Row=%d", SeedTypeName(p->mType), p->mPlantCol, p->mRow);
         ImGui::PushID("selplant");
 
         int hp = p->mPlantHealth;
@@ -432,7 +432,7 @@ void DebuggerWindow::DrawBoardPlants()
         {
             ImGui::PushID(idx++);
             ImGui::TableNextRow();
-            ImGui::TableSetColumnIndex(0); ImGui::TextUnformatted(SeedTypeName(aPlant->mSeedType));
+            ImGui::TableSetColumnIndex(0); ImGui::TextUnformatted(SeedTypeName(aPlant->mType));
             ImGui::TableSetColumnIndex(1); ImGui::Text("%d", aPlant->mPlantCol);
             ImGui::TableSetColumnIndex(2); ImGui::Text("%d", aPlant->mRow);
             ImGui::TableSetColumnIndex(3);

@@ -252,7 +252,7 @@ void Challenge::LoadBeghouledBoardState(BeghouledBoardState *theBoardState)
 
 	Plant *aPlant = nullptr;
 	while (mBoard->IteratePlants(aPlant))
-		theBoardState->mSeedType[aPlant->mPlantCol][aPlant->mRow] = aPlant->mSeedType;
+		theBoardState->mSeedType[aPlant->mPlantCol][aPlant->mRow] = aPlant->mType;
 }
 
 void Challenge::InitLevel()
@@ -695,7 +695,7 @@ void Challenge::BeghouledFallIntoSquare(int theGridX, int theGridY, BeghouledBoa
 		{
 			aPlant->mRow = theGridY;
 			aPlant->mRenderOrder = aPlant->CalcRenderOrder();
-			theBoardState->mSeedType[theGridX][theGridY] = aPlant->mSeedType;
+			theBoardState->mSeedType[theGridX][theGridY] = aPlant->mType;
 			theBoardState->mSeedType[theGridX][aGridY] = SEED_NONE;
 			BeghouledStartFalling(STATECHALLENGE_BEGHOULED_FALLING);
 			break;
@@ -2231,7 +2231,7 @@ void Challenge::CheckForCompleteArtChallenge(int theGridX, int theGridY)
 			if (aSeedType != SEED_NONE)
 			{
 				Plant *aPlant = mBoard->GetTopPlantAt(aGridX, aGridY, TOPPLANT_ONLY_NORMAL_POSITION);
-				if (aPlant == nullptr || aPlant->mSeedType != aSeedType)
+				if (aPlant == nullptr || aPlant->mType != aSeedType)
 				{
 					return;
 				}
@@ -2377,7 +2377,7 @@ void Challenge::PlantAdded(Plant *thePlant)
 	if (mApp->IsArtChallenge())
 	{
 		SeedType anArtSeed = GetArtChallengeSeed(thePlant->mPlantCol, thePlant->mRow);
-		if (anArtSeed != SEED_NONE && anArtSeed == thePlant->mSeedType)
+		if (anArtSeed != SEED_NONE && anArtSeed == thePlant->mType)
 		{
 			mApp->PlayFoley(FOLEY_ART_CHALLENGE);
 			mApp->AddTodParticle(thePlant->mX + 40, thePlant->mY + 40, RENDER_LAYER_TOP, PARTICLE_PRESENT_PICKUP);
@@ -2807,7 +2807,7 @@ void Challenge::WhackAZombieSpawning()
 			{
 				Plant *aPlant =
 					mBoard->GetTopPlantAt(aGridItem->mGridX, aGridItem->mGridY, TOPPLANT_ONLY_NORMAL_POSITION);
-				if (aPlant == nullptr || aPlant->mSeedType != SEED_GRAVEBUSTER)
+				if (aPlant == nullptr || aPlant->mType != SEED_GRAVEBUSTER)
 				{
 					aGridPicks[aGridPicksCount].mItem = (uintptr_t)aGridItem;
 					aGridPicks[aGridPicksCount].mWeight = 1;
@@ -3472,7 +3472,7 @@ void Challenge::BeghouledPacketClicked(SeedPacket *theSeedPacket)
 		Plant *aPlant = nullptr;
 		while (mBoard->IteratePlants(aPlant))
 		{
-			if (aPlant->mSeedType == SEED_PEASHOOTER)
+			if (aPlant->mType == SEED_PEASHOOTER)
 			{
 				aPlant->Die();
 				mBoard->AddPlant(aPlant->mPlantCol, aPlant->mRow, SEED_REPEATER, SEED_NONE);
@@ -3488,7 +3488,7 @@ void Challenge::BeghouledPacketClicked(SeedPacket *theSeedPacket)
 		Plant *aPlant = nullptr;
 		while (mBoard->IteratePlants(aPlant))
 		{
-			if (aPlant->mSeedType == SEED_PUFFSHROOM)
+			if (aPlant->mType == SEED_PUFFSHROOM)
 			{
 				aPlant->Die();
 				mBoard->AddPlant(aPlant->mPlantCol, aPlant->mRow, SEED_FUMESHROOM, SEED_NONE);
@@ -3504,7 +3504,7 @@ void Challenge::BeghouledPacketClicked(SeedPacket *theSeedPacket)
 		Plant *aPlant = nullptr;
 		while (mBoard->IteratePlants(aPlant))
 		{
-			if (aPlant->mSeedType == SEED_WALLNUT)
+			if (aPlant->mType == SEED_WALLNUT)
 			{
 				aPlant->Die();
 				mBoard->AddPlant(aPlant->mPlantCol, aPlant->mRow, SEED_TALLNUT, SEED_NONE);
@@ -4399,7 +4399,7 @@ void Challenge::IZombieSetupPlant(Plant *thePlant)
 	if (aHeadReanim3)
 		aHeadReanim3->mAnimRate = 0;
 
-	if (thePlant->mSeedType == SEED_POTATOMINE)
+	if (thePlant->mType == SEED_POTATOMINE)
 	{
 		thePlant->PlayBodyReanim("anim_armed", REANIM_LOOP, 0, 0);
 		thePlant->mState = STATE_POTATO_ARMED;
@@ -4881,7 +4881,7 @@ bool Challenge::IZombieEatBrain(Zombie *theZombie)
 
 void Challenge::IZombiePlantDropRemainingSun(Plant *thePlant)
 {
-	if (thePlant->mSeedType == SEED_SUNFLOWER)
+	if (thePlant->mType == SEED_SUNFLOWER)
 	{
 		int aSunCount = thePlant->mPlantHealth / 40 + 1;
 		for (int i = 0; i < aSunCount; i++)

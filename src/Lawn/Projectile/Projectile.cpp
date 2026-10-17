@@ -118,10 +118,10 @@ Plant *Projectile::FindCollisionTargetPlant()
 
 		if (mType == ProjectileTypes::ZOMBIE_PEA)
 		{
-			if (aPlant->mSeedType == SeedType::SEED_PUFFSHROOM || aPlant->mSeedType == SeedType::SEED_SUNSHROOM ||
-				aPlant->mSeedType == SeedType::SEED_POTATOMINE || aPlant->mSeedType == SeedType::SEED_SPIKEWEED ||
-				aPlant->mSeedType == SeedType::SEED_SPIKEROCK ||
-				aPlant->mSeedType == SeedType::SEED_LILYPAD)
+			if (aPlant->mType == SeedType::SEED_PUFFSHROOM || aPlant->mType == SeedType::SEED_SUNSHROOM ||
+				aPlant->mType == SeedType::SEED_POTATOMINE || aPlant->mType == SeedType::SEED_SPIKEWEED ||
+				aPlant->mType == SeedType::SEED_SPIKEROCK ||
+				aPlant->mType == SeedType::SEED_LILYPAD)
 				continue;
 		}
 
@@ -153,7 +153,7 @@ bool Projectile::PeaAboutToHitTorchwood()
 	Plant *aPlant = nullptr;
 	while (mBoard->IteratePlants(aPlant))
 	{
-		if (aPlant->mSeedType == SeedType::SEED_TORCHWOOD && aPlant->mRow == mRow && !aPlant->NotOnGround() &&
+		if (aPlant->mType == SeedType::SEED_TORCHWOOD && aPlant->mRow == mRow && !aPlant->NotOnGround() &&
 			mHitTorchwoodGridX != aPlant->mPlantCol)
 		{
 			Rect aPlantAttackRect = aPlant->GetPlantAttackRect(PlantWeapon::WEAPON_PRIMARY);

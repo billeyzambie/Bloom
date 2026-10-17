@@ -143,7 +143,7 @@ struct Damage;
 class BLOOM_API Plant : public GameObject
 {
   public:
-	SeedType mSeedType;
+	SeedType mType;
 	int mPlantCol;
 	int mAnimCounter;
 	int mFrame;

@@ -610,7 +610,7 @@ bool SeedChooserScreen::FlyProtectionCurrentlyPlanted()
 	Plant *aPlant = nullptr;
 	while (mBoard->IteratePlants(aPlant))
 	{
-		if (aPlant->mSeedType == SEED_CATTAIL || aPlant->mSeedType == SEED_CACTUS)
+		if (aPlant->mType == SEED_CATTAIL || aPlant->mType == SEED_CACTUS)
 		{
 			return true;
 		}
