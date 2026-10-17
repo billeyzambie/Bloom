@@ -14,6 +14,7 @@ void ProjectileBehavior::Update(Projectile &theProjectile)
 	//mAttributes = mType.mAttributes;
 	//
 	//for (int i = 0; i < aNumOfTimesToUpdate; i++)
+	mAttributes = mType.mAttributes;
 	VirtualUpdate(theProjectile);
 	mRunTime++;
 }

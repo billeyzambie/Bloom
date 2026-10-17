@@ -22,7 +22,7 @@ ProjectileType::operator OldProjectileType() const
 void ProjectileType::CopyFrom(const ProjectileType &theOther)
 {
 	mBaseImage = theOther.mBaseImage;
-	mAttributes = theOther.mAttributes;
+	mAttributeBaseValues = theOther.mAttributeBaseValues;
 	mModifiers = theOther.mModifiers;
 	mBehaviorTypes = theOther.mBehaviorTypes;
 }

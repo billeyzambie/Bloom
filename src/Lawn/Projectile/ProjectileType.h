@@ -20,8 +20,6 @@ class PlayerInfo;
 class Projectile;
 class ProjectileBehaviorType;
 
-template <class T> class RegistryHolder;
-
 class BLOOM_API ProjectileType final : public BloomType
 {
   public:

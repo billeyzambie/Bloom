@@ -16,7 +16,7 @@ void TestProjectileBehavior::DoImpact(DoImpactContext &theContext)
 	Zombie *aZombie = theContext.mTargetZombie;
 	if (!aZombie)
 		return;
-	ZombieID aZombieId = theContext.mProjectile.mBoard->ZombieGetID(aZombie);
+	ZombieID aZombieId = aZombie->GetId();
 	if (aZombieId == mLastHitZombie)
 	{
 		theContext.mCanceled = true;

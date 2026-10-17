@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <type_traits>
 
 #include "../Sexy.TodLib/TodDebug.h"
 #include "BloomType.h"
@@ -65,23 +66,27 @@ template <class S, class T> class RegistryTypeHolder : public RegistryHolder<T>
   public:
 	using RegistryHolder<T>::RegistryHolder;
 
-	template <class U = S> const TypeOf<U> *TryGet() const
+	template <class U = S> requires std::is_same_v<U, S>
+	const TypeOf<U> *TryGet() const
 	{
 		return static_cast<const TypeOf<U> *>(this->mType);
 	}
 
-	template <class U = S> const TypeOf<U> &Get() const
+	template <class U = S> requires std::is_same_v<U, S>
+	const TypeOf<U> &Get() const
 	{
 		TOD_ASSERT(this->mType != nullptr, "RegistryHolder unwrapped before it got registered")
 		return static_cast<const TypeOf<U> &>(*this->mType);
 	}
 
-	template <class U = S> operator const TypeOf<U> *() const
+	template <class U = S> requires std::is_same_v<U, S>
+	operator const TypeOf<U> *() const
 	{
 		return TryGet();
 	}
 
-	template <class U = S> operator const TypeOf<U> &() const
+	template <class U = S> requires std::is_same_v<U, S>
+	operator const TypeOf<U> &() const
 	{
 		return Get();
 	}
