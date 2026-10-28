@@ -24,7 +24,7 @@ void PlantType::CopyFrom(const PlantType &theOther)
 	mAttributeBaseValues = theOther.mAttributeBaseValues;
 }
 
-void PlantType::Update()
+void PlantType::Update(const LawnApp &theLawnApp)
 {
 	//goofy
 	mAttributes = mAttributeBaseValues;

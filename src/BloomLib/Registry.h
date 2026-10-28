@@ -106,6 +106,11 @@ template <class T> class BLOOM_API Registry : public IRegistry
 
 		return anIterator->second;
 	}
+	const T &GetByNumericalId(int theId) const
+	{
+		TOD_ASSERT(theId >= 0 && theId < mNextId);
+		return *mTypes[theId];
+	}
 	const T &GetDefaultType() const
 	{
 		return *mTypes[0];

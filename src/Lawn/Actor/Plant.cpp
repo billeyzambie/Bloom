@@ -1,5 +1,6 @@
 #include "../Coin.h"
 #include "Plant.h"
+#include "PlantTypes.h"
 #include "../Board.h"
 #include "../Zombie.h"
 #include "../Cutscene.h"
@@ -84,11 +85,13 @@ PlantDefinition gPlantDefs[SeedType::NUM_SEED_TYPES] = {
 };
 
 
-Plant::Plant() : GameObject(GameObjectType::OBJECT_TYPE_PLANT)
+Plant::Plant(const PlantType &theType) 
+	: GameObject(GameObjectType::OBJECT_TYPE_PLANT),
+	mType(theType)
 {
 }
 
-void Plant::PlantInitialize(int theGridX, int theGridY, SeedType theSeedType, SeedType theImitaterType)
+void Plant::PlantInitialize(int theGridX, int theGridY, SeedType theImitaterType)
 {
 	mPlantCol = theGridX;
 	mRow = theGridY;
@@ -111,7 +114,6 @@ void Plant::PlantInitialize(int theGridX, int theGridY, SeedType theSeedType, Se
 	mState = PlantState::STATE_NOTREADY;
 	mDead = false;
 	mSquished = false;
-	mType = theSeedType;
 	mImitaterType = theImitaterType;
 	mPlantHealth = 300;
 	mDoSpecialCountdown = 0;
@@ -133,7 +135,7 @@ void Plant::PlantInitialize(int theGridX, int theGridY, SeedType theSeedType, Se
 	mWidth = 80;
 	mHeight = 80;
 	memset(mMagnetItems, 0, sizeof(mMagnetItems));
-	const PlantDefinition &aPlantDef = GetPlantDefinition(theSeedType);
+	const PlantDefinition &aPlantDef = GetPlantDefinition(mType);
 	mIsAsleep = false;
 	mWakeUpCounter = 0;
 	mOnBungeeState = PlantOnBungeeState::NOT_ON_BUNGEE;
@@ -180,7 +182,7 @@ void Plant::PlantInitialize(int theGridX, int theGridY, SeedType theSeedType, Se
 	else
 		mLaunchCounter = 0;
 
-	switch (theSeedType)
+	switch (mType)
 	{
 	case SeedType::SEED_BLOVER: {
 		mDoSpecialCountdown = 50;
@@ -459,8 +461,8 @@ void Plant::PlantInitialize(int theGridX, int theGridY, SeedType theSeedType, Se
 	}
 
 	if ((mApp->mGameMode == GameMode::GAMEMODE_CHALLENGE_BIG_TIME) &&
-		(theSeedType == SeedType::SEED_WALLNUT || theSeedType == SeedType::SEED_SUNFLOWER ||
-		 theSeedType == SeedType::SEED_MARIGOLD))
+		(mType == SeedType::SEED_WALLNUT || mType == SeedType::SEED_SUNFLOWER ||
+		 mType == SeedType::SEED_MARIGOLD))
 	{
 		mPlantHealth *= 2;
 	}
@@ -4565,7 +4567,7 @@ void Plant::DoSpecial()
 void Plant::ImitaterMorph()
 {
 	Die();
-	Plant *aPlant = mBoard->AddPlant(mPlantCol, mRow, mImitaterType, SeedType::SEED_IMITATER);
+	Plant *aPlant = mBoard->AddPlant(mPlantCol, mRow, PlantTypes::FromOldSeedType(mImitaterType), SeedType::SEED_IMITATER);
 
 	FilterEffect aFilter = FilterEffect::FILTER_EFFECT_WASHED_OUT;
 	if (mImitaterType == SeedType::SEED_HYPNOSHROOM || mImitaterType == SeedType::SEED_SQUASH ||

@@ -34,6 +34,7 @@
 
 #include "StoreItem/StoreItemTypes.h"
 #include "Projectile/ProjectileTypes.h"
+#include "Actor/PlantTypes.h"
 
 #define SEXY_PERF_ENABLED
 #include "../SexyAppFramework/PerfTimer.h"
@@ -2056,11 +2057,11 @@ bool Board::IsPoolSquare(int theGridX, int theGridY)
 	return false;
 }
 
-Plant *Board::NewPlant(int theGridX, int theGridY, SeedType theSeedType, SeedType theImitaterType)
+Plant *Board::NewPlant(int theGridX, int theGridY, const PlantType &thePlantType, SeedType theImitaterType)
 {
-	Plant *aPlant = mPlants.DataArrayAlloc();
+	Plant *aPlant = mPlants.DataArrayAlloc(thePlantType);
 	aPlant->mIsOnBoard = true;
-	aPlant->PlantInitialize(theGridX, theGridY, theSeedType, theImitaterType);
+	aPlant->PlantInitialize(theGridX, theGridY, theImitaterType);
 	return aPlant;
 }
 
@@ -2108,10 +2109,10 @@ void Board::DoPlantingEffects(int theGridX, int theGridY, Plant *thePlant)
 	}
 }
 
-Plant *Board::AddPlant(int theGridX, int theGridY, SeedType theSeedType, SeedType theImitaterType)
+Plant *Board::AddPlant(int theGridX, int theGridY, const PlantType &thePlantType, SeedType theImitaterType)
 {
-	SeedType aActualType = theSeedType;
-	if (theSeedType == SeedType::SEED_IMITATER && theImitaterType != SeedType::SEED_NONE)
+	SeedType aActualType = thePlantType;
+	if (thePlantType == SeedType::SEED_IMITATER && theImitaterType != SeedType::SEED_NONE)
 		aActualType = theImitaterType;
 
 	if (StageHasPool() && !StageIsNight())
@@ -2155,7 +2156,7 @@ Plant *Board::AddPlant(int theGridX, int theGridY, SeedType theSeedType, SeedTyp
 		}
 	}
 
-	Plant *aPlant = NewPlant(theGridX, theGridY, theSeedType, theImitaterType);
+	Plant *aPlant = NewPlant(theGridX, theGridY, thePlantType, theImitaterType);
 	DoPlantingEffects(theGridX, theGridY, aPlant);
 	mChallenge->PlantAdded(aPlant);
 	mPlantsPlaced++;
@@ -3998,14 +3999,16 @@ void Board::MouseDownWithPlant(int x, int y, int theClickCount)
 	}
 	else if (mCursorObject->mCursorType == CursorType::CURSOR_TYPE_PLANT_FROM_USABLE_COIN)
 	{
-		AddPlant(aGridX, aGridY, mCursorObject->mType, mCursorObject->mImitaterType);
+		const PlantType &aPlantType = PlantTypes::FromOldSeedType(mCursorObject->mType);
+		AddPlant(aGridX, aGridY, aPlantType, mCursorObject->mImitaterType);
 		Coin *aCoin = mCoins.DataArrayTryToGet(mCursorObject->mCoinID);
 		mCursorObject->mCoinID = CoinID::COINID_NULL;
 		aCoin->Die();
 	}
 	else if (mCursorObject->mCursorType == CursorType::CURSOR_TYPE_PLANT_FROM_BANK)
 	{
-		Plant *aPlant = AddPlant(aGridX, aGridY, mCursorObject->mType, mCursorObject->mImitaterType);
+		const PlantType &aPlantType = PlantTypes::FromOldSeedType(mCursorObject->mType);
+		Plant *aPlant = AddPlant(aGridX, aGridY, aPlantType, mCursorObject->mImitaterType);
 		if (aIsAwake)
 		{
 			aPlant->SetSleeping(false);
@@ -4045,7 +4048,8 @@ void Board::MouseDownWithPlant(int x, int y, int theClickCount)
 					aPumpkinPlant->Die();
 				}
 			}
-			AddPlant(aGridX, aRow, mCursorObject->mType, mCursorObject->mImitaterType);
+			const PlantType &aPlantType = PlantTypes::FromOldSeedType(mCursorObject->mType);
+			AddPlant(aGridX, aRow, aPlantType, mCursorObject->mImitaterType);
 		}
 	}
 
@@ -4180,7 +4184,7 @@ void Board::MouseDownWithTool(int x, int y, int theClickCount, CursorType theCur
 		if (aPlant->mType == SeedType::SEED_CATTAIL &&
 			GetTopPlantAt(aPlant->mPlantCol, aPlant->mRow, PlantPriority::TOPPLANT_ONLY_PUMPKIN))
 		{
-			NewPlant(aPlant->mPlantCol, aPlant->mRow, SeedType::SEED_LILYPAD, SeedType::SEED_NONE);
+			NewPlant(aPlant->mPlantCol, aPlant->mRow, PlantTypes::LILY_PAD, SeedType::SEED_NONE);
 		}
 		if (mTutorialState == TutorialState::TUTORIAL_SHOVEL_DIG ||
 			mTutorialState == TutorialState::TUTORIAL_SHOVEL_KEEP_DIGGING)
@@ -9211,35 +9215,35 @@ void Board::KeyChar(SexyChar theChar)
 				{
 					if (CanPlantAt(x, y, SeedType::SEED_LILYPAD) == PlantingReason::PLANTING_OK)
 					{
-						AddPlant(x, y, SeedType::SEED_LILYPAD, SeedType::SEED_NONE);
+						AddPlant(x, y, PlantTypes::LILY_PAD, SeedType::SEED_NONE);
 					}
 					if (CanPlantAt(x, y, SeedType::SEED_PUMPKINSHELL) == PlantingReason::PLANTING_OK)
 					{
 						if (x <= 6 || IsPoolSquare(x, y))
 						{
-							AddPlant(x, y, SeedType::SEED_PUMPKINSHELL, SeedType::SEED_NONE);
+							AddPlant(x, y, PlantTypes::PUMPKIN, SeedType::SEED_NONE);
 						}
 					}
 					if (CanPlantAt(x, y, SeedType::SEED_GATLINGPEA) == PlantingReason::PLANTING_OK)
 					{
 						if (x < 5)
 						{
-							AddPlant(x, y, SeedType::SEED_GATLINGPEA, SeedType::SEED_NONE);
+							AddPlant(x, y, PlantTypes::GATLING_PEA, SeedType::SEED_NONE);
 						}
 						else if (x == 5)
 						{
-							AddPlant(x, y, SeedType::SEED_TORCHWOOD, SeedType::SEED_NONE);
+							AddPlant(x, y, PlantTypes::TORCHWOOD, SeedType::SEED_NONE);
 						}
 						else if (x == 6)
 						{
-							AddPlant(x, y, SeedType::SEED_SPLITPEA, SeedType::SEED_NONE);
+							AddPlant(x, y, PlantTypes::SPLIT_PEA, SeedType::SEED_NONE);
 						}
 						else if (y == 2 || y == 3)
 						{
-							AddPlant(x, y, SeedType::SEED_GLOOMSHROOM, SeedType::SEED_NONE);
+							AddPlant(x, y, PlantTypes::GLOOM_SHROOM, SeedType::SEED_NONE);
 							if (CanPlantAt(x, y, SeedType::SEED_INSTANT_COFFEE) == PlantingReason::PLANTING_OK)
 							{
-								AddPlant(x, y, SeedType::SEED_INSTANT_COFFEE, SeedType::SEED_NONE);
+								AddPlant(x, y, PlantTypes::COFFEE_BEAN, SeedType::SEED_NONE);
 							}
 						}
 					}
@@ -9263,11 +9267,11 @@ void Board::KeyChar(SexyChar theChar)
 				{
 					if (StageHasRoof() && CanPlantAt(x, y, SeedType::SEED_FLOWERPOT) == PlantingReason::PLANTING_OK)
 					{
-						AddPlant(x, y, SeedType::SEED_FLOWERPOT, SeedType::SEED_NONE);
+						AddPlant(x, y, PlantTypes::FLOWER_POT, SeedType::SEED_NONE);
 					}
 					if (CanPlantAt(x, y, SeedType::SEED_LILYPAD) == PlantingReason::PLANTING_OK)
 					{
-						AddPlant(x, y, SeedType::SEED_LILYPAD, SeedType::SEED_NONE);
+						AddPlant(x, y, PlantTypes::LILY_PAD, SeedType::SEED_NONE);
 					}
 					//if (CanPlantAt(x, y, SeedType::SEED_THREEPEATER) == PlantingReason::PLANTING_OK)
 					//{
@@ -9311,7 +9315,7 @@ void Board::KeyChar(SexyChar theChar)
 			{
 				if (CanPlantAt(x, y, SeedType::SEED_FLOWERPOT) == PlantingReason::PLANTING_OK)
 				{
-					AddPlant(x, y, SeedType::SEED_FLOWERPOT, SeedType::SEED_NONE);
+					AddPlant(x, y, PlantTypes::FLOWER_POT, SeedType::SEED_NONE);
 				}
 			}
 		}

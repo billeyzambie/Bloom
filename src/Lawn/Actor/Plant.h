@@ -2,6 +2,7 @@
 
 #include <string>
 #include "../GameObject.h"
+#include "PlantType.h"
 
 #define MAX_MAGNET_ITEMS 5
 
@@ -140,10 +141,14 @@ class Reanimation;
 class TodParticleSystem;
 struct Damage;
 
-class BLOOM_API Plant : public GameObject
+class BLOOM_API Plant final : public GameObject
 {
   public:
-	SeedType mType;
+	typedef PlantType Type;
+	typedef Type RegistryType;
+	template <class T> using TypeT = Type;
+
+	const PlantType &mType;
 	int mPlantCol;
 	int mAnimCounter;
 	int mFrame;
@@ -193,14 +198,14 @@ class BLOOM_API Plant : public GameObject
 	int mBowlingHits;
 
   public:
-	Plant();
+	Plant(const PlantType &theType);
 
 	/// @brief Initialize the Plant
 	/// @param theGridX The Grid X Coordinate
 	/// @param theGridY The Grid Y Coordinate
 	/// @param theSeedType The SeedType of the Plant
 	/// @param theImitaterType The actual SeedType if theSeedType == SeedType::SEED_IMITATER
-	void PlantInitialize(int theGridX, int theGridY, SeedType theSeedType, SeedType theImitaterType);
+	void PlantInitialize(int theGridX, int theGridY, SeedType theImitaterType);
 
 	/// @brief Update the Plant
 	void Update();
