@@ -6,7 +6,7 @@
 template <class T, size_t INSTANCE_MAX_SIZE = T::Type::INSTANCE_MAX_SIZE> class PolymorphicWrapper
 {
   private:
-	alignas(T) char mBuffer[INSTANCE_MAX_SIZE];
+	alignas(std::max_align_t) char mBuffer[INSTANCE_MAX_SIZE];
 	T *mObject = nullptr;
   public:
 	PolymorphicWrapper() = default;

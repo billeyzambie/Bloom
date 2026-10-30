@@ -1,4 +1,5 @@
 #include "Actor/Plant.h"
+#include "Actor/PlantTypes.h"
 #include "Board.h"
 #include "Challenge.h"
 #include "ZenGarden.h"
@@ -168,7 +169,7 @@ Plant *ZenGarden::PlacePottedPlant(int thePottedPlantIndex)
 	if (needPot)
 	{
 		Plant *aPot =
-			mBoard->NewPlant(aPottedPlant->mX, aPottedPlant->mY, SeedType::SEED_FLOWERPOT, SeedType::SEED_NONE);
+			mBoard->NewPlant(aPottedPlant->mX, aPottedPlant->mY, PlantTypes::FLOWER_POT, SeedType::SEED_NONE);
 		aPot->mRenderOrder = Board::MakeRenderOrder(RenderLayer::RENDER_LAYER_PLANT, 0, aPot->mY);
 		aPot->mStateCountdown = 0;
 
@@ -183,7 +184,7 @@ Plant *ZenGarden::PlacePottedPlant(int thePottedPlantIndex)
 		}
 	}
 
-	Plant *aPlant = mBoard->NewPlant(aPottedPlant->mX, aPottedPlant->mY, aSeedType, SeedType::SEED_NONE);
+	Plant *aPlant = mBoard->NewPlant(aPottedPlant->mX, aPottedPlant->mY, PlantTypes::FromOldSeedType(aSeedType), SeedType::SEED_NONE);
 	aPlant->mPottedPlantIndex = thePottedPlantIndex;
 	aPlant->mRenderOrder = Board::MakeRenderOrder(RenderLayer::RENDER_LAYER_PLANT, 0, aPlant->mY + 1);
 	aPlant->mStateCountdown = 0;

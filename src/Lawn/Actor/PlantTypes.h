@@ -60,6 +60,6 @@ extern BLOOM_API const RegistryHolder<PlantType> &GIANT_WALL_NUT;
 extern BLOOM_API const RegistryHolder<PlantType> &SPROUT;
 extern BLOOM_API const RegistryHolder<PlantType> &LEFTPEATER;
 
-const PlantType &FromOldSeedType(SeedType theSeedType);
+const PlantType &FromOldSeedType(int theSeedType);
 
 } // namespace PlantTypes

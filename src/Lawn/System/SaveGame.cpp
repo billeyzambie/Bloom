@@ -403,9 +403,9 @@ void SyncBoard(SaveGameContext &theContext, Board *theBoard)
 	theContext.SyncBytes(&theBoard->mPaused, sizeof(Board) - offsetof(Board, mPaused));
 
 	SyncDataArray(theContext, theBoard->mZombies);
-	SyncDataArray(theContext, theBoard->mPlants);
-	theBoard->mProjectiles.DataArraySync(theContext);									 
-	SyncDataArray(theContext, theBoard->mCoins);												 
+	theBoard->mPlants.DataArraySync(theContext);
+	theBoard->mProjectiles.DataArraySync(theContext);					 
+	SyncDataArray(theContext, theBoard->mCoins);								 
 	SyncDataArray(theContext, theBoard->mLawnMowers);											 
 	SyncDataArray(theContext, theBoard->mGridItems);											 
 	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mParticleHolder->mParticleSystems); 

@@ -139,6 +139,7 @@ class Coin;
 class Zombie;
 class Reanimation;
 class TodParticleSystem;
+class BoundedSync;
 struct Damage;
 
 class BLOOM_API Plant final : public GameObject
@@ -199,6 +200,8 @@ class BLOOM_API Plant final : public GameObject
 
   public:
 	Plant(const PlantType &theType);
+
+	void Sync(BoundedSync &theSync);
 
 	/// @brief Initialize the Plant
 	/// @param theGridX The Grid X Coordinate

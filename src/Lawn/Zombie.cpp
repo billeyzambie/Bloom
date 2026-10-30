@@ -1,4 +1,5 @@
 #include "Actor/Plant.h"
+#include "Actor/PlantTypes.h"
 #include "Board.h"
 #include "Zombie.h"
 #include "Cutscene.h"
@@ -1403,7 +1404,7 @@ void Zombie::BungeeLiftTarget()
 	if (aPlant->mType == SeedType::SEED_CATTAIL &&
 		mBoard->GetTopPlantAt(mTargetCol, mRow, PlantPriority::TOPPLANT_ONLY_PUMPKIN))
 	{
-		mBoard->NewPlant(mTargetCol, mRow, SeedType::SEED_LILYPAD, SeedType::SEED_NONE);
+		mBoard->NewPlant(mTargetCol, mRow, PlantTypes::LILY_PAD, SeedType::SEED_NONE);
 	}
 
 	if (mApp->IsIZombieLevel())

@@ -1,6 +1,7 @@
 #include "Coin.h"
 #include "Board.h"
 #include "Actor/Plant.h"
+#include "Actor/PlantTypes.h"
 #include "Zombie.h"
 #include "GridItem.h"
 #include "Cutscene.h"
@@ -307,9 +308,9 @@ void Challenge::InitLevel()
 	}
 	if (mApp->IsFirstTimeAdventureMode() && mBoard->mLevel == 5)
 	{
-		mBoard->NewPlant(5, 1, SEED_PEASHOOTER, SEED_NONE);
-		mBoard->NewPlant(7, 2, SEED_PEASHOOTER, SEED_NONE);
-		mBoard->NewPlant(6, 3, SEED_PEASHOOTER, SEED_NONE);
+		mBoard->NewPlant(5, 1, PlantTypes::PEASHOOTER, SEED_NONE);
+		mBoard->NewPlant(7, 2, PlantTypes::PEASHOOTER, SEED_NONE);
+		mBoard->NewPlant(6, 3, PlantTypes::PEASHOOTER, SEED_NONE);
 	}
 	if (mApp->mGameMode == GAMEMODE_CHALLENGE_BEGHOULED_TWIST)
 	{
@@ -972,7 +973,7 @@ void Challenge::BeghouledCreatePlants(BeghouledBoardState *theOldBoardState, Beg
 			if (theOldBoardState->mSeedType[aCol][aRow] == SEED_NONE && aSeedType != SEED_NONE)
 			{
 				aFallY -= 100;
-				mBoard->NewPlant(aCol, aRow, aSeedType, SEED_NONE)->mY = aFallY;
+				mBoard->NewPlant(aCol, aRow, PlantTypes::FromOldSeedType(aSeedType), SEED_NONE)->mY = aFallY;
 				BeghouledStartFalling(STATECHALLENGE_BEGHOULED_FALLING);
 			}
 		}
@@ -3475,7 +3476,7 @@ void Challenge::BeghouledPacketClicked(SeedPacket *theSeedPacket)
 			if (aPlant->mType == SEED_PEASHOOTER)
 			{
 				aPlant->Die();
-				mBoard->AddPlant(aPlant->mPlantCol, aPlant->mRow, SEED_REPEATER, SEED_NONE);
+				mBoard->AddPlant(aPlant->mPlantCol, aPlant->mRow, PlantTypes::REPEATER, SEED_NONE);
 			}
 		}
 		theSeedPacket->Deactivate();
@@ -3491,7 +3492,7 @@ void Challenge::BeghouledPacketClicked(SeedPacket *theSeedPacket)
 			if (aPlant->mType == SEED_PUFFSHROOM)
 			{
 				aPlant->Die();
-				mBoard->AddPlant(aPlant->mPlantCol, aPlant->mRow, SEED_FUMESHROOM, SEED_NONE);
+				mBoard->AddPlant(aPlant->mPlantCol, aPlant->mRow, PlantTypes::FUME_SHROOM, SEED_NONE);
 			}
 		}
 		theSeedPacket->Deactivate();
@@ -3507,7 +3508,7 @@ void Challenge::BeghouledPacketClicked(SeedPacket *theSeedPacket)
 			if (aPlant->mType == SEED_WALLNUT)
 			{
 				aPlant->Die();
-				mBoard->AddPlant(aPlant->mPlantCol, aPlant->mRow, SEED_TALLNUT, SEED_NONE);
+				mBoard->AddPlant(aPlant->mPlantCol, aPlant->mRow, PlantTypes::TALL_NUT, SEED_NONE);
 			}
 		}
 		theSeedPacket->Deactivate();
@@ -3712,7 +3713,7 @@ void Challenge::ShovelAddWallnuts()
 	{
 		for (int aRow = 0; aRow < MAX_GRID_SIZE_Y - 1; aRow++)
 		{
-			mBoard->AddPlant(aCol, aRow, SEED_WALLNUT, SEED_NONE);
+			mBoard->AddPlant(aCol, aRow, PlantTypes::WALL_NUT, SEED_NONE);
 		}
 	}
 }
@@ -3737,7 +3738,7 @@ void Challenge::ScaryPotterFillColumnWithPlant(int theCol,
 
 	for (int i = 0; i < MAX_GRID_SIZE_Y - 1; i++)
 	{
-		Plant *aPlant = mBoard->NewPlant(theCol, i, theSeedType, SeedType::SEED_NONE);
+		Plant *aPlant = mBoard->NewPlant(theCol, i, PlantTypes::FromOldSeedType(theSeedType), SeedType::SEED_NONE);
 		if (theSeedType == SeedType::SEED_POTATOMINE)
 		{
 			aPlant->mStateCountdown = 10;
@@ -4413,7 +4414,7 @@ void Challenge::IZombiePlacePlantInSquare(SeedType theSeedType, int theGridX, in
 {
 	if (mBoard->CanPlantAt(theGridX, theGridY, theSeedType) == PLANTING_OK)
 	{
-		IZombieSetupPlant(mBoard->NewPlant(theGridX, theGridY, theSeedType));
+		IZombieSetupPlant(mBoard->NewPlant(theGridX, theGridY, PlantTypes::FromOldSeedType(theSeedType)));
 	}
 }
 

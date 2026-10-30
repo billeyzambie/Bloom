@@ -293,18 +293,6 @@ const auto &TALL_NUT = RegisterTypeOf<Plant>(
 	}
 );
 
-const auto &TALL_NUT = RegisterTypeOf<Plant>(
-	"PVZ", "TALL_NUT",
-	{
-	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
-	{
-		theType.mBaseReanim = ReanimationType::REANIM_TALLNUT;
-		theType.mCost = 125;
-		theType.mRechargeTime = 3000;
-	}
-);
-
 const auto &SEA_SHROOM = RegisterTypeOf<Plant>(
 	"PVZ", "SEA_SHROOM",
 	{
@@ -533,18 +521,6 @@ const auto &GLOOM_SHROOM = RegisterTypeOf<Plant>(
 	}
 );
 
-const auto &GLOOM_SHROOM = RegisterTypeOf<Plant>(
-	"PVZ", "GLOOM_SHROOM",
-	{
-	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
-	{
-		theType.mBaseReanim = ReanimationType::REANIM_GLOOMSHROOM;
-		theType.mCost = 150;
-		theType.mRechargeTime = 5000;
-	}
-);
-
 const auto &CATTAIL = RegisterTypeOf<Plant>(
 	"PVZ", "CATTAIL",
 	{
@@ -665,8 +641,9 @@ const auto &LEFTPEATER = RegisterTypeOf<Plant>(
 	}
 );
 
-const PlantType &FromOldSeedType(SeedType theSeedType)
+const PlantType &FromOldSeedType(int theSeedType)
 {
+	TOD_ASSERT(theSeedType < SeedType::NUM_SEED_TYPES);
 	return Registries::PLANTS.GetByNumericalId(theSeedType);
 }
 

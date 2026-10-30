@@ -1,5 +1,6 @@
 #include "../Board.h"
 #include "../Actor/Plant.h"
+#include "../Actor/PlantTypes.h"
 #include "../Zombie.h"
 #include "GameButton.h"
 #include "../SeedPacket.h"
@@ -157,10 +158,10 @@ void AlmanacDialog::SetupPlant()
 	else if (mSelectedSeed == SEED_GRAVEBUSTER)
 		aPosY += 55;
 
-	mPlant = new Plant();
+	mPlant = new Plant(PlantTypes::FromOldSeedType(mSelectedSeed));
 	mPlant->mBoard = nullptr;
 	mPlant->mIsOnBoard = false;
-	mPlant->PlantInitialize(0, 0, mSelectedSeed, SEED_NONE);
+	mPlant->PlantInitialize(0, 0, SEED_NONE);
 	mPlant->mX = aPosX;
 	mPlant->mY = aPosY;
 }
@@ -189,10 +190,10 @@ void AlmanacDialog::SetPage(AlmanacPage thePage)
 
 	if (mOpenPage == AlmanacPage::ALMANAC_PAGE_INDEX)
 	{
-		mPlant = new Plant();
+		mPlant = new Plant(PlantTypes::SUNFLOWER);
 		mPlant->mBoard = nullptr;
 		mPlant->mIsOnBoard = false;
-		mPlant->PlantInitialize(0, 0, SeedType::SEED_SUNFLOWER, SeedType::SEED_NONE);
+		mPlant->PlantInitialize(0, 0, SeedType::SEED_NONE);
 		mPlant->mX = ALMANAC_INDEXPLANT_POSITION_X;
 		mPlant->mY = ALMANAC_INDEXPLANT_POSITION_Y;
 

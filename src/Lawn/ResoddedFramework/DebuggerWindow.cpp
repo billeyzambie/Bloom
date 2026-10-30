@@ -2,6 +2,7 @@
 #include "DebuggerWindow.h"
 #include "../Board.h"
 #include "../Actor/Plant.h"
+#include "../Actor/PlantTypes.h"
 #include "../Zombie.h"
 #include "../ZenGarden.h"
 #include "../System/PlayerInfo.h"
@@ -375,7 +376,7 @@ void DebuggerWindow::DrawBoardPlants()
         mQuickPlantRow = std::max(0, std::min(mQuickPlantRow, MAX_GRID_SIZE_Y - 1));
         ImGui::SameLine();
         if (ImGui::Button("Plant!"))
-            b->AddPlant(mQuickPlantCol, mQuickPlantRow, (SeedType)mQuickPlantSeedIdx);
+			b->AddPlant(mQuickPlantCol, mQuickPlantRow, PlantTypes::FromOldSeedType(mQuickPlantSeedIdx));
     }
 
     // Plant inspector table

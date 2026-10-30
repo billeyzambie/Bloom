@@ -27,6 +27,7 @@
 #include "../../Sexy.TodLib/EffectSystem.h"
 #include "../../Sexy.TodLib/TodStringFile.h"
 #include "../../BloomLib/Event.h"
+#include "../../BloomLib/BoundedSync.h"
 
 PlantDefinition gPlantDefs[SeedType::NUM_SEED_TYPES] = { 
     { SeedType::SEED_PEASHOOTER,        nullptr, ReanimationType::REANIM_PEASHOOTER,    0,  100,    750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "PEASHOOTER" },
@@ -89,6 +90,12 @@ Plant::Plant(const PlantType &theType)
 	: GameObject(GameObjectType::OBJECT_TYPE_PLANT),
 	mType(theType)
 {
+}
+
+void Plant::Sync(BoundedSync &theSync)
+{
+	theSync.SyncBytes(&mX, sizeof(GameObject) - offsetof(GameObject, mX));
+	theSync.SyncBytes(&mPlantCol, sizeof(Plant) - offsetof(Plant, mPlantCol));
 }
 
 void Plant::PlantInitialize(int theGridX, int theGridY, SeedType theImitaterType)
