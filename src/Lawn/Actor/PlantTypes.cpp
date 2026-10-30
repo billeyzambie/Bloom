@@ -641,6 +641,18 @@ const auto &LEFTPEATER = RegisterTypeOf<Plant>(
 	}
 );
 
+const auto &CUSTOM_TEST = RegisterTypeOf<Plant>(
+	"PVZ", "CUSTOM_TEST",
+	{
+	},
+	[](PlantType &theType, PlantAttributes &theAttributes)
+	{
+		theType.mBaseReanim = ReanimationType::REANIM_SNOWPEA;
+		theType.mCost = 150;
+		theType.mRechargeTime = 750;
+	}
+);
+
 const PlantType &FromOldSeedType(int theSeedType)
 {
 	TOD_ASSERT(theSeedType < SeedType::NUM_SEED_TYPES);

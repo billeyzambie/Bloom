@@ -26,7 +26,7 @@ class DebuggerWindow : public ImGuiWindow
 
 	// Board → Plants
 	Plant*    mSelectedPlant;
-	int       mQuickPlantSeedIdx;   // index into gPlantDefs[0..NUM_SEED_TYPES-1]
+	int       mQuickPlantSeedIdx;   // index into the plant registry
 	int       mQuickPlantCol;
 	int       mQuickPlantRow;
 

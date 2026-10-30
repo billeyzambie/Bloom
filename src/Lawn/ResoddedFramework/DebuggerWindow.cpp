@@ -1,6 +1,7 @@
 #if LAWN_DEBUG_TOOLS
 #include "DebuggerWindow.h"
 #include "../Board.h"
+#include "../Registries.h"
 #include "../Actor/Plant.h"
 #include "../Actor/PlantTypes.h"
 #include "../Zombie.h"
@@ -27,8 +28,8 @@ using namespace Sexy;
 // ─────────────────────────────────────────────────────────────
 const char* DebuggerWindow::SeedTypeName(int i)
 {
-    if (i < 0 || i >= (int)SeedType::NUM_SEED_TYPES) return "???";
-    return gPlantDefs[i].mPlantName;
+    if (i < 0 || i >= Registries::PLANTS.GetNumOfTypes()) return "???";
+    return Registries::PLANTS.GetByNumericalId(i).mResourceId.CStr();
 }
 const char* DebuggerWindow::ZombieTypeName(int i)
 {
@@ -356,7 +357,7 @@ void DebuggerWindow::DrawBoardPlants()
         if (ImGui::BeginCombo("Seed##qp", seedPreview))
         {
             ImGui::InputText("Filter", sSeedFilter, sizeof(sSeedFilter));
-            for (int i = 0; i < (int)SeedType::NUM_SEED_TYPES; i++)
+            for (int i = 0; i < Registries::PLANTS.GetNumOfTypes(); i++)
             {
                 const char* name = SeedTypeName(i);
                 if (sSeedFilter[0] != '\0' && strstr(name, sSeedFilter) == nullptr) continue;
@@ -376,7 +377,7 @@ void DebuggerWindow::DrawBoardPlants()
         mQuickPlantRow = std::max(0, std::min(mQuickPlantRow, MAX_GRID_SIZE_Y - 1));
         ImGui::SameLine();
         if (ImGui::Button("Plant!"))
-			b->AddPlant(mQuickPlantCol, mQuickPlantRow, PlantTypes::FromOldSeedType(mQuickPlantSeedIdx));
+			b->AddPlant(mQuickPlantCol, mQuickPlantRow, Registries::PLANTS.GetByNumericalId(mQuickPlantSeedIdx));
     }
 
     // Plant inspector table
