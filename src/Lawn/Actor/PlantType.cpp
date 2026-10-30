@@ -8,7 +8,7 @@ PlantType::PlantType(
 	const Attributes &theAttributes
 )
 	: BloomType(theModName, theTypeName),
-	mAttributes(theAttributes)
+	mAttributeBaseValues(theAttributes), mAttributes(theAttributes)
 {
 }
 

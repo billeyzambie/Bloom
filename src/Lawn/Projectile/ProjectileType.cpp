@@ -7,7 +7,7 @@
 ProjectileType::ProjectileType(const std::string &theModName, const std::string &theTypeName,
 							   const ProjectileAttributes &theAttributes)
 	: BloomType(theModName, theTypeName),
-	mAttributes(theAttributes)
+	mAttributeBaseValues(theAttributes), mAttributes(theAttributes)
 {
 	mBehaviorTypes.Add(ProjectileBehaviorTypes::MAIN);
 }

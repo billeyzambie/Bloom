@@ -4668,10 +4668,10 @@ void Plant::Fire(Zombie *theTargetZombie, int theRow, PlantWeapon thePlantWeapon
 	switch (mType)
 	{
 	case SeedType::SEED_PEASHOOTER:
-	#ifdef INCLUDE_CUSTOM_PROJECTILE_TEST
-		aProjectileType = ProjectileTypes::CUSTOM_TEST;
-		break;
-	#endif
+	//#ifdef INCLUDE_CUSTOM_PROJECTILE_TEST
+	//	aProjectileType = ProjectileTypes::CUSTOM_TEST;
+	//	break;
+	//#endif
 	case SeedType::SEED_REPEATER:
 	case SeedType::SEED_THREEPEATER:
 	case SeedType::SEED_SPLITPEA:
