@@ -1,0 +1,874 @@
+[PVZ:PEASHOOTER]
+Peashooter
+
+[PVZ:PEASHOOTER_TOOLTIP]
+Shoots peas at the enemy
+
+[PVZ:SUNFLOWER]
+Sunflower
+
+[PVZ:SUNFLOWER_TOOLTIP]
+Gives you additional sun
+
+[PVZ:CHERRY_BOMB]
+Cherry Bomb
+
+[PVZ:CHERRY_BOMB_TOOLTIP]
+Blows up all zombies in an area
+
+[PVZ:WALL_NUT]
+Wall-nut
+
+[PVZ:WALL_NUT_TOOLTIP]
+Blocks off zombies and protects your other plants
+
+[PVZ:REPEATER]
+Repeater
+
+[PVZ:REPEATER_TOOLTIP]
+Fires two peas at a time
+
+[PVZ:POTATO_MINE]
+Potato Mine
+
+[PVZ:POTATO_MINE_TOOLTIP]
+Explodes on contact, but takes time to arm itself
+
+[PVZ:SNOW_PEA]
+Snow Pea
+
+[PVZ:SNOW_PEA_TOOLTIP]
+Shoots frozen peas that damage and slow the enemy
+
+[PVZ:CHOMPER]
+Chomper
+
+[PVZ:CHOMPER_TOOLTIP]
+Devours a zombie whole, but is vulnerable while chewing
+
+[PVZ:PUFF_SHROOM]
+Puff-shroom
+
+[PVZ:PUFF_SHROOM_TOOLTIP]
+Shoots short-ranged spores at the enemy
+
+[PVZ:SUN_SHROOM]
+Sun-shroom
+
+[PVZ:SUN_SHROOM_TOOLTIP]
+Gives small sun at first and normal sun later
+
+[PVZ:FUME_SHROOM]
+Fume-shroom
+
+[PVZ:FUME_SHROOM_TOOLTIP]
+Shoots fumes that can pass through screen doors
+
+[PVZ:GRAVE_BUSTER]
+Grave Buster
+
+[PVZ:GRAVE_BUSTER_TOOLTIP]
+Plant it on a grave to remove the grave
+
+[PVZ:HYPNO_SHROOM]
+Hypno-shroom
+
+[PVZ:HYPNO_SHROOM_TOOLTIP]
+Makes a zombie fight for you
+
+[PVZ:SCAREDY_SHROOM]
+Scaredy-shroom
+
+[PVZ:SCAREDY_SHROOM_TOOLTIP]
+Long-ranged shooter that hides when enemies get near it
+
+[PVZ:ICE_SHROOM]
+Ice-shroom
+
+[PVZ:ICE_SHROOM_TOOLTIP]
+Temporarily immobilizes all zombies on the screen
+
+[PVZ:DOOM_SHROOM]
+Doom-shroom
+
+[PVZ:DOOM_SHROOM_TOOLTIP]
+Destroys a large area, leaving a crater in its wake
+
+[PVZ:LILY_PAD]
+Lily Pad
+
+[PVZ:LILY_PAD_TOOLTIP]
+Lets you plant non-aquatic plants on top of it
+
+[PVZ:SQUASH]
+Squash
+
+[PVZ:SQUASH_TOOLTIP]
+Squashes zombies
+
+[PVZ:THREEPEATER]
+Threepeater
+
+[PVZ:THREEPEATER_TOOLTIP]
+Shoots peas in three lanes
+
+[PVZ:TANGLE_KELP]
+Tangle Kelp
+
+[PVZ:TANGLE_KELP_TOOLTIP]
+Aquatic plant that pulls a zombie underwater
+
+[PVZ:JALAPENO]
+Jalapeno
+
+[PVZ:JALAPENO_TOOLTIP]
+Destroys an entire lane of zombies
+
+[PVZ:SPIKEWEED]
+Spikeweed
+
+[PVZ:SPIKEWEED_TOOLTIP]
+Pops tires and hurts zombies that step on it
+
+[PVZ:TORCHWOOD]
+Torchwood
+
+[PVZ:TORCHWOOD_TOOLTIP]
+Peas that pass through it turn into fireballs
+
+[PVZ:TALL_NUT]
+Tall-nut
+
+[PVZ:TALL_NUT_TOOLTIP]
+Heavy-duty wall that can't be vaulted over
+
+[PVZ:SEA_SHROOM]
+Sea-shroom
+
+[PVZ:SEA_SHROOM_TOOLTIP]
+Aquatic plant that shoots short-ranged spores
+
+[PVZ:PLANTERN]
+Plantern
+
+[PVZ:PLANTERN_TOOLTIP]
+Lights up an area, letting you see through fog
+
+[PVZ:CACTUS]
+Cactus
+
+[PVZ:CACTUS_TOOLTIP]
+Shoots spikes that can pop balloons
+
+[PVZ:BLOVER]
+Blover
+
+[PVZ:BLOVER_TOOLTIP]
+Blows away all balloon zombies and fog
+
+[PVZ:SPLIT_PEA]
+Split Pea
+
+[PVZ:SPLIT_PEA_TOOLTIP]
+Shoots peas forward and backwards
+
+[PVZ:STARFRUIT]
+Starfruit
+
+[PVZ:STARFRUIT_TOOLTIP]
+Shoots stars in 5 directions
+
+[PVZ:PUMPKIN]
+Pumpkin
+
+[PVZ:PUMPKIN_TOOLTIP]
+Protects plants that are within its shell
+
+[PVZ:MAGNET_SHROOM]
+Magnet-shroom
+
+[PVZ:MAGNET_SHROOM_TOOLTIP]
+Removes helmets and other metal objects from zombies
+
+[PVZ:CABBAGE_PULT]
+Cabbage-pult
+
+[PVZ:CABBAGE_PULT_TOOLTIP]
+Hurls cabbages at the enemy
+
+[PVZ:FLOWER_POT]
+Flower Pot
+
+[PVZ:FLOWER_POT_TOOLTIP]
+Lets you plant on the roof
+
+[PVZ:KERNEL_PULT]
+Kernel-pult
+
+[PVZ:KERNEL_PULT_TOOLTIP]
+Flings corn kernels and butter at zombies
+
+[PVZ:GARLIC]
+Garlic
+
+[PVZ:GARLIC_TOOLTIP]
+Diverts zombies into other lanes
+
+[PVZ:UMBRELLA_LEAF]
+Umbrella Leaf
+
+[PVZ:UMBRELLA_LEAF_TOOLTIP]
+Protects nearby plants from bungees and catapults
+
+[PVZ:MARIGOLD]
+Marigold
+
+[PVZ:MARIGOLD_TOOLTIP]
+Gives you silver and gold coins
+
+[PVZ:MELON_PULT]
+Melon-pult
+
+[PVZ:MELON_PULT_TOOLTIP]
+Does heavy damage to groups of zombies
+
+[PVZ:GATLING_PEA]
+Gatling Pea
+
+[PVZ:GATLING_PEA_TOOLTIP]
+Shoots four peas at a time
+(requires repeater)
+
+[PVZ:TWIN_SUNFLOWER]
+Twin Sunflower
+
+[PVZ:TWIN_SUNFLOWER_TOOLTIP]
+Gives twice as much sun as a sunflower
+(requires sunflower)
+
+[PVZ:GLOOM_SHROOM]
+Gloom-shroom
+
+[PVZ:GLOOM_SHROOM_TOOLTIP]
+Releases heavy fumes in an area around itself
+(requires fume-shroom)
+
+[PVZ:CATTAIL]
+Cattail
+
+[PVZ:CATTAIL_TOOLTIP]
+Attacks any lane and shoots down balloon zombies
+(requires lily pad)
+
+[PVZ:WINTER_MELON]
+Winter Melon
+
+[PVZ:WINTER_MELON_TOOLTIP]
+Does heavy damage and slows groups of zombies
+(requires melon-pult)
+
+[PVZ:GOLD_MAGNET]
+Gold Magnet
+
+[PVZ:GOLD_MAGNET_TOOLTIP]
+Collects coins and diamonds for you
+(requires magnet-shroom)
+
+[PVZ:SPIKEROCK]
+Spikerock
+
+[PVZ:SPIKEROCK_TOOLTIP]
+Pops multiple tires and damages zombies that walk over it
+(requires spikeweed)
+
+[PVZ:COB_CANNON]
+Cob Cannon
+
+[PVZ:COB_CANNON_TOOLTIP]
+Click to launch deadly cobs of corn
+(requires 2 kernel-pults)
+
+[PVZ:IMITATER]
+Imitater
+
+[PVZ:IMITATER_TOOLTIP]
+Lets you have two of the same plant
+
+[PVZ:COFFEE_BEAN]
+Coffee Bean
+
+[PVZ:COFFEE_BEAN_TOOLTIP]
+Plant it on a mushroom to wake it up
+
+[PVZ:EXPLODE_O_NUT]
+Explode-o-nut
+
+[PVZ:EXPLODE_O_NUT_TOOLTIP]
+Explodes on contact
+
+[PVZ:GIANT_WALL_NUT]
+Giant Wall-nut
+
+[PVZ:SPROUT]
+Sprout
+
+[PVZ:MARIGOLD_SPROUT]
+Marigold Sprout
+
+
+[PVZ:PEASHOOTER_DESCRIPTION_HEADER]
+Peashooters are your first line of defense. They shoot peas at attacking zombies.
+
+[PVZ:PEASHOOTER_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} normal
+{SHORTLINE}
+{FLAVOR}How can a single plant grow and shoot so many peas so quickly? Peashooter says, 
+"Hard work, commitment, and a healthy, well-balanced breakfast of sunlight and high-fiber 
+carbon dioxide make it all possible."
+
+[PVZ:SUNFLOWER_DESCRIPTION_HEADER]
+Sunflowers are essential for you to produce extra sun. Try planting as many as you can!
+
+[PVZ:SUNFLOWER_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Sun production:{STAT} normal
+{SHORTLINE}
+{FLAVOR}Sunflower can't resist bouncing to the beat. Which beat is that? Why, the 
+life-giving jazzy rhythm of the Earth itself, thumping at a frequency only Sunflower can hear.
+
+[PVZ:WALL_NUT_DESCRIPTION_HEADER]
+Wall-nuts have hard shells which you can use to protect your other plants.
+
+[PVZ:WALL_NUT_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Toughness:{STAT} high
+{SHORTLINE}
+{FLAVOR}"People wonder how I feel about getting constantly chewed on by zombies," says Wall-nut. 
+"What they don't realize is that with my limited senses all I can feel is a kind of tingling, like a relaxing back rub."
+
+[PVZ:CHERRY_BOMB_DESCRIPTION_HEADER]
+Cherry Bombs can blow up all zombies in an area. They have a short fuse so plant them near zombies.
+
+[PVZ:CHERRY_BOMB_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} massive
+{KEYWORD}Range:{STAT} all zombies in a medium area
+{KEYWORD}Usage:{STAT} single use, instant
+{SHORTLINE}
+{FLAVOR}"I wanna explode," says Cherry #1. "No, let's detonate instead!" says 
+his brother, Cherry #2. After intense consultation they agree to explodonate.
+
+[PVZ:POTATO_MINE_DESCRIPTION_HEADER]
+Potato Mines pack a powerful punch, but they need a while to arm themselves. You should plant them ahead of zombies. They will explode on contact.
+
+[PVZ:POTATO_MINE_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} massive
+{KEYWORD}Range:{STAT} all zombies in a small area
+{KEYWORD}Usage:{STAT} single use, delayed activation
+{SHORTLINE}
+{FLAVOR}Some folks say Potato Mine is lazy, that he leaves everything to the last 
+minute. Potato Mine says nothing. He's too busy thinking about his investment strategy.
+
+[PVZ:REPEATER_DESCRIPTION_HEADER]
+Repeaters fire two peas at a time.
+
+[PVZ:REPEATER_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} normal (for each pea)
+{KEYWORD}Firing speed:{STAT} 2x
+{SHORTLINE}
+{FLAVOR}Repeater is fierce. He's from the streets. He doesn't take attitude from anybody, 
+plant or zombie, and he shoots peas to keep people at a distance. Secretly, though, Repeater yearns for love.
+
+[PVZ:SNOW_PEA_DESCRIPTION_HEADER]
+Snow Peas shoot frozen peas that damage and slow the enemy.
+
+[PVZ:SNOW_PEA_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} normal, slows zombies
+{SHORTLINE}
+{FLAVOR}Folks often tell Snow Pea how "cool" he is, or exhort him to "chill out." They 
+tell him to "stay frosty." Snow Pea just rolls his eyes. He's heard 'em all.
+
+[PVZ:CHOMPER_DESCRIPTION_HEADER]
+Chompers can devour a zombie whole, but they are vulnerable while chewing.
+
+[PVZ:CHOMPER_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} massive
+{KEYWORD}Range:{STAT} very short
+{KEYWORD}Special:{STAT} long delay between chomps
+{SHORTLINE}
+{FLAVOR}Chomper almost got a gig doing stunts for The Little Shop of Horrors but it fell 
+through when his agent demanded too much on the front end. Chomper's not resentful, 
+though. He says it's just part of the business.
+
+[PVZ:PUFF_SHROOM_DESCRIPTION_HEADER]
+Puff-shrooms are cheap, but can only fire a short distance.
+
+[PVZ:PUFF_SHROOM_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} normal
+{KEYWORD}Range:{STAT} short
+{NOCTURNAL}Sleeps during the day
+{SHORTLINE}
+{FLAVOR}"I only recently became aware of the existence of zombies," says Puff-shroom. "Like many fungi, 
+I'd just assumed they were fairy tales or movie monsters. This whole experience has been a huge eye-opener for me."
+
+[PVZ:SUN_SHROOM_DESCRIPTION_HEADER]
+Sun-shrooms give small sun at first and normal sun later.
+
+[PVZ:SUN_SHROOM_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Sun production:{STAT} low, then normal
+{NOCTURNAL}Sleeps during the day
+{SHORTLINE}
+{FLAVOR}Sun-shroom hates sun. He hates it so much that when it builds up in his system, 
+he spits it out as fast as he can. He just won't abide it. To him, sun is crass.
+
+[PVZ:FUME_SHROOM_DESCRIPTION_HEADER]
+Fume-shrooms shoot fumes that can pass through screen doors.
+
+[PVZ:FUME_SHROOM_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} normal, penetrates screen doors
+{KEYWORD}Range:{STAT} all zombies in the fume cloud
+{NOCTURNAL}Sleeps during the day
+{SHORTLINE}
+{FLAVOR}"I was in a dead-end job producing yeast spores for a bakery," says Fume-shroom. 
+"Then Puff-shroom, bless 'im, told me about this great opportunity blasting zombies. Now I really feel like I'm making a difference."
+
+[PVZ:GRAVE_BUSTER_DESCRIPTION_HEADER]
+Plant Grave Busters on graves to remove the graves.
+
+[PVZ:GRAVE_BUSTER_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Usage:{STAT} single use, must be planted on graves
+{KEYWORD}Special:{STAT} removes graves
+{SHORTLINE}
+{FLAVOR}Despite Grave Buster's fearsome appearance, he wants everyone to know that he loves 
+kittens and spends his off hours volunteering at a local zombie rehabilitation center. "It's just the right thing to do," he says.
+
+[PVZ:HYPNO_SHROOM_DESCRIPTION_HEADER]
+When eaten, Hypno-shrooms will make a zombie turn around and fight for you.
+
+[PVZ:HYPNO_SHROOM_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Usage:{STAT} single use, on contact
+{KEYWORD}Special:{STAT} makes a zombie fight for you
+{NOCTURNAL}Sleeps during the day
+{SHORTLINE}
+{FLAVOR}"Zombies are our friends," asserts Hypno-shroom. "They're badly misunderstood creatures 
+who play a valuable role in our ecology. We can and should do more to bring them round to our way of thinking."
+
+[PVZ:SCAREDY_SHROOM_DESCRIPTION_HEADER]
+Scaredy-shrooms are long-ranged shooters that hide when enemies get near them.
+
+[PVZ:SCAREDY_SHROOM_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} normal
+{KEYWORD}Special:{STAT} stops shooting when enemy is close
+{NOCTURNAL}Sleeps during the day
+{SHORTLINE}
+{FLAVOR}"Who's there?" whispers Scaredy-shroom, voice barely audible. "Go away. I don't want to see anybody. Unless it's the man from the circus."
+
+[PVZ:ICE_SHROOM_DESCRIPTION_HEADER]
+Ice-shrooms temporarily immobilize all zombies on the screen.
+
+[PVZ:ICE_SHROOM_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} very light, immobilizes zombies
+{KEYWORD}Range:{STAT} all zombies on the screen
+{KEYWORD}Usage:{STAT} single use, instant
+{NOCTURNAL}Sleeps during the day
+{SHORTLINE}
+{FLAVOR}Ice-shroom frowns, not because he's unhappy or because he disapproves, but because of a childhood injury that left his facial nerves paralyzed.
+
+[PVZ:DOOM_SHROOM_DESCRIPTION_HEADER]
+Doom-shrooms destroy everything in a large area and leave a crater that can't be planted on.
+
+[PVZ:DOOM_SHROOM_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} massive
+{KEYWORD}Range:{STAT} all zombies in a huge area
+{KEYWORD}Usage:{STAT} single use, instant
+{KEYWORD}Special:{STAT} leaves a crater
+{NOCTURNAL}Sleeps during the day
+{SHORTLINE}
+{FLAVOR}"You're lucky I'm on your side," says Doom-shroom. "I could destroy everything you hold dear. It wouldn't be hard."
+
+[PVZ:LILY_PAD_DESCRIPTION_HEADER]
+Lily pads let you plant non-aquatic plants on top of them.
+
+[PVZ:LILY_PAD_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Special:{STAT} non-aquatic plants can be planted on top of it
+{AQUATIC}Must be planted in water
+{SHORTLINE}
+{FLAVOR}Lily Pad never complains. Lily Pad never wants to know what's going on. Put a plant on top of Lily Pad, 
+he won't say a thing. Does he have startling opinions or shocking secrets? Nobody knows. Lily Pad keeps it all inside.
+
+[PVZ:SQUASH_DESCRIPTION_HEADER]
+Squashes will smash the first zombie that gets close to it.
+
+[PVZ:SQUASH_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} massive
+{KEYWORD}Range:{STAT} short range, hits all zombies that it lands on
+{KEYWORD}Usage:{STAT} single use
+{SHORTLINE}
+{FLAVOR}"I'm ready!" yells Squash. "Let's do it! Put me in! There's nobody better! I'm your guy! C'mon! Whaddya waiting for? I need this!"
+
+[PVZ:THREEPEATER_DESCRIPTION_HEADER]
+Threepeaters shoot peas in three lanes.
+
+[PVZ:THREEPEATER_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} normal (for each pea)
+{KEYWORD}Range:{STAT} three lanes
+{SHORTLINE}
+{FLAVOR}Threepeater likes reading, backgammon and long periods of immobility in the park. Threepeater enjoys 
+going to shows, particularly modern jazz. "I'm just looking for that special someone," he says. Threepeater's favorite number is 5.
+
+[PVZ:TANGLE_KELP_DESCRIPTION_HEADER]
+Tangle Kelp are aquatic plants that pull the first zombie that nears them underwater.
+
+[PVZ:TANGLE_KELP_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} massive
+{KEYWORD}Usage:{STAT} single use, on contact
+{AQUATIC}Must be planted in water
+{SHORTLINE}
+{FLAVOR}"I'm totally invisible," Tangle Kelp thinks to himself. "I'll hide here just below the surface and 
+nobody will see me." His friends tell him they can see him perfectly well, but he'll never change.
+
+[PVZ:JALAPENO_DESCRIPTION_HEADER]
+Jalapenos destroy an entire lane of zombies.
+
+[PVZ:JALAPENO_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} massive
+{KEYWORD}Range:{STAT} all zombies in a lane
+{KEYWORD}Usage:{STAT} single use, instant
+{SHORTLINE}
+{FLAVOR}"NNNNNGGGGGG!!!!!!!!" Jalapeno says. He's not going to explode, not this time. But soon. Oh, so soon. 
+It's close. He knows it, he can feel it, his whole life's been leading up to this moment.
+
+[PVZ:SPIKEWEED_DESCRIPTION_HEADER]
+Spikeweeds pop tires and hurt any zombies that step on them.
+
+[PVZ:SPIKEWEED_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} normal
+{KEYWORD}Range:{STAT} all zombies that walk over it
+{KEYWORD}Special:{STAT} can't be eaten by zombies
+{SHORTLINE}
+{FLAVOR}Hockey is Spikeweed's obsession. He's got box seat season tickets. He keeps close track of his favorite 
+players. And he consistently cleans up in the office hockey pool. Just one problem: he's terrified of pucks.
+
+[PVZ:TORCHWOOD_DESCRIPTION_HEADER]
+Torchwoods turn peas that pass through them into fireballs that deal twice as much damage.
+
+[PVZ:TORCHWOOD_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Special:{STAT} doubles the damage of peas that pass through it.  Fireballs deal damage to nearby zombies on impact
+{SHORTLINE}
+{FLAVOR}Everybody likes and respects Torchwood. They like him for his integrity, for his steadfast friendship, 
+for his ability to greatly maximize pea damage. But Torchwood has a secret: he can't read.
+
+[PVZ:TALL_NUT_DESCRIPTION_HEADER]
+Tall-nuts are heavy-duty wall plants that can't be vaulted over.
+
+[PVZ:TALL_NUT_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Toughness:{STAT} very high
+{KEYWORD}Special:{STAT} can't be vaulted or jumped over
+{SHORTLINE}
+{FLAVOR}People wonder if there's a rivalry between Wall-nut and Tall-nut. Tall-nut laughs a rich, baritone 
+laugh. "How could there be anything between us? We are brothers. If you knew what Wall-nut has done for me..." 
+Tall-nut's voice trails off and he smiles knowingly.
+
+[PVZ:SEA_SHROOM_DESCRIPTION_HEADER]
+Sea-shrooms are aquatic plants that shoot short ranged spores.
+
+[PVZ:SEA_SHROOM_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} normal
+{KEYWORD}Range:{STAT} short
+{AQUATIC}Must be planted in water
+{NOCTURNAL}Sleeps during the day
+{SHORTLINE}
+{FLAVOR}Sea-shroom has never seen the sea. It's in his name, he's heard loads about it, but he's just never found the time. One day, though, it'll go down.
+
+[PVZ:PLANTERN_DESCRIPTION_HEADER]
+Planterns light up an area, letting you see through fog.
+
+[PVZ:PLANTERN_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Range:{STAT} one lane
+{KEYWORD}Special:{STAT} lets you see through fog
+{SHORTLINE}
+{FLAVOR}Plantern defies science. He just does. Other plants eat light and excrete oxygen; Plantern eats 
+darkness and excretes light. Plantern's cagey about how he does it. "I'm not gonna say 'sorcery,' I 
+wouldn't use the term 'dark forces,' I just... I think I've said enough."
+
+[PVZ:CACTUS_DESCRIPTION_HEADER]
+Cactuses shoot spikes that can hit both ground and air targets.
+
+[PVZ:CACTUS_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} normal
+{KEYWORD}Range:{STAT} ground and air
+{SHORTLINE}
+{FLAVOR}She's prickly, sure, but Cactus's spikes belie a spongy heart filled with love and goodwill. 
+She just wants to hug and be hugged. Most folks can't hang with that, but Cactus doesn't mind. She's 
+been seeing an armadillo for a while and it really seems to be working out.
+
+[PVZ:BLOVER_DESCRIPTION_HEADER]
+Blovers blow away all balloon zombies and fog.
+
+[PVZ:BLOVER_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Usage:{STAT} single use, instant
+{KEYWORD}Special:{STAT} blows away all balloon zombies
+{SHORTLINE}
+{FLAVOR}When Blover was five he got a shiny new birthday cake. Blover made his wish, huffed and puffed, 
+but was able to extinguish only 60% of the candles. Instead of giving up, though, he's used that early 
+defeat as a catalyst to push himself harder ever since.
+
+[PVZ:SPLIT_PEA_DESCRIPTION_HEADER]
+Split Peas shoot peas forward and backwards.
+
+[PVZ:SPLIT_PEA_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} normal
+{KEYWORD}Range:{STAT} forward and backwards
+{KEYWORD}Firing Speed:{STAT} 1x forward, 2x backwards
+{SHORTLINE}
+{FLAVOR}"Yeah, I'm a Gemini," says Split Pea. "I know, big surprise. But having two heads --or really, 
+one head with a large head-like growth on the back-- pays off big in my line of work."
+
+[PVZ:STARFRUIT_DESCRIPTION_HEADER]
+Starfruits shoot stars in 5 directions.
+
+[PVZ:STARFRUIT_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} normal
+{KEYWORD}Range:{STAT} 5 directions
+{SHORTLINE}
+{FLAVOR}"Aw, man," says Starfruit. "I went to the dentist the other day and he said I have four cavities. 
+I've got --count it-- ONE tooth! Four cavities in one tooth? How does this happen?"
+
+[PVZ:PUMPKIN_DESCRIPTION_HEADER]
+Pumpkins protect plants that are within their shells.
+
+[PVZ:PUMPKIN_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Toughness:{STAT} high
+{KEYWORD}Special:{STAT} can be planted over another plant
+{SHORTLINE}
+{FLAVOR}Pumpkin hasn't heard from his cousin Renfield lately. Apparently Renfield's a big star, some kind 
+of... what was it... sports hero? Peggle Master? Pumpkin doesn't really get it. He just does his job.
+
+[PVZ:MAGNET_SHROOM_DESCRIPTION_HEADER]
+Magnet-shrooms remove helmets and other metal objects from zombies.
+
+[PVZ:MAGNET_SHROOM_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Range:{STAT} nearby zombies
+{KEYWORD}Special:{STAT} removes metal objects from zombies
+{NOCTURNAL}Sleeps during the day
+{SHORTLINE}
+{FLAVOR}Magnetism is a powerful force. Very powerful. Sometimes it scares Magnet-shroom a little. He's 
+not sure if he can handle that kind of responsibility.
+
+[PVZ:CABBAGE_PULT_DESCRIPTION_HEADER]
+Cabbage-pults hurl cabbages at the enemy.
+
+[PVZ:CABBAGE_PULT_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} normal
+{KEYWORD}Range:{STAT} lobbed
+{SHORTLINE}
+{FLAVOR}Cabbage-pult is okay with launching cabbages at zombies. It's what he's paid for, after all, and 
+he's good at it. He just doesn't understand how the zombies get up on the roof in the first place.
+
+[PVZ:FLOWER_POT_DESCRIPTION_HEADER]
+Flower Pots let you plant on the roof.
+
+[PVZ:FLOWER_POT_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Special:{STAT} allows you to plant on the roof
+{SHORTLINE}
+{FLAVOR}"I'm a pot for planting. Yet I'm also a plant. HAS YOUR MIND EXPLODED YET?"
+
+[PVZ:KERNEL_PULT_DESCRIPTION_HEADER]
+Kernel-pults fling corn kernels and butter at zombies.
+
+[PVZ:KERNEL_PULT_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} light (kernel), normal (butter)
+{KEYWORD}Range:{STAT} lobbed
+{KEYWORD}Special:{STAT} butter immobilizes zombies
+{SHORTLINE}
+{FLAVOR}Kernel-Pult is the eldest of the Pult brothers. Of the three of them, Kernel is the only one 
+who consistently remembers the others' birthdays. He bugs them about it a little, too.
+
+[PVZ:COFFEE_BEAN_DESCRIPTION_HEADER]
+Use Coffee Beans to wake up sleeping mushrooms.
+
+[PVZ:COFFEE_BEAN_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Usage:{STAT} single use, instant
+{KEYWORD}Special:{STAT} can be planted over another plant, wakes up mushrooms
+{SHORTLINE}
+{FLAVOR}"Hey, guys, hey!" says Coffee Bean. "Hey! What's up? Who's that? Hey! Didja see that thing? 
+What thing? Whoa! Lions!" Yep, Coffee Bean sure does get excited.
+
+[PVZ:GARLIC_DESCRIPTION_HEADER]
+Garlic diverts zombies into other lanes.
+
+[PVZ:GARLIC_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Usage:{STAT} on contact
+{KEYWORD}Special:{STAT} diverts zombies into other lanes
+{SHORTLINE}
+{FLAVOR}Lane-diversion isn't just Garlic's profession. It's his passion. He carries an advanced Doctorate 
+in Redirection from the Brussels University. He'll talk all day about lane vectors and repulse arrays. 
+He even pushes things into alternate avenues at home. Somehow his wife puts up with it.
+
+[PVZ:UMBRELLA_LEAF_DESCRIPTION_HEADER]
+Umbrella Leaves protect nearby plants from bungees and catapults.
+
+[PVZ:UMBRELLA_LEAF_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Special:{STAT} protects adjacent plants from bungees and catapults
+{SHORTLINE}
+{FLAVOR}"SPROING!" says Umbrella Leaf. "Didja like that? I can do it again. SPROING! Woo! That's me 
+popping up to protect stuff around me. Yeah. Just like that. EXACTLY like that. Believe it."
+
+[PVZ:MARIGOLD_DESCRIPTION_HEADER]
+Marigolds give you silver and gold coins.
+
+[PVZ:MARIGOLD_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Special:{STAT} gives coins
+{SHORTLINE}
+{FLAVOR}Marigold spends a lot of time deciding whether to spit out a silver coin or a gold one. She 
+thinks about it, weighs the angles. She does solid research and keeps up with current publications. 
+That's how winners stay ahead.
+
+[PVZ:MELON_PULT_DESCRIPTION_HEADER]
+Melon-pults do heavy damage to groups of zombies.
+
+[PVZ:MELON_PULT_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} heavy
+{KEYWORD}Range:{STAT} lobbed
+{KEYWORD}Special:{STAT} melons damage nearby enemies on impact
+{SHORTLINE}
+{FLAVOR}There's no false modesty with Melon-pult. "Sun-for-damage, I deliver the biggest punch on 
+the lawn," he says. "I'm not bragging. Run the numbers. You'll see."
+
+[PVZ:GATLING_PEA_DESCRIPTION_HEADER]
+Gatling Peas shoot four peas at a time.
+
+[PVZ:GATLING_PEA_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} normal (for each pea)
+{KEYWORD}Firing Speed:{STAT} 4x
+{KEYWORD}Must be planted on repeaters
+{SHORTLINE}
+{FLAVOR}Gatling Pea's parents were concerned when he announced his intention to join the military. 
+"But honey, it's so dangerous!" they said in unison. Gatling Pea refused to budge. "Life is dangerous," 
+he replied, eyes glinting with steely conviction.
+
+[PVZ:TWIN_SUNFLOWER_DESCRIPTION_HEADER]
+Twin Sunflowers give twice as much sun as a normal sunflower.
+
+[PVZ:TWIN_SUNFLOWER_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Sun production:{STAT} double
+{KEYWORD}Must be planted on sunflowers
+{SHORTLINE}
+{FLAVOR}It was a crazed night of forbidden science that brought Twin Sunflower into existence. Thunder 
+crashed overhead, strange lights flickered, even the very roaring wind seemed to hiss its angry denial. 
+But to no avail. Twin Sunflower was alive, ALIVE!
+
+[PVZ:GLOOM_SHROOM_DESCRIPTION_HEADER]
+Gloom-shrooms release heavy fumes in an area around themselves.
+
+[PVZ:GLOOM_SHROOM_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Must be planted on fume-shrooms
+{SHORTLINE}
+{FLAVOR}"I've always enjoyed releasing heavy fumes," says Gloom Shroom. "I know a lot of people aren't 
+cool with that. They say it's rude or that it smells bad. All I can say is, would you rather have your 
+brain eaten by zombies?"
+
+[PVZ:CATTAIL_DESCRIPTION_HEADER]
+Cattails can attack any lane and shoot down balloon zombies too.
+
+[PVZ:CATTAIL_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Must be planted on lily pads
+{SHORTLINE}
+{FLAVOR}"Woof!" says Cattail. "Woof woof woof! Does this confuse you? Do you expect me to say 'Meow' 
+like a cat just because the word 'cat' is in my name and I also look like a cat? That's not how things 
+work around here. I refuse to be pigeonholed."
+
+[PVZ:WINTER_MELON_DESCRIPTION_HEADER]
+Winter Melons do heavy damage and slow groups of zombies.
+
+[PVZ:WINTER_MELON_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Damage:{STAT} very heavy
+{KEYWORD}Range:{STAT} lobbed
+{KEYWORD}Firing Speed:{STAT} 1/2x
+{KEYWORD}Special:{STAT} melons damage and freeze nearby enemies on impact
+{KEYWORD}Must be planted on melon-pults
+{SHORTLINE}
+{FLAVOR}Winter Melon tries to calm his nerves. He hears the zombies approach. Will he make it? Will anyone make it?
+
+[PVZ:GOLD_MAGNET_DESCRIPTION_HEADER]
+Gold Magnets collect coins and diamonds for you.
+
+[PVZ:GOLD_MAGNET_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Must be planted on magnet-shrooms
+{SHORTLINE}
+{FLAVOR}"How did I end up here?" asks Gold Magnet. "I was on the fast track --corner office, full 
+benefits, stock options. I was gonna be Vice President of Midwestern Operations. Now I'm here, on this 
+lawn, in serious danger of being eaten to death. Ooh! A coin!"
+
+[PVZ:COB_CANNON_DESCRIPTION_HEADER]
+Click on the Cob Cannon to launch deadly cobs of corn.
+
+[PVZ:COB_CANNON_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Must be planted on 2 side-by-side kernel-pults
+{SHORTLINE}
+{FLAVOR}What's the deal with Cob Cannon, anyway?  He went to Harvard. He practices law in a prestigious 
+New York firm. He can explode whole areas of zombies with a single corn-launch. All this is common knowledge. 
+But deep inside, what really makes him tick?
+
+[PVZ:IMITATER_DESCRIPTION_HEADER]
+Imitaters let you use two of the same plant during a level!
+
+[PVZ:IMITATER_DESCRIPTION]
+{SHORTLINE}
+{FLAVOR}"I remember the Zombie Wars back in '76," says Imitater in a raspy, old-man's voice. "Back then, 
+we didn't have all these fancy peashooters and jalapenos. All we had was guts. Guts and a spoon."
+
+[PVZ:SPIKEROCK_DESCRIPTION_HEADER]
+Spikerocks pop multiple tires and damage zombies that walk over it.
+
+[PVZ:SPIKEROCK_DESCRIPTION]
+{SHORTLINE}
+{KEYWORD}Must be planted on spikeweeds
+{SHORTLINE}
+{FLAVOR}Spikerock just got back from a trip to Europe. He had a great time, met some wonderful people, 
+really broadened his horizons. He never knew they made museums so big, or put so many paintings in them. 
+That was a big surprise for him.

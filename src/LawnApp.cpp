@@ -1768,6 +1768,7 @@ void LawnApp::LoadingThreadProc()
 	TodStringListLoad({"PVZ", "properties/LawnStrings.txt"});
 	TodStringListLoad({"PVZ", "properties/ZombatarTOS.txt"});
 	TodStringListLoad({"PVZ", "properties/FrameworkStrings.txt"});
+	TodStringListLoad({"PVZ", "properties/BloomStrings.txt"});
 
 	for (const Mod &aMod : mLoadedMods)
 	{
