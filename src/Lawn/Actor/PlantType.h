@@ -10,18 +10,19 @@ class LawnApp;
 class BLOOM_API PlantType final : public BloomType
 {
   public:
-	static constexpr size_t INSTANCE_MAX_SIZE = 352;
+	static constexpr size_t INSTANCE_MAX_SIZE = 360;
 	struct Attributes
 	{
 		int mWidth = 80;
 		int mHeight = 80;
 		int mMaxHealth = 300;
+		int mLaunchRate = 150;
 	};
 	PatchHolder<PlantType> *mPatchHolder = nullptr;
 	Attributes mAttributeBaseValues;
 	Attributes mAttributes;
-	int mCost = 100;
-	int mRechargeTime = 750;
+	int mSunCost = 100;
+	int mRefreshTime = 750;
 	ReanimationType mBaseReanim = ReanimationType::REANIM_NONE;
 	PlantType(
 		const std::string &theModName,

@@ -29,61 +29,61 @@
 #include "../../BloomLib/Event.h"
 #include "../../BloomLib/BoundedSync.h"
 
-PlantDefinition gPlantDefs[SeedType::NUM_SEED_TYPES] = { 
-    { SeedType::SEED_PEASHOOTER,        nullptr, ReanimationType::REANIM_PEASHOOTER,    0,  100,    750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "PEASHOOTER" },
-    { SeedType::SEED_SUNFLOWER,         nullptr, ReanimationType::REANIM_SUNFLOWER,     1,  50,     750,    PlantSubClass::SUBCLASS_NORMAL,     2500,   "SUNFLOWER" },
-    { SeedType::SEED_CHERRYBOMB,        nullptr, ReanimationType::REANIM_CHERRYBOMB,    3,  150,    5000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "CHERRY_BOMB" },
-    { SeedType::SEED_WALLNUT,           nullptr, ReanimationType::REANIM_WALLNUT,       2,  50,     3000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "WALL_NUT" },
-    { SeedType::SEED_POTATOMINE,        nullptr, ReanimationType::REANIM_POTATOMINE,    37, 25,     3000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "POTATO_MINE" },
-    { SeedType::SEED_SNOWPEA,           nullptr, ReanimationType::REANIM_SNOWPEA,       4,  175,    750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "SNOW_PEA" },
-    { SeedType::SEED_CHOMPER,           nullptr, ReanimationType::REANIM_CHOMPER,       31, 150,    750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "CHOMPER" },
-    { SeedType::SEED_REPEATER,          nullptr, ReanimationType::REANIM_REPEATER,      5,  200,    750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "REPEATER" },
-    { SeedType::SEED_PUFFSHROOM,        nullptr, ReanimationType::REANIM_PUFFSHROOM,    6,  0,      750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "PUFF_SHROOM" },
-    { SeedType::SEED_SUNSHROOM,         nullptr, ReanimationType::REANIM_SUNSHROOM,     7,  25,     750,    PlantSubClass::SUBCLASS_NORMAL,     2500,   "SUN_SHROOM" },
-    { SeedType::SEED_FUMESHROOM,        nullptr, ReanimationType::REANIM_FUMESHROOM,    9,  75,     750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "FUME_SHROOM" },
-    { SeedType::SEED_GRAVEBUSTER,       nullptr, ReanimationType::REANIM_GRAVE_BUSTER,  40, 75,     750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "GRAVE_BUSTER" },
-    { SeedType::SEED_HYPNOSHROOM,       nullptr, ReanimationType::REANIM_HYPNOSHROOM,   10, 75,     3000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "HYPNO_SHROOM" },
-    { SeedType::SEED_SCAREDYSHROOM,     nullptr, ReanimationType::REANIM_SCRAREYSHROOM, 33, 25,     750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "SCAREDY_SHROOM" },
-    { SeedType::SEED_ICESHROOM,         nullptr, ReanimationType::REANIM_ICESHROOM,     36, 75,     5000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "ICE_SHROOM" },
-    { SeedType::SEED_DOOMSHROOM,        nullptr, ReanimationType::REANIM_DOOMSHROOM,    20, 125,    5000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "DOOM_SHROOM" },
-    { SeedType::SEED_LILYPAD,           nullptr, ReanimationType::REANIM_LILYPAD,       19, 25,     750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "LILY_PAD" },
-    { SeedType::SEED_SQUASH,            nullptr, ReanimationType::REANIM_SQUASH,        21, 50,     3000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "SQUASH" },
-    { SeedType::SEED_THREEPEATER,       nullptr, ReanimationType::REANIM_THREEPEATER,   12, 325,    750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "THREEPEATER" },
-    { SeedType::SEED_TANGLEKELP,        nullptr, ReanimationType::REANIM_TANGLEKELP,    17, 25,     3000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "TANGLE_KELP" },
-    { SeedType::SEED_JALAPENO,          nullptr, ReanimationType::REANIM_JALAPENO,      11, 125,    5000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "JALAPENO" },
-    { SeedType::SEED_SPIKEWEED,         nullptr, ReanimationType::REANIM_SPIKEWEED,     22, 100,    750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "SPIKEWEED" },
-    { SeedType::SEED_TORCHWOOD,         nullptr, ReanimationType::REANIM_TORCHWOOD,     29, 175,    750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "TORCHWOOD" },
-    { SeedType::SEED_TALLNUT,           nullptr, ReanimationType::REANIM_TALLNUT,       28, 125,    3000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "TALL_NUT" },
-    { SeedType::SEED_SEASHROOM,         nullptr, ReanimationType::REANIM_SEASHROOM,     39, 0,      3000,   PlantSubClass::SUBCLASS_SHOOTER,    150,    "SEA_SHROOM" },
-    { SeedType::SEED_PLANTERN,          nullptr, ReanimationType::REANIM_PLANTERN,      38, 25,     3000,   PlantSubClass::SUBCLASS_NORMAL,     2500,   "PLANTERN" },
-    { SeedType::SEED_CACTUS,            nullptr, ReanimationType::REANIM_CACTUS,        15, 125,    750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "CACTUS" },
-    { SeedType::SEED_BLOVER,            nullptr, ReanimationType::REANIM_BLOVER,        18, 100,    750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "BLOVER" },
-    { SeedType::SEED_SPLITPEA,          nullptr, ReanimationType::REANIM_SPLITPEA,      32, 125,    750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "SPLIT_PEA" },
-    { SeedType::SEED_STARFRUIT,         nullptr, ReanimationType::REANIM_STARFRUIT,     30, 125,    750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "STARFRUIT" },
-    { SeedType::SEED_PUMPKINSHELL,      nullptr, ReanimationType::REANIM_PUMPKIN,       25, 125,    3000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "PUMPKIN" },
-    { SeedType::SEED_MAGNETSHROOM,      nullptr, ReanimationType::REANIM_MAGNETSHROOM,  35, 100,    750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "MAGNET_SHROOM" },
-    { SeedType::SEED_CABBAGEPULT,       nullptr, ReanimationType::REANIM_CABBAGEPULT,   13, 100,    750,    PlantSubClass::SUBCLASS_SHOOTER,    300,    "CABBAGE_PULT" },
-    { SeedType::SEED_FLOWERPOT,         nullptr, ReanimationType::REANIM_FLOWER_POT,    33, 25,     750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "FLOWER_POT" },
-    { SeedType::SEED_KERNELPULT,        nullptr, ReanimationType::REANIM_KERNELPULT,    13, 100,    750,    PlantSubClass::SUBCLASS_SHOOTER,    300,    "KERNEL_PULT" },
-	{ SeedType::SEED_INSTANT_COFFEE,    nullptr, ReanimationType::REANIM_COFFEEBEAN,    33, 75,     750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "COFFEE_BEAN" },
-    { SeedType::SEED_GARLIC,            nullptr, ReanimationType::REANIM_GARLIC,        8,  50,     750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "GARLIC" },
-    { SeedType::SEED_UMBRELLA,          nullptr, ReanimationType::REANIM_UMBRELLALEAF,  23, 100,    750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "UMBRELLA_LEAF" },
-    { SeedType::SEED_MARIGOLD,          nullptr, ReanimationType::REANIM_MARIGOLD,      24, 50,     3000,   PlantSubClass::SUBCLASS_NORMAL,     2500,   "MARIGOLD" },
-    { SeedType::SEED_MELONPULT,         nullptr, ReanimationType::REANIM_MELONPULT,     14, 300,    750,    PlantSubClass::SUBCLASS_SHOOTER,    300,    "MELON_PULT" },
-    { SeedType::SEED_GATLINGPEA,        nullptr, ReanimationType::REANIM_GATLINGPEA,    5,  250,    5000,   PlantSubClass::SUBCLASS_SHOOTER,    150,    "GATLING_PEA" },
-    { SeedType::SEED_TWINSUNFLOWER,     nullptr, ReanimationType::REANIM_TWIN_SUNFLOWER,1,  150,    5000,   PlantSubClass::SUBCLASS_NORMAL,     2500,   "TWIN_SUNFLOWER" },
-    { SeedType::SEED_GLOOMSHROOM,       nullptr, ReanimationType::REANIM_GLOOMSHROOM,   27, 150,    5000,   PlantSubClass::SUBCLASS_SHOOTER,    200,    "GLOOM_SHROOM" },
-    { SeedType::SEED_CATTAIL,           nullptr, ReanimationType::REANIM_CATTAIL,       27, 225,    5000,   PlantSubClass::SUBCLASS_SHOOTER,    150,    "CATTAIL" },
-    { SeedType::SEED_WINTERMELON,       nullptr, ReanimationType::REANIM_WINTER_MELON,  27, 200,    5000,   PlantSubClass::SUBCLASS_SHOOTER,    300,    "WINTER_MELON" },
-    { SeedType::SEED_GOLD_MAGNET,       nullptr, ReanimationType::REANIM_GOLD_MAGNET,   27, 50,     5000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "GOLD_MAGNET" },
-    { SeedType::SEED_SPIKEROCK,         nullptr, ReanimationType::REANIM_SPIKEROCK,     27, 125,    5000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "SPIKEROCK" },
-    { SeedType::SEED_COBCANNON,         nullptr, ReanimationType::REANIM_COBCANNON,     16, 500,    5000,   PlantSubClass::SUBCLASS_NORMAL,     600,    "COB_CANNON" },
-    { SeedType::SEED_IMITATER,          nullptr, ReanimationType::REANIM_IMITATER,      33, 0,      750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "IMITATER" },
-    { SeedType::SEED_EXPLODE_O_NUT,     nullptr, ReanimationType::REANIM_WALLNUT,       2,  0,      3000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "EXPLODE_O_NUT" },
-    { SeedType::SEED_GIANT_WALLNUT,     nullptr, ReanimationType::REANIM_WALLNUT,       2,  0,      3000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "GIANT_WALLNUT" },
-    { SeedType::SEED_SPROUT,            nullptr, ReanimationType::REANIM_ZENGARDEN_SPROUT,          33, 0,      3000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "SPROUT" },
-    { SeedType::SEED_LEFTPEATER,        nullptr, ReanimationType::REANIM_REPEATER,      5,  200,    750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "REPEATER" }
-};
+//PlantDefinition gPlantDefs[SeedType::NUM_SEED_TYPES] = { 
+//    { SeedType::SEED_PEASHOOTER,        nullptr, ReanimationType::REANIM_PEASHOOTER,    0,  100,    750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "PEASHOOTER" },
+//    { SeedType::SEED_SUNFLOWER,         nullptr, ReanimationType::REANIM_SUNFLOWER,     1,  50,     750,    PlantSubClass::SUBCLASS_NORMAL,     2500,   "SUNFLOWER" },
+//    { SeedType::SEED_CHERRYBOMB,        nullptr, ReanimationType::REANIM_CHERRYBOMB,    3,  150,    5000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "CHERRY_BOMB" },
+//    { SeedType::SEED_WALLNUT,           nullptr, ReanimationType::REANIM_WALLNUT,       2,  50,     3000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "WALL_NUT" },
+//    { SeedType::SEED_POTATOMINE,        nullptr, ReanimationType::REANIM_POTATOMINE,    37, 25,     3000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "POTATO_MINE" },
+//    { SeedType::SEED_SNOWPEA,           nullptr, ReanimationType::REANIM_SNOWPEA,       4,  175,    750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "SNOW_PEA" },
+//    { SeedType::SEED_CHOMPER,           nullptr, ReanimationType::REANIM_CHOMPER,       31, 150,    750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "CHOMPER" },
+//    { SeedType::SEED_REPEATER,          nullptr, ReanimationType::REANIM_REPEATER,      5,  200,    750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "REPEATER" },
+//    { SeedType::SEED_PUFFSHROOM,        nullptr, ReanimationType::REANIM_PUFFSHROOM,    6,  0,      750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "PUFF_SHROOM" },
+//    { SeedType::SEED_SUNSHROOM,         nullptr, ReanimationType::REANIM_SUNSHROOM,     7,  25,     750,    PlantSubClass::SUBCLASS_NORMAL,     2500,   "SUN_SHROOM" },
+//    { SeedType::SEED_FUMESHROOM,        nullptr, ReanimationType::REANIM_FUMESHROOM,    9,  75,     750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "FUME_SHROOM" },
+//    { SeedType::SEED_GRAVEBUSTER,       nullptr, ReanimationType::REANIM_GRAVE_BUSTER,  40, 75,     750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "GRAVE_BUSTER" },
+//    { SeedType::SEED_HYPNOSHROOM,       nullptr, ReanimationType::REANIM_HYPNOSHROOM,   10, 75,     3000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "HYPNO_SHROOM" },
+//    { SeedType::SEED_SCAREDYSHROOM,     nullptr, ReanimationType::REANIM_SCRAREYSHROOM, 33, 25,     750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "SCAREDY_SHROOM" },
+//    { SeedType::SEED_ICESHROOM,         nullptr, ReanimationType::REANIM_ICESHROOM,     36, 75,     5000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "ICE_SHROOM" },
+//    { SeedType::SEED_DOOMSHROOM,        nullptr, ReanimationType::REANIM_DOOMSHROOM,    20, 125,    5000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "DOOM_SHROOM" },
+//    { SeedType::SEED_LILYPAD,           nullptr, ReanimationType::REANIM_LILYPAD,       19, 25,     750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "LILY_PAD" },
+//    { SeedType::SEED_SQUASH,            nullptr, ReanimationType::REANIM_SQUASH,        21, 50,     3000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "SQUASH" },
+//    { SeedType::SEED_THREEPEATER,       nullptr, ReanimationType::REANIM_THREEPEATER,   12, 325,    750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "THREEPEATER" },
+//    { SeedType::SEED_TANGLEKELP,        nullptr, ReanimationType::REANIM_TANGLEKELP,    17, 25,     3000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "TANGLE_KELP" },
+//    { SeedType::SEED_JALAPENO,          nullptr, ReanimationType::REANIM_JALAPENO,      11, 125,    5000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "JALAPENO" },
+//    { SeedType::SEED_SPIKEWEED,         nullptr, ReanimationType::REANIM_SPIKEWEED,     22, 100,    750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "SPIKEWEED" },
+//    { SeedType::SEED_TORCHWOOD,         nullptr, ReanimationType::REANIM_TORCHWOOD,     29, 175,    750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "TORCHWOOD" },
+//    { SeedType::SEED_TALLNUT,           nullptr, ReanimationType::REANIM_TALLNUT,       28, 125,    3000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "TALL_NUT" },
+//    { SeedType::SEED_SEASHROOM,         nullptr, ReanimationType::REANIM_SEASHROOM,     39, 0,      3000,   PlantSubClass::SUBCLASS_SHOOTER,    150,    "SEA_SHROOM" },
+//    { SeedType::SEED_PLANTERN,          nullptr, ReanimationType::REANIM_PLANTERN,      38, 25,     3000,   PlantSubClass::SUBCLASS_NORMAL,     2500,   "PLANTERN" },
+//    { SeedType::SEED_CACTUS,            nullptr, ReanimationType::REANIM_CACTUS,        15, 125,    750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "CACTUS" },
+//    { SeedType::SEED_BLOVER,            nullptr, ReanimationType::REANIM_BLOVER,        18, 100,    750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "BLOVER" },
+//    { SeedType::SEED_SPLITPEA,          nullptr, ReanimationType::REANIM_SPLITPEA,      32, 125,    750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "SPLIT_PEA" },
+//    { SeedType::SEED_STARFRUIT,         nullptr, ReanimationType::REANIM_STARFRUIT,     30, 125,    750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "STARFRUIT" },
+//    { SeedType::SEED_PUMPKINSHELL,      nullptr, ReanimationType::REANIM_PUMPKIN,       25, 125,    3000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "PUMPKIN" },
+//    { SeedType::SEED_MAGNETSHROOM,      nullptr, ReanimationType::REANIM_MAGNETSHROOM,  35, 100,    750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "MAGNET_SHROOM" },
+//    { SeedType::SEED_CABBAGEPULT,       nullptr, ReanimationType::REANIM_CABBAGEPULT,   13, 100,    750,    PlantSubClass::SUBCLASS_SHOOTER,    300,    "CABBAGE_PULT" },
+//    { SeedType::SEED_FLOWERPOT,         nullptr, ReanimationType::REANIM_FLOWER_POT,    33, 25,     750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "FLOWER_POT" },
+//    { SeedType::SEED_KERNELPULT,        nullptr, ReanimationType::REANIM_KERNELPULT,    13, 100,    750,    PlantSubClass::SUBCLASS_SHOOTER,    300,    "KERNEL_PULT" },
+//	{ SeedType::SEED_INSTANT_COFFEE,    nullptr, ReanimationType::REANIM_COFFEEBEAN,    33, 75,     750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "COFFEE_BEAN" },
+//    { SeedType::SEED_GARLIC,            nullptr, ReanimationType::REANIM_GARLIC,        8,  50,     750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "GARLIC" },
+//    { SeedType::SEED_UMBRELLA,          nullptr, ReanimationType::REANIM_UMBRELLALEAF,  23, 100,    750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "UMBRELLA_LEAF" },
+//    { SeedType::SEED_MARIGOLD,          nullptr, ReanimationType::REANIM_MARIGOLD,      24, 50,     3000,   PlantSubClass::SUBCLASS_NORMAL,     2500,   "MARIGOLD" },
+//    { SeedType::SEED_MELONPULT,         nullptr, ReanimationType::REANIM_MELONPULT,     14, 300,    750,    PlantSubClass::SUBCLASS_SHOOTER,    300,    "MELON_PULT" },
+//    { SeedType::SEED_GATLINGPEA,        nullptr, ReanimationType::REANIM_GATLINGPEA,    5,  250,    5000,   PlantSubClass::SUBCLASS_SHOOTER,    150,    "GATLING_PEA" },
+//    { SeedType::SEED_TWINSUNFLOWER,     nullptr, ReanimationType::REANIM_TWIN_SUNFLOWER,1,  150,    5000,   PlantSubClass::SUBCLASS_NORMAL,     2500,   "TWIN_SUNFLOWER" },
+//    { SeedType::SEED_GLOOMSHROOM,       nullptr, ReanimationType::REANIM_GLOOMSHROOM,   27, 150,    5000,   PlantSubClass::SUBCLASS_SHOOTER,    200,    "GLOOM_SHROOM" },
+//    { SeedType::SEED_CATTAIL,           nullptr, ReanimationType::REANIM_CATTAIL,       27, 225,    5000,   PlantSubClass::SUBCLASS_SHOOTER,    150,    "CATTAIL" },
+//    { SeedType::SEED_WINTERMELON,       nullptr, ReanimationType::REANIM_WINTER_MELON,  27, 200,    5000,   PlantSubClass::SUBCLASS_SHOOTER,    300,    "WINTER_MELON" },
+//    { SeedType::SEED_GOLD_MAGNET,       nullptr, ReanimationType::REANIM_GOLD_MAGNET,   27, 50,     5000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "GOLD_MAGNET" },
+//    { SeedType::SEED_SPIKEROCK,         nullptr, ReanimationType::REANIM_SPIKEROCK,     27, 125,    5000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "SPIKEROCK" },
+//    { SeedType::SEED_COBCANNON,         nullptr, ReanimationType::REANIM_COBCANNON,     16, 500,    5000,   PlantSubClass::SUBCLASS_NORMAL,     600,    "COB_CANNON" },
+//    { SeedType::SEED_IMITATER,          nullptr, ReanimationType::REANIM_IMITATER,      33, 0,      750,    PlantSubClass::SUBCLASS_NORMAL,     0,      "IMITATER" },
+//    { SeedType::SEED_EXPLODE_O_NUT,     nullptr, ReanimationType::REANIM_WALLNUT,       2,  0,      3000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "EXPLODE_O_NUT" },
+//    { SeedType::SEED_GIANT_WALLNUT,     nullptr, ReanimationType::REANIM_WALLNUT,       2,  0,      3000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "GIANT_WALLNUT" },
+//    { SeedType::SEED_SPROUT,            nullptr, ReanimationType::REANIM_ZENGARDEN_SPROUT,          33, 0,      3000,   PlantSubClass::SUBCLASS_NORMAL,     0,      "SPROUT" },
+//    { SeedType::SEED_LEFTPEATER,        nullptr, ReanimationType::REANIM_REPEATER,      5,  200,    750,    PlantSubClass::SUBCLASS_SHOOTER,    150,    "REPEATER" }
+//};
 
 
 Plant::Plant(const PlantType &theType) 
@@ -100,6 +100,7 @@ void Plant::Sync(BoundedSync &theSync)
 
 void Plant::PlantInitialize(int theGridX, int theGridY, SeedType theImitaterType)
 {
+	mAttributes = mType.mAttributes;
 	mPlantCol = theGridX;
 	mRow = theGridY;
 	if (mBoard)
@@ -142,20 +143,17 @@ void Plant::PlantInitialize(int theGridX, int theGridY, SeedType theImitaterType
 	mWidth = 80;
 	mHeight = 80;
 	memset(mMagnetItems, 0, sizeof(mMagnetItems));
-	const PlantDefinition &aPlantDef = GetPlantDefinition(mType);
 	mIsAsleep = false;
 	mWakeUpCounter = 0;
 	mOnBungeeState = PlantOnBungeeState::NOT_ON_BUNGEE;
 	mPottedPlantIndex = -1;
-	mLaunchRate = aPlantDef.mLaunchRate;
-	mSubclass = aPlantDef.mSubClass;
 	mRenderOrder = CalcRenderOrder();
 
 	Reanimation *aBodyReanim = nullptr;
-	if (aPlantDef.mReanimationType != ReanimationType::REANIM_NONE)
+	if (mType.mBaseReanim != ReanimationType::REANIM_NONE)
 	{
 		float aOffsetY = PlantDrawHeightOffset(mBoard, this, mType, mPlantCol, mRow);
-		aBodyReanim = mApp->AddReanimation(0.0f, aOffsetY, mRenderOrder + 1, aPlantDef.mReanimationType);
+		aBodyReanim = mApp->AddReanimation(0.0f, aOffsetY, mRenderOrder + 1, mType.mBaseReanim);
 		aBodyReanim->mLoopType = ReanimLoopType::REANIM_LOOP;
 		aBodyReanim->mAnimRate = RandRangeFloat(10.0f, 15.0f);
 
@@ -179,12 +177,12 @@ void Plant::PlantInitialize(int theGridX, int theGridY, SeedType theImitaterType
 	if (IsNocturnal(mType) && mBoard && !mBoard->StageIsNight())
 		SetSleeping(true);
 
-	if (mLaunchRate > 0)
+	if (mAttributes.mLaunchRate > 0)
 	{
 		if (MakesSun())
-			mLaunchCounter = RandRangeInt(300, mLaunchRate / 2);
+			mLaunchCounter = RandRangeInt(300, mAttributes.mLaunchRate / 2);
 		else
-			mLaunchCounter = RandRangeInt(0, mLaunchRate);
+			mLaunchCounter = RandRangeInt(0, mAttributes.mLaunchRate);
 	}
 	else
 		mLaunchCounter = 0;
@@ -216,7 +214,7 @@ void Plant::PlantInitialize(int theGridX, int theGridY, SeedType theImitaterType
 		if (aBodyReanim)
 		{
 			aBodyReanim->mAnimRate = RandRangeFloat(15.0f, 20.0f);
-			Reanimation *aHeadReanim = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, aPlantDef.mReanimationType);
+			Reanimation *aHeadReanim = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, mType.mBaseReanim);
 			aHeadReanim->mLoopType = ReanimLoopType::REANIM_LOOP;
 			aHeadReanim->mAnimRate = aBodyReanim->mAnimRate;
 			aHeadReanim->SetFramesForLayer("anim_head_idle");
@@ -232,14 +230,14 @@ void Plant::PlantInitialize(int theGridX, int theGridY, SeedType theImitaterType
 		TOD_ASSERT(aBodyReanim);
 
 		aBodyReanim->mAnimRate = RandRangeFloat(15.0f, 20.0f);
-		Reanimation *aHeadReanim1 = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, aPlantDef.mReanimationType);
+		Reanimation *aHeadReanim1 = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, mType.mBaseReanim);
 		aHeadReanim1->mLoopType = ReanimLoopType::REANIM_LOOP;
 		aHeadReanim1->mAnimRate = aBodyReanim->mAnimRate;
 		aHeadReanim1->SetFramesForLayer("anim_head_idle");
 		aHeadReanim1->AttachToAnotherReanimation(aBodyReanim, "anim_idle");
 		mHeadReanimID = mApp->ReanimationGetID(aHeadReanim1);
 
-		Reanimation *aHeadReanim2 = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, aPlantDef.mReanimationType);
+		Reanimation *aHeadReanim2 = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, mType.mBaseReanim);
 		aHeadReanim2->mLoopType = ReanimLoopType::REANIM_LOOP;
 		aHeadReanim2->mAnimRate = aBodyReanim->mAnimRate;
 		aHeadReanim2->SetFramesForLayer("anim_splitpea_idle");
@@ -252,21 +250,21 @@ void Plant::PlantInitialize(int theGridX, int theGridY, SeedType theImitaterType
 		TOD_ASSERT(aBodyReanim);
 
 		aBodyReanim->mAnimRate = RandRangeFloat(15.0f, 20.0f);
-		Reanimation *aHeadReanim1 = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, aPlantDef.mReanimationType);
+		Reanimation *aHeadReanim1 = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, mType.mBaseReanim);
 		aHeadReanim1->mLoopType = ReanimLoopType::REANIM_LOOP;
 		aHeadReanim1->mAnimRate = aBodyReanim->mAnimRate;
 		aHeadReanim1->SetFramesForLayer("anim_head_idle1");
 		aHeadReanim1->AttachToAnotherReanimation(aBodyReanim, "anim_head1");
 		mHeadReanimID = mApp->ReanimationGetID(aHeadReanim1);
 
-		Reanimation *aHeadReanim2 = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, aPlantDef.mReanimationType);
+		Reanimation *aHeadReanim2 = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, mType.mBaseReanim);
 		aHeadReanim2->mLoopType = ReanimLoopType::REANIM_LOOP;
 		aHeadReanim2->mAnimRate = aBodyReanim->mAnimRate;
 		aHeadReanim2->SetFramesForLayer("anim_head_idle2");
 		aHeadReanim2->AttachToAnotherReanimation(aBodyReanim, "anim_head2");
 		mHeadReanimID2 = mApp->ReanimationGetID(aHeadReanim2);
 
-		Reanimation *aHeadReanim3 = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, aPlantDef.mReanimationType);
+		Reanimation *aHeadReanim3 = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, mType.mBaseReanim);
 		aHeadReanim3->mLoopType = ReanimLoopType::REANIM_LOOP;
 		aHeadReanim3->mAnimRate = aBodyReanim->mAnimRate;
 		aHeadReanim3->SetFramesForLayer("anim_head_idle3");
@@ -991,7 +989,7 @@ void Plant::UpdateShooter()
 	mLaunchCounter--;
 	if (mLaunchCounter <= 0)
 	{
-		mLaunchCounter = mLaunchRate - Sexy::Rand(15);
+		mLaunchCounter = mAttributes.mLaunchRate - Sexy::Rand(15);
 
 		if (mType == SeedType::SEED_THREEPEATER)
 		{
@@ -1078,7 +1076,7 @@ void Plant::UpdateProductionPlant()
 	}
 	if (mLaunchCounter <= 0)
 	{
-		mLaunchCounter = RandRangeInt(mLaunchRate - 150, mLaunchRate);
+		mLaunchCounter = RandRangeInt(mAttributes.mLaunchRate - 150, mAttributes.mLaunchRate);
 		mApp->PlayFoley(FoleyType::FOLEY_SPAWN_SUN);
 
 		if (mType == SeedType::SEED_SUNSHROOM)
@@ -1215,7 +1213,7 @@ void Plant::UpdatePotato()
 			PlayBodyReanim("anim_armed", ReanimLoopType::REANIM_LOOP, 0, aRate);
 
 			Reanimation *aLightReanim =
-				mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, GetPlantDefinition(mType).mReanimationType);
+				mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, mType.mBaseReanim);
 			aLightReanim->mLoopType = ReanimLoopType::REANIM_LOOP;
 			aLightReanim->mAnimRate = aRate - 2.0f;
 			aLightReanim->SetFramesForLayer("anim_glow");
@@ -1425,7 +1423,7 @@ void Plant::UpdateScaredyShroom()
 
 	if (mState != PlantState::STATE_READY)
 	{
-		mLaunchCounter = mLaunchRate;
+		mLaunchCounter = mAttributes.mLaunchRate;
 	}
 }
 
@@ -3022,7 +3020,6 @@ bool Plant::NotOnGround()
 
 Reanimation *Plant::AttachBlinkAnim(Reanimation *theReanimBody)
 {
-	const PlantDefinition &aPlantDef = GetPlantDefinition(mType);
 	LawnApp *aApp = (LawnApp *)gSexyAppBase;
 	Reanimation *aAnimToAttach = theReanimBody;
 	const char *aTrackToPlay = "anim_blink";
@@ -3120,7 +3117,7 @@ Reanimation *Plant::AttachBlinkAnim(Reanimation *theReanimBody)
 		return nullptr;
 
 	Reanimation *aBlinkReanim =
-		aApp->mEffectSystem->mReanimationHolder->AllocReanimation(0.0f, 0.0f, 0, aPlantDef.mReanimationType);
+		aApp->mEffectSystem->mReanimationHolder->AllocReanimation(0.0f, 0.0f, 0, mType.mBaseReanim);
 	aBlinkReanim->SetFramesForLayer(aTrackToPlay);
 	aBlinkReanim->mLoopType = ReanimLoopType::REANIM_PLAY_ONCE_FULL_LAST_FRAME_AND_HOLD;
 	aBlinkReanim->mAnimRate = 15.0f;
@@ -3952,12 +3949,6 @@ void Plant::DrawMagnetItems(Graphics *g)
 	}
 }
 
-Image *Plant::GetImage(SeedType theSeedType)
-{
-	Image **aImages = GetPlantDefinition(theSeedType).mPlantImage;
-	return aImages ? aImages[0] : nullptr;
-}
-
 void Plant::DrawShadow(Sexy::Graphics *g, float theOffsetX, float theOffsetY)
 {
 	if (mType == SeedType::SEED_LILYPAD || mType == SeedType::SEED_STARFRUIT ||
@@ -4101,9 +4092,6 @@ void Plant::Draw(Graphics *g)
 		aOffsetY += 30.0f;
 	}
 
-	int aImageIndex = mFrame;
-	Image *aPlantImage = Plant::GetImage(mType);
-
 	if (mSquished)
 	{
 		if (mType == SeedType::SEED_FLOWERPOT)
@@ -4212,53 +4200,6 @@ void Plant::Draw(Graphics *g)
 				}
 			}
 		}
-		else
-		{
-			SeedType aSeedType = SeedType::SEED_NONE;
-			if (mBoard)
-			{
-				aSeedType = mBoard->GetSeedTypeInCursor();
-			}
-
-			if (IsPartOfUpgradableTo(aSeedType) &&
-				mBoard->CanPlantAt(mPlantCol, mRow, aSeedType) == PlantingReason::PLANTING_OK)
-			{
-				g->SetColorizeImages(true);
-				g->SetColor(GetFlashingColor(mBoard->mMainCounter, 90));
-			}
-			else if (aSeedType == SeedType::SEED_COBCANNON &&
-					 mBoard->CanPlantAt(mPlantCol - 1, mRow, aSeedType) == PlantingReason::PLANTING_OK)
-			{
-				g->SetColorizeImages(true);
-				g->SetColor(GetFlashingColor(mBoard->mMainCounter, 90));
-			}
-			else if (mBoard && mBoard->mTutorialState == TutorialState::TUTORIAL_SHOVEL_DIG)
-			{
-				g->SetColorizeImages(true);
-				g->SetColor(GetFlashingColor(mBoard->mMainCounter, 90));
-			}
-
-			TodDrawImageCelF(g, aPlantImage, aOffsetX, aOffsetY, aImageIndex, 0);
-			g->SetColorizeImages(false);
-			if (mHighlighted)
-			{
-				g->SetDrawMode(Graphics::DRAWMODE_ADDITIVE);
-				g->SetColorizeImages(true);
-				g->SetColor(Color(255, 255, 255, 196));
-				TodDrawImageCelF(g, aPlantImage, aOffsetX, aOffsetY, aImageIndex, 0);
-				g->SetDrawMode(Graphics::DRAWMODE_NORMAL);
-				g->SetColorizeImages(false);
-			}
-			else if (mEatenFlashCountdown > 0)
-			{
-				g->SetDrawMode(Graphics::DRAWMODE_ADDITIVE);
-				g->SetColorizeImages(true);
-				g->SetColor(Color(255, 255, 255, ClampInt(mEatenFlashCountdown * 3, 0, 255)));
-				TodDrawImageCelF(g, aPlantImage, aOffsetX, aOffsetY, aImageIndex, 0);
-				g->SetDrawMode(Graphics::DRAWMODE_NORMAL);
-				g->SetColorizeImages(false);
-			}
-		}
 
 		if (mType == SeedType::SEED_MAGNETSHROOM && !DrawMagnetItemsOnTop())
 		{
@@ -4318,8 +4259,6 @@ void Plant::DrawSeedType(Graphics *g,
 	}
 	else
 	{
-		const PlantDefinition &aPlantDef = GetPlantDefinition(aSeedType);
-
 		if (aSeedType == SeedType::SEED_GIANT_WALLNUT)
 		{
 			aSeedG.mScaleX *= 1.4f;
@@ -4327,36 +4266,10 @@ void Plant::DrawSeedType(Graphics *g,
 			TodDrawImageScaledF(
 				&aSeedG, IMAGE_REANIM_WALLNUT_BODY, thePosX - 53.0f, thePosY - 56.0f, aSeedG.mScaleX, aSeedG.mScaleY);
 		}
-		else if (aPlantDef.mReanimationType != ReanimationType::REANIM_NONE)
+		else if (PlantTypes::FromOldSeedType(aSeedType).mBaseReanim != ReanimationType::REANIM_NONE)
 		{
 			gLawnApp->mReanimatorCache->DrawCachedPlant(
 				&aSeedG, thePosX + aOffsetX, thePosY + aOffsetY, aSeedType, aDrawVariation);
-		}
-		else
-		{
-			if (aSeedType == SeedType::SEED_KERNELPULT)
-			{
-				aCelRow = 2;
-			}
-			else if (aSeedType == SeedType::SEED_TWINSUNFLOWER)
-			{
-				aCelRow = 1;
-			}
-
-			Image *aPlantImage = Plant::GetImage(aSeedType);
-			if (aPlantImage->mNumCols <= 2)
-			{
-				aCelCol = aPlantImage->mNumCols - 1;
-			}
-
-			TodDrawImageCelScaledF(&aSeedG,
-								   aPlantImage,
-								   thePosX + aOffsetX,
-								   thePosY + aOffsetY,
-								   aCelCol,
-								   aCelRow,
-								   aSeedG.mScaleX,
-								   aSeedG.mScaleY);
 		}
 	}
 }
@@ -5179,14 +5092,6 @@ void Plant::Die()
 #endif
 }
 
-PlantDefinition &GetPlantDefinition(SeedType theSeedType)
-{
-	TOD_ASSERT(gPlantDefs[theSeedType].mSeedType == theSeedType);
-	TOD_ASSERT(theSeedType >= 0 && theSeedType < (int)SeedType::NUM_SEED_TYPES);
-
-	return gPlantDefs[theSeedType];
-}
-
 int Plant::GetCost(SeedType theSeedType, SeedType theImitaterType)
 {
 	if (gLawnApp->mGameMode == GameMode::GAMEMODE_CHALLENGE_BEGHOULED ||
@@ -5257,13 +5162,11 @@ int Plant::GetCost(SeedType theSeedType, SeedType theImitaterType)
 	default: {
 		if (theSeedType == SeedType::SEED_IMITATER && theImitaterType != SeedType::SEED_NONE)
 		{
-			const PlantDefinition &aPlantDef = GetPlantDefinition(theImitaterType);
-			return aPlantDef.mSeedCost;
+			return PlantTypes::FromOldSeedType(theImitaterType).mSunCost;
 		}
 		else
 		{
-			const PlantDefinition &aPlantDef = GetPlantDefinition(theSeedType);
-			return aPlantDef.mSeedCost;
+			return PlantTypes::FromOldSeedType(theSeedType).mSunCost;
 		}
 	}
 	}
@@ -5271,14 +5174,14 @@ int Plant::GetCost(SeedType theSeedType, SeedType theImitaterType)
 
 SexyString Plant::GetNameString(SeedType theSeedType, SeedType theImitaterType)
 {
-	const PlantDefinition &aPlantDef = GetPlantDefinition(theSeedType);
-	SexyString aName = StrFormat("[%s]", aPlantDef.mPlantName);
+	const PlantType &aPlantType = PlantTypes::FromOldSeedType(theSeedType);
+	SexyString aName = StrFormat("[%s]", aPlantType.mResourceId.CStr());
 	SexyString aTranslatedName = TodStringTranslate(aName);
 
 	if (theSeedType == SeedType::SEED_IMITATER && theImitaterType != SeedType::SEED_NONE)
 	{
-		const PlantDefinition &aImitaterDef = GetPlantDefinition(theImitaterType);
-		std::string aImitaterName = StrFormat("[%s]", aImitaterDef.mPlantName);
+		const PlantType &anImitaterType = PlantTypes::FromOldSeedType(theImitaterType);
+		std::string aImitaterName = StrFormat("[%s]", anImitaterType.mResourceId.CStr());
 		std::string aTranslatedImitaterName = TodStringTranslate(aImitaterName);
 		return StrFormat("%s %s", aTranslatedName.c_str(), aTranslatedImitaterName.c_str());
 	}
@@ -5288,8 +5191,8 @@ SexyString Plant::GetNameString(SeedType theSeedType, SeedType theImitaterType)
 
 SexyString Plant::GetToolTip(SeedType theSeedType)
 {
-	const PlantDefinition &aPlantDef = GetPlantDefinition(theSeedType);
-	SexyString aToolTip = StrFormat("[%s_TOOLTIP]", aPlantDef.mPlantName);
+	const PlantType &aPlantType = PlantTypes::FromOldSeedType(theSeedType);
+	SexyString aToolTip = StrFormat("[%s_TOOLTIP]", aPlantType.mResourceId.CStr());
 	return TodStringTranslate(aToolTip);
 }
 
@@ -5302,13 +5205,13 @@ int Plant::GetRefreshTime(SeedType theSeedType, SeedType theImitaterType)
 
 	if (theSeedType == SeedType::SEED_IMITATER && theImitaterType != SeedType::SEED_NONE)
 	{
-		const PlantDefinition &aPlantDef = GetPlantDefinition(theImitaterType);
-		return aPlantDef.mRefreshTime;
+		const PlantType &aPlantType = PlantTypes::FromOldSeedType(theImitaterType);
+		return aPlantType.mRefreshTime;
 	}
 	else
 	{
-		const PlantDefinition &aPlantDef = GetPlantDefinition(theSeedType);
-		return aPlantDef.mRefreshTime;
+		const PlantType &aPlantType = PlantTypes::FromOldSeedType(theSeedType);
+		return aPlantType.mRefreshTime;
 	}
 }
 
@@ -5422,10 +5325,10 @@ Rect Plant::GetPlantAttackRect(PlantWeapon thePlantWeapon)
 
 void Plant::PreloadPlantResources(SeedType theSeedType)
 {
-	const PlantDefinition &aPlantDef = GetPlantDefinition(theSeedType);
-	if (aPlantDef.mReanimationType != ReanimationType::REANIM_NONE)
+	const PlantType &aPlantType = PlantTypes::FromOldSeedType(theSeedType);
+	if (aPlantType.mBaseReanim != ReanimationType::REANIM_NONE)
 	{
-		ReanimatorEnsureDefinitionLoaded(aPlantDef.mReanimationType, true);
+		ReanimatorEnsureDefinitionLoaded(aPlantType.mBaseReanim, true);
 	}
 
 	if (theSeedType == SeedType::SEED_CHERRYBOMB)

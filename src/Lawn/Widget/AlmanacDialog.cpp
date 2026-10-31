@@ -371,11 +371,11 @@ void AlmanacDialog::DrawPlants(Graphics *g)
 	}
 
 	g->DrawImage(Sexy::IMAGE_ALMANAC_PLANTCARD, 459, 86);
-	PlantDefinition &aPlantDef = GetPlantDefinition(mSelectedSeed);
+	const PlantType &aPlantType = PlantTypes::FromOldSeedType(mSelectedSeed);
 	SexyString aName = Plant::GetNameString(mSelectedSeed, SEED_NONE);
 
-	SexyString aHeaderName = StrFormat("[%s_DESCRIPTION_HEADER]", aPlantDef.mPlantName);
-	SexyString aDescriptionName = StrFormat("[%s_DESCRIPTION]", aPlantDef.mPlantName);
+	SexyString aHeaderName = StrFormat("[%s_DESCRIPTION_HEADER]", aPlantType.mResourceId.CStr());
+	SexyString aDescriptionName = StrFormat("[%s_DESCRIPTION]", aPlantType.mResourceId.CStr());
 	TodDrawString(g, aName, 617, 288, Sexy::FONT_DWARVENTODCRAFT18YELLOW, Color::White, DS_ALIGN_CENTER);
 	int aDistanceHeader = TodDrawStringWrappedHelper(g, TodStringTranslate(aHeaderName), Rect(485, 309, 258, ALMANAC_PLANT_MAX_SPACE), Sexy::FONT_BRIANNETOD12, Color(40, 50, 90), DS_ALIGN_LEFT, true);
 	int aDescriptionHeight = TodDrawStringWrappedHelper(g, TodStringTranslate(aDescriptionName), Rect(485, 309 + aDistanceHeader, 258, ALMANAC_PLANT_MAX_SPACE), Sexy::FONT_BRIANNETOD12, Color(40, 50, 90), DS_ALIGN_LEFT, false);
@@ -412,14 +412,14 @@ void AlmanacDialog::DrawPlants(Graphics *g)
 	if (mSelectedSeed != SeedType::SEED_IMITATER)
 	{
 		SexyString aCostStr = TodReplaceString(
-			StrFormat("{KEYWORD}{COST}:{STAT} %d", aPlantDef.mSeedCost),"{COST}", "[COST]");
+			StrFormat("{KEYWORD}{COST}:{STAT} %d", aPlantType.mSunCost),"{COST}", "[COST]");
 		TodDrawStringWrapped(
 			g, aCostStr, Rect(485, 520, 134, 50), Sexy::FONT_BRIANNETOD12, Color::White, DS_ALIGN_LEFT);
 
 		SexyString aRechargeStr = TodReplaceString("{KEYWORD}{WAIT_TIME}:{STAT} {WAIT_TIME_LENGTH}",
 												   "{WAIT_TIME_LENGTH}",
-												   aPlantDef.mRefreshTime == 750	? "[WAIT_TIME_SHORT]"
-												   : aPlantDef.mRefreshTime == 3000 ? "[WAIT_TIME_LONG]"
+												   aPlantType.mRefreshTime == 750	? "[WAIT_TIME_SHORT]"
+												   : aPlantType.mRefreshTime == 3000 ? "[WAIT_TIME_LONG]"
 																					: "[WAIT_TIME_VERY_LONG]");
 		aRechargeStr = TodReplaceString(aRechargeStr, "{WAIT_TIME}", "[WAIT_TIME]");
 		TodDrawStringWrapped(

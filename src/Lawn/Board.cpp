@@ -2111,15 +2111,15 @@ void Board::DoPlantingEffects(int theGridX, int theGridY, Plant *thePlant)
 
 Plant *Board::AddPlant(int theGridX, int theGridY, const PlantType &thePlantType, SeedType theImitaterType)
 {
-	SeedType aActualType = thePlantType;
-	if (thePlantType == SeedType::SEED_IMITATER && theImitaterType != SeedType::SEED_NONE)
-		aActualType = theImitaterType;
+	const PlantType *aActualType = &thePlantType;
+	if (thePlantType == PlantTypes::IMITATER && theImitaterType != SeedType::SEED_NONE)
+		aActualType = &PlantTypes::FromOldSeedType(theImitaterType);
 
 	if (StageHasPool() && !StageIsNight())
 	{
-		if (aActualType == SeedType::SEED_PEASHOOTER || aActualType == SeedType::SEED_REPEATER ||
-			aActualType == SeedType::SEED_THREEPEATER || aActualType == SeedType::SEED_GATLINGPEA ||
-			aActualType == SeedType::SEED_SNOWPEA || aActualType == SeedType::SEED_SPLITPEA)
+		if (aActualType == PlantTypes::PEASHOOTER || aActualType == PlantTypes::REPEATER ||
+			aActualType == PlantTypes::THREEPEATER || aActualType == PlantTypes::GATLING_PEA ||
+			aActualType == PlantTypes::SNOW_PEA || aActualType == PlantTypes::SPLIT_PEA)
 		{
 			mDontPeaUsedPeashooter = true;
 		}
@@ -2127,22 +2127,22 @@ Plant *Board::AddPlant(int theGridX, int theGridY, const PlantType &thePlantType
 
 	if (StageHasRoof() && !StageIsNight())
 	{
-		if (aActualType == SeedType::SEED_CABBAGEPULT || aActualType == SeedType::SEED_KERNELPULT ||
-			aActualType == SeedType::SEED_MELONPULT || aActualType == SeedType::SEED_WINTERMELON)
+		if (aActualType == PlantTypes::CABBAGE_PULT || aActualType == PlantTypes::KERNEL_PULT ||
+			aActualType == PlantTypes::MELON_PULT || aActualType == PlantTypes::WINTER_MELON)
 		{
 			mGroundedUsedCatapult = true;
 		}
 	}
 
-	bool aIsMushroom = (aActualType == SeedType::SEED_PUFFSHROOM || aActualType == SeedType::SEED_SUNSHROOM ||
-						aActualType == SeedType::SEED_FUMESHROOM || aActualType == SeedType::SEED_HYPNOSHROOM ||
-						aActualType == SeedType::SEED_SCAREDYSHROOM || aActualType == SeedType::SEED_ICESHROOM ||
-						aActualType == SeedType::SEED_DOOMSHROOM || aActualType == SeedType::SEED_SEASHROOM ||
-						aActualType == SeedType::SEED_GLOOMSHROOM || aActualType == SeedType::SEED_MAGNETSHROOM);
+	bool aIsMushroom = (aActualType == PlantTypes::PUFF_SHROOM || aActualType == PlantTypes::SUN_SHROOM ||
+						aActualType == PlantTypes::FUME_SHROOM || aActualType == PlantTypes::HYPNO_SHROOM ||
+						aActualType == PlantTypes::SCAREDY_SHROOM || aActualType == PlantTypes::ICE_SHROOM ||
+						aActualType == PlantTypes::DOOM_SHROOM || aActualType == PlantTypes::SEA_SHROOM ||
+						aActualType == PlantTypes::GLOOM_SHROOM || aActualType == PlantTypes::MAGNET_SHROOM);
 
 	if (!StageIsNight() && !StageHasPool() && !StageHasRoof())
 	{
-		if (!aIsMushroom && aActualType != SeedType::SEED_INSTANT_COFFEE)
+		if (!aIsMushroom && aActualType != PlantTypes::COFFEE_BEAN)
 		{
 			mGoodMorningUsedNonFungus = true;
 		}

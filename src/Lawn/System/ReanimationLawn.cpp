@@ -1,4 +1,5 @@
 #include "../Actor/Plant.h"
+#include "../Actor/PlantTypes.h"
 #include "../Zombie.h"
 #include "../../LawnApp.h"
 #include "ReanimationLawn.h"
@@ -213,8 +214,8 @@ GPUImage *ReanimatorCache::MakeCachedPlantFrame(SeedType theSeedType, DrawVariat
 	Graphics aMemoryGraphics(aGPUImage);
 	aMemoryGraphics.SetLinearBlend(true);
 
-	PlantDefinition &aPlantDef = GetPlantDefinition(theSeedType);
-	//TOD_ASSERT(aPlantDef.mReanimationType != ReanimationType::REANIM_NONE);
+	const PlantType &aPlantType = PlantTypes::FromOldSeedType(theSeedType);
+	//TOD_ASSERT(aPlantType.mBaseReanim != ReanimationType::REANIM_NONE);
 
 	if (theSeedType == SeedType::SEED_POTATOMINE)
 	{
@@ -223,7 +224,7 @@ GPUImage *ReanimatorCache::MakeCachedPlantFrame(SeedType theSeedType, DrawVariat
 		DrawReanimatorFrame(&aMemoryGraphics,
 							-(int)(aOffsetX - 12.0f),
 							-(int)(aOffsetY - 12.0f),
-							aPlantDef.mReanimationType,
+							aPlantType.mBaseReanim,
 							"anim_armed",
 							theDrawVariation);
 	}
@@ -234,7 +235,7 @@ GPUImage *ReanimatorCache::MakeCachedPlantFrame(SeedType theSeedType, DrawVariat
 		DrawReanimatorFrame(&aMemoryGraphics,
 							-(int)(aOffsetX - 12.0f),
 							-(int)(aOffsetY - 12.0f),
-							aPlantDef.mReanimationType,
+							aPlantType.mBaseReanim,
 							"anim_idle",
 							theDrawVariation);
 	}
@@ -243,28 +244,28 @@ GPUImage *ReanimatorCache::MakeCachedPlantFrame(SeedType theSeedType, DrawVariat
 		aMemoryGraphics.SetColorizeImages(true);
 		aMemoryGraphics.SetColor(Color(255, 64, 64));
 		DrawReanimatorFrame(
-			&aMemoryGraphics, -aOffsetX, -aOffsetY, aPlantDef.mReanimationType, "anim_idle", theDrawVariation);
+			&aMemoryGraphics, -aOffsetX, -aOffsetY, aPlantType.mBaseReanim, "anim_idle", theDrawVariation);
 	}
 	else
 	{
 		DrawReanimatorFrame(
-			&aMemoryGraphics, -aOffsetX, -aOffsetY, aPlantDef.mReanimationType, "anim_idle", theDrawVariation);
+			&aMemoryGraphics, -aOffsetX, -aOffsetY, aPlantType.mBaseReanim, "anim_idle", theDrawVariation);
 
 		if (theSeedType == SeedType::SEED_PEASHOOTER || theSeedType == SeedType::SEED_SNOWPEA ||
 			theSeedType == SeedType::SEED_REPEATER || theSeedType == SeedType::SEED_LEFTPEATER ||
 			theSeedType == SeedType::SEED_GATLINGPEA)
 		{
 			DrawReanimatorFrame(
-				&aMemoryGraphics, -aOffsetX, -aOffsetY, aPlantDef.mReanimationType, "anim_head_idle", theDrawVariation);
+				&aMemoryGraphics, -aOffsetX, -aOffsetY, aPlantType.mBaseReanim, "anim_head_idle", theDrawVariation);
 		}
 		else if (theSeedType == SeedType::SEED_SPLITPEA)
 		{
 			DrawReanimatorFrame(
-				&aMemoryGraphics, -aOffsetX, -aOffsetY, aPlantDef.mReanimationType, "anim_head_idle", theDrawVariation);
+				&aMemoryGraphics, -aOffsetX, -aOffsetY, aPlantType.mBaseReanim, "anim_head_idle", theDrawVariation);
 			DrawReanimatorFrame(&aMemoryGraphics,
 								-aOffsetX,
 								-aOffsetY,
-								aPlantDef.mReanimationType,
+								aPlantType.mBaseReanim,
 								"anim_splitpea_idle",
 								theDrawVariation);
 		}
@@ -273,19 +274,19 @@ GPUImage *ReanimatorCache::MakeCachedPlantFrame(SeedType theSeedType, DrawVariat
 			DrawReanimatorFrame(&aMemoryGraphics,
 								-aOffsetX,
 								-aOffsetY,
-								aPlantDef.mReanimationType,
+								aPlantType.mBaseReanim,
 								"anim_head_idle1",
 								theDrawVariation);
 			DrawReanimatorFrame(&aMemoryGraphics,
 								-aOffsetX,
 								-aOffsetY,
-								aPlantDef.mReanimationType,
+								aPlantType.mBaseReanim,
 								"anim_head_idle3",
 								theDrawVariation);
 			DrawReanimatorFrame(&aMemoryGraphics,
 								-aOffsetX,
 								-aOffsetY,
-								aPlantDef.mReanimationType,
+								aPlantType.mBaseReanim,
 								"anim_head_idle2",
 								theDrawVariation);
 		}

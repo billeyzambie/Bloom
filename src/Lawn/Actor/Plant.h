@@ -150,6 +150,9 @@ class BLOOM_API Plant final : public GameObject
 	template <class T> using TypeT = Type;
 
 	const PlantType &mType;
+
+	PlantAttributes mAttributes;
+
 	int mPlantCol;
 	int mAnimCounter;
 	int mFrame;
@@ -163,7 +166,6 @@ class BLOOM_API Plant final : public GameObject
 	int mDoSpecialCountdown;
 	int mStateCountdown;
 	int mLaunchCounter;
-	int mLaunchRate;
 	Rect mPlantRect;
 	Rect mPlantAttackRect;
 	int mTargetX;
@@ -258,11 +260,6 @@ class BLOOM_API Plant final : public GameObject
 
 	/// @brief Launch a Treepeater shot
 	void LaunchThreepeater();
-
-	/// @brief Get the Plant's Spritesheet
-	/// @param theSeedType The Plant's SeedType
-	/// @return Image or nullptr if it doesn't exist
-	static Image *GetImage(SeedType theSeedType);
 
 	/// @brief Get the Plant's Sun Cost
 	/// @param theSeedType The Plant's SeedType
@@ -616,31 +613,26 @@ float PlantDrawHeightOffset(Board *theBoard, Plant *thePlant, SeedType theSeedTy
 float PlantFlowerPotHeightOffset(SeedType theSeedType, float theFlowerPotScale);
 
 /// @brief Plant Definition used for setting it up in PlantInitialize
-class PlantDefinition
-{
-  public:
-	/// Plant's SeedType (see SeedType enum)
-	SeedType mSeedType;
-	/// Plant's Spritesheet (Beta 0.1.1.1014)
-	Image **mPlantImage;
-	/// Plant's ReanimationType (see ReanimationType enum)
-	ReanimationType mReanimationType;
-	/// Plant's Packet Sprite-Sheet Index (Unused) (Beta 0.1.1.1014)
-	int mPacketIndex;
-	/// Plant's Sun Cost
-	int mSeedCost;
-	/// Time for the SeedPacket to refresh
-	int mRefreshTime;
-	/// Plant's Sub-Class (see PlantSubClass enum)
-	PlantSubClass mSubClass;
-	/// How often does a plant do an action
-	int mLaunchRate;
-	/// Plant's Name Translation Key
-	const SexyCharByte *mPlantName;
-};
-extern PlantDefinition gPlantDefs[SeedType::NUM_SEED_TYPES];
-
-/// @brief Get the Plant Definition
-/// @param theSeedType The SeedType of the Definition
-/// @return The Plant Definition
-PlantDefinition &GetPlantDefinition(SeedType theSeedType);
+//class PlantDefinition
+//{
+//  public:
+//	/// Plant's SeedType (see SeedType enum)
+//	SeedType mSeedType;
+//	/// Plant's Spritesheet (Beta 0.1.1.1014)
+//	Image **mPlantImage;
+//	/// Plant's ReanimationType (see ReanimationType enum)
+//	ReanimationType mReanimationType;
+//	/// Plant's Packet Sprite-Sheet Index (Unused) (Beta 0.1.1.1014)
+//	int mPacketIndex;
+//	/// Plant's Sun Cost
+//	int mSeedCost;
+//	/// Time for the SeedPacket to refresh
+//	int mRefreshTime;
+//	/// Plant's Sub-Class (see PlantSubClass enum)
+//	PlantSubClass mSubClass;
+//	/// How often does a plant do an action
+//	int mLaunchRate;
+//	/// Plant's Name Translation Key
+//	const SexyCharByte *mPlantName;
+//};
+//extern PlantDefinition gPlantDefs[SeedType::NUM_SEED_TYPES];

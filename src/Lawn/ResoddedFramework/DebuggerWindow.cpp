@@ -394,7 +394,6 @@ void DebuggerWindow::DrawBoardPlants()
         if (ImGui::Button("Full HP")) p->mPlantHealth = p->mPlantMaxHealth;
 
         ImGui::InputInt("Max HP", &p->mPlantMaxHealth);
-        ImGui::InputInt("Launch Rate", &p->mLaunchRate);
         ImGui::InputInt("State Countdown", &p->mStateCountdown);
         ImGui::Checkbox("Is Asleep", &p->mIsAsleep);
         ImGui::SameLine();
