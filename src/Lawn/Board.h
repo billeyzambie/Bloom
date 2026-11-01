@@ -300,7 +300,7 @@ class BLOOM_API Board : public Widget, public ButtonListener
 
 	/// @brief Start the level
 	void StartLevel();
-	Plant *AddPlant(int theGridX, int theGridY, const PlantType &thePlantType, SeedType theImitaterType = SeedType::SEED_NONE);
+	Plant *AddPlant(int theGridX, int theGridY, const PlantType &thePlantType);
 
 	/// @brief Add a Projectile to the Board
 	/// @param theX The X coordinate
@@ -997,8 +997,7 @@ class BLOOM_API Board : public Widget, public ButtonListener
 	/// @param theGridX The Grid X Coordinate
 	/// @param theGridY The Grid Y Coordinate
 	/// @param theSeedType The SeedType of the Plant
-	/// @param theImitaterType To be removed
-	Plant *NewPlant(int theGridX, int theGridY, const PlantType &thePlantType, SeedType theImitaterType = SeedType::SEED_NONE);
+	Plant *NewPlant(int theGridX, int theGridY, const PlantType &thePlantType);
 
 	/// @brief Summon Planting Effects at set coordinates, optionally for a specific plant
 	/// @param theGridX The grid X coordinate

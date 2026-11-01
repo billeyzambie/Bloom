@@ -63,5 +63,6 @@ extern BLOOM_API const RegistryHolder<PlantType> &LEFTPEATER;
 extern BLOOM_API const RegistryHolder<PlantType> &CUSTOM_TEST;
 
 const PlantType &FromOldSeedType(int theSeedType);
+const PlantType *FromOptionalOldSeedType(int theSeedType);
 
 } // namespace PlantTypes

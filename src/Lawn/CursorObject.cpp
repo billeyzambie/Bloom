@@ -8,6 +8,7 @@
 #include "../SexyAppFramework/WidgetManager.h"
 
 #include "StoreItem/StoreItemTypes.h"
+#include "Actor/PlantTypes.h"
 
 CursorObject::CursorObject() : GameObject(GameObjectType::OBJECT_TYPE_NONE)
 {
@@ -189,7 +190,7 @@ void CursorObject::Draw(Graphics *g)
 #endif
 		float aOffsetX = -10.0f;
 		float aOffsetY = PlantDrawHeightOffset(mBoard, nullptr, mType, -1, -1) - 10.0f;
-		if (Plant::IsFlying(mType) || mType == SeedType::SEED_GRAVEBUSTER)
+		if (PlantTypes::FromOldSeedType(mType).mAttributes.mIsFlying || mType == SeedType::SEED_GRAVEBUSTER)
 		{
 			aOffsetY += 30.0f;
 		}

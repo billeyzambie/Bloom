@@ -161,7 +161,7 @@ void AlmanacDialog::SetupPlant()
 	mPlant = new Plant(PlantTypes::FromOldSeedType(mSelectedSeed));
 	mPlant->mBoard = nullptr;
 	mPlant->mIsOnBoard = false;
-	mPlant->PlantInitialize(0, 0, SEED_NONE);
+	mPlant->PlantInitialize(0, 0);
 	mPlant->mX = aPosX;
 	mPlant->mY = aPosY;
 }
@@ -193,7 +193,7 @@ void AlmanacDialog::SetPage(AlmanacPage thePage)
 		mPlant = new Plant(PlantTypes::SUNFLOWER);
 		mPlant->mBoard = nullptr;
 		mPlant->mIsOnBoard = false;
-		mPlant->PlantInitialize(0, 0, SeedType::SEED_NONE);
+		mPlant->PlantInitialize(0, 0);
 		mPlant->mX = ALMANAC_INDEXPLANT_POSITION_X;
 		mPlant->mY = ALMANAC_INDEXPLANT_POSITION_Y;
 

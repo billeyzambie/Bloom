@@ -10,13 +10,14 @@ class LawnApp;
 class BLOOM_API PlantType final : public BloomType
 {
   public:
-	static constexpr size_t INSTANCE_MAX_SIZE = 360;
+	static constexpr size_t INSTANCE_MAX_SIZE = 368;
 	struct Attributes
 	{
 		int mWidth = 80;
 		int mHeight = 80;
 		int mMaxHealth = 300;
 		int mLaunchRate = 150;
+		bool mIsFlying : 1 = 1;
 	};
 	PatchHolder<PlantType> *mPatchHolder = nullptr;
 	Attributes mAttributeBaseValues;

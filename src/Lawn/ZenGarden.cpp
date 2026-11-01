@@ -169,7 +169,7 @@ Plant *ZenGarden::PlacePottedPlant(int thePottedPlantIndex)
 	if (needPot)
 	{
 		Plant *aPot =
-			mBoard->NewPlant(aPottedPlant->mX, aPottedPlant->mY, PlantTypes::FLOWER_POT, SeedType::SEED_NONE);
+			mBoard->NewPlant(aPottedPlant->mX, aPottedPlant->mY, PlantTypes::FLOWER_POT);
 		aPot->mRenderOrder = Board::MakeRenderOrder(RenderLayer::RENDER_LAYER_PLANT, 0, aPot->mY);
 		aPot->mStateCountdown = 0;
 
@@ -184,7 +184,7 @@ Plant *ZenGarden::PlacePottedPlant(int thePottedPlantIndex)
 		}
 	}
 
-	Plant *aPlant = mBoard->NewPlant(aPottedPlant->mX, aPottedPlant->mY, PlantTypes::FromOldSeedType(aSeedType), SeedType::SEED_NONE);
+	Plant *aPlant = mBoard->NewPlant(aPottedPlant->mX, aPottedPlant->mY, PlantTypes::FromOldSeedType(aSeedType));
 	aPlant->mPottedPlantIndex = thePottedPlantIndex;
 	aPlant->mRenderOrder = Board::MakeRenderOrder(RenderLayer::RENDER_LAYER_PLANT, 0, aPlant->mY + 1);
 	aPlant->mStateCountdown = 0;
@@ -423,7 +423,7 @@ void ZenGarden::MouseDownWithMoneySign(Plant *thePlant)
 	}
 	else
 	{
-		aPlantName = Plant::GetNameString(thePlant->mType, thePlant->mImitaterType);
+		aPlantName = Plant::GetNameString(thePlant->mType, thePlant->mImitaterType ? *thePlant->mImitaterType : SEED_NONE);
 	}
 	aMessageText = TodReplaceString(aMessageText, "{PLANT_TYPE}", aPlantName);
 
@@ -1088,7 +1088,7 @@ void ZenGarden::MouseDownWithTool(int x, int y, CursorType theCursorType)
 	else if (theCursorType == CursorType::CURSOR_TYPE_GLOVE)
 	{
 		mBoard->mCursorObject->mType = aPlant->mType;
-		mBoard->mCursorObject->mImitaterType = aPlant->mImitaterType;
+		mBoard->mCursorObject->mImitaterType = aPlant->mImitaterType ? *aPlant->mImitaterType : SEED_NONE;
 		mBoard->mCursorObject->mCursorType = CursorType::CURSOR_TYPE_PLANT_FROM_GLOVE;
 		mBoard->mCursorObject->mGlovePlantID = (PlantID)mBoard->mPlants.DataArrayGetID(aPlant);
 		//mBoard->mIgnoreMouseUp = true;

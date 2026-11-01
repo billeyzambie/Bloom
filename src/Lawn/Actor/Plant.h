@@ -150,7 +150,7 @@ class BLOOM_API Plant final : public GameObject
 	template <class T> using TypeT = Type;
 
 	const PlantType &mType;
-
+	const PlantType *mImitaterType;
 	PlantAttributes mAttributes;
 
 	int mPlantCol;
@@ -190,7 +190,6 @@ class BLOOM_API Plant final : public GameObject
 	ZombieID mTargetZombieID;
 	int mWakeUpCounter;
 	PlantOnBungeeState mOnBungeeState;
-	SeedType mImitaterType;
 	int mPottedPlantIndex;
 	bool mAnimPing;
 	bool mDead;
@@ -208,9 +207,7 @@ class BLOOM_API Plant final : public GameObject
 	/// @brief Initialize the Plant
 	/// @param theGridX The Grid X Coordinate
 	/// @param theGridY The Grid Y Coordinate
-	/// @param theSeedType The SeedType of the Plant
-	/// @param theImitaterType The actual SeedType if theSeedType == SeedType::SEED_IMITATER
-	void PlantInitialize(int theGridX, int theGridY, SeedType theImitaterType);
+	void PlantInitialize(int theGridX, int theGridY);
 
 	/// @brief Update the Plant
 	void Update();
@@ -294,11 +291,6 @@ class BLOOM_API Plant final : public GameObject
 	/// @param theSeedType The Plant's SeedType
 	/// @return Is the Plant Aquatic
 	static bool IsAquatic(SeedType theSeedType);
-
-	/// @brief Is the Plant Flying
-	/// @param theSeedType The Plant's SeedType
-	/// @return Is the Plant Flying
-	static bool IsFlying(SeedType theSeedtype);
 
 	/// @brief Is the Plant Upgrade
 	/// @param theSeedType The Plant's SeedType

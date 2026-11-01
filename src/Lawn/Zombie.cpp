@@ -1404,7 +1404,7 @@ void Zombie::BungeeLiftTarget()
 	if (aPlant->mType == SeedType::SEED_CATTAIL &&
 		mBoard->GetTopPlantAt(mTargetCol, mRow, PlantPriority::TOPPLANT_ONLY_PUMPKIN))
 	{
-		mBoard->NewPlant(mTargetCol, mRow, PlantTypes::LILY_PAD, SeedType::SEED_NONE);
+		mBoard->NewPlant(mTargetCol, mRow, PlantTypes::LILY_PAD);
 	}
 
 	if (mApp->IsIZombieLevel())

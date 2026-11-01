@@ -444,6 +444,7 @@ const auto &KERNEL_PULT = RegisterTypeOf<Plant>(
 const auto &COFFEE_BEAN = RegisterTypeOf<Plant>(
 	"PVZ", "COFFEE_BEAN",
 	{
+		.mIsFlying = true
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
@@ -681,7 +682,16 @@ const auto &CUSTOM_TEST = RegisterTypeOf<Plant>(
 const PlantType &FromOldSeedType(int theSeedType)
 {
 	TOD_ASSERT(theSeedType < SeedType::NUM_SEED_TYPES);
+	TOD_ASSERT(theSeedType >= 0);
 	return Registries::PLANTS.GetByNumericalId(theSeedType);
+}
+
+const PlantType *FromOptionalOldSeedType(int theSeedType)
+{
+	if (theSeedType == -1)
+		return nullptr;
+	TOD_ASSERT(theSeedType < SeedType::NUM_SEED_TYPES);
+	return &Registries::PLANTS.GetByNumericalId(theSeedType);
 }
 
 } // namespace PlantTypes

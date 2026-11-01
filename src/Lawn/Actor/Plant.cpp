@@ -95,10 +95,11 @@ Plant::Plant(const PlantType &theType)
 void Plant::Sync(BoundedSync &theSync)
 {
 	theSync.SyncBytes(&mX, sizeof(GameObject) - offsetof(GameObject, mX));
+	theSync.Sync(mImitaterType);
 	theSync.SyncBytes(&mPlantCol, sizeof(Plant) - offsetof(Plant, mPlantCol));
 }
 
-void Plant::PlantInitialize(int theGridX, int theGridY, SeedType theImitaterType)
+void Plant::PlantInitialize(int theGridX, int theGridY)
 {
 	mAttributes = mType.mAttributes;
 	mPlantCol = theGridX;
@@ -122,7 +123,7 @@ void Plant::PlantInitialize(int theGridX, int theGridY, SeedType theImitaterType
 	mState = PlantState::STATE_NOTREADY;
 	mDead = false;
 	mSquished = false;
-	mImitaterType = theImitaterType;
+	mImitaterType = nullptr;
 	mPlantHealth = 300;
 	mDoSpecialCountdown = 0;
 	mDisappearCountdown = 200;
@@ -487,24 +488,24 @@ int Plant::CalcRenderOrder()
 	PLANT_ORDER anOrder = PLANT_ORDER::PLANT_ORDER_NORMAL;
 	RenderLayer aLayer = RenderLayer::RENDER_LAYER_PLANT;
 
-	SeedType aSeedType = mType;
-	if (mType == SeedType::SEED_IMITATER && mImitaterType != SeedType::SEED_NONE)
-		aSeedType = mImitaterType;
+	const PlantType *aPlantType = &mType;
+	if (mType == PlantTypes::IMITATER && mImitaterType)
+		aPlantType = mImitaterType;
 
 	if (mApp->IsWallnutBowlingLevel())
 	{
 		aLayer = RenderLayer::RENDER_LAYER_PROJECTILE;
 	}
-	else if (aSeedType == SeedType::SEED_PUMPKINSHELL)
+	else if (aPlantType == PlantTypes::PUMPKIN)
 	{
 		anOrder = PLANT_ORDER::PLANT_ORDER_PUMPKIN;
 	}
-	else if (IsFlying(aSeedType))
+	else if (mAttributes.mIsFlying)
 	{
 		anOrder = PLANT_ORDER::PLANT_ORDER_FLYER;
 	}
-	else if (aSeedType == SeedType::SEED_FLOWERPOT ||
-			 (aSeedType == SeedType::SEED_LILYPAD && mApp->mGameMode != GameMode::GAMEMODE_CHALLENGE_ZEN_GARDEN))
+	else if (aPlantType == PlantTypes::FLOWER_POT ||
+			 (aPlantType == PlantTypes::LILY_PAD && mApp->mGameMode != GameMode::GAMEMODE_CHALLENGE_ZEN_GARDEN))
 	{
 		anOrder = PLANT_ORDER::PLANT_ORDER_LILYPAD;
 	}
@@ -2811,7 +2812,7 @@ void Plant::UpdateReanimColor()
 	{
 		aBodyReanim->mExtraAdditiveColor = Color(255, 255, 255, 196);
 		aBodyReanim->mEnableExtraAdditiveDraw = true;
-		if (mImitaterType == SeedType::SEED_IMITATER)
+		if (mImitaterType == PlantTypes::IMITATER)
 		{
 			aBodyReanim->mExtraAdditiveColor = Color(255, 255, 255, 92);
 		}
@@ -2824,7 +2825,7 @@ void Plant::UpdateReanimColor()
 	}
 	else if (mEatenFlashCountdown > 0)
 	{
-		int aGrayness = ClampInt(mEatenFlashCountdown * 3, 0, mImitaterType == SeedType::SEED_IMITATER ? 128 : 255);
+		int aGrayness = ClampInt(mEatenFlashCountdown * 3, 0, mImitaterType == PlantTypes::IMITATER ? 128 : 255);
 		aBodyReanim->mExtraAdditiveColor = Color(aGrayness, aGrayness, aGrayness);
 		aBodyReanim->mEnableExtraAdditiveDraw = true;
 	}
@@ -3674,8 +3675,14 @@ float PlantDrawHeightOffset(Board *theBoard, Plant *thePlant, SeedType theSeedTy
 {
 	float aHeightOffset = 0.0f;
 
+	const PlantAttributes *anAttributePointer = nullptr;
+	if (thePlant)
+		anAttributePointer = &thePlant->mAttributes;
+	else
+		anAttributePointer = &PlantTypes::FromOldSeedType(theSeedType).mAttributes;
+
 	bool doFloating = false;
-	if (Plant::IsFlying(theSeedType))
+	if (anAttributePointer->mIsFlying)
 	{
 		doFloating = false;
 	}
@@ -4063,7 +4070,7 @@ void Plant::DrawShadow(Sexy::Graphics *g, float theOffsetX, float theOffsetY)
 		aScale = 1.7f;
 	}
 
-	if (Plant::IsFlying(mType))
+	if (mAttributes.mIsFlying)
 	{
 		aShadowOffsetY += 10.0f;
 		if (mBoard && (mBoard->GetTopPlantAt(mPlantCol, mRow, TOPPLANT_ONLY_NORMAL_POSITION) ||
@@ -4087,7 +4094,7 @@ void Plant::Draw(Graphics *g)
 {
 	float aOffsetX = 0.0f;
 	float aOffsetY = PlantDrawHeightOffset(mBoard, this, mType, mPlantCol, mRow);
-	if (Plant::IsFlying(mType) && mSquished)
+	if (mAttributes.mIsFlying && mSquished)
 	{
 		aOffsetY += 30.0f;
 	}
@@ -4104,7 +4111,7 @@ void Plant::Draw(Graphics *g)
 		}
 
 		g->SetScale(1.0f, 0.25f, 0.0f, 0.0f);
-		DrawSeedType(g, mType, mImitaterType, DrawVariation::VARIATION_NORMAL, aOffsetX, 60.0f + aOffsetY);
+		DrawSeedType(g, mType, mImitaterType ? *mImitaterType : SEED_NONE, DrawVariation::VARIATION_NORMAL, aOffsetX, 60.0f + aOffsetY);
 		g->SetScale(1.0f, 1.0f, 0.0f, 0.0f);
 	}
 	else
@@ -4151,7 +4158,7 @@ void Plant::Draw(Graphics *g)
 
 		DrawShadow(g, aOffsetX, aOffsetY);
 
-		if (Plant::IsFlying(mType))
+		if (mAttributes.mIsFlying)
 		{
 			int aCounter;
 			if (IsOnBoard())
@@ -4487,12 +4494,17 @@ void Plant::DoSpecial()
 void Plant::ImitaterMorph()
 {
 	Die();
-	Plant *aPlant = mBoard->AddPlant(mPlantCol, mRow, PlantTypes::FromOldSeedType(mImitaterType), SeedType::SEED_IMITATER);
+
+	if (!mImitaterType)
+		return;
+
+	Plant *aPlant = mBoard->AddPlant(mPlantCol, mRow, *mImitaterType);
+	aPlant->mImitaterType = PlantTypes::IMITATER;
 
 	FilterEffect aFilter = FilterEffect::FILTER_EFFECT_WASHED_OUT;
-	if (mImitaterType == SeedType::SEED_HYPNOSHROOM || mImitaterType == SeedType::SEED_SQUASH ||
-		mImitaterType == SeedType::SEED_POTATOMINE || mImitaterType == SeedType::SEED_GARLIC ||
-		mImitaterType == SeedType::SEED_LILYPAD)
+	if (mImitaterType == PlantTypes::HYPNO_SHROOM || mImitaterType == PlantTypes::SQUASH ||
+		mImitaterType == PlantTypes::POTATO_MINE || mImitaterType == PlantTypes::GARLIC ||
+		mImitaterType == PlantTypes::LILY_PAD)
 		aFilter = FilterEffect::FILTER_EFFECT_LESS_WASHED_OUT;
 
 	Reanimation *aBodyReanim = mApp->ReanimationTryToGet(aPlant->mBodyReanimID);
@@ -5066,7 +5078,7 @@ void Plant::Die()
 	mDead = true;
 	RemoveEffects();
 
-	if (!Plant::IsFlying(mType) && IsOnBoard())
+	if (!mAttributes.mIsFlying && IsOnBoard())
 	{
 		Plant* aPumpkin = mBoard->GetPumpkinAt(mPlantCol, mRow);
 		GridItem *aLadder = mBoard->GetLadderAt(mPlantCol, mRow);
@@ -5228,11 +5240,6 @@ bool Plant::IsAquatic(SeedType theSeedType)
 {
 	return theSeedType == SeedType::SEED_LILYPAD || theSeedType == SeedType::SEED_TANGLEKELP ||
 		   theSeedType == SeedType::SEED_SEASHROOM || theSeedType == SeedType::SEED_CATTAIL;
-}
-
-bool Plant::IsFlying(SeedType theSeedtype)
-{
-	return theSeedtype == SeedType::SEED_INSTANT_COFFEE;
 }
 
 bool Plant::IsUpgrade(SeedType theSeedtype)

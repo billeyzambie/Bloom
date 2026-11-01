@@ -2057,11 +2057,11 @@ bool Board::IsPoolSquare(int theGridX, int theGridY)
 	return false;
 }
 
-Plant *Board::NewPlant(int theGridX, int theGridY, const PlantType &thePlantType, SeedType theImitaterType)
+Plant *Board::NewPlant(int theGridX, int theGridY, const PlantType &thePlantType)
 {
 	Plant *aPlant = mPlants.DataArrayAlloc(thePlantType);
 	aPlant->mIsOnBoard = true;
-	aPlant->PlantInitialize(theGridX, theGridY, theImitaterType);
+	aPlant->PlantInitialize(theGridX, theGridY);
 	return aPlant;
 }
 
@@ -2091,7 +2091,7 @@ void Board::DoPlantingEffects(int theGridX, int theGridY, Plant *thePlant)
 		mApp->PlayFoley(FoleyType::FOLEY_PLANT_WATER);
 		return;
 	}
-	if (Plant::IsFlying(thePlant->mType))
+	if (thePlant->mAttributes.mIsFlying)
 	{
 		mApp->PlayFoley(FoleyType::FOLEY_PLANT);
 		return;
@@ -2109,17 +2109,13 @@ void Board::DoPlantingEffects(int theGridX, int theGridY, Plant *thePlant)
 	}
 }
 
-Plant *Board::AddPlant(int theGridX, int theGridY, const PlantType &thePlantType, SeedType theImitaterType)
+Plant *Board::AddPlant(int theGridX, int theGridY, const PlantType &thePlantType)
 {
-	const PlantType *aActualType = &thePlantType;
-	if (thePlantType == PlantTypes::IMITATER && theImitaterType != SeedType::SEED_NONE)
-		aActualType = &PlantTypes::FromOldSeedType(theImitaterType);
-
 	if (StageHasPool() && !StageIsNight())
 	{
-		if (aActualType == PlantTypes::PEASHOOTER || aActualType == PlantTypes::REPEATER ||
-			aActualType == PlantTypes::THREEPEATER || aActualType == PlantTypes::GATLING_PEA ||
-			aActualType == PlantTypes::SNOW_PEA || aActualType == PlantTypes::SPLIT_PEA)
+		if (thePlantType == PlantTypes::PEASHOOTER || thePlantType == PlantTypes::REPEATER ||
+			thePlantType == PlantTypes::THREEPEATER || thePlantType == PlantTypes::GATLING_PEA ||
+			thePlantType == PlantTypes::SNOW_PEA || thePlantType == PlantTypes::SPLIT_PEA)
 		{
 			mDontPeaUsedPeashooter = true;
 		}
@@ -2127,22 +2123,22 @@ Plant *Board::AddPlant(int theGridX, int theGridY, const PlantType &thePlantType
 
 	if (StageHasRoof() && !StageIsNight())
 	{
-		if (aActualType == PlantTypes::CABBAGE_PULT || aActualType == PlantTypes::KERNEL_PULT ||
-			aActualType == PlantTypes::MELON_PULT || aActualType == PlantTypes::WINTER_MELON)
+		if (thePlantType == PlantTypes::CABBAGE_PULT || thePlantType == PlantTypes::KERNEL_PULT ||
+			thePlantType == PlantTypes::MELON_PULT || thePlantType == PlantTypes::WINTER_MELON)
 		{
 			mGroundedUsedCatapult = true;
 		}
 	}
 
-	bool aIsMushroom = (aActualType == PlantTypes::PUFF_SHROOM || aActualType == PlantTypes::SUN_SHROOM ||
-						aActualType == PlantTypes::FUME_SHROOM || aActualType == PlantTypes::HYPNO_SHROOM ||
-						aActualType == PlantTypes::SCAREDY_SHROOM || aActualType == PlantTypes::ICE_SHROOM ||
-						aActualType == PlantTypes::DOOM_SHROOM || aActualType == PlantTypes::SEA_SHROOM ||
-						aActualType == PlantTypes::GLOOM_SHROOM || aActualType == PlantTypes::MAGNET_SHROOM);
+	bool aIsMushroom = (thePlantType == PlantTypes::PUFF_SHROOM || thePlantType == PlantTypes::SUN_SHROOM ||
+						thePlantType == PlantTypes::FUME_SHROOM || thePlantType == PlantTypes::HYPNO_SHROOM ||
+						thePlantType == PlantTypes::SCAREDY_SHROOM || thePlantType == PlantTypes::ICE_SHROOM ||
+						thePlantType == PlantTypes::DOOM_SHROOM || thePlantType == PlantTypes::SEA_SHROOM ||
+						thePlantType == PlantTypes::GLOOM_SHROOM || thePlantType == PlantTypes::MAGNET_SHROOM);
 
 	if (!StageIsNight() && !StageHasPool() && !StageHasRoof())
 	{
-		if (!aIsMushroom && aActualType != PlantTypes::COFFEE_BEAN)
+		if (!aIsMushroom && thePlantType != PlantTypes::COFFEE_BEAN)
 		{
 			mGoodMorningUsedNonFungus = true;
 		}
@@ -2156,7 +2152,7 @@ Plant *Board::AddPlant(int theGridX, int theGridY, const PlantType &thePlantType
 		}
 	}
 
-	Plant *aPlant = NewPlant(theGridX, theGridY, thePlantType, theImitaterType);
+	Plant *aPlant = NewPlant(theGridX, theGridY, thePlantType);
 	DoPlantingEffects(theGridX, theGridY, aPlant);
 	mChallenge->PlantAdded(aPlant);
 	mPlantsPlaced++;
@@ -2215,17 +2211,17 @@ void Board::GetPlantsOnLawn(int theGridX, int theGridY, PlantsOnLawn *thePlantOn
 	Plant *aPlant = nullptr;
 	while (IteratePlants(aPlant))
 	{
-		SeedType aSeedType = aPlant->mType;
-		if (aSeedType == SeedType::SEED_IMITATER && aPlant->mImitaterType != SeedType::SEED_NONE)
+		const PlantType *aPlantType = &aPlant->mType;
+		if (aPlantType == PlantTypes::IMITATER && aPlant->mImitaterType)
 		{
-			aSeedType = aPlant->mImitaterType;
+			aPlantType = aPlant->mImitaterType;
 		}
 
 		if (aPlant->mRow != theGridY)
 		{
 			continue;
 		}
-		if (aSeedType == SeedType::SEED_COBCANNON)
+		if (aPlantType == PlantTypes::COB_CANNON)
 		{
 			if (aPlant->mPlantCol < theGridX - 1 || aPlant->mPlantCol > theGridX)
 			{
@@ -2244,17 +2240,18 @@ void Board::GetPlantsOnLawn(int theGridX, int theGridY, PlantsOnLawn *thePlantOn
 			continue;
 		}
 
-		if (Plant::IsFlying(aPlant->mType))
+		if (aPlant->mAttributes.mIsFlying)
 		{
 			TOD_ASSERT(!thePlantOnLawn->mFlyingPlant);
 			thePlantOnLawn->mFlyingPlant = aPlant;
 		}
-		else if (aSeedType == SeedType::SEED_FLOWERPOT ||
-				 (aSeedType == SeedType::SEED_LILYPAD && mApp->mGameMode != GameMode::GAMEMODE_CHALLENGE_ZEN_GARDEN))
+		else if (aPlantType == PlantTypes::FLOWER_POT ||
+				 (aPlantType == PlantTypes::LILY_PAD 
+					 && mApp->mGameMode != GameMode::GAMEMODE_CHALLENGE_ZEN_GARDEN))
 		{
 			thePlantOnLawn->mUnderPlant = aPlant;
 		}
-		else if (aSeedType == SeedType::SEED_PUMPKINSHELL)
+		else if (aPlantType == PlantTypes::PUMPKIN)
 		{
 			TOD_ASSERT(!thePlantOnLawn->mPumpkinPlant);
 			thePlantOnLawn->mPumpkinPlant = aPlant;
@@ -2814,7 +2811,7 @@ PlantingReason Board::CanPlantAt(int theGridX, int theGridY, SeedType theSeedTyp
 	}
 	if (aHasGrave)
 	{
-		return Plant::IsFlying(theSeedType) ? PlantingReason::PLANTING_OK : PlantingReason::PLANTING_NOT_ON_GRAVE;
+		return PlantTypes::FromOldSeedType(theSeedType).mAttributes.mIsFlying ? PlantingReason::PLANTING_OK : PlantingReason::PLANTING_NOT_ON_GRAVE;
 	}
 
 	Plant *aUnderPlant = aPlantOnLawn.mUnderPlant;
@@ -2853,7 +2850,7 @@ PlantingReason Board::CanPlantAt(int theGridX, int theGridY, SeedType theSeedTyp
 
 		return (aNormalPlant || aUnderPlant) ? PlantingReason::PLANTING_NOT_HERE : PlantingReason::PLANTING_OK;
 	}
-	if (Plant::IsFlying(theSeedType))
+	if (PlantTypes::FromOldSeedType(theSeedType).mAttributes.mIsFlying)
 	{
 		return aPlantOnLawn.mFlyingPlant ? PlantingReason::PLANTING_NOT_HERE : PlantingReason::PLANTING_OK;
 	}
@@ -4000,7 +3997,8 @@ void Board::MouseDownWithPlant(int x, int y, int theClickCount)
 	else if (mCursorObject->mCursorType == CursorType::CURSOR_TYPE_PLANT_FROM_USABLE_COIN)
 	{
 		const PlantType &aPlantType = PlantTypes::FromOldSeedType(mCursorObject->mType);
-		AddPlant(aGridX, aGridY, aPlantType, mCursorObject->mImitaterType);
+		Plant *aPlant = AddPlant(aGridX, aGridY, aPlantType);
+		aPlant->mImitaterType = PlantTypes::FromOptionalOldSeedType(mCursorObject->mImitaterType);
 		Coin *aCoin = mCoins.DataArrayTryToGet(mCursorObject->mCoinID);
 		mCursorObject->mCoinID = CoinID::COINID_NULL;
 		aCoin->Die();
@@ -4008,7 +4006,8 @@ void Board::MouseDownWithPlant(int x, int y, int theClickCount)
 	else if (mCursorObject->mCursorType == CursorType::CURSOR_TYPE_PLANT_FROM_BANK)
 	{
 		const PlantType &aPlantType = PlantTypes::FromOldSeedType(mCursorObject->mType);
-		Plant *aPlant = AddPlant(aGridX, aGridY, aPlantType, mCursorObject->mImitaterType);
+		Plant *aPlant = AddPlant(aGridX, aGridY, aPlantType);
+		aPlant->mImitaterType = PlantTypes::FromOptionalOldSeedType(mCursorObject->mImitaterType);
 		if (aIsAwake)
 		{
 			aPlant->SetSleeping(false);
@@ -4049,7 +4048,8 @@ void Board::MouseDownWithPlant(int x, int y, int theClickCount)
 				}
 			}
 			const PlantType &aPlantType = PlantTypes::FromOldSeedType(mCursorObject->mType);
-			AddPlant(aGridX, aRow, aPlantType, mCursorObject->mImitaterType);
+			Plant *aPlant = AddPlant(aGridX, aRow, aPlantType);
+			aPlant->mImitaterType = PlantTypes::FromOptionalOldSeedType(mCursorObject->mImitaterType);
 		}
 	}
 
@@ -4184,7 +4184,7 @@ void Board::MouseDownWithTool(int x, int y, int theClickCount, CursorType theCur
 		if (aPlant->mType == SeedType::SEED_CATTAIL &&
 			GetTopPlantAt(aPlant->mPlantCol, aPlant->mRow, PlantPriority::TOPPLANT_ONLY_PUMPKIN))
 		{
-			NewPlant(aPlant->mPlantCol, aPlant->mRow, PlantTypes::LILY_PAD, SeedType::SEED_NONE);
+			NewPlant(aPlant->mPlantCol, aPlant->mRow, PlantTypes::LILY_PAD);
 		}
 		if (mTutorialState == TutorialState::TUTORIAL_SHOVEL_DIG ||
 			mTutorialState == TutorialState::TUTORIAL_SHOVEL_KEEP_DIGGING)
@@ -4213,7 +4213,7 @@ Plant *Board::SpecialPlantHitTest(int x, int y)
 				return aPlant;
 			}
 		}
-		else if (Plant::IsFlying(aPlant->mType))
+		else if (aPlant->mAttributes.mIsFlying)
 		{
 			if (Distance2D(x, y, aPlant->mX + 40, aPlant->mY) < 15)
 			{
@@ -9215,35 +9215,35 @@ void Board::KeyChar(SexyChar theChar)
 				{
 					if (CanPlantAt(x, y, SeedType::SEED_LILYPAD) == PlantingReason::PLANTING_OK)
 					{
-						AddPlant(x, y, PlantTypes::LILY_PAD, SeedType::SEED_NONE);
+						AddPlant(x, y, PlantTypes::LILY_PAD);
 					}
 					if (CanPlantAt(x, y, SeedType::SEED_PUMPKINSHELL) == PlantingReason::PLANTING_OK)
 					{
 						if (x <= 6 || IsPoolSquare(x, y))
 						{
-							AddPlant(x, y, PlantTypes::PUMPKIN, SeedType::SEED_NONE);
+							AddPlant(x, y, PlantTypes::PUMPKIN);
 						}
 					}
 					if (CanPlantAt(x, y, SeedType::SEED_GATLINGPEA) == PlantingReason::PLANTING_OK)
 					{
 						if (x < 5)
 						{
-							AddPlant(x, y, PlantTypes::GATLING_PEA, SeedType::SEED_NONE);
+							AddPlant(x, y, PlantTypes::GATLING_PEA);
 						}
 						else if (x == 5)
 						{
-							AddPlant(x, y, PlantTypes::TORCHWOOD, SeedType::SEED_NONE);
+							AddPlant(x, y, PlantTypes::TORCHWOOD);
 						}
 						else if (x == 6)
 						{
-							AddPlant(x, y, PlantTypes::SPLIT_PEA, SeedType::SEED_NONE);
+							AddPlant(x, y, PlantTypes::SPLIT_PEA);
 						}
 						else if (y == 2 || y == 3)
 						{
-							AddPlant(x, y, PlantTypes::GLOOM_SHROOM, SeedType::SEED_NONE);
+							AddPlant(x, y, PlantTypes::GLOOM_SHROOM);
 							if (CanPlantAt(x, y, SeedType::SEED_INSTANT_COFFEE) == PlantingReason::PLANTING_OK)
 							{
-								AddPlant(x, y, PlantTypes::COFFEE_BEAN, SeedType::SEED_NONE);
+								AddPlant(x, y, PlantTypes::COFFEE_BEAN);
 							}
 						}
 					}
@@ -9267,11 +9267,11 @@ void Board::KeyChar(SexyChar theChar)
 				{
 					if (StageHasRoof() && CanPlantAt(x, y, SeedType::SEED_FLOWERPOT) == PlantingReason::PLANTING_OK)
 					{
-						AddPlant(x, y, PlantTypes::FLOWER_POT, SeedType::SEED_NONE);
+						AddPlant(x, y, PlantTypes::FLOWER_POT);
 					}
 					if (CanPlantAt(x, y, SeedType::SEED_LILYPAD) == PlantingReason::PLANTING_OK)
 					{
-						AddPlant(x, y, PlantTypes::LILY_PAD, SeedType::SEED_NONE);
+						AddPlant(x, y, PlantTypes::LILY_PAD);
 					}
 					//if (CanPlantAt(x, y, SeedType::SEED_THREEPEATER) == PlantingReason::PLANTING_OK)
 					//{
@@ -9315,7 +9315,7 @@ void Board::KeyChar(SexyChar theChar)
 			{
 				if (CanPlantAt(x, y, SeedType::SEED_FLOWERPOT) == PlantingReason::PLANTING_OK)
 				{
-					AddPlant(x, y, PlantTypes::FLOWER_POT, SeedType::SEED_NONE);
+					AddPlant(x, y, PlantTypes::FLOWER_POT);
 				}
 			}
 		}
@@ -9839,7 +9839,9 @@ int Board::GetSeedBankExtraWidth()
 
 void Board::OffsetYForPlanting(int &theY, SeedType theSeedType)
 {
-	if (Plant::IsFlying(theSeedType) || theSeedType == SeedType::SEED_GRAVEBUSTER)
+	const PlantType *aPlantType = PlantTypes::FromOptionalOldSeedType(theSeedType);
+
+	if (aPlantType && aPlantType->mAttributes.mIsFlying || theSeedType == SeedType::SEED_GRAVEBUSTER)
 	{
 		theY += 15;
 	}
