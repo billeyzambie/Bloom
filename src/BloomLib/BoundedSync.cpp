@@ -78,35 +78,3 @@ void BoundedSync::SyncBytes(void *theDest, int theReadSize)
 		mBuffer.WriteBytes((uint8_t *)theDest, theReadSize);
 	}
 }
-
-template <> void BoundedSync::Write<int>(const int &theValue)
-{
-	mBuffer.WriteLong(theValue);
-}
-
-template <> int BoundedSync::Read<int>()
-{
-	return mBuffer.ReadLong();
-}
-
-template <> void BoundedSync::Write(const bool &theValue)
-{
-	mBuffer.WriteBoolean(theValue);
-}
-
-template <> bool BoundedSync::Read<bool>()
-{
-	return mBuffer.ReadBoolean();
-}
-
-template <> void BoundedSync::Write(const float &theValue)
-{
-	static_assert(sizeof(float) == sizeof(int));
-	Write(reinterpret_cast<const int &>(theValue));
-}
-
-template <> float BoundedSync::Read<float>()
-{
-	int aFloatBits = Read<int>();
-	return reinterpret_cast<float &>(aFloatBits);
-}

@@ -19,6 +19,9 @@ class BLOOM_API BloomType
 	bool operator==(const BloomType &theOther) const;
 };
 
+template <class T>
+concept IsBloomType = std::is_base_of_v<BloomType, T>;
+
 template <class T> class PatchHolder;
 
 template <class T>

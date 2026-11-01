@@ -1,7 +1,6 @@
 #pragma once
 
-#include "../Lawn/System/SaveGame.h"
-#include "Bloom.h"
+#include "BloomSerializer.h"
 
 class BLOOM_API BoundedSync
 {
@@ -19,26 +18,22 @@ class BLOOM_API BoundedSync
 	void Finish();
 	int BytesLeftToRead();
 	void SyncBytes(void *theDest, int theReadSize);
-	template <typename T> void Write(const T &theValue) = delete;
-	template <typename T> T Read() = delete;
-	template <> void Write<int>(const int &theValue);
-	template <> int Read<int>();
-	template <> void Write<bool>(const bool &theValue);
-	template <> bool Read<bool>();
-	template <> void Write<float>(const float &theValue);
-	template <> float Read<float>();
+	template <typename T> void Write(const T &theValue)
+	{
+		BloomSerializer<T>::Write(mBuffer, theValue);
+	}
 	template <typename T> T Read(const T &theDefaultValue)
 	{
 		if (BytesLeftToRead() <= 0)
 			return theDefaultValue;
 		else
-			return Read<T>();
+			return BloomSerializer<T>::Read(mBuffer);
 	}
-	template <typename T> void Sync(T &theValue, const T &theDefaultValue)
+	template <typename T> void Sync(T &theValue, const T &theDefaultValue = {})
 	{
 		if (mReading)
 		{
-			theValue = Read<T>(theDefaultValue);
+			theValue = Read(theDefaultValue);
 		}
 		else
 		{
