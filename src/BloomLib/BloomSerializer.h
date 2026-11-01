@@ -36,6 +36,19 @@ template <> struct BLOOM_API BloomSerializer<ResourceId>
 	static ResourceId Read(Sexy::Buffer &theBuffer);
 };
 
+namespace Sexy
+{
+
+class Image;
+
+}
+
+template <> struct BLOOM_API BloomSerializer<Sexy::Image *>
+{
+	static void Write(Sexy::Buffer &theBuffer, Sexy::Image *theValue);
+	static Sexy::Image *Read(Sexy::Buffer &theBuffer);
+};
+
 template <IsBloomType T> struct BloomSerializer<const T *>
 {
 	static void Write(Sexy::Buffer &theBuffer, const T *theValue)

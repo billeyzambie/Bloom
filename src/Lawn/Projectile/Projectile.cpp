@@ -33,6 +33,8 @@ void Projectile::Sync(BoundedSync &theSync)
 {
 	theSync.SyncBytes(&mX, sizeof(GameObject) - offsetof(GameObject, mX));
 	theSync.SyncBytes(&mMotionType, offsetof(Projectile, mBehaviors) - offsetof(Projectile, mMotionType));
+	theSync.Sync(mAttributes.mImageOverride, nullptr);
+	theSync.SyncBytes(&mAttributes.mVisualScale, sizeof(ProjectileAttributes) - offsetof(ProjectileAttributes, mVisualScale));
 }
 
 void Projectile::ProjectileInitialize(

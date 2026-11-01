@@ -95,8 +95,9 @@ Plant::Plant(const PlantType &theType)
 void Plant::Sync(BoundedSync &theSync)
 {
 	theSync.SyncBytes(&mX, sizeof(GameObject) - offsetof(GameObject, mX));
-	theSync.Sync(mImitaterType);
+	theSync.Sync(mImitaterType, nullptr);
 	theSync.SyncBytes(&mPlantCol, sizeof(Plant) - offsetof(Plant, mPlantCol));
+	theSync.SyncBytes(&mAttributes.mWidth, sizeof(PlantAttributes) - offsetof(PlantAttributes, mWidth));
 }
 
 void Plant::PlantInitialize(int theGridX, int theGridY)

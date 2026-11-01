@@ -162,7 +162,7 @@ const auto &HYPNO_SHROOM = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = ReanimationType::REANIM_FUMESHROOM;
+		theType.mBaseReanim = ReanimationType::REANIM_HYPNOSHROOM;
 		theType.mSunCost = 75;
 		theType.mRefreshTime = 3000;
 	}

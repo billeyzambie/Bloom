@@ -29,11 +29,11 @@ class BLOOM_API BoundedSync
 		else
 			return BloomSerializer<T>::Read(mBuffer);
 	}
-	template <typename T> void Sync(T &theValue, const T &theDefaultValue = {})
+	template <typename T> void Sync(T &theValue, const auto &theDefaultValue)
 	{
 		if (mReading)
 		{
-			theValue = Read(theDefaultValue);
+			theValue = Read<T>(theDefaultValue);
 		}
 		else
 		{

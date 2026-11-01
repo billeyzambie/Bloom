@@ -17,7 +17,7 @@ class BLOOM_API PlantType final : public BloomType
 		int mHeight = 80;
 		int mMaxHealth = 300;
 		int mLaunchRate = 150;
-		bool mIsFlying : 1 = 1;
+		bool mIsFlying : 1 = false;
 	};
 	PatchHolder<PlantType> *mPatchHolder = nullptr;
 	Attributes mAttributeBaseValues;
