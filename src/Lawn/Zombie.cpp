@@ -2479,6 +2479,7 @@ void Zombie::UpdateZombiePeaHead()
 			aOriginX += 90.0f * mScaleZombie;
 			Projectile *aProjectile =
 				mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, ProjectileTypes::PEA, this);
+			aProjectile->mVelX = 3.33f;
 		}
 		else
 		{
