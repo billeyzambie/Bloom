@@ -1582,203 +1582,203 @@ void Challenge::UpdateConveyorBelt()
 	if (mBoard->mLevel == 10)
 	{
 		aSeedPickCount = 7;
-		aSeedPickArray[0].mItem = SEED_PEASHOOTER;
+		aSeedPickArray[0].mItem = PlantTypes::PEASHOOTER->GetNumericalId();
 		aSeedPickArray[0].mWeight = 20;
-		aSeedPickArray[1].mItem = SEED_CHERRYBOMB;
+		aSeedPickArray[1].mItem = PlantTypes::CHERRY_BOMB->GetNumericalId();
 		aSeedPickArray[1].mWeight = 20;
-		aSeedPickArray[2].mItem = SEED_WALLNUT;
+		aSeedPickArray[2].mItem = PlantTypes::WALL_NUT->GetNumericalId();
 		aSeedPickArray[2].mWeight = 15;
-		aSeedPickArray[3].mItem = SEED_REPEATER;
+		aSeedPickArray[3].mItem = PlantTypes::REPEATER->GetNumericalId();
 		aSeedPickArray[3].mWeight = 20;
-		aSeedPickArray[4].mItem = SEED_SNOWPEA;
+		aSeedPickArray[4].mItem = PlantTypes::SNOW_PEA->GetNumericalId();
 		aSeedPickArray[4].mWeight = 10;
-		aSeedPickArray[5].mItem = SEED_CHOMPER;
+		aSeedPickArray[5].mItem = PlantTypes::CHOMPER->GetNumericalId();
 		aSeedPickArray[5].mWeight = 5;
-		aSeedPickArray[6].mItem = SEED_POTATOMINE;
+		aSeedPickArray[6].mItem = PlantTypes::POTATO_MINE->GetNumericalId();
 		aSeedPickArray[6].mWeight = 10;
 	}
 	else if (mBoard->mLevel == 20)
 	{
 		aSeedPickCount = 7;
-		aSeedPickArray[0].mItem = SEED_GRAVEBUSTER;
+		aSeedPickArray[0].mItem = PlantTypes::GRAVE_BUSTER->GetNumericalId();
 		aSeedPickArray[0].mWeight = 20;
-		aSeedPickArray[1].mItem = SEED_ICESHROOM;
+		aSeedPickArray[1].mItem = PlantTypes::ICE_SHROOM->GetNumericalId();
 		aSeedPickArray[1].mWeight = 15;
-		aSeedPickArray[2].mItem = SEED_DOOMSHROOM;
+		aSeedPickArray[2].mItem = PlantTypes::DOOM_SHROOM->GetNumericalId();
 		aSeedPickArray[2].mWeight = 15;
-		aSeedPickArray[3].mItem = SEED_HYPNOSHROOM;
+		aSeedPickArray[3].mItem = PlantTypes::HYPNO_SHROOM->GetNumericalId();
 		aSeedPickArray[3].mWeight = 10;
-		aSeedPickArray[4].mItem = SEED_SCAREDYSHROOM;
+		aSeedPickArray[4].mItem = PlantTypes::SCAREDY_SHROOM->GetNumericalId();
 		aSeedPickArray[4].mWeight = 15;
-		aSeedPickArray[5].mItem = SEED_FUMESHROOM;
+		aSeedPickArray[5].mItem = PlantTypes::FUME_SHROOM->GetNumericalId();
 		aSeedPickArray[5].mWeight = 15;
-		aSeedPickArray[6].mItem = SEED_PUFFSHROOM;
+		aSeedPickArray[6].mItem = PlantTypes::PUFF_SHROOM->GetNumericalId();
 		aSeedPickArray[6].mWeight = 10;
 	}
 	else if (mBoard->mLevel == 30)
 	{
 		aSeedPickCount = 8;
-		aSeedPickArray[0].mItem = SEED_LILYPAD;
+		aSeedPickArray[0].mItem = PlantTypes::LILY_PAD->GetNumericalId();
 		aSeedPickArray[0].mWeight = 25;
-		aSeedPickArray[1].mItem = SEED_SQUASH;
+		aSeedPickArray[1].mItem = PlantTypes::SQUASH->GetNumericalId();
 		aSeedPickArray[1].mWeight = 5;
-		aSeedPickArray[2].mItem = SEED_THREEPEATER;
+		aSeedPickArray[2].mItem = PlantTypes::THREEPEATER->GetNumericalId();
 		aSeedPickArray[2].mWeight = 25;
-		aSeedPickArray[3].mItem = SEED_TANGLEKELP;
+		aSeedPickArray[3].mItem = PlantTypes::TANGLE_KELP->GetNumericalId();
 		aSeedPickArray[3].mWeight = 5;
-		aSeedPickArray[4].mItem = SEED_JALAPENO;
+		aSeedPickArray[4].mItem = PlantTypes::JALAPENO->GetNumericalId();
 		aSeedPickArray[4].mWeight = 10;
-		aSeedPickArray[5].mItem = SEED_SPIKEWEED;
+		aSeedPickArray[5].mItem = PlantTypes::SPIKEWEED->GetNumericalId();
 		aSeedPickArray[5].mWeight = 10;
-		aSeedPickArray[6].mItem = SEED_TORCHWOOD;
+		aSeedPickArray[6].mItem = PlantTypes::TORCHWOOD->GetNumericalId();
 		aSeedPickArray[6].mWeight = 10;
-		aSeedPickArray[7].mItem = SEED_TALLNUT;
+		aSeedPickArray[7].mItem = PlantTypes::TALL_NUT->GetNumericalId();
 		aSeedPickArray[7].mWeight = 10;
 	}
 	else if (mBoard->mLevel == 40)
 	{
 		aSeedPickCount = 8;
-		aSeedPickArray[0].mItem = SEED_LILYPAD;
+		aSeedPickArray[0].mItem = PlantTypes::LILY_PAD->GetNumericalId();
 		aSeedPickArray[0].mWeight = 25;
-		aSeedPickArray[1].mItem = SEED_SEASHROOM;
+		aSeedPickArray[1].mItem = PlantTypes::SEA_SHROOM->GetNumericalId();
 		aSeedPickArray[1].mWeight = 10;
-		aSeedPickArray[2].mItem = SEED_MAGNETSHROOM;
+		aSeedPickArray[2].mItem = PlantTypes::MAGNET_SHROOM->GetNumericalId();
 		aSeedPickArray[2].mWeight = 5;
-		aSeedPickArray[3].mItem = SEED_BLOVER;
+		aSeedPickArray[3].mItem = PlantTypes::BLOVER->GetNumericalId();
 		aSeedPickArray[3].mWeight = 5;
-		aSeedPickArray[4].mItem = SEED_CACTUS;
+		aSeedPickArray[4].mItem = PlantTypes::CACTUS->GetNumericalId();
 		aSeedPickArray[4].mWeight = 15;
-		aSeedPickArray[5].mItem = SEED_STARFRUIT;
+		aSeedPickArray[5].mItem = PlantTypes::STARFRUIT->GetNumericalId();
 		aSeedPickArray[5].mWeight = 25;
-		aSeedPickArray[6].mItem = SEED_SPLITPEA;
+		aSeedPickArray[6].mItem = PlantTypes::SPLIT_PEA->GetNumericalId();
 		aSeedPickArray[6].mWeight = 5;
-		aSeedPickArray[7].mItem = SEED_PUMPKINSHELL;
+		aSeedPickArray[7].mItem = PlantTypes::PUMPKIN->GetNumericalId();
 		aSeedPickArray[7].mWeight = 10;
 	}
 	else if (mApp->IsFinalBossLevel())
 	{
 		aSeedPickCount = 6;
-		aSeedPickArray[0].mItem = SEED_FLOWERPOT;
+		aSeedPickArray[0].mItem = PlantTypes::FLOWER_POT->GetNumericalId();
 		aSeedPickArray[0].mWeight = 55;
-		aSeedPickArray[1].mItem = SEED_MELONPULT;
+		aSeedPickArray[1].mItem = PlantTypes::MELON_PULT->GetNumericalId();
 		aSeedPickArray[1].mWeight = 10;
-		aSeedPickArray[2].mItem = SEED_JALAPENO;
+		aSeedPickArray[2].mItem = PlantTypes::JALAPENO->GetNumericalId();
 		aSeedPickArray[2].mWeight = 12;
-		aSeedPickArray[3].mItem = SEED_CABBAGEPULT;
+		aSeedPickArray[3].mItem = PlantTypes::CABBAGE_PULT->GetNumericalId();
 		aSeedPickArray[3].mWeight = 10;
-		aSeedPickArray[4].mItem = SEED_KERNELPULT;
+		aSeedPickArray[4].mItem = PlantTypes::KERNEL_PULT->GetNumericalId();
 		aSeedPickArray[4].mWeight = 5;
-		aSeedPickArray[5].mItem = SEED_ICESHROOM;
+		aSeedPickArray[5].mItem = PlantTypes::ICE_SHROOM->GetNumericalId();
 		aSeedPickArray[5].mWeight = 8;
 	}
 	else if (mApp->IsShovelLevel())
 	{
 		aSeedPickCount = 1;
-		aSeedPickArray[0].mItem = SEED_PEASHOOTER;
+		aSeedPickArray[0].mItem = PlantTypes::PEASHOOTER->GetNumericalId();
 		aSeedPickArray[0].mWeight = 100;
 	}
 	else if (mApp->mGameMode == GAMEMODE_CHALLENGE_WALLNUT_BOWLING_2)
 	{
 		aSeedPickCount = 3;
-		aSeedPickArray[0].mItem = SEED_WALLNUT;
+		aSeedPickArray[0].mItem = PlantTypes::WALL_NUT->GetNumericalId();
 		aSeedPickArray[0].mWeight = 85;
-		aSeedPickArray[1].mItem = SEED_EXPLODE_O_NUT;
+		aSeedPickArray[1].mItem = PlantTypes::EXPLODE_O_NUT->GetNumericalId();
 		aSeedPickArray[1].mWeight = 15;
-		aSeedPickArray[2].mItem = SEED_GIANT_WALLNUT;
+		aSeedPickArray[2].mItem = PlantTypes::GIANT_WALL_NUT->GetNumericalId();
 		aSeedPickArray[2].mWeight = 15;
 	}
 	else if (mApp->IsWallnutBowlingLevel())
 	{
 		aSeedPickCount = 2;
-		aSeedPickArray[0].mItem = SEED_WALLNUT;
+		aSeedPickArray[0].mItem = PlantTypes::WALL_NUT->GetNumericalId();
 		aSeedPickArray[0].mWeight = 85;
-		aSeedPickArray[1].mItem = SEED_EXPLODE_O_NUT;
+		aSeedPickArray[1].mItem = PlantTypes::EXPLODE_O_NUT->GetNumericalId();
 		aSeedPickArray[1].mWeight = 15;
 	}
 	else if (mApp->IsLittleTroubleLevel())
 	{
 		aSeedPickCount = 4;
-		aSeedPickArray[0].mItem = SEED_LILYPAD;
+		aSeedPickArray[0].mItem = PlantTypes::LILY_PAD->GetNumericalId();
 		aSeedPickArray[0].mWeight = 25;
-		aSeedPickArray[1].mItem = SEED_WALLNUT;
+		aSeedPickArray[1].mItem = PlantTypes::WALL_NUT->GetNumericalId();
 		aSeedPickArray[1].mWeight = 15;
-		aSeedPickArray[2].mItem = SEED_PEASHOOTER;
+		aSeedPickArray[2].mItem = PlantTypes::PEASHOOTER->GetNumericalId();
 		aSeedPickArray[2].mWeight = 25;
-		aSeedPickArray[3].mItem = SEED_CHERRYBOMB;
+		aSeedPickArray[3].mItem = PlantTypes::CHERRY_BOMB->GetNumericalId();
 		aSeedPickArray[3].mWeight = 35;
 	}
 	else if (mApp->IsStormyNightLevel())
 	{
 		aSeedPickCount = 5;
-		aSeedPickArray[0].mItem = SEED_LILYPAD;
+		aSeedPickArray[0].mItem = PlantTypes::LILY_PAD->GetNumericalId();
 		aSeedPickArray[0].mWeight = 30;
-		aSeedPickArray[1].mItem = SEED_CACTUS;
+		aSeedPickArray[1].mItem = PlantTypes::CACTUS->GetNumericalId();
 		aSeedPickArray[1].mWeight = 10;
-		aSeedPickArray[2].mItem = SEED_PEASHOOTER;
+		aSeedPickArray[2].mItem = PlantTypes::PEASHOOTER->GetNumericalId();
 		aSeedPickArray[2].mWeight = 20;
-		aSeedPickArray[3].mItem = SEED_PUFFSHROOM;
+		aSeedPickArray[3].mItem = PlantTypes::PUFF_SHROOM->GetNumericalId();
 		aSeedPickArray[3].mWeight = 15;
-		aSeedPickArray[4].mItem = SEED_CHERRYBOMB;
+		aSeedPickArray[4].mItem = PlantTypes::CHERRY_BOMB->GetNumericalId();
 		aSeedPickArray[4].mWeight = 25;
 	}
 	else if (mApp->IsBungeeBlitzLevel())
 	{
 		aSeedPickCount = 4;
-		aSeedPickArray[0].mItem = SEED_FLOWERPOT;
+		aSeedPickArray[0].mItem = PlantTypes::FLOWER_POT->GetNumericalId();
 		aSeedPickArray[0].mWeight = 50;
-		aSeedPickArray[1].mItem = SEED_CHOMPER;
+		aSeedPickArray[1].mItem = PlantTypes::CHOMPER->GetNumericalId();
 		aSeedPickArray[1].mWeight = 25;
-		aSeedPickArray[2].mItem = SEED_PUMPKINSHELL;
+		aSeedPickArray[2].mItem = PlantTypes::PUMPKIN->GetNumericalId();
 		aSeedPickArray[2].mWeight = 15;
-		aSeedPickArray[3].mItem = SEED_CHERRYBOMB;
+		aSeedPickArray[3].mItem = PlantTypes::CHERRY_BOMB->GetNumericalId();
 		aSeedPickArray[3].mWeight = 10;
 	}
 	else if (mApp->mGameMode == GAMEMODE_CHALLENGE_PORTAL_COMBAT)
 	{
 		aSeedPickCount = 6;
-		aSeedPickArray[0].mItem = SEED_PEASHOOTER;
+		aSeedPickArray[0].mItem = PlantTypes::PEASHOOTER->GetNumericalId();
 		aSeedPickArray[0].mWeight = 25;
-		aSeedPickArray[1].mItem = SEED_REPEATER;
+		aSeedPickArray[1].mItem = PlantTypes::REPEATER->GetNumericalId();
 		aSeedPickArray[1].mWeight = 20;
-		aSeedPickArray[2].mItem = SEED_TORCHWOOD;
+		aSeedPickArray[2].mItem = PlantTypes::TORCHWOOD->GetNumericalId();
 		aSeedPickArray[2].mWeight = 10;
-		aSeedPickArray[3].mItem = SEED_CACTUS;
+		aSeedPickArray[3].mItem = PlantTypes::CACTUS->GetNumericalId();
 		aSeedPickArray[3].mWeight = 15;
-		aSeedPickArray[4].mItem = SEED_WALLNUT;
+		aSeedPickArray[4].mItem = PlantTypes::WALL_NUT->GetNumericalId();
 		aSeedPickArray[4].mWeight = 15;
-		aSeedPickArray[5].mItem = SEED_CHERRYBOMB;
+		aSeedPickArray[5].mItem = PlantTypes::CHERRY_BOMB->GetNumericalId();
 		aSeedPickArray[5].mWeight = 15;
 	}
 	else if (mApp->mGameMode == GAMEMODE_CHALLENGE_COLUMN)
 	{
 		aSeedPickCount = 6;
-		aSeedPickArray[0].mItem = SEED_FLOWERPOT;
+		aSeedPickArray[0].mItem = PlantTypes::FLOWER_POT->GetNumericalId();
 		aSeedPickArray[0].mWeight = 155;
-		aSeedPickArray[1].mItem = SEED_MELONPULT;
+		aSeedPickArray[1].mItem = PlantTypes::MELON_PULT->GetNumericalId();
 		aSeedPickArray[1].mWeight = 5;
-		aSeedPickArray[2].mItem = SEED_CHOMPER;
+		aSeedPickArray[2].mItem = PlantTypes::CHOMPER->GetNumericalId();
 		aSeedPickArray[2].mWeight = 5;
-		aSeedPickArray[3].mItem = SEED_PUMPKINSHELL;
+		aSeedPickArray[3].mItem = PlantTypes::PUMPKIN->GetNumericalId();
 		aSeedPickArray[3].mWeight = 15;
-		aSeedPickArray[4].mItem = SEED_JALAPENO;
+		aSeedPickArray[4].mItem = PlantTypes::JALAPENO->GetNumericalId();
 		aSeedPickArray[4].mWeight = 10;
-		aSeedPickArray[5].mItem = SEED_SQUASH;
+		aSeedPickArray[5].mItem = PlantTypes::SQUASH->GetNumericalId();
 		aSeedPickArray[5].mWeight = 10;
 	}
 	else if (mApp->mGameMode == GAMEMODE_CHALLENGE_INVISIGHOUL)
 	{
 		aSeedPickCount = 6;
-		aSeedPickArray[0].mItem = SEED_PEASHOOTER;
+		aSeedPickArray[0].mItem = PlantTypes::PEASHOOTER->GetNumericalId();
 		aSeedPickArray[0].mWeight = 25;
-		aSeedPickArray[1].mItem = SEED_WALLNUT;
+		aSeedPickArray[1].mItem = PlantTypes::WALL_NUT->GetNumericalId();
 		aSeedPickArray[1].mWeight = 15;
-		aSeedPickArray[2].mItem = SEED_KERNELPULT;
+		aSeedPickArray[2].mItem = PlantTypes::KERNEL_PULT->GetNumericalId();
 		aSeedPickArray[2].mWeight = 5;
-		aSeedPickArray[3].mItem = SEED_SQUASH;
+		aSeedPickArray[3].mItem = PlantTypes::SQUASH->GetNumericalId();
 		aSeedPickArray[3].mWeight = 15;
-		aSeedPickArray[4].mItem = SEED_LILYPAD;
+		aSeedPickArray[4].mItem = PlantTypes::LILY_PAD->GetNumericalId();
 		aSeedPickArray[4].mWeight = 30;
-		aSeedPickArray[5].mItem = SEED_ICESHROOM;
+		aSeedPickArray[5].mItem = PlantTypes::ICE_SHROOM->GetNumericalId();
 		aSeedPickArray[5].mWeight = 10;
 	}
 	else
@@ -1787,11 +1787,11 @@ void Challenge::UpdateConveyorBelt()
 	for (int i = 0; i < aSeedPickCount; i++)
 	{
 		TodWeightedArray &aSeedPick = aSeedPickArray[i];
-		SeedType aSeedType = (SeedType)aSeedPick.mItem;
-		int aCountInBank = mBoard->mSeedBank->CountOfTypeOnConveyorBelt(aSeedType);
-		int aTotalCount = mBoard->CountPlantByType(aSeedType) + aCountInBank;
+		const PlantType &aPlantType = Registries::PLANTS.GetByNumericalId(aSeedPick.mItem);
+		int aCountInBank = mBoard->mSeedBank->CountOfTypeOnConveyorBelt(aPlantType);
+		int aTotalCount = mBoard->CountPlantByType(aPlantType) + aCountInBank;
 
-		if (aSeedType == SEED_GRAVEBUSTER)
+		if (aPlantType == PlantTypes::GRAVE_BUSTER)
 		{
 			if (mBoard->GetGraveStonesCount() <= aTotalCount)
 			{
@@ -1799,11 +1799,11 @@ void Challenge::UpdateConveyorBelt()
 				continue;
 			}
 		}
-		else if (aSeedType == SEED_LILYPAD)
+		else if (aPlantType == PlantTypes::LILY_PAD)
 		{
 			aSeedPick.mWeight = TodAnimateCurve(0, 18, aTotalCount, aSeedPick.mWeight, 1, CURVE_LINEAR);
 		}
-		else if (aSeedType == SEED_FLOWERPOT)
+		else if (aPlantType == PlantTypes::FLOWER_POT)
 		{
 			aSeedPick.mWeight = TodAnimateCurve(0,
 												mApp->mGameMode == GAMEMODE_CHALLENGE_COLUMN ? 45 : 35,
@@ -1815,7 +1815,7 @@ void Challenge::UpdateConveyorBelt()
 
 		if (mApp->IsFinalBossLevel())
 		{
-			if (aSeedType == SEED_MELONPULT || aSeedType == SEED_KERNELPULT || aSeedType == SEED_CABBAGEPULT)
+			if (aPlantType == PlantTypes::MELON_PULT || aPlantType == PlantTypes::KERNEL_PULT || aPlantType == PlantTypes::CABBAGE_PULT)
 			{
 				int aEmptyPots = mBoard->CountEmptyPotsOrLilies(SEED_FLOWERPOT);
 				if (aEmptyPots <= 2)
@@ -1828,7 +1828,7 @@ void Challenge::UpdateConveyorBelt()
 				}
 			}
 
-			if (aSeedType == SEED_FLOWERPOT && mBoard->GetBossZombie()->mZombiePhase == PHASE_BOSS_DROP_RV)
+			if (aPlantType == PlantTypes::FLOWER_POT && mBoard->GetBossZombie()->mZombiePhase == PHASE_BOSS_DROP_RV)
 			{
 				aSeedPick.mWeight = 500;
 			}
@@ -1844,7 +1844,7 @@ void Challenge::UpdateConveyorBelt()
 			{
 				aSeedPick.mWeight = 5;
 			}
-			else if (aSeedType == mLastConveyorSeedType)
+			else if (aPlantType == mLastConveyorSeedType)
 			{
 				aSeedPick.mWeight /= 2;
 			}
@@ -1872,7 +1872,7 @@ void Challenge::UpdateRainingSeeds()
 		   Plant::IsUpgrade(PlantTypes::FromOldSeedType(aSeedType)) || aSeedType == SEED_SUNFLOWER || aSeedType == SEED_TWINSUNFLOWER ||
 		   aSeedType == SEED_INSTANT_COFFEE || aSeedType == SEED_UMBRELLA || aSeedType == SEED_SUNSHROOM ||
 		   aSeedType == SEED_IMITATER);
-	if (Rand(100) < TodAnimateCurve(0, 18, mBoard->CountPlantByType(SEED_LILYPAD), 30, 1, CURVE_LINEAR))
+	if (Rand(100) < TodAnimateCurve(0, 18, mBoard->CountPlantByType(PlantTypes::LILY_PAD), 30, 1, CURVE_LINEAR))
 		aSeedType = SEED_LILYPAD;
 
 	aCoin->mUsableSeedType = aSeedType;

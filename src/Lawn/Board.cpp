@@ -2073,11 +2073,11 @@ void Board::DoPlantingEffects(int theGridX, int theGridY, Plant *thePlant)
 	int aYPos = GridToPixelY(theGridX, theGridY) + 74;
 	if (thePlant)
 	{
-		if (thePlant->mType == SeedType::SEED_LILYPAD)
+		if (thePlant->mType == PlantTypes::LILY_PAD)
 		{
 			aYPos += 15;
 		}
-		else if (thePlant->mType == SeedType::SEED_FLOWERPOT)
+		else if (thePlant->mType == PlantTypes::FLOWER_POT)
 		{
 			aYPos += 30;
 		}
@@ -2159,7 +2159,7 @@ Plant *Board::AddPlant(int theGridX, int theGridY, const PlantType &thePlantType
 	mChallenge->PlantAdded(aPlant);
 	mPlantsPlaced++;
 
-	int aSunPlantsCount = CountPlantByType(SeedType::SEED_SUNSHROOM) + CountPlantByType(SeedType::SEED_SUNFLOWER);
+	int aSunPlantsCount = CountPlantByType(PlantTypes::SUN_SHROOM) + CountPlantByType(PlantTypes::SUNFLOWER);
 	if (aSunPlantsCount > mMaxSunPlants)
 	{
 		mMaxSunPlants = aSunPlantsCount; //mMaxSunPlants = max(aSunPlantsCount, mMaxSunPlants);
@@ -2175,7 +2175,7 @@ Plant *Board::GetPumpkinAt(int theGridX, int theGridY)
 	while (IteratePlants(aPlant))
 	{
 		if (aPlant->mPlantCol == theGridX && aPlant->mRow == theGridY && !aPlant->NotOnGround() &&
-			aPlant->mType == SeedType::SEED_PUMPKINSHELL)
+			aPlant->mType == PlantTypes::PUMPKIN)
 		{
 			return aPlant;
 		}
@@ -2189,7 +2189,7 @@ Plant *Board::GetFlowerPotAt(int theGridX, int theGridY)
 	while (IteratePlants(aPlant))
 	{
 		if (aPlant->mPlantCol == theGridX && aPlant->mRow == theGridY && !aPlant->NotOnGround() &&
-			aPlant->mType == SeedType::SEED_FLOWERPOT)
+			aPlant->mType == PlantTypes::FLOWER_POT)
 		{
 			return aPlant;
 		}
@@ -2337,13 +2337,13 @@ int Board::CountSunFlowers()
 	return aCount;
 }
 
-int Board::CountPlantByType(SeedType theSeedType)
+int Board::CountPlantByType(const PlantType &thePlantType)
 {
 	int aCount = 0;
 	Plant *aPlant = nullptr;
 	while (IteratePlants(aPlant))
 	{
-		if (aPlant->mType == theSeedType)
+		if (aPlant->mType == thePlantType)
 		{
 			aCount++;
 		}
@@ -2393,7 +2393,7 @@ bool Board::HasValidCobCannonSpot()
 	Plant *aPlant = nullptr;
 	while (IteratePlants(aPlant))
 	{
-		if (aPlant->mType == SeedType::SEED_KERNELPULT && IsValidCobCannonSpot(aPlant->mPlantCol, aPlant->mRow))
+		if (aPlant->mType == PlantTypes::KERNEL_PULT && IsValidCobCannonSpot(aPlant->mPlantCol, aPlant->mRow))
 		{
 			return true;
 		}
@@ -3278,7 +3278,7 @@ void Board::UpdateMousePosition()
 			PlantingPixelToGridY(mApp->mWidgetManager->mLastMouseX, mApp->mWidgetManager->mLastMouseY, aCursorSeedType);
 
 		Plant *aPlant = GetTopPlantAt(aGridX, aGridY, PlantPriority::TOPPLANT_ONLY_NORMAL_POSITION);
-		if (aPlant && aPlant->mType == SeedType::SEED_PUMPKINSHELL &&
+		if (aPlant && aPlant->mType == PlantTypes::PUMPKIN &&
 			CanPlantAt(aGridX, aGridY, SeedType::SEED_PUMPKINSHELL) == PlantingReason::PLANTING_OK)
 		{
 			aPlant->mHighlighted = true;
@@ -4188,7 +4188,7 @@ void Board::MouseDownWithTool(int x, int y, int theClickCount, CursorType theCur
 		mPlantsShoveled++;
 		aPlant->Die();
 
-		if (aPlant->mType == SeedType::SEED_CATTAIL &&
+		if (aPlant->mType == PlantTypes::CATTAIL &&
 			GetTopPlantAt(aPlant->mPlantCol, aPlant->mRow, PlantPriority::TOPPLANT_ONLY_PUMPKIN))
 		{
 			NewPlant(aPlant->mPlantCol, aPlant->mRow, PlantTypes::LILY_PAD);
@@ -4196,7 +4196,7 @@ void Board::MouseDownWithTool(int x, int y, int theClickCount, CursorType theCur
 		if (mTutorialState == TutorialState::TUTORIAL_SHOVEL_DIG ||
 			mTutorialState == TutorialState::TUTORIAL_SHOVEL_KEEP_DIGGING)
 		{
-			SetTutorialState(CountPlantByType(SeedType::SEED_PEASHOOTER) == 0
+			SetTutorialState(CountPlantByType(PlantTypes::PEASHOOTER) == 0
 								 ? TutorialState::TUTORIAL_SHOVEL_COMPLETED
 								 : TutorialState::TUTORIAL_SHOVEL_KEEP_DIGGING);
 		}
@@ -4210,7 +4210,7 @@ Plant *Board::SpecialPlantHitTest(int x, int y)
 	Plant *aPlant = nullptr;
 	while (IteratePlants(aPlant))
 	{
-		if (aPlant->mType == SeedType::SEED_PUMPKINSHELL)
+		if (aPlant->mType == PlantTypes::PUMPKIN)
 		{
 			float aMinDist =
 				GetTopPlantAt(aPlant->mPlantCol, aPlant->mRow, PlantPriority::TOPPLANT_ONLY_NORMAL_POSITION) ? 25 : 0;
@@ -4265,7 +4265,7 @@ bool Board::MouseHitTestPlant(int x, int y, HitResult *theHitResult)
 	else
 	{
 		aPlant = GetTopPlantAt(aGridX, aGridY, PlantPriority::TOPPLANT_DIGGING_ORDER);
-		if (aPlant && (aPlant->mType == SeedType::SEED_LILYPAD || aPlant->mType == SeedType::SEED_FLOWERPOT))
+		if (aPlant && (aPlant->mType == PlantTypes::LILY_PAD || aPlant->mType == PlantTypes::FLOWER_POT))
 		{
 			if (GetTopPlantAt(aGridX, aGridY, PlantPriority::TOPPLANT_ONLY_PUMPKIN))
 			{
@@ -5763,7 +5763,7 @@ void Board::UpdateTutorial()
 
 	if (mApp->IsFirstTimeAdventureMode() && mLevel >= 3 && mLevel != 5 && mLevel <= 7 &&
 		mTutorialState == TutorialState::TUTORIAL_OFF && mCurrentWave >= 5 && !gShownMoreSunTutorial &&
-		mSeedBank->mSeedPackets[1].CanPickUp() && CountPlantByType(SeedType::SEED_SUNFLOWER) < 3)
+		mSeedBank->mSeedPackets[1].CanPickUp() && CountPlantByType(PlantTypes::SUNFLOWER) < 3)
 	{
 		TOD_ASSERT(!ChooseSeedsOnCurrentLevel());
 		DisplayAdvice(
@@ -6876,8 +6876,8 @@ void Board::DrawGameObjects(Graphics *g)
 					aRenderItemCount++;
 				}
 
-				if ((aPlant->mType == SeedType::SEED_MAGNETSHROOM ||
-					 aPlant->mType == SeedType::SEED_GOLD_MAGNET) &&
+				if ((aPlant->mType == PlantTypes::MAGNET_SHROOM ||
+					 aPlant->mType == PlantTypes::GOLD_MAGNET) &&
 					aPlant->DrawMagnetItemsOnTop())
 				{
 					RenderItem &aRenderItem = aRenderList[aRenderItemCount];
@@ -8403,11 +8403,11 @@ void Board::UpdateFog()
 		if (aPlant->NotOnGround())
 			continue;
 
-		if (aPlant->mType == SeedType::SEED_PLANTERN)
+		if (aPlant->mType == PlantTypes::PLANTERN)
 		{
 			ClearFogAroundPlant(aPlant, 4);
 		}
-		else if (aPlant->mType == SeedType::SEED_TORCHWOOD)
+		else if (aPlant->mType == PlantTypes::TORCHWOOD)
 		{
 			ClearFogAroundPlant(aPlant, 1);
 		}
@@ -10510,7 +10510,7 @@ Plant *Board::FindUmbrellaPlant(int theGridX, int theGridY)
 	Plant *aPlant = nullptr;
 	while (IteratePlants(aPlant))
 	{
-		if (aPlant->mType == SeedType::SEED_UMBRELLA && !aPlant->NotOnGround() &&
+		if (aPlant->mType == PlantTypes::UMBRELLA_LEAF && !aPlant->NotOnGround() &&
 			GridInRange(theGridX, theGridY, aPlant->mPlantCol, aPlant->mRow, 1, 1))
 		{
 			return aPlant;
@@ -10599,19 +10599,19 @@ bool Board::PlantingRequirementsMet(SeedType theSeedType)
 	switch (theSeedType)
 	{
 	case SeedType::SEED_GATLINGPEA:
-		return CountPlantByType(SeedType::SEED_REPEATER);
+		return CountPlantByType(PlantTypes::REPEATER);
 	case SeedType::SEED_TWINSUNFLOWER:
-		return CountPlantByType(SeedType::SEED_SUNFLOWER);
+		return CountPlantByType(PlantTypes::SUNFLOWER);
 	case SeedType::SEED_GLOOMSHROOM:
-		return CountPlantByType(SeedType::SEED_FUMESHROOM);
+		return CountPlantByType(PlantTypes::FUME_SHROOM);
 	case SeedType::SEED_CATTAIL:
 		return CountEmptyPotsOrLilies(SeedType::SEED_LILYPAD);
 	case SeedType::SEED_WINTERMELON:
-		return CountPlantByType(SeedType::SEED_MELONPULT);
+		return CountPlantByType(PlantTypes::MELON_PULT);
 	case SeedType::SEED_GOLD_MAGNET:
-		return CountPlantByType(SeedType::SEED_MAGNETSHROOM);
+		return CountPlantByType(PlantTypes::MAGNET_SHROOM);
 	case SeedType::SEED_SPIKEROCK:
-		return CountPlantByType(SeedType::SEED_SPIKEWEED);
+		return CountPlantByType(PlantTypes::SPIKEWEED);
 	case SeedType::SEED_COBCANNON:
 		return HasValidCobCannonSpot();
 	default:
@@ -10730,7 +10730,7 @@ int Board::GetCurrentPlantCost(SeedType theSeedType, SeedType theImitaterType)
 	int aCost = Plant::GetCost(theSeedType, theImitaterType);
 	if (PlantUsesAcceleratedPricing(theSeedType))
 	{
-		aCost += CountPlantByType(theSeedType) * 50;
+		aCost += CountPlantByType(PlantTypes::FromOldSeedType(theSeedType)) * 50;
 	}
 	return aCost;
 }

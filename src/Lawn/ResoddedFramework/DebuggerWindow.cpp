@@ -433,7 +433,7 @@ void DebuggerWindow::DrawBoardPlants()
         {
             ImGui::PushID(idx++);
             ImGui::TableNextRow();
-            ImGui::TableSetColumnIndex(0); ImGui::TextUnformatted(SeedTypeName(aPlant->mType));
+            ImGui::TableSetColumnIndex(0); ImGui::TextUnformatted(SeedTypeName(aPlant->mType.GetNumericalId()));
             ImGui::TableSetColumnIndex(1); ImGui::Text("%d", aPlant->mPlantCol);
             ImGui::TableSetColumnIndex(2); ImGui::Text("%d", aPlant->mRow);
             ImGui::TableSetColumnIndex(3);

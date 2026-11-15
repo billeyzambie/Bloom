@@ -881,7 +881,7 @@ class BLOOM_API Board : public Widget, public ButtonListener
 	/// @return SeedType the Cursor holds currently
 	SeedType GetSeedTypeInCursor();
 
-	int CountPlantByType(SeedType theSeedType);
+	int CountPlantByType(const PlantType &thePlantType);
 
 	/// @return True if the SeedType can be planted, false otherwise
 	/// @param theSeedType The SeedType to check

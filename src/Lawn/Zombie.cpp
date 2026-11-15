@@ -1236,8 +1236,8 @@ void Zombie::PickBungeeZombieTarget(int theColumn)
 						continue;
 					}
 
-					if (aPlant->mType == SeedType::SEED_GRAVEBUSTER ||
-						aPlant->mType == SeedType::SEED_COBCANNON)
+					if (aPlant->mType == PlantTypes::GRAVE_BUSTER ||
+						aPlant->mType == PlantTypes::COB_CANNON)
 					{
 						continue;
 					}
@@ -1401,7 +1401,7 @@ void Zombie::BungeeLiftTarget()
 		aPlantReanim->mAnimRate = 0.1f;
 	}
 
-	if (aPlant->mType == SeedType::SEED_CATTAIL &&
+	if (aPlant->mType == PlantTypes::CATTAIL &&
 		mBoard->GetTopPlantAt(mTargetCol, mRow, PlantPriority::TOPPLANT_ONLY_PUMPKIN))
 	{
 		mBoard->NewPlant(mTargetCol, mRow, PlantTypes::LILY_PAD);
@@ -1610,7 +1610,7 @@ void Zombie::UpdateZombiePogo()
 	if (mZombiePhase == ZombiePhase::PHASE_POGO_FORWARD_BOUNCE_2 && mPhaseCounter == 70)
 	{
 		Plant *aPlant = FindPlantTarget(ZombieAttackType::ATTACKTYPE_VAULT);
-		if (aPlant && aPlant->mType == SeedType::SEED_TALLNUT)
+		if (aPlant && aPlant->mType == PlantTypes::TALL_NUT)
 		{
 			mApp->PlayFoley(FoleyType::FOLEY_BONK);
 			mApp->AddTodParticle(
@@ -1890,7 +1890,7 @@ void Zombie::UpdateZombiePolevaulter()
 		if (aBodyReanim->mAnimTime > 0.6f && aBodyReanim->mAnimTime <= 0.7f)
 		{
 			Plant *aPlant = FindPlantTarget(ZombieAttackType::ATTACKTYPE_VAULT);
-			if (aPlant && aPlant->mType == SeedType::SEED_TALLNUT)
+			if (aPlant && aPlant->mType == PlantTypes::TALL_NUT)
 			{
 				mApp->PlayFoley(FoleyType::FOLEY_BONK);
 				aJumpEnds = true;
@@ -1940,7 +1940,7 @@ bool Zombie::IsTanglekelpTarget()
 	Plant *aPlant = nullptr;
 	while (mBoard->IteratePlants(aPlant))
 	{
-		if (aPlant->mType == SeedType::SEED_TANGLEKELP && aPlant->mTargetZombieID == mBoard->ZombieGetID(this))
+		if (aPlant->mType == PlantTypes::TANGLE_KELP && aPlant->mTargetZombieID == mBoard->ZombieGetID(this))
 		{
 			return true;
 		}
@@ -2022,7 +2022,7 @@ void Zombie::UpdateZombieDolphinRider()
 		if (aBodyReanim->ShouldTriggerTimedEvent(0.3f))
 		{
 			Plant *aPlant = FindPlantTarget(ZombieAttackType::ATTACKTYPE_VAULT);
-			if (aPlant && aPlant->mType == SeedType::SEED_TALLNUT)
+			if (aPlant && aPlant->mType == PlantTypes::TALL_NUT)
 			{
 				mApp->PlayFoley(FoleyType::FOLEY_BONK);
 				aJumpEnds = true;
@@ -2254,7 +2254,7 @@ void Zombie::UpdateZombieGargantuar()
 				Plant *aPlant = FindPlantTarget(ZombieAttackType::ATTACKTYPE_CHEW);
 				if (aPlant)
 				{
-					if (aPlant->mType == SeedType::SEED_SPIKEROCK)
+					if (aPlant->mType == PlantTypes::SPIKEROCK)
 					{
 						Damage aDamage = Damage::DirectlyFrom(aPlant, 20, GetBit(DamageFlags::DAMAGE_SPIKE));
 						TakeDamage(aDamage);
@@ -4934,7 +4934,7 @@ void Zombie::AnimateChewSound()
 	Plant *aPlant = FindPlantTarget(ZombieAttackType::ATTACKTYPE_CHEW);
 	if (aPlant)
 	{
-		if (aPlant->mType == SeedType::SEED_HYPNOSHROOM && !aPlant->mIsAsleep)
+		if (aPlant->mType == PlantTypes::HYPNO_SHROOM && !aPlant->mIsAsleep)
 		{
 			mApp->PlayFoley(FoleyType::FOLEY_FLOOP);
 			aPlant->Die();
@@ -4947,7 +4947,7 @@ void Zombie::AnimateChewSound()
 			mAnimTicksPerFrame = 18;
 			UpdateAnimSpeed();
 		}
-		else if (aPlant->mType == SeedType::SEED_GARLIC)
+		else if (aPlant->mType == PlantTypes::GARLIC)
 		{
 			if (!mYuckyFace)
 			{
@@ -4959,8 +4959,8 @@ void Zombie::AnimateChewSound()
 		}
 		else
 		{
-			if (aPlant->mType == SeedType::SEED_WALLNUT || aPlant->mType == SeedType::SEED_TALLNUT ||
-				aPlant->mType == SeedType::SEED_PUMPKINSHELL)
+			if (aPlant->mType == PlantTypes::WALL_NUT || aPlant->mType == PlantTypes::TALL_NUT ||
+				aPlant->mType == PlantTypes::PUMPKIN)
 			{
 				mApp->PlayFoley(FoleyType::FOLEY_CHOMP_SOFT);
 			}
@@ -5001,7 +5001,7 @@ void Zombie::AnimateChewEffect()
 	Plant *aPlant = FindPlantTarget(ZombieAttackType::ATTACKTYPE_CHEW);
 	if (aPlant)
 	{
-		if (aPlant->mType == SeedType::SEED_WALLNUT || aPlant->mType == SeedType::SEED_TALLNUT)
+		if (aPlant->mType == PlantTypes::WALL_NUT || aPlant->mType == PlantTypes::TALL_NUT)
 		{
 			int aRenderOrder = Board::MakeRenderOrder(RenderLayer::RENDER_LAYER_PROJECTILE, mRow, 0);
 			ZombieDrawPosition aDrawPos;
@@ -5673,7 +5673,7 @@ void Zombie::DrawBungeeReanim(Graphics *g, const ZombieDrawPosition &theDrawPos)
 			aPlantGraphics.mTransY += 30.0f - mAltitude;
 			if (mZombiePhase == ZombiePhase::PHASE_BUNGEE_RISING)
 			{
-				if (aPlant->mType == SeedType::SEED_SPIKEWEED || aPlant->mType == SeedType::SEED_SPIKEROCK)
+				if (aPlant->mType == PlantTypes::SPIKEWEED || aPlant->mType == PlantTypes::SPIKEROCK)
 				{
 					aPlantGraphics.mTransY -= 34.0f;
 				}
@@ -5693,11 +5693,11 @@ void Zombie::DrawBungeeReanim(Graphics *g, const ZombieDrawPosition &theDrawPos)
 					aSleepReanim->mRenderOrder = mRenderOrder + 2;
 					float aPosX = aPlantGraphics.mTransX + 50.0f;
 					float aPosY = aPlantGraphics.mTransY + 40.0f;
-					if (aPlant->mType == SeedType::SEED_FUMESHROOM)
+					if (aPlant->mType == PlantTypes::FUME_SHROOM)
 						aPosX += 12.0f;
-					else if (aPlant->mType == SeedType::SEED_SCAREDYSHROOM)
+					else if (aPlant->mType == PlantTypes::SCAREDY_SHROOM)
 						aPosY -= 20.0f;
-					else if (aPlant->mType == SeedType::SEED_GLOOMSHROOM)
+					else if (aPlant->mType == PlantTypes::GLOOM_SHROOM)
 						aPosY -= 12.0f;
 
 					aSleepReanim->SetPosition(aPosX, aPosY);
@@ -5712,7 +5712,7 @@ void Zombie::DrawBungeeReanim(Graphics *g, const ZombieDrawPosition &theDrawPos)
 					aParticle->mRenderOrder = mRenderOrder + 2;
 					float aPosX = aPlantGraphics.mTransX;
 					float aPosY = aPlantGraphics.mTransY;
-					if (aPlant->mType == SeedType::SEED_PLANTERN)
+					if (aPlant->mType == PlantTypes::PLANTERN)
 					{
 						aPosX += 40.0f;
 						aPosY += 40.0f;
@@ -6529,7 +6529,7 @@ bool Zombie::CanTargetPlant(Plant *thePlant, ZombieAttackType theAttackType)
 	if (mApp->IsWallnutBowlingLevel() && theAttackType != ZombieAttackType::ATTACKTYPE_VAULT)
 		return false;
 
-	if (thePlant->NotOnGround() || thePlant->mType == SeedType::SEED_TANGLEKELP)
+	if (thePlant->NotOnGround() || thePlant->mType == PlantTypes::TANGLE_KELP)
 		return false;
 
 	if (!mInPool && mBoard->IsPoolSquare(thePlant->mPlantCol, thePlant->mRow))
@@ -6537,7 +6537,7 @@ bool Zombie::CanTargetPlant(Plant *thePlant, ZombieAttackType theAttackType)
 
 	if (mZombiePhase == ZombiePhase::PHASE_DIGGER_TUNNELING)
 	{
-		return thePlant->mType == SeedType::SEED_POTATOMINE && thePlant->mState == PlantState::STATE_NOTREADY;
+		return thePlant->mType == PlantTypes::POTATO_MINE && thePlant->mState == PlantState::STATE_NOTREADY;
 	}
 
 	if (thePlant->IsSpiky())
@@ -6549,12 +6549,12 @@ bool Zombie::CanTargetPlant(Plant *thePlant, ZombieAttackType theAttackType)
 
 	if (theAttackType == ZombieAttackType::ATTACKTYPE_DRIVE_OVER)
 	{
-		if (thePlant->mType == SeedType::SEED_CHERRYBOMB || thePlant->mType == SeedType::SEED_JALAPENO ||
-			thePlant->mType == SeedType::SEED_BLOVER || thePlant->mType == SeedType::SEED_SQUASH)
+		if (thePlant->mType == PlantTypes::CHERRY_BOMB || thePlant->mType == PlantTypes::JALAPENO ||
+			thePlant->mType == PlantTypes::BLOVER || thePlant->mType == PlantTypes::SQUASH)
 		{
 			return false;
 		}
-		if (thePlant->mType == SeedType::SEED_DOOMSHROOM || thePlant->mType == SeedType::SEED_ICESHROOM)
+		if (thePlant->mType == PlantTypes::DOOM_SHROOM || thePlant->mType == PlantTypes::ICE_SHROOM)
 		{
 			return thePlant->mIsAsleep;
 		}
@@ -6563,8 +6563,8 @@ bool Zombie::CanTargetPlant(Plant *thePlant, ZombieAttackType theAttackType)
 	if (mZombiePhase == ZombiePhase::PHASE_LADDER_CARRYING || mZombiePhase == ZombiePhase::PHASE_LADDER_PLACING)
 	{
 		bool aPlaceLadder = false;
-		if (thePlant->mType == SeedType::SEED_WALLNUT || thePlant->mType == SeedType::SEED_TALLNUT ||
-			thePlant->mType == SeedType::SEED_PUMPKINSHELL)
+		if (thePlant->mType == PlantTypes::WALL_NUT || thePlant->mType == PlantTypes::TALL_NUT ||
+			thePlant->mType == PlantTypes::PUMPKIN)
 		{
 			aPlaceLadder = true;
 		}
@@ -7229,9 +7229,9 @@ void Zombie::EatPlant(Plant *thePlant)
 	}
 
 	StartEating();
-	if (thePlant->mType == SeedType::SEED_JALAPENO || thePlant->mType == SeedType::SEED_CHERRYBOMB ||
-		thePlant->mType == SeedType::SEED_DOOMSHROOM || thePlant->mType == SeedType::SEED_ICESHROOM ||
-		thePlant->mType == SeedType::SEED_HYPNOSHROOM ||
+	if (thePlant->mType == PlantTypes::JALAPENO || thePlant->mType == PlantTypes::CHERRY_BOMB ||
+		thePlant->mType == PlantTypes::DOOM_SHROOM || thePlant->mType == PlantTypes::ICE_SHROOM ||
+		thePlant->mType == PlantTypes::HYPNO_SHROOM ||
 		thePlant->mState == PlantState::STATE_FLOWERPOT_INVULNERABLE ||
 		thePlant->mState == PlantState::STATE_LILYPAD_INVULNERABLE ||
 		thePlant->mState == PlantState::STATE_SQUASH_LOOK || thePlant->mState == PlantState::STATE_SQUASH_PRE_LAUNCH)
@@ -7241,17 +7241,17 @@ void Zombie::EatPlant(Plant *thePlant)
 			return;
 		}
 	}
-	if (thePlant->mType == SeedType::SEED_POTATOMINE && thePlant->mState != PlantState::STATE_NOTREADY)
+	if (thePlant->mType == PlantTypes::POTATO_MINE && thePlant->mState != PlantState::STATE_NOTREADY)
 	{
 		return;
 	}
 
 	bool triggered = false;
-	if (thePlant->mType == SeedType::SEED_BLOVER)
+	if (thePlant->mType == PlantTypes::BLOVER)
 	{
 		triggered = true;
 	}
-	if (thePlant->mType == SeedType::SEED_ICESHROOM && !thePlant->mIsAsleep)
+	if (thePlant->mType == PlantTypes::ICE_SHROOM && !thePlant->mIsAsleep)
 	{
 		triggered = true;
 	}
@@ -7264,7 +7264,7 @@ void Zombie::EatPlant(Plant *thePlant)
 	if (mChilledCounter > 0 && mZombieAge % 2 == 1)
 		return;
 
-	if (mApp->IsIZombieLevel() && thePlant->mType == SeedType::SEED_SUNFLOWER)
+	if (mApp->IsIZombieLevel() && thePlant->mType == PlantTypes::SUNFLOWER)
 	{
 		int aStageBeforeChew = thePlant->mPlantHealth / 40;
 		int aStageAfterChew = (thePlant->mPlantHealth - DAMAGE_PER_EAT) / 40;
@@ -7285,8 +7285,8 @@ void Zombie::EatPlant(Plant *thePlant)
 	thePlant->mRecentlyEatenCountdown = 50;
 	if (mApp->IsIZombieLevel() && mJustGotShotCounter < -500)
 	{
-		if (thePlant->mType == SeedType::SEED_WALLNUT || thePlant->mType == SeedType::SEED_TALLNUT ||
-			thePlant->mType == SeedType::SEED_PUMPKINSHELL)
+		if (thePlant->mType == PlantTypes::WALL_NUT || thePlant->mType == PlantTypes::TALL_NUT ||
+			thePlant->mType == PlantTypes::PUMPKIN)
 		{
 			thePlant->TakeDamage(aDamage);
 		}
@@ -7310,7 +7310,7 @@ void Zombie::EatPlant(Plant *thePlant)
 		if (mBoard->mLevel >= 2 && mBoard->mLevel <= 4 && mApp->IsFirstTimeAdventureMode())
 		{
 			if (thePlant->mPlantCol > 4 && mBoard->mPlants.mSize < 15 &&
-				thePlant->mType == SeedType::SEED_PEASHOOTER)
+				thePlant->mType == PlantTypes::PEASHOOTER)
 			{
 				mBoard->DisplayAdvice("[ADVICE_PEASHOOTER_DIED]",
 									  MessageStyle::MESSAGE_STYLE_HINT_TALL_FAST,
@@ -8705,7 +8705,7 @@ bool Zombie::IsTangleKelpTarget()
 	Plant *aPlant = nullptr;
 	while (mBoard->IteratePlants(aPlant))
 	{
-		if (aPlant->mType == SeedType::SEED_TANGLEKELP && aPlant->mTargetZombieID == mBoard->ZombieGetID(this))
+		if (aPlant->mType == PlantTypes::TANGLE_KELP && aPlant->mTargetZombieID == mBoard->ZombieGetID(this))
 		{
 			return true;
 		}
@@ -8721,7 +8721,7 @@ bool Zombie::IsSquashTarget(Plant *theExcept)
 	Plant *aPlant = nullptr;
 	while (mBoard->IteratePlants(aPlant))
 	{
-		if (aPlant != theExcept && aPlant->mType == SeedType::SEED_SQUASH && aPlant->mTargetZombieID == anId)
+		if (aPlant != theExcept && aPlant->mType == PlantTypes::SQUASH && aPlant->mTargetZombieID == anId)
 		{
 			return true;
 		}

@@ -35,7 +35,7 @@ SeedPacket::SeedPacket() : GameObject(GameObjectType::OBJECT_TYPE_SEEDPACKET)
 
 void SeedPacket::PickNextSlotMachineSeed()
 {
-	int aPeasCount = mBoard->CountPlantByType(SeedType::SEED_PEASHOOTER);
+	int aPeasCount = mBoard->CountPlantByType(PlantTypes::PEASHOOTER);
 
 	SeedType SLOT_SEED_TYPES[] = {SeedType::SEED_SUNFLOWER,
 								  SeedType::SEED_PEASHOOTER,
