@@ -17,6 +17,7 @@
 #include "../Sexy.TodLib/Attachment.h"
 
 #include "StoreItem/StoreItemTypes.h"
+#include "Actor/PlantTypes.h"
 
 Coin::Coin() : GameObject(GameObjectType::OBJECT_TYPE_COIN)
 {
@@ -52,7 +53,7 @@ void Coin::CoinInitialize(int theX, int theY, CoinType theCoinType, CoinMotion t
 	mHasBouncyArrow = false;
 	mHitGround = false;
 	mTimesDropped = 0;
-	mPottedPlantSpec.InitializePottedPlant(SeedType::SEED_NONE);
+	mPottedPlantSpec.InitializePottedPlant(nullptr);
 
 	if (IsSun())
 	{
@@ -184,11 +185,11 @@ void Coin::CoinInitialize(int theX, int theY, CoinType theCoinType, CoinMotion t
 
 		mWidth = IMAGE_PRESENT->GetCelWidth();
 		mHeight = IMAGE_PRESENT->GetCelHeight();
+		SeedType aSeedType = SeedType::SEED_NONE;
 		if (mApp->IsSurvivalEndless(mApp->mGameMode) || mApp->IsEndlessIZombie(mApp->mGameMode) ||
 			mApp->IsEndlessScaryPotter(mApp->mGameMode))
 		{
-			SeedType aSeedType = mApp->mZenGarden->PickRandomSeedType();
-			mPottedPlantSpec.InitializePottedPlant(aSeedType);
+			SeedType aSeedType = mApp->mZenGarden->PickRandomPlantType();
 		}
 		else if (mBoard->mBackground == BackgroundType::BACKGROUND_1_DAY)
 		{
@@ -202,7 +203,6 @@ void Coin::CoinInitialize(int theX, int theY, CoinType theCoinType, CoinMotion t
 									SeedType::SEED_CHOMPER};
 
 			SeedType aSeedType = (SeedType)TodPickFromArray(aSeedList, LENGTH(aSeedList));
-			mPottedPlantSpec.InitializePottedPlant(aSeedType);
 		}
 		else if (mBoard->mBackground == BackgroundType::BACKGROUND_2_NIGHT)
 		{
@@ -216,7 +216,6 @@ void Coin::CoinInitialize(int theX, int theY, CoinType theCoinType, CoinMotion t
 									SeedType::SEED_DOOMSHROOM};
 
 			SeedType aSeedType = (SeedType)TodPickFromArray(aSeedList, LENGTH(aSeedList));
-			mPottedPlantSpec.InitializePottedPlant(aSeedType);
 		}
 		else if (mBoard->mBackground == BackgroundType::BACKGROUND_3_POOL)
 		{
@@ -230,7 +229,6 @@ void Coin::CoinInitialize(int theX, int theY, CoinType theCoinType, CoinMotion t
 									SeedType::SEED_TALLNUT};
 
 			SeedType aSeedType = (SeedType)TodPickFromArray(aSeedList, LENGTH(aSeedList));
-			mPottedPlantSpec.InitializePottedPlant(aSeedType);
 		}
 		else if (mBoard->mBackground == BackgroundType::BACKGROUND_4_FOG)
 		{
@@ -244,7 +242,6 @@ void Coin::CoinInitialize(int theX, int theY, CoinType theCoinType, CoinMotion t
 									SeedType::SEED_MAGNETSHROOM};
 
 			SeedType aSeedType = (SeedType)TodPickFromArray(aSeedList, LENGTH(aSeedList));
-			mPottedPlantSpec.InitializePottedPlant(aSeedType);
 		}
 		else if (mBoard->mBackground == BackgroundType::BACKGROUND_5_ROOF)
 		{
@@ -256,13 +253,12 @@ void Coin::CoinInitialize(int theX, int theY, CoinType theCoinType, CoinMotion t
 									SeedType::SEED_MELONPULT};
 
 			SeedType aSeedType = (SeedType)TodPickFromArray(aSeedList, LENGTH(aSeedList));
-			mPottedPlantSpec.InitializePottedPlant(aSeedType);
 		}
 		else
 		{
-			SeedType aSeedType = mApp->mZenGarden->PickRandomSeedType();
-			mPottedPlantSpec.InitializePottedPlant(aSeedType);
+			SeedType aSeedType = mApp->mZenGarden->PickRandomPlantType();
 		}
+		mPottedPlantSpec.InitializePottedPlant(&PlantTypes::FromOldSeedType(aSeedType));
 	}
 	else if (mType == CoinType::COIN_AWARD_MONEY_BAG || mType == CoinType::COIN_AWARD_BAG_DIAMOND)
 	{

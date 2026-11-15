@@ -29,7 +29,7 @@ class BLOOM_API PottedPlant
 	};
 
   public:
-	const PlantType &mSeedType;
+	const PlantType *mPlantType;
 	GardenType mWhichZenGarden;
 	int mX;
 	int mY;
@@ -47,7 +47,7 @@ class BLOOM_API PottedPlant
 	int64_t mLastChocolateTime;
 
   public:
-	void InitializePottedPlant(SeedType theSeedType);
+	void InitializePottedPlant(const PlantType *thePlantType);
 };
 
 class BLOOM_API ProfileSyncer

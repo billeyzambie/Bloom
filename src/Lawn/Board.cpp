@@ -35,6 +35,7 @@
 #include "StoreItem/StoreItemTypes.h"
 #include "Projectile/ProjectileTypes.h"
 #include "Actor/PlantTypes.h"
+#include "Registries.h"
 
 #define SEXY_PERF_ENABLED
 #include "../SexyAppFramework/PerfTimer.h"
@@ -2022,7 +2023,8 @@ SeedType Board::GetSeedTypeInCursor()
 		PottedPlant *aPottedPlant = mApp->mZenGarden->GetPottedPlantInWheelbarrow();
 		if (aPottedPlant)
 		{
-			return aPottedPlant->mSeedType;
+			TOD_ASSERT(aPottedPlant->mPlantType);
+			return *aPottedPlant->mPlantType;
 		}
 	}
 
@@ -8800,7 +8802,7 @@ void Board::KeyChar(SexyChar theChar)
 			if (!mApp->mZenGarden->IsZenGardenFull(true))
 			{
 				PottedPlant aPottedPlant;
-				aPottedPlant.InitializePottedPlant(SeedType::SEED_MARIGOLD);
+				aPottedPlant.InitializePottedPlant(PlantTypes::MARIGOLD);
 				aPottedPlant.mDrawVariation = (DrawVariation)RandRangeInt(
 					(int)DrawVariation::VARIATION_MARIGOLD_WHITE, (int)DrawVariation::VARIATION_MARIGOLD_LIGHT_GREEN);
 				mApp->mZenGarden->AddPottedPlant(&aPottedPlant);
@@ -8813,7 +8815,7 @@ void Board::KeyChar(SexyChar theChar)
 			if (!mApp->mZenGarden->IsZenGardenFull(true))
 			{
 				PottedPlant aPottedPlant;
-				aPottedPlant.InitializePottedPlant(mApp->mZenGarden->PickRandomSeedType());
+				aPottedPlant.InitializePottedPlant(&mApp->mZenGarden->PickRandomPlantType());
 				mApp->mZenGarden->AddPottedPlant(&aPottedPlant);
 			}
 			return;
@@ -8824,7 +8826,7 @@ void Board::KeyChar(SexyChar theChar)
 			if (!mApp->mZenGarden->IsZenGardenFull(true))
 			{
 				PottedPlant aPottedPlant;
-				aPottedPlant.InitializePottedPlant(mApp->mZenGarden->PickRandomSeedType());
+				aPottedPlant.InitializePottedPlant(&mApp->mZenGarden->PickRandomPlantType());
 				aPottedPlant.mPlantAge = PottedPlantAge::PLANTAGE_FULL;
 				mApp->mZenGarden->AddPottedPlant(&aPottedPlant);
 			}
@@ -8927,15 +8929,20 @@ void Board::KeyChar(SexyChar theChar)
 			PottedPlant *aPottedPlant = mApp->mZenGarden->GetPottedPlantInWheelbarrow();
 			if (aPottedPlant)
 			{
-				aPottedPlant->mSeedType = (SeedType)((int)aPottedPlant->mSeedType + 1);
-				if (aPottedPlant->mSeedType == SeedType::SEED_GATLINGPEA)
+				int aTypeId = aPottedPlant->mPlantType->GetNumericalId();
+
+				aTypeId++;
+
+				if (aTypeId == PlantTypes::GATLING_PEA->GetNumericalId())
 				{
-					aPottedPlant->mSeedType = SeedType::SEED_PEASHOOTER;
+					aTypeId = PlantTypes::PEASHOOTER->GetNumericalId();
 				}
-				if (aPottedPlant->mSeedType == SeedType::SEED_FLOWERPOT)
+				if (aTypeId == PlantTypes::FLOWER_POT->GetNumericalId())
 				{
-					aPottedPlant->mSeedType = SeedType::SEED_KERNELPULT;
+					aTypeId = PlantTypes::KERNEL_PULT->GetNumericalId();
 				}
+
+				aPottedPlant->mPlantType = &Registries::PLANTS.GetByNumericalId(aTypeId);
 			}
 			return;
 		}
@@ -10714,8 +10721,8 @@ void Board::RemoveParticleByType(ParticleEffect theEffectType)
 
 bool Board::PlantUsesAcceleratedPricing(SeedType theSeedType)
 {
-	const PlantType &aPlantType = PlantTypes::FromOldSeedType(theSeedType);
-	return Plant::IsUpgrade(aPlantType) && mApp->IsSurvivalEndless(mApp->mGameMode);
+	const PlantType *aPlantType = PlantTypes::FromOptionalOldSeedType(theSeedType);
+	return aPlantType &&Plant::IsUpgrade(*aPlantType) && mApp->IsSurvivalEndless(mApp->mGameMode);
 }
 
 int Board::GetCurrentPlantCost(SeedType theSeedType, SeedType theImitaterType)

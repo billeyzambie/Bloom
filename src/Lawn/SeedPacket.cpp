@@ -303,10 +303,10 @@ void DrawSeedPacket(Graphics *g,
 		g->SetColorizeImages(true);
 	}
 
-	const PlantType &aPlantType = PlantTypes::FromOldSeedType(aSeedType);
+	const PlantType *aPlantType = PlantTypes::FromOptionalOldSeedType(aSeedType);
 
 	int aPacketBackground = theSeedType == SeedType::SEED_IMITATER					 ? 0
-							: Plant::IsUpgrade(aPlantType)							 ? 1
+							: aPlantType && Plant::IsUpgrade(*aPlantType)							 ? 1
 							: theSeedType == SeedType::SEED_BEGHOULED_BUTTON_CRATER	 ? 3
 							: theSeedType == SeedType::SEED_BEGHOULED_BUTTON_SHUFFLE ? 4
 							: theSeedType == SeedType::SEED_SLOT_MACHINE_SUN		 ? 5

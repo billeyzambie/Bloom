@@ -7,6 +7,7 @@
 #include "../ZenGarden.h"
 #include "../LawnCommon.h"
 #include "../System/PlayerInfo.h"
+#include "../Actor/PlantTypes.h"
 #include "StoreItemModifiers.h"
 
 void PottedPlantSoldOut(StoreItemModifierContext &theContext)
@@ -27,7 +28,7 @@ PottedPlantStoreItemType::PottedPlantStoreItemType(std::string theModName, std::
 		if (aStoreScreen)
 		{
 			theContext.mApp.mZenGarden->AddPottedPlant(&aStoreScreen->mPottedPlantSpecs);
-			aStoreScreen->mPottedPlantSpecs.InitializePottedPlant(SEED_MARIGOLD);
+			aStoreScreen->mPottedPlantSpecs.InitializePottedPlant(PlantTypes::MARIGOLD);
 			aStoreScreen->mPottedPlantSpecs.mDrawVariation =
 				(DrawVariation)RandRangeInt(VARIATION_MARIGOLD_WHITE, VARIATION_MARIGOLD_LIGHT_GREEN);
 			theContext.mStoreItemData.mPurchases = GetCurrentDaysSince2000();

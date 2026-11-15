@@ -14,6 +14,7 @@ class Plant;
 class GridItem;
 class HitResult;
 class PottedPlant;
+class PlantType;
 namespace Sexy
 {
 class Graphics;
@@ -99,7 +100,7 @@ class ZenGarden
 	void WakeStinky();
 	bool ShouldStinkyBeAwake();
 	bool IsStinkySleeping();
-	static SeedType PickRandomSeedType();
+	static const PlantType &PickRandomPlantType();
 	void StinkyWakeUp(GridItem *theStinky);
 	void StinkyStartFallingAsleep(GridItem *theStinky);
 	void StinkyFinishFallingAsleep(GridItem *theStinky, int theBlendTime);

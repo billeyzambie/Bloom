@@ -23,6 +23,7 @@
 
 #include "../StoreItem/StoreItemTypes.h"
 #include "../StoreItem/SeedPacketStoreItemType.h"
+#include "../Actor/PlantTypes.h"
 
 StoreScreenOverlay::StoreScreenOverlay(StoreScreen *theParent)
 {
@@ -59,7 +60,7 @@ StoreScreen::StoreScreen(LawnApp *theApp)
 	mCoins.DataArrayInitialize(1024U, "coins");
 	TodLoadResources({"PVZ", "DelayLoad_Store"});
 	Resize(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
-	mPottedPlantSpecs.InitializePottedPlant(SEED_MARIGOLD);
+	mPottedPlantSpecs.InitializePottedPlant(PlantTypes::MARIGOLD);
 	mPottedPlantSpecs.mDrawVariation =
 		(DrawVariation)RandRangeInt(VARIATION_MARIGOLD_WHITE, VARIATION_MARIGOLD_LIGHT_GREEN);
 

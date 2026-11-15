@@ -354,7 +354,7 @@ void AlmanacDialog::DrawPlants(Graphics *g)
 	}
 	else
 	{
-		g->DrawImage(Plant::IsNocturnal(mSelectedSeed) || mSelectedSeed == SeedType::SEED_GRAVEBUSTER ||
+		g->DrawImage(Plant::IsNocturnal(PlantTypes::FromOldSeedType(mSelectedSeed)) || mSelectedSeed == SeedType::SEED_GRAVEBUSTER ||
 							 mSelectedSeed == SeedType::SEED_PLANTERN
 						 ? Sexy::IMAGE_ALMANAC_GROUNDNIGHT
 					 : mSelectedSeed == SeedType::SEED_FLOWERPOT ? Sexy::IMAGE_ALMANAC_GROUNDROOF

@@ -22,6 +22,7 @@
 #include "../../SexyAppFramework/WidgetManager.h"
 
 #include "../StoreItem/StoreItemTypes.h"
+#include "../Actor/PlantTypes.h"
 
 SeedChooserScreen::SeedChooserScreen()
 {
@@ -213,7 +214,7 @@ void SeedChooserScreen::CrazyDavePickSeeds()
 		aSeedArray[aSeedType].mItem = aSeedType;
 		unsigned int aRecFlags = SeedNotRecommendedToPick(aSeedType);
 		if ((aSeedType == SEED_GATLINGPEA && !mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::GATLING_PEA).mPurchases) ||
-			!mApp->SeedTypeAvailable(aSeedType) || SeedNotAllowedToPick(aSeedType) || Plant::IsUpgrade(aSeedType) ||
+			!mApp->SeedTypeAvailable(aSeedType) || SeedNotAllowedToPick(aSeedType) || Plant::IsUpgrade(PlantTypes::FromOldSeedType(aSeedType)) ||
 			aSeedType == SEED_IMITATER || aSeedType == SEED_UMBRELLA || aSeedType == SEED_BLOVER)
 		{
 			aSeedArray[aSeedType].mWeight = 0;

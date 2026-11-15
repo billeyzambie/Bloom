@@ -254,10 +254,10 @@ const StoreItem &PlayerInfo::GetStoreItemData(const StoreItemType &theStoreItemT
 	return mStoreItemData[theStoreItemType.GetNumericalId()];
 }
 
-void PottedPlant::InitializePottedPlant(SeedType theSeedType)
+void PottedPlant::InitializePottedPlant(const PlantType *thePlantType)
 {
 	memset(this, 0, sizeof(PottedPlant));
-	mSeedType = theSeedType;
+	mPlantType = thePlantType;
 	mDrawVariation = DrawVariation::VARIATION_NORMAL;
 	mLastWateredTime = 0LL;
 	mFacing = (FacingDirection)RandRangeInt((int)FacingDirection::FACING_RIGHT, (int)FacingDirection::FACING_LEFT);
@@ -431,34 +431,41 @@ void ProfileSyncer::SyncString(const SexyString &theName, SexyString &theStr)
 
 void to_json(nlohmann::json &j, const PottedPlant &p)
 {
-	j = {
-		{"seed_type", (int)p.mSeedType},
-		 {"garden", (int)p.mWhichZenGarden},
+	j = 
+	{
+		{"plant_type", p.mPlantType->mResourceId.AsString()},
+		{"garden", (int)p.mWhichZenGarden},
 
-		 {"x", p.mX},
-		 {"y", p.mY},
+		{"x", p.mX},
+		{"y", p.mY},
 
-		 {"facing", (int)p.mFacing},
+		{"facing", (int)p.mFacing},
 
-		 {"last_watered", p.mLastWateredTime},
+		{"last_watered", p.mLastWateredTime},
 
-		 {"draw_variation", (int)p.mDrawVariation},
-		 {"age", (int)p.mPlantAge},
+		{"draw_variation", (int)p.mDrawVariation},
+		{"age", (int)p.mPlantAge},
 
-		 {"times_fed", p.mTimesFed},
-		 {"feedings_per_grow", p.mFeedingsPerGrow},
+		{"times_fed", p.mTimesFed},
+		{"feedings_per_grow", p.mFeedingsPerGrow},
 
-		 {"plant_need", (int)p.mPlantNeed},
+		{"plant_need", (int)p.mPlantNeed},
 
-		 {"last_need_fulfilled_time", p.mLastNeedFulfilledTime},
-		 {"last_fertilized_time", p.mLastFertilizedTime},
-		 {"last_chocolate_time", p.mLastChocolateTime}
+		{"last_need_fulfilled_time", p.mLastNeedFulfilledTime},
+		{"last_fertilized_time", p.mLastFertilizedTime},
+		{"last_chocolate_time", p.mLastChocolateTime}
 	};
 }
 
 void from_json(const nlohmann::json &j, PottedPlant &p)
 {
-	p.mSeedType = (SeedType)j.value("seed_type", 0);
+	std::string aTypeId = j.value("plant_type", "");
+	const PlantType *aPlantType = Registries::PLANTS.GetByResourceId(aTypeId);
+	if (!aPlantType)
+		aPlantType = &Registries::PLANTS.GetDefaultType();
+
+	p.mPlantType = aPlantType;
+
 	p.mWhichZenGarden = (GardenType)j.value("garden", 0);
 
 	p.mX = j.value("x", 0);

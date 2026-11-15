@@ -2716,7 +2716,7 @@ void Plant::UpdateReanimColor()
 		return;
 
 	SeedType aSeedType = mBoard->GetSeedTypeInCursor();
-	const PlantType &aPlantType = PlantTypes::FromOldSeedType(aSeedType);
+	const PlantType *aPlantType = PlantTypes::FromOptionalOldSeedType(aSeedType);
 
 	Color aColorOverride;
 
@@ -2734,7 +2734,7 @@ void Plant::UpdateReanimColor()
 	{
 		aColorOverride = Color(128, 128, 128);
 	}
-	else if (IsPartOfUpgradableTo(aPlantType) && mBoard->CanPlantAt(mPlantCol, mRow, aPlantType) == PLANTING_OK)
+	else if (aPlantType && IsPartOfUpgradableTo(*aPlantType) && mBoard->CanPlantAt(mPlantCol, mRow, *aPlantType) == PLANTING_OK)
 	{
 		aColorOverride = GetFlashingColor(mBoard->mMainCounter, 90);
 	}

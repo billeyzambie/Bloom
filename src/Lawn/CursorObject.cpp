@@ -337,6 +337,8 @@ void CursorPreview::Draw(Graphics *g)
 							aOffsetX,
 							aOffsetY);
 	}
+	
+	const PlantType &aPlantType = PlantTypes::FromOldSeedType(aSeedType);
 
 	if (mApp->mGameMode == GameMode::GAMEMODE_CHALLENGE_COLUMN)
 	{
@@ -344,7 +346,6 @@ void CursorPreview::Draw(Graphics *g)
 		{
 			if (y != mGridY && mBoard->CanPlantAt(mGridX, y, aSeedType) == PlantingReason::PLANTING_OK)
 			{
-				const PlantType &aPlantType = PlantTypes::FromOldSeedType(aSeedType);
 				float aOffsetY = 85.0f * (y - mGridY) + PlantDrawHeightOffset(mBoard, nullptr, aPlantType, mGridX, y);
 				Plant::DrawSeedType(g,
 									mBoard->mCursorObject->mType,

@@ -70,16 +70,16 @@ void ZenGarden::DrawPottedPlant(
 	aPottedPlantG.mScaleY = theScale;
 
 	DrawVariation aPlantVariation = DrawVariation::VARIATION_NORMAL;
-	SeedType aSeedType = thePottedPlant->mSeedType;
+	const PlantType *aPlantType = thePottedPlant->mPlantType;
 	if (thePottedPlant->mPlantAge == PottedPlantAge::PLANTAGE_SPROUT)
 	{
-		aSeedType = SeedType::SEED_SPROUT;
-		if (thePottedPlant->mSeedType != SeedType::SEED_MARIGOLD)
+		aPlantType = PlantTypes::SPROUT;
+		if (thePottedPlant->mPlantType != PlantTypes::MARIGOLD)
 		{
 			aPlantVariation = DrawVariation::VARIATION_SPROUT_NO_FLOWER;
 		}
 	}
-	else if ((aSeedType == SeedType::SEED_TANGLEKELP || aSeedType == SeedType::SEED_SEASHROOM) &&
+	else if ((aPlantType == PlantTypes::TANGLE_KELP || aPlantType == PlantTypes::SEA_SHROOM) &&
 			 thePottedPlant->mWhichZenGarden == GardenType::GARDEN_AQUARIUM)
 	{
 		aPlantVariation = DrawVariation::VARIATION_AQUARIUM;
@@ -89,17 +89,15 @@ void ZenGarden::DrawPottedPlant(
 		aPlantVariation = thePottedPlant->mDrawVariation;
 	}
 
-	const PlantType &aPlantType = PlantTypes::FromOldSeedType(aSeedType);
-
 	float aOffsetX = 0.0f;
-	float aOffsetY = PlantDrawHeightOffset(mBoard, nullptr, aPlantType, -1, -1);
+	float aOffsetY = PlantDrawHeightOffset(mBoard, nullptr, *aPlantType, -1, -1);
 	if (theDrawPot)
 	{
 		float aPotOffsetY = theScale * 0.0f - 0.0f + 0.0f;
 		aPotOffsetY += PlantDrawHeightOffset(mBoard, nullptr, PlantTypes::FLOWER_POT, -1, -1);
 
 		DrawVariation aPotVariation2 = DrawVariation::VARIATION_ZEN_GARDEN;
-		if (aPlantType.mAttributes.mIsAquatic)
+		if (aPlantType->mAttributes.mIsAquatic)
 		{
 			aPotVariation2 = DrawVariation::VARIATION_ZEN_GARDEN_WATER;
 		}
@@ -135,11 +133,11 @@ void ZenGarden::DrawPottedPlant(
 
 	if (theDrawPot)
 	{
-		aOffsetY += PlantFlowerPotHeightOffset(aSeedType, theScale);
+		aOffsetY += PlantFlowerPotHeightOffset(*aPlantType, theScale);
 	}
-	aOffsetY += PlantPottedDrawHeightOffset(aSeedType, aPottedPlantG.mScaleY);
+	aOffsetY += PlantPottedDrawHeightOffset(*aPlantType, aPottedPlantG.mScaleY);
 
-	Plant::DrawSeedType(&aPottedPlantG, aSeedType, SeedType::SEED_NONE, aPlantVariation, x + aOffsetX, y + aOffsetY);
+	Plant::DrawSeedType(&aPottedPlantG, *aPlantType, SeedType::SEED_NONE, aPlantVariation, x + aOffsetX, y + aOffsetY);
 }
 
 void ZenGarden::PlantSetLaunchCounter(Plant *thePlant)
@@ -152,15 +150,15 @@ void ZenGarden::PlantSetLaunchCounter(Plant *thePlant)
 Plant *ZenGarden::PlacePottedPlant(int thePottedPlantIndex)
 {
 	PottedPlant *aPottedPlant = PottedPlantFromIndex(thePottedPlantIndex);
-	SeedType aSeedType = aPottedPlant->mSeedType;
+	const PlantType *aPlantType = aPottedPlant->mPlantType;
 
 	if (aPottedPlant->mPlantAge == PottedPlantAge::PLANTAGE_SPROUT)
 	{
-		aSeedType = SeedType::SEED_SPROUT;
+		aPlantType = PlantTypes::SPROUT;
 	}
 
 	bool needPot = true;
-	if (mGardenType == GardenType::GARDEN_MUSHROOM && !Plant::IsAquatic(aSeedType))
+	if (mGardenType == GardenType::GARDEN_MUSHROOM && !aPlantType->mAttributes.mIsAquatic)
 	{
 		needPot = false;
 	}
@@ -177,7 +175,7 @@ Plant *ZenGarden::PlacePottedPlant(int thePottedPlantIndex)
 		aPot->mStateCountdown = 0;
 
 		Reanimation *aPotReanim = mApp->ReanimationGet(aPot->mBodyReanimID);
-		if (Plant::IsAquatic(aSeedType))
+		if (aPlantType->mAttributes.mIsAquatic)
 		{
 			aPotReanim->SetFramesForLayer("anim_waterplants");
 		}
@@ -187,7 +185,7 @@ Plant *ZenGarden::PlacePottedPlant(int thePottedPlantIndex)
 		}
 	}
 
-	Plant *aPlant = mBoard->NewPlant(aPottedPlant->mX, aPottedPlant->mY, PlantTypes::FromOldSeedType(aSeedType));
+	Plant *aPlant = mBoard->NewPlant(aPottedPlant->mX, aPottedPlant->mY, *aPlantType);
 	aPlant->mPottedPlantIndex = thePottedPlantIndex;
 	aPlant->mRenderOrder = Board::MakeRenderOrder(RenderLayer::RENDER_LAYER_PLANT, 0, aPlant->mY + 1);
 	aPlant->mStateCountdown = 0;
@@ -195,14 +193,14 @@ Plant *ZenGarden::PlacePottedPlant(int thePottedPlantIndex)
 	Reanimation *aPlantReanim = mApp->ReanimationTryToGet(aPlant->mBodyReanimID);
 	if (aPlantReanim)
 	{
-		if (aSeedType == SeedType::SEED_SPROUT)
+		if (aPlantType == PlantTypes::SPROUT)
 		{
-			if (aPottedPlant->mSeedType != SeedType::SEED_MARIGOLD)
+			if (aPottedPlant->mPlantType != PlantTypes::MARIGOLD)
 			{
 				aPlantReanim->SetFramesForLayer("anim_idle_noflower");
 			}
 		}
-		else if ((aSeedType == SeedType::SEED_TANGLEKELP || aSeedType == SeedType::SEED_SEASHROOM) &&
+		else if ((aPlantType == PlantTypes::TANGLE_KELP || aPlantType == PlantTypes::SEA_SHROOM) &&
 				 mGardenType == GardenType::GARDEN_AQUARIUM)
 		{
 			aPlantReanim->SetFramesForLayer("anim_idle_aquarium");
@@ -360,7 +358,7 @@ void ZenGarden::AddPottedPlant(PottedPlant *thePottedPlant)
 int ZenGarden::GetPlantSellPrice(Plant *thePlant)
 {
 	PottedPlant *aPottedPlant = PottedPlantFromIndex(thePlant->mPottedPlantIndex);
-	if (aPottedPlant->mSeedType == SeedType::SEED_MARIGOLD)
+	if (aPottedPlant->mPlantType == PlantTypes::MARIGOLD)
 	{
 		if (aPottedPlant->mPlantAge == PottedPlantAge::PLANTAGE_SPROUT)
 		{
@@ -394,7 +392,7 @@ int ZenGarden::GetPlantSellPrice(Plant *thePlant)
 	}
 	if (aPottedPlant->mPlantAge == PottedPlantAge::PLANTAGE_FULL)
 	{
-		if (Plant::IsNocturnal(aPottedPlant->mSeedType) || Plant::IsAquatic(aPottedPlant->mSeedType))
+		if (Plant::IsNocturnal(*aPottedPlant->mPlantType) || aPottedPlant->mPlantType)
 		{
 			return 1000;
 		}
@@ -420,7 +418,7 @@ void ZenGarden::MouseDownWithMoneySign(Plant *thePlant)
 	aMessageText = TodReplaceNumberString(aMessageText, "{SELL_PRICE}", aPrice);
 
 	SexyString aPlantName;
-	if (thePlant->mType == SeedType::SEED_SPROUT && aPottedPlant->mSeedType == SeedType::SEED_MARIGOLD)
+	if (thePlant->mType == PlantTypes::SPROUT && aPottedPlant->mPlantType == PlantTypes::MARIGOLD)
 	{
 		aPlantName = TodStringTranslate("[MARIGOLD_SPROUT]");
 	}
@@ -500,7 +498,7 @@ void ZenGarden::PlantFertilized(Plant *thePlant)
 	}
 	else if (aPottedPlant->mPlantAge == PottedPlantAge::PLANTAGE_FULL)
 	{
-		if (aPottedPlant->mSeedType == SeedType::SEED_MARIGOLD)
+		if (aPottedPlant->mPlantType == PlantTypes::MARIGOLD)
 		{
 			mBoard->AddCoin(thePlant->mX + 40, thePlant->mY, CoinType::COIN_DIAMOND, CoinMotion::COIN_MOTION_COIN);
 		}
@@ -645,7 +643,7 @@ void ZenGarden::UpdatePlantEffectState(Plant *thePlant)
 
 	Plant *aFlowerPot =
 		mBoard->GetTopPlantAt(thePlant->mPlantCol, thePlant->mRow, PlantPriority::TOPPLANT_ONLY_UNDER_PLANT);
-	if (aFlowerPot && !Plant::IsAquatic(thePlant->mType))
+	if (aFlowerPot && !thePlant->mAttributes.mIsAquatic)
 	{
 		Reanimation *aPotReanim = mApp->ReanimationGet(aFlowerPot->mBodyReanimID);
 		if (thePlant->mState == PlantState::STATE_ZEN_GARDEN_WATERED ||
@@ -684,7 +682,7 @@ void ZenGarden::AddHappyEffect(Plant *thePlant)
 		thePlant->AddAttachedParticle(
 			thePlant->mX + 40, thePlant->mY + 60, thePlant->mRenderOrder - 1, ParticleEffect::PARTICLE_POTTED_ZEN_GLOW);
 	}
-	else if (Plant::IsAquatic(thePlant->mType))
+	else if (thePlant->mAttributes.mIsAquatic)
 	{
 		aFlowerPot->AddAttachedParticle(aFlowerPot->mX + 40,
 										aFlowerPot->mY + 61,
@@ -761,7 +759,7 @@ void ZenGarden::RefreshPlantNeeds(PottedPlant *thePottedPlant)
 		return;
 	}
 
-	if (Plant::IsAquatic(thePottedPlant->mSeedType))
+	if (thePottedPlant->mPlantType->mAttributes.mIsAquatic)
 	{
 		thePottedPlant->mLastWateredTime = std::time(nullptr);
 		thePottedPlant->mPlantNeed = (PottedPlantNeed)RandRangeInt((int)PottedPlantNeed::PLANTNEED_BUGSPRAY,
@@ -795,7 +793,7 @@ bool ZenGarden::WasPlantFertilizedInLastHour(PottedPlant *thePottedPlant)
 
 PottedPlantNeed ZenGarden::GetPlantsNeed(PottedPlant *thePottedPlant)
 {
-	if (thePottedPlant->mPlantAge != PottedPlantAge::PLANTAGE_SPROUT && Plant::IsNocturnal(thePottedPlant->mSeedType) &&
+	if (thePottedPlant->mPlantAge != PottedPlantAge::PLANTAGE_SPROUT && Plant::IsNocturnal(*thePottedPlant->mPlantType) &&
 		thePottedPlant->mWhichZenGarden == GardenType::GARDEN_MAIN)
 	{
 		return PottedPlantNeed::PLANTNEED_NONE;
@@ -813,7 +811,7 @@ PottedPlantNeed ZenGarden::GetPlantsNeed(PottedPlant *thePottedPlant)
 	{
 		return PottedPlantNeed::PLANTNEED_NONE;
 	}
-	if (Plant::IsAquatic(thePottedPlant->mSeedType) && thePottedPlant->mPlantAge != PottedPlantAge::PLANTAGE_SPROUT)
+	if (thePottedPlant->mPlantType->mAttributes.mIsAquatic && thePottedPlant->mPlantAge != PottedPlantAge::PLANTAGE_SPROUT)
 	{
 		if (thePottedPlant->mPlantAge == PottedPlantAge::PLANTAGE_FULL)
 		{
@@ -1251,7 +1249,7 @@ float ZenGarden::ZenPlantOffsetX(PottedPlant *thePottedPlant)
 {
 	int aOffsetX = 0;
 	if (thePottedPlant->mFacing == PottedPlant::FacingDirection::FACING_LEFT &&
-		thePottedPlant->mSeedType == SeedType::SEED_POTATOMINE)
+		thePottedPlant->mPlantType == PlantTypes::POTATO_MINE)
 	{
 		aOffsetX -= 6;
 	}
@@ -1916,7 +1914,7 @@ void ZenGarden::MouseDownWithFullWheelBarrow(int x, int y)
 	PottedPlant *aPottedPlant = GetPottedPlantInWheelbarrow();
 	TOD_ASSERT(aPottedPlant);
 
-	if (mApp->mZenGarden->mGardenType == GardenType::GARDEN_AQUARIUM && !Plant::IsAquatic(aPottedPlant->mSeedType))
+	if (mApp->mZenGarden->mGardenType == GardenType::GARDEN_AQUARIUM && !aPottedPlant->mPlantType->mAttributes.mIsAquatic)
 	{
 		mBoard->DisplayAdvice(
 			"[ZEN_ONLY_AQUATIC_PLANTS]", MessageStyle::MESSAGE_STYLE_HINT_TALL_FAST, AdviceType::ADVICE_NONE);
@@ -1926,7 +1924,7 @@ void ZenGarden::MouseDownWithFullWheelBarrow(int x, int y)
 	int aGridX = mBoard->PixelToGridX(x, y);
 	int aGridY = mBoard->PixelToGridY(x, y);
 	if (aGridX == -1 || aGridY == -1 ||
-		mBoard->CanPlantAt(aGridX, aGridY, aPottedPlant->mSeedType) != PlantingReason::PLANTING_OK)
+		mBoard->CanPlantAt(aGridX, aGridY, *aPottedPlant->mPlantType) != PlantingReason::PLANTING_OK)
 	{
 		return;
 	}
@@ -2101,7 +2099,7 @@ void ZenGarden::AdvanceCrazyDaveDialog()
 		for (int i = 0; i < 2; i++)
 		{
 			PottedPlant aPottedPlant;
-			aPottedPlant.InitializePottedPlant(SeedType::SEED_MARIGOLD);
+			aPottedPlant.InitializePottedPlant(PlantTypes::MARIGOLD);
 			aPottedPlant.mDrawVariation = (DrawVariation)RandRangeInt(
 				(int)DrawVariation::VARIATION_MARIGOLD_WHITE, (int)DrawVariation::VARIATION_MARIGOLD_LIGHT_GREEN);
 			aPottedPlant.mFeedingsPerGrow = 3;
@@ -2134,7 +2132,7 @@ bool ZenGarden::MouseDownZenGarden(int x, int y, int theClickCount, HitResult *t
 			if (aButtonRect.Contains(x, y) && aPottedPlant)
 			{
 				mBoard->ClearCursor();
-				mBoard->mCursorObject->mType = aPottedPlant->mSeedType;
+				mBoard->mCursorObject->mType = *aPottedPlant->mPlantType;
 				mBoard->mCursorObject->mImitaterType = SeedType::SEED_NONE;
 				mBoard->mCursorObject->mCursorType = CursorType::CURSOR_TYPE_PLANT_FROM_WHEEL_BARROW;
 				return true;
@@ -2410,7 +2408,7 @@ void ZenGarden::SetupForZenTutorial()
 	mApp->CrazyDaveTalkIndex(2100);
 }
 
-SeedType ZenGarden::PickRandomSeedType()
+const PlantType &ZenGarden::PickRandomPlantType()
 {
 	SeedType aSeedList[(int)SeedType::SEED_GATLINGPEA];
 	int aSeedCount = 0;
@@ -2423,7 +2421,7 @@ SeedType ZenGarden::PickRandomSeedType()
 			aSeedCount++;
 		}
 	}
-	return (SeedType)TodPickFromArray(aSeedList, aSeedCount);
+	return PlantTypes::FromOldSeedType(TodPickFromArray(aSeedList, aSeedCount));
 }
 
 void ZenGarden::LeaveGarden()

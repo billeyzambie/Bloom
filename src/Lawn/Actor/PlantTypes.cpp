@@ -690,7 +690,8 @@ const PlantType *FromOptionalOldSeedType(int theSeedType)
 {
 	if (theSeedType == -1)
 		return nullptr;
-	TOD_ASSERT(theSeedType < SeedType::NUM_SEED_TYPES, "SeedType is not a plant type, or a modded plant type somehow got converted to a SeedType and back.");
+	if (theSeedType >= SeedType::NUM_SEED_TYPES)
+		return nullptr;
 	return &Registries::PLANTS.GetByNumericalId(theSeedType);
 }
 
