@@ -681,8 +681,8 @@ const auto &CUSTOM_TEST = RegisterTypeOf<Plant>(
 
 const PlantType &FromOldSeedType(int theSeedType)
 {
-	TOD_ASSERT(theSeedType < SeedType::NUM_SEED_TYPES);
-	TOD_ASSERT(theSeedType >= 0);
+	TOD_ASSERT(theSeedType < SeedType::NUM_SEED_TYPES, "SeedType is not a plant type, or a modded plant type somehow got converted to a SeedType and back.");
+	TOD_ASSERT(theSeedType >= 0, "SeedType was unexpectedly SEED_NONE");
 	return Registries::PLANTS.GetByNumericalId(theSeedType);
 }
 
@@ -690,7 +690,7 @@ const PlantType *FromOptionalOldSeedType(int theSeedType)
 {
 	if (theSeedType == -1)
 		return nullptr;
-	TOD_ASSERT(theSeedType < SeedType::NUM_SEED_TYPES);
+	TOD_ASSERT(theSeedType < SeedType::NUM_SEED_TYPES, "SeedType is not a plant type, or a modded plant type somehow got converted to a SeedType and back.");
 	return &Registries::PLANTS.GetByNumericalId(theSeedType);
 }
 

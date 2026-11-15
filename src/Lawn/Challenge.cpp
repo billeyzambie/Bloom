@@ -1869,7 +1869,7 @@ void Challenge::UpdateRainingSeeds()
 	do
 		aSeedType = (SeedType)Rand(mApp->GetSeedsAvailable());
 	while (mBoard->SeedNotRecommendedForLevel(aSeedType) || !mApp->SeedTypeAvailable(aSeedType) ||
-		   Plant::IsUpgrade(aSeedType) || aSeedType == SEED_SUNFLOWER || aSeedType == SEED_TWINSUNFLOWER ||
+		   Plant::IsUpgrade(PlantTypes::FromOldSeedType(aSeedType)) || aSeedType == SEED_SUNFLOWER || aSeedType == SEED_TWINSUNFLOWER ||
 		   aSeedType == SEED_INSTANT_COFFEE || aSeedType == SEED_UMBRELLA || aSeedType == SEED_SUNSHROOM ||
 		   aSeedType == SEED_IMITATER);
 	if (Rand(100) < TodAnimateCurve(0, 18, mBoard->CountPlantByType(SEED_LILYPAD), 30, 1, CURVE_LINEAR))

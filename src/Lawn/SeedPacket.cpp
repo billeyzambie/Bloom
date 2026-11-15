@@ -1,6 +1,7 @@
 #include "Board.h"
 #include "Cutscene.h"
 #include "Challenge.h"
+#include "Actor/PlantTypes.h"
 #include "SeedPacket.h"
 #include "ResourceInclude.h"
 #include "../LawnApp.h"
@@ -302,8 +303,10 @@ void DrawSeedPacket(Graphics *g,
 		g->SetColorizeImages(true);
 	}
 
+	const PlantType &aPlantType = PlantTypes::FromOldSeedType(aSeedType);
+
 	int aPacketBackground = theSeedType == SeedType::SEED_IMITATER					 ? 0
-							: Plant::IsUpgrade(aSeedType)							 ? 1
+							: Plant::IsUpgrade(aPlantType)							 ? 1
 							: theSeedType == SeedType::SEED_BEGHOULED_BUTTON_CRATER	 ? 3
 							: theSeedType == SeedType::SEED_BEGHOULED_BUTTON_SHUFFLE ? 4
 							: theSeedType == SeedType::SEED_SLOT_MACHINE_SUN		 ? 5
@@ -1226,14 +1229,16 @@ void SeedPacket::SetPacketType(SeedType theSeedType, SeedType theImitaterType)
 		(mApp->IsSurvivalMode() && mBoard->mChallenge->mSurvivalStage > 0))
 		return;
 
-	if ((Plant::IsUpgrade(aUseSeedType) && !gLawnApp->IsSurvivalMode()) ||
+	const PlantType &aUsePlantType = PlantTypes::FromOldSeedType(aUseSeedType);
+
+	if ((Plant::IsUpgrade(aUsePlantType) && !gLawnApp->IsSurvivalMode()) ||
 		Plant::GetRefreshTime(mPacketType, mImitaterType) == 5000)
 	{
 		mRefreshTime = 3500;
 		mRefreshing = true;
 		mActive = false;
 	}
-	else if (Plant::IsUpgrade(aUseSeedType) && gLawnApp->IsSurvivalMode())
+	else if (Plant::IsUpgrade(aUsePlantType) && gLawnApp->IsSurvivalMode())
 	{
 		mRefreshTime = 8000;
 		mRefreshing = true;

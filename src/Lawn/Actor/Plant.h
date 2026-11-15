@@ -285,17 +285,12 @@ class BLOOM_API Plant final : public GameObject
 	/// @brief Is the Plant Nocturnal
 	/// @param theSeedType The Plant's SeedType
 	/// @return Is the Plant Noctural
-	static bool IsNocturnal(SeedType theSeedtype);
-
-	/// @brief Is the Plant Aquatic
-	/// @param theSeedType The Plant's SeedType
-	/// @return Is the Plant Aquatic
-	static bool IsAquatic(SeedType theSeedType);
+	static bool IsNocturnal(const PlantType &thePlantType);
 
 	/// @brief Is the Plant Upgrade
 	/// @param theSeedType The Plant's SeedType
 	/// @return Is the Plant Upgrade
-	static bool IsUpgrade(SeedType theSeedtype);
+	static bool IsUpgrade(const PlantType &thePlantType);
 
 	/// @brief Update a Plant's abilities
 	void UpdateAbilities();
@@ -497,11 +492,11 @@ class BLOOM_API Plant final : public GameObject
 
 	/// @brief Can the plant be upgraded to another one
 	/// @return True if it can be upgraded, false otherwise
-	bool IsUpgradableTo(SeedType theUpgradedType);
+	bool IsUpgradableTo(const PlantType &theUpgradedType);
 
 	/// @brief Can the Plant form an upgrade
 	/// @return True if it can form an upgrade, false otherwise
-	bool IsPartOfUpgradableTo(SeedType theUpgradedType);
+	bool IsPartOfUpgradableTo(const PlantType &theUpgradedType);
 
 	/// @brief Update the CobCannon
 	void UpdateCobCannon();
@@ -593,11 +588,11 @@ class BLOOM_API Plant final : public GameObject
 /// @brief Get the Plant's height offset on a grid
 /// @param theBoard [OPTIONAL] The Board for specific position cases
 /// @param thePlant [OPTIONAL] The Plant for specific state cases
-/// @param theCol The theSeedType to check
+/// @param thePlantType The the PlantType to check
 /// @param theCol The column to check
 /// @param theRow The row to check
 /// @return The final Y offset
-float PlantDrawHeightOffset(Board *theBoard, Plant *thePlant, SeedType theSeedType, int theCol, int theRow);
+float PlantDrawHeightOffset(Board *theBoard, Plant *thePlant, const PlantType &thePlantType, int theCol, int theRow);
 /// @brief Get the Plant's height offset on a grid
 /// @param theCol The theSeedType to check
 /// @param theFlowerPotScale The scale of the flowerpot

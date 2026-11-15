@@ -2755,6 +2755,9 @@ bool Board::IsIceAt(int theGridX, int theGridY)
 
 PlantingReason Board::CanPlantAt(int theGridX, int theGridY, SeedType theSeedType)
 {
+	const PlantType &aPlantType = PlantTypes::FromOldSeedType(theSeedType);
+	const PlantAttributes &anAttributes = aPlantType.mAttributes;
+
 	if (theGridX < 0 || theGridX >= MAX_GRID_SIZE_X || theGridY < 0 || theGridY >= MAX_GRID_SIZE_Y)
 	{
 		return PlantingReason::PLANTING_NOT_HERE;
@@ -2775,7 +2778,7 @@ PlantingReason Board::CanPlantAt(int theGridX, int theGridY, SeedType theSeedTyp
 		{
 			return PlantingReason::PLANTING_NOT_HERE;
 		}
-		if (mApp->mZenGarden->mGardenType == GARDEN_AQUARIUM && !Plant::IsAquatic(theSeedType))
+		if (mApp->mZenGarden->mGardenType == GARDEN_AQUARIUM && !anAttributes.mIsAquatic)
 		{
 			return PlantingReason::PLANTING_NOT_ON_WATER;
 		}
@@ -2811,7 +2814,7 @@ PlantingReason Board::CanPlantAt(int theGridX, int theGridY, SeedType theSeedTyp
 	}
 	if (aHasGrave)
 	{
-		return PlantTypes::FromOldSeedType(theSeedType).mAttributes.mIsFlying ? PlantingReason::PLANTING_OK : PlantingReason::PLANTING_NOT_ON_GRAVE;
+		return anAttributes.mIsFlying ? PlantingReason::PLANTING_OK : PlantingReason::PLANTING_NOT_ON_GRAVE;
 	}
 
 	Plant *aUnderPlant = aPlantOnLawn.mUnderPlant;
@@ -2850,7 +2853,7 @@ PlantingReason Board::CanPlantAt(int theGridX, int theGridY, SeedType theSeedTyp
 
 		return (aNormalPlant || aUnderPlant) ? PlantingReason::PLANTING_NOT_HERE : PlantingReason::PLANTING_OK;
 	}
-	if (PlantTypes::FromOldSeedType(theSeedType).mAttributes.mIsFlying)
+	if (anAttributes.mIsFlying)
 	{
 		return aPlantOnLawn.mFlyingPlant ? PlantingReason::PLANTING_NOT_HERE : PlantingReason::PLANTING_OK;
 	}
@@ -2912,12 +2915,12 @@ PlantingReason Board::CanPlantAt(int theGridX, int theGridY, SeedType theSeedTyp
 			{
 				return PlantingReason::PLANTING_NOT_HERE;
 			}
-			if (aUnderPlant->IsUpgradableTo(theSeedType) &&
+			if (aUnderPlant->IsUpgradableTo(aPlantType) &&
 				aUnderPlant->mOnBungeeState != PlantOnBungeeState::GETTING_GRABBED_BY_BUNGEE)
 			{
 				return PlantingReason::PLANTING_OK;
 			}
-			if (Plant::IsUpgrade(theSeedType))
+			if (Plant::IsUpgrade(aPlantType))
 			{
 				return PlantingReason::PLANTING_NEEDS_UPGRADE;
 			}
@@ -2933,12 +2936,12 @@ PlantingReason Board::CanPlantAt(int theGridX, int theGridY, SeedType theSeedTyp
 
 	if (aNormalPlant)
 	{
-		if (aNormalPlant->IsUpgradableTo(theSeedType) &&
+		if (aNormalPlant->IsUpgradableTo(aPlantType) &&
 			aNormalPlant->mOnBungeeState != PlantOnBungeeState::GETTING_GRABBED_BY_BUNGEE)
 		{
 			return PlantingReason::PLANTING_OK;
 		}
-		if (Plant::IsUpgrade(theSeedType))
+		if (Plant::IsUpgrade(aPlantType))
 		{
 			return PlantingReason::PLANTING_NEEDS_UPGRADE;
 		}
@@ -2956,7 +2959,7 @@ PlantingReason Board::CanPlantAt(int theGridX, int theGridY, SeedType theSeedTyp
 		return PlantingReason::PLANTING_NOT_HERE;
 	}
 
-	if (!mApp->mEasyPlantingCheat && Plant::IsUpgrade(theSeedType))
+	if (!mApp->mEasyPlantingCheat && Plant::IsUpgrade(aPlantType))
 	{
 		return PlantingReason::PLANTING_NEEDS_UPGRADE;
 	}
@@ -3711,6 +3714,8 @@ void Board::MouseDownWithPlant(int x, int y, int theClickCount)
 		return;
 	}
 
+	const PlantType &aPlantingPlantType = PlantTypes::FromOldSeedType(aPlantingSeedType);
+
 	PlantingReason aReason = CanPlantAt(aGridX, aGridY, aPlantingSeedType);
 	if (aReason != PlantingReason::PLANTING_OK)
 	{
@@ -3943,7 +3948,7 @@ void Board::MouseDownWithPlant(int x, int y, int theClickCount)
 	GetPlantsOnLawn(aGridX, aGridY, &aPlantOnLawn);
 	Plant *aNormalPlant = aPlantOnLawn.mNormalPlant;
 	Plant *aPumpkinPlant = aPlantOnLawn.mPumpkinPlant;
-	if (aNormalPlant && aNormalPlant->IsUpgradableTo(aPlantingSeedType))
+	if (aNormalPlant && aNormalPlant->IsUpgradableTo(aPlantingPlantType))
 	{
 		if (aPlantingSeedType == SeedType::SEED_GLOOMSHROOM)
 		{
@@ -10259,8 +10264,10 @@ void Board::KillAllPlantsInRadius(int theX, int theY, int theRadius)
 
 unsigned int Board::SeedNotRecommendedForLevel(SeedType theSeedType)
 {
+	const PlantType &aPlantType = PlantTypes::FromOldSeedType(theSeedType);
+
 	unsigned int aNotRec = 0;
-	if (Plant::IsNocturnal(theSeedType) && !StageIsNight())
+	if (Plant::IsNocturnal(aPlantType) && !StageIsNight())
 	{
 		SetBit(aNotRec, NotRecommend::NOT_RECOMMENDED_NOCTURNAL, true);
 	}
@@ -10284,7 +10291,7 @@ unsigned int Board::SeedNotRecommendedForLevel(SeedType theSeedType)
 	{
 		SetBit(aNotRec, NotRecommend::NOT_RECOMMENDED_ON_ROOF, true);
 	}
-	if (!StageHasPool() && Plant::IsAquatic(theSeedType))
+	if (!StageHasPool() && aPlantType.mAttributes.mIsAquatic)
 	{
 		SetBit(aNotRec, NotRecommend::NOT_RECOMMENDED_NEEDS_POOL, true);
 	}
@@ -10707,7 +10714,8 @@ void Board::RemoveParticleByType(ParticleEffect theEffectType)
 
 bool Board::PlantUsesAcceleratedPricing(SeedType theSeedType)
 {
-	return Plant::IsUpgrade(theSeedType) && mApp->IsSurvivalEndless(mApp->mGameMode);
+	const PlantType &aPlantType = PlantTypes::FromOldSeedType(theSeedType);
+	return Plant::IsUpgrade(aPlantType) && mApp->IsSurvivalEndless(mApp->mGameMode);
 }
 
 int Board::GetCurrentPlantCost(SeedType theSeedType, SeedType theImitaterType)

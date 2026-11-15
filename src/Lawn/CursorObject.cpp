@@ -188,9 +188,10 @@ void CursorObject::Draw(Graphics *g)
 			break; // CursorPreview draws the ghost plant in gamepad mode; skip this to avoid a double draw
 		}
 #endif
+		const PlantType &aPlantType = PlantTypes::FromOldSeedType(mType);
 		float aOffsetX = -10.0f;
-		float aOffsetY = PlantDrawHeightOffset(mBoard, nullptr, mType, -1, -1) - 10.0f;
-		if (PlantTypes::FromOldSeedType(mType).mAttributes.mIsFlying || mType == SeedType::SEED_GRAVEBUSTER)
+		float aOffsetY = PlantDrawHeightOffset(mBoard, nullptr, aPlantType, -1, -1) - 10.0f;
+		if (aPlantType.mAttributes.mIsFlying || mType == SeedType::SEED_GRAVEBUSTER)
 		{
 			aOffsetY += 30.0f;
 		}
@@ -311,7 +312,8 @@ void CursorPreview::Draw(Graphics *g)
 		float aOffsetX, aOffsetY;
 		if (mApp->IsIZombieLevel())
 		{
-			float aHeight = PlantDrawHeightOffset(mBoard, nullptr, aSeedType, mGridX, mGridY);
+			//float aHeight = PlantDrawHeightOffset(mBoard, nullptr, aSeedType, mGridX, mGridY);
+			float aHeight = 0;
 			if (aSeedType == SeedType::SEED_ZOMBIE_GARGANTUAR)
 			{
 				aHeight -= 30.0f;
@@ -322,7 +324,9 @@ void CursorPreview::Draw(Graphics *g)
 		}
 		else
 		{
-			aOffsetY = PlantDrawHeightOffset(mBoard, nullptr, aSeedType, mGridX, mGridY);
+			const PlantType &aPlantType = PlantTypes::FromOldSeedType(aSeedType);
+
+			aOffsetY = PlantDrawHeightOffset(mBoard, nullptr, aPlantType, mGridX, mGridY);
 			aOffsetX = 0.0f;
 		}
 
@@ -340,7 +344,8 @@ void CursorPreview::Draw(Graphics *g)
 		{
 			if (y != mGridY && mBoard->CanPlantAt(mGridX, y, aSeedType) == PlantingReason::PLANTING_OK)
 			{
-				float aOffsetY = 85.0f * (y - mGridY) + PlantDrawHeightOffset(mBoard, nullptr, aSeedType, mGridX, y);
+				const PlantType &aPlantType = PlantTypes::FromOldSeedType(aSeedType);
+				float aOffsetY = 85.0f * (y - mGridY) + PlantDrawHeightOffset(mBoard, nullptr, aPlantType, mGridX, y);
 				Plant::DrawSeedType(g,
 									mBoard->mCursorObject->mType,
 									mBoard->mCursorObject->mImitaterType,

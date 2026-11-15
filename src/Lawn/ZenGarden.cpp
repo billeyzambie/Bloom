@@ -89,15 +89,17 @@ void ZenGarden::DrawPottedPlant(
 		aPlantVariation = thePottedPlant->mDrawVariation;
 	}
 
+	const PlantType &aPlantType = PlantTypes::FromOldSeedType(aSeedType);
+
 	float aOffsetX = 0.0f;
-	float aOffsetY = PlantDrawHeightOffset(mBoard, nullptr, aSeedType, -1, -1);
+	float aOffsetY = PlantDrawHeightOffset(mBoard, nullptr, aPlantType, -1, -1);
 	if (theDrawPot)
 	{
 		float aPotOffsetY = theScale * 0.0f - 0.0f + 0.0f;
-		aPotOffsetY += PlantDrawHeightOffset(mBoard, nullptr, SeedType::SEED_FLOWERPOT, -1, -1);
+		aPotOffsetY += PlantDrawHeightOffset(mBoard, nullptr, PlantTypes::FLOWER_POT, -1, -1);
 
 		DrawVariation aPotVariation2 = DrawVariation::VARIATION_ZEN_GARDEN;
-		if (Plant::IsAquatic(aSeedType))
+		if (aPlantType.mAttributes.mIsAquatic)
 		{
 			aPotVariation2 = DrawVariation::VARIATION_ZEN_GARDEN_WATER;
 		}
@@ -151,6 +153,7 @@ Plant *ZenGarden::PlacePottedPlant(int thePottedPlantIndex)
 {
 	PottedPlant *aPottedPlant = PottedPlantFromIndex(thePottedPlantIndex);
 	SeedType aSeedType = aPottedPlant->mSeedType;
+
 	if (aPottedPlant->mPlantAge == PottedPlantAge::PLANTAGE_SPROUT)
 	{
 		aSeedType = SeedType::SEED_SPROUT;
@@ -519,7 +522,7 @@ void ZenGarden::PlantFulfillNeed(Plant *thePlant)
 	mApp->PlayFoley(FoleyType::FOLEY_PRIZE);
 	mApp->PlayFoley(FoleyType::FOLEY_SPAWN_SUN);
 	mBoard->AddCoin(thePlant->mX + 40, thePlant->mY, CoinType::COIN_GOLD, CoinMotion::COIN_MOTION_COIN);
-	if (Plant::IsNocturnal(thePlant->mType) || Plant::IsAquatic(thePlant->mType))
+	if (Plant::IsNocturnal(thePlant->mType) || thePlant->mAttributes.mIsAquatic)
 	{
 		mBoard->AddCoin(thePlant->mX + 10, thePlant->mY, CoinType::COIN_GOLD, CoinMotion::COIN_MOTION_COIN);
 		mBoard->AddCoin(thePlant->mX + 70, thePlant->mY, CoinType::COIN_GOLD, CoinMotion::COIN_MOTION_COIN);

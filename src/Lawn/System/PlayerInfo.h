@@ -17,6 +17,8 @@
 
 #include "Zombatar.h"
 
+class PlantType;
+
 class BLOOM_API PottedPlant
 {
   public:
@@ -27,7 +29,7 @@ class BLOOM_API PottedPlant
 	};
 
   public:
-	SeedType mSeedType;
+	const PlantType &mSeedType;
 	GardenType mWhichZenGarden;
 	int mX;
 	int mY;
