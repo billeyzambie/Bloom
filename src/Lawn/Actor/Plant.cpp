@@ -2644,7 +2644,7 @@ void Plant::UpdateAbilities()
 	else if (mType == PlantTypes::SCAREDY_SHROOM)
 		UpdateScaredyShroom();
 
-	if (mSubclass == PlantSubClass::SUBCLASS_SHOOTER)
+	if (IsShooter(mType))
 	{
 		UpdateShooter();
 	}
@@ -5190,6 +5190,21 @@ bool Plant::IsUpgrade(const PlantType &thePlantType)
 		   thePlantType == PlantTypes::TWIN_SUNFLOWER || thePlantType == PlantTypes::SPIKEROCK ||
 		   thePlantType == PlantTypes::COB_CANNON || thePlantType == PlantTypes::GOLD_MAGNET ||
 		   thePlantType == PlantTypes::GLOOM_SHROOM || thePlantType == PlantTypes::CATTAIL;
+}
+
+bool Plant::IsShooter(const PlantType &thePlantType)
+{
+	return thePlantType == PlantTypes::PEASHOOTER || thePlantType == PlantTypes::SNOW_PEA ||
+		   thePlantType == PlantTypes::REPEATER || thePlantType == PlantTypes::PUFF_SHROOM ||
+		   thePlantType == PlantTypes::FUME_SHROOM || thePlantType == PlantTypes::SCAREDY_SHROOM ||
+		   thePlantType == PlantTypes::THREEPEATER || thePlantType == PlantTypes::SEA_SHROOM ||
+		   thePlantType == PlantTypes::CACTUS || thePlantType == PlantTypes::SEA_SHROOM ||
+		   thePlantType == PlantTypes::SPLIT_PEA || thePlantType == PlantTypes::STARFRUIT ||
+		   thePlantType == PlantTypes::SPLIT_PEA || thePlantType == PlantTypes::STARFRUIT ||
+		   thePlantType == PlantTypes::CABBAGE_PULT || thePlantType == PlantTypes::KERNEL_PULT ||
+		   thePlantType == PlantTypes::MELON_PULT || thePlantType == PlantTypes::GATLING_PEA ||
+		   thePlantType == PlantTypes::GLOOM_SHROOM || thePlantType == PlantTypes::CATTAIL ||
+		   thePlantType == PlantTypes::WINTER_MELON || thePlantType == PlantTypes::LEFTPEATER;
 }
 
 Rect Plant::GetPlantRect()

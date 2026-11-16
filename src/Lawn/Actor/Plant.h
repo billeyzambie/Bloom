@@ -6,11 +6,11 @@
 
 #define MAX_MAGNET_ITEMS 5
 
-enum PlantSubClass
-{
-	SUBCLASS_NORMAL = 0,
-	SUBCLASS_SHOOTER = 1
-};
+//enum PlantSubClass
+//{
+//	SUBCLASS_NORMAL = 0,
+//	SUBCLASS_SHOOTER = 1
+//};
 
 enum PlantWeapon
 {
@@ -161,7 +161,6 @@ class BLOOM_API Plant final : public GameObject
 	PlantState mState;
 	int mPlantHealth;
 	int mPlantMaxHealth;
-	PlantSubClass mSubclass;
 	int mDisappearCountdown;
 	int mDoSpecialCountdown;
 	int mStateCountdown;
@@ -283,14 +282,19 @@ class BLOOM_API Plant final : public GameObject
 	static int GetRefreshTime(SeedType theSeedType, SeedType theImitaterType = SeedType::SEED_NONE);
 
 	/// @brief Is the Plant Nocturnal
-	/// @param theSeedType The Plant's SeedType
+	/// @param thePlantType The Plant's SeedType
 	/// @return Is the Plant Noctural
 	static bool IsNocturnal(const PlantType &thePlantType);
 
 	/// @brief Is the Plant Upgrade
-	/// @param theSeedType The Plant's SeedType
+	/// @param thePlantType The Plant's SeedType
 	/// @return Is the Plant Upgrade
 	static bool IsUpgrade(const PlantType &thePlantType);
+
+	/// @brief Is the Plant a shooter
+	/// @param thePlantType The Plant's SeedType
+	/// @return Is the Plant a shooter
+	static bool IsShooter(const PlantType &thePlantType);
 
 	/// @brief Update a Plant's abilities
 	void UpdateAbilities();
