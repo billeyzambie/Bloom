@@ -3,7 +3,9 @@
 #include "../Lawn/Projectile/ProjectileBehavior.h"
 #include "../Sexy.TodLib/TodDebug.h"
 
-template <class T, size_t INSTANCE_MAX_SIZE = T::Type::INSTANCE_MAX_SIZE> class PolymorphicWrapper
+template <
+	class T, size_t INSTANCE_MAX_SIZE = std::is_final_v<T> ? sizeof(T) : T::Type::INSTANCE_MAX_SIZE> 
+class PolymorphicWrapper
 {
   private:
 	alignas(std::max_align_t) char mBuffer[INSTANCE_MAX_SIZE];

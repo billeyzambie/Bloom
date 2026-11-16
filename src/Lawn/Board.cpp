@@ -2869,7 +2869,7 @@ PlantingReason Board::CanPlantAt(int theGridX, int theGridY, SeedType theSeedTyp
 	Plant *aPumpkinPlant = aPlantOnLawn.mPumpkinPlant;
 	if (aGridSquare == GridSquareType::GRIDSQUARE_POOL && !aHasLilypad && theSeedType != SeedType::SEED_CATTAIL)
 	{
-		if (!aNormalPlant || aNormalPlant->mType != SeedType::SEED_CATTAIL ||
+		if (!aNormalPlant || aNormalPlant->mType != PlantTypes::CATTAIL ||
 			theSeedType != SeedType::SEED_PUMPKINSHELL)
 		{
 			return PlantingReason::PLANTING_NOT_ON_WATER;
@@ -4126,7 +4126,7 @@ Plant *Board::ToolHitTestHelper(HitResult *theHitResult)
 {
 	theHitResult->mObjectType = GameObjectType::OBJECT_TYPE_PLANT;
 	Plant *aPlant = (Plant *)theHitResult->mObject;
-	return (aPlant->mType != SeedType::SEED_GRAVEBUSTER ||
+	return (aPlant->mType != PlantTypes::GRAVE_BUSTER ||
 			mApp->mGameMode == GameMode::GAMEMODE_CHALLENGE_ZEN_GARDEN)
 			   ? aPlant
 			   : nullptr;

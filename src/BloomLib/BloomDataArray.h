@@ -27,9 +27,7 @@ template <typename T> class BLOOM_API BloomDataArray
 	};
 
 	static_assert(
-		std::is_final_v<T> 
-			? T::Type::INSTANCE_MAX_SIZE == sizeof(T) 
-			: T::Type::INSTANCE_MAX_SIZE >= sizeof(T) + 12
+		std::is_final_v<T> || T::Type::INSTANCE_MAX_SIZE >= sizeof(T) + 12
 	);
 
 	class BLOOM_API DataArrayItem
