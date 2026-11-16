@@ -112,7 +112,7 @@ class CreditScreen : public Widget, public ButtonListener
 	Reanimation *PlayReanim(int aIndex);
 	void JumpToFrame(CreditsPhase thePhase, float theFrame);
 	void GetTiming(CreditsTiming **theBeforeTiming, CreditsTiming **theAfterTiming, float *theFraction);
-	static Reanimation *FindSubReanim(Reanimation *theReanim, ReanimationType theReanimType);
+	static Reanimation *FindSubReanim(Reanimation *theReanim, OldReanimationType theReanimType);
 	void DrawFogEffect(Graphics *g, float theTime);
 	void UpdateBlink();
 	void TurnOffTongues(Reanimation *theReanim, int aParentTrack);
@@ -124,7 +124,7 @@ class CreditScreen : public Widget, public ButtonListener
 };
 
 void DrawDisco(Graphics *g, float aCenterX, float aCenterY, float theTime);
-void DrawReanimToPreload(Graphics *g, ReanimationType theReanimType);
+void DrawReanimToPreload(Graphics *g, OldReanimationType theReanimType);
 
 class CreditsOverlay : public Widget
 {

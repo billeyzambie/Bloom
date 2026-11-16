@@ -37,7 +37,7 @@ void MessageWidget::ClearReanim()
 
 void MessageWidget::ClearLabel()
 {
-	if (mReanimType != ReanimationType::REANIM_NONE)
+	if (mReanimType != OldReanimationType::REANIM_NONE)
 	{
 		mDuration = std::min(mDuration, 100 + mSlideOffTime + 1);
 	}
@@ -53,7 +53,7 @@ void MessageWidget::SetLabel(const SexyString &theNewLabel, MessageStyle theMess
 	TOD_ASSERT(utf8::is_valid(aLabel));
 	TOD_ASSERT(utf8::distance(aLabel.begin(), aLabel.end()) < MAX_MESSAGE_LENGTH - 1);
 
-	if (mReanimType != ReanimationType::REANIM_NONE && mDuration > 0)
+	if (mReanimType != OldReanimationType::REANIM_NONE && mDuration > 0)
 	{
 		mMessageStyleNext = theMessageStyle;
 		size_t count = 0;
@@ -88,7 +88,7 @@ void MessageWidget::SetLabel(const SexyString &theNewLabel, MessageStyle theMess
 		strncpy(mLabel, aLabel.c_str(), aByteCount);
 		mLabel[aByteCount] = '\0';
 		mMessageStyle = theMessageStyle;
-		mReanimType = ReanimationType::REANIM_NONE;
+		mReanimType = OldReanimationType::REANIM_NONE;
 
 		switch (theMessageStyle)
 		{
@@ -124,7 +124,7 @@ void MessageWidget::SetLabel(const SexyString &theNewLabel, MessageStyle theMess
 
 		case MessageStyle::MESSAGE_STYLE_HUGE_WAVE:
 			mDuration = 750;
-			mReanimType = ReanimationType::REANIM_TEXT_FADE_ON;
+			mReanimType = OldReanimationType::REANIM_TEXT_FADE_ON;
 			break;
 
 		case MessageStyle::MESSAGE_STYLE_SLOT_MACHINE:
@@ -140,7 +140,7 @@ void MessageWidget::SetLabel(const SexyString &theNewLabel, MessageStyle theMess
 			break;
 		}
 
-		if (mReanimType != ReanimationType::REANIM_NONE)
+		if (mReanimType != OldReanimationType::REANIM_NONE)
 		{
 			LayoutReanimText();
 		}
@@ -229,10 +229,10 @@ void MessageWidget::Update()
 			break;
 		}
 
-		int aTextSpeed = mReanimType == ReanimationType::REANIM_TEXT_FADE_ON ? 100 : 1;
+		int aTextSpeed = mReanimType == OldReanimationType::REANIM_TEXT_FADE_ON ? 100 : 1;
 		if (mDuration > mSlideOffTime)
 		{
-			if (mReanimType == ReanimationType::REANIM_TEXT_FADE_ON)
+			if (mReanimType == OldReanimationType::REANIM_TEXT_FADE_ON)
 			{
 				aTextReanim->mAnimRate = 60.0f;
 			}
@@ -280,7 +280,7 @@ void MessageWidget::DrawReanimatedText(Graphics *g, Font *theFont, const Color &
 
 		aTransform.mTransX += aTextReanim->mOverlayMatrix.m02;
 		aTransform.mTransY += aTextReanim->mOverlayMatrix.m12 + thePosY - BOARD_HEIGHT / 2;
-		if (mReanimType == ReanimationType::REANIM_TEXT_FADE_ON && mDisplayTime - mDuration < mSlideOffTime)
+		if (mReanimType == OldReanimationType::REANIM_TEXT_FADE_ON && mDisplayTime - mDuration < mSlideOffTime)
 		{
 			float aStretch = 1.0f - aTextReanim->mAnimTime;
 			aTransform.mTransX += aStretch * aTextReanim->mOverlayMatrix.m02;
@@ -417,7 +417,7 @@ void MessageWidget::Draw(Graphics *g)
 		break;
 	}
 
-	if (mReanimType != ReanimationType::REANIM_NONE)
+	if (mReanimType != OldReanimationType::REANIM_NONE)
 	{
 		if (aFont == Sexy::FONT_CONTINUUMBOLD14)
 		{

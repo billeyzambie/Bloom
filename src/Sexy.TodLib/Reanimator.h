@@ -66,7 +66,7 @@ extern ReanimatorDefinition *gReanimatorDefArray;
 class ReanimationParams
 {
   public:
-	ReanimationType mReanimationType;
+	OldReanimationType mReanimationType;
 	ResourcePath mReanimFileName;
 	int mReanimParamFlags;
 };
@@ -77,11 +77,11 @@ void ReanimationFillInMissingData(float &thePrev, float &theValue);
 void ReanimationFillInMissingData(void *&thePrev, void *&theValue);
 bool ReanimationLoadDefinition(const ResourcePath &theFileName, ReanimatorDefinition *theDefinition);
 void ReanimationFreeDefinition(ReanimatorDefinition *theDefinition);
-void _cdecl ReanimatorEnsureDefinitionLoaded(ReanimationType theReanimType, bool theIsPreloading);
+void _cdecl ReanimatorEnsureDefinitionLoaded(OldReanimationType theReanimType, bool theIsPreloading);
 void ReanimatorLoadDefinitions(ReanimationParams *theReanimationParamArray, int theReanimationParamArraySize);
 void ReanimatorFreeDefinitions();
 
-extern ReanimationParams gLawnReanimationArray[(int)ReanimationType::NUM_REANIMS];
+extern ReanimationParams gLawnReanimationArray[(int)OldReanimationType::NUM_REANIMS];
 
 enum
 {
@@ -105,7 +105,7 @@ class ReanimationHolder
 
 	void InitializeHolder();
 	void DisposeHolder();
-	Reanimation *AllocReanimation(float theX, float theY, int theRenderOrder, ReanimationType theReanimationType);
+	Reanimation *AllocReanimation(float theX, float theY, int theRenderOrder, OldReanimationType theReanimationType);
 };
 
 class ReanimatorFrameTime
@@ -160,7 +160,7 @@ class ReanimatorTrackInstance
 class Reanimation
 {
   public:
-	ReanimationType mReanimationType;
+	OldReanimationType mReanimationType;
 	float mAnimTime;
 	float mAnimRate;
 	ReanimatorDefinition *mDefinition;
@@ -188,7 +188,7 @@ class Reanimation
 	~Reanimation();
 
 	void ReanimationInitialize(float theX, float theY, ReanimatorDefinition *theDefinition);
-	void ReanimationInitializeType(float theX, float theY, ReanimationType theReanimType);
+	void ReanimationInitializeType(float theX, float theY, OldReanimationType theReanimType);
 	void ReanimationDie();
 	void Update();
 	void Draw(Graphics *g);
@@ -248,11 +248,11 @@ class Reanimation
 						 const Color &theColor,
 						 int theDrawMode,
 						 const Rect &theSrcRect);
-	Reanimation *FindSubReanim(ReanimationType theReanimType);
+	Reanimation *FindSubReanim(OldReanimationType theReanimType);
 };
 
-void ReanimationCreateAtlas(ReanimatorDefinition *theDefinition, ReanimationType theReanimationType);
-void ReanimationPreload(ReanimationType theReanimationType);
+void ReanimationCreateAtlas(ReanimatorDefinition *theDefinition, OldReanimationType theReanimationType);
+void ReanimationPreload(OldReanimationType theReanimationType);
 void BlendTransform(ReanimatorTransform *theResult,
 					const ReanimatorTransform &theTransform1,
 					const ReanimatorTransform &theTransform2,

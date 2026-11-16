@@ -366,7 +366,7 @@ void GridItem::DrawScaryPot(Graphics *g)
 			int aSuns = mBoard->mChallenge->ScaryPotterCountSunInPot(this);
 
 			Reanimation aReanim;
-			aReanim.ReanimationInitializeType(0.0f, 0.0f, ReanimationType::REANIM_SUN);
+			aReanim.ReanimationInitializeType(0.0f, 0.0f, OldReanimationType::REANIM_SUN);
 			aReanim.OverrideScale(0.5f, 0.5f);
 
 			for (int i = 0; i < aSuns; i++)
@@ -475,12 +475,12 @@ void GridItem::OpenPortal()
 	Reanimation *aPortalReanim = mApp->ReanimationTryToGet(mGridItemReanimID);
 	if (aPortalReanim == nullptr)
 	{
-		ReanimationType aReanimType = ReanimationType::REANIM_PORTAL_CIRCLE;
+		OldReanimationType aReanimType = OldReanimationType::REANIM_PORTAL_CIRCLE;
 		if (mGridItemType == GridItemType::GRIDITEM_PORTAL_SQUARE)
 		{
 			aYPos += 25.0f;
 			aXPos -= 4.0f;
-			aReanimType = ReanimationType::REANIM_PORTAL_SQUARE;
+			aReanimType = OldReanimationType::REANIM_PORTAL_SQUARE;
 		}
 		aPortalReanim = mApp->AddReanimation(aXPos, aYPos, 0, aReanimType);
 		aPortalReanim->mIsAttachment = true;

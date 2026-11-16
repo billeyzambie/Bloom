@@ -413,7 +413,7 @@ void ReanimationWidget::Dispose()
 	}
 }
 
-void ReanimationWidget::AddReanimation(float x, float y, ReanimationType theReanimationType)
+void ReanimationWidget::AddReanimation(float x, float y, OldReanimationType theReanimationType)
 {
 	TOD_ASSERT(mReanim == nullptr);
 

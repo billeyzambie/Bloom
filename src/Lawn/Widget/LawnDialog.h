@@ -36,7 +36,7 @@ class ReanimationWidget : public Widget
 	void Dispose();
 	virtual void Draw(Graphics *);
 	virtual void Update();
-	void AddReanimation(float x, float y, ReanimationType theReanimationType);
+	void AddReanimation(float x, float y, OldReanimationType theReanimationType);
 };
 
 class LawnDialog : public Dialog

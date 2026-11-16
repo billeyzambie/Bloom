@@ -828,7 +828,7 @@ enum OldProjectileType
 	PROJECTILE_ZOMBIE_PEA = 13,
 	NUM_PROJECTILES = 14
 };
-enum ReanimationType
+enum OldReanimationType
 {
 	REANIM_NONE = -1,
 	REANIM_LOADBAR_SPROUT,

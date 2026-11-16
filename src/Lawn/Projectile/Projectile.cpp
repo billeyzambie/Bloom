@@ -86,7 +86,7 @@ void Projectile::ProjectileInitialize(
 	{
 		float aOffsetX = -25.0f;
 		float aOffsetY = -25.0f;
-		Reanimation *aFirePeaReanim = mApp->AddReanimation(0.0f, 0.0f, 0, ReanimationType::REANIM_FIRE_PEA);
+		Reanimation *aFirePeaReanim = mApp->AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_FIRE_PEA);
 		if (mMotionType == ProjectileMotion::MOTION_BACKWARDS)
 		{
 			aFirePeaReanim->OverrideScale(-1.0f, 1.0f);

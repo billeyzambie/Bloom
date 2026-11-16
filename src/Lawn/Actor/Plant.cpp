@@ -95,7 +95,7 @@ void Plant::PlantInitialize(int theGridX, int theGridY)
 	mRenderOrder = CalcRenderOrder();
 
 	Reanimation *aBodyReanim = nullptr;
-	if (mType.mBaseReanim != ReanimationType::REANIM_NONE)
+	if (mType.mBaseReanim != OldReanimationType::REANIM_NONE)
 	{
 		float aOffsetY = PlantDrawHeightOffset(mBoard, this, mType, mPlantCol, mRow);
 		aBodyReanim = mApp->AddReanimation(0.0f, aOffsetY, mRenderOrder + 1, mType.mBaseReanim);
@@ -475,7 +475,7 @@ void Plant::SetSleeping(bool theIsAsleep)
 			aPosY -= 12.0f;
 
 		Reanimation *aSleepReanim =
-			mApp->AddReanimation(aPosX, aPosY, mRenderOrder + 2, ReanimationType::REANIM_SLEEPING);
+			mApp->AddReanimation(aPosX, aPosY, mRenderOrder + 2, OldReanimationType::REANIM_SLEEPING);
 		aSleepReanim->mLoopType = ReanimLoopType::REANIM_LOOP;
 		aSleepReanim->mAnimRate = RandRangeFloat(6.0f, 8.0f);
 		aSleepReanim->mAnimTime = RandRangeFloat(0.0f, 0.9f);
@@ -1215,7 +1215,7 @@ void Plant::UpdateTanglekelp()
 				aVinesPosY = 37.0f;
 			}
 			Reanimation *aGrabReanim =
-				aZombie->AddAttachedReanim(aVinesPosX, aVinesPosY, ReanimationType::REANIM_TANGLEKELP);
+				aZombie->AddAttachedReanim(aVinesPosX, aVinesPosY, OldReanimationType::REANIM_TANGLEKELP);
 			if (aGrabReanim)
 			{
 				aGrabReanim->SetFramesForLayer("anim_grab");
@@ -1242,7 +1242,7 @@ void Plant::UpdateTanglekelp()
 		{
 			int aRenderPosition = Board::MakeRenderOrder(RenderLayer::RENDER_LAYER_PARTICLE, mRow, 0);
 			Reanimation *aSplashReanim =
-				mApp->AddReanimation(mX - 23, mY + 7, aRenderPosition, ReanimationType::REANIM_SPLASH);
+				mApp->AddReanimation(mX - 23, mY + 7, aRenderPosition, OldReanimationType::REANIM_SPLASH);
 			aSplashReanim->OverrideScale(1.3f, 1.3f);
 
 			mApp->AddTodParticle(mX + 31, mY + 64, aRenderPosition, ParticleEffect::PARTICLE_PLANTING_POOL);
@@ -1561,7 +1561,7 @@ void Plant::UpdateSquash()
 			{
 				if (mBoard->IsPoolSquare(aTargetCol, mRow))
 				{
-					mApp->AddReanimation(mX - 11, mY + 20, mRenderOrder + 1, ReanimationType::REANIM_SPLASH);
+					mApp->AddReanimation(mX - 11, mY + 20, mRenderOrder + 1, OldReanimationType::REANIM_SPLASH);
 					mApp->PlayFoley(FoleyType::FOLEY_SPLAT);
 					mApp->PlaySample(SOUND_ZOMBIESPLASH);
 
@@ -4221,7 +4221,7 @@ void Plant::DrawSeedType(Graphics *g,
 			TodDrawImageScaledF(
 				&aSeedG, IMAGE_REANIM_WALLNUT_BODY, thePosX - 53.0f, thePosY - 56.0f, aSeedG.mScaleX, aSeedG.mScaleY);
 		}
-		else if (PlantTypes::FromOldSeedType(aSeedType).mBaseReanim != ReanimationType::REANIM_NONE)
+		else if (PlantTypes::FromOldSeedType(aSeedType).mBaseReanim != OldReanimationType::REANIM_NONE)
 		{
 			gLawnApp->mReanimatorCache->DrawCachedPlant(
 				&aSeedG, thePosX + aOffsetX, thePosY + aOffsetY, aSeedType, aDrawVariation);
@@ -5275,27 +5275,27 @@ Rect Plant::GetPlantAttackRect(PlantWeapon thePlantWeapon)
 void Plant::PreloadPlantResources(SeedType theSeedType)
 {
 	const PlantType &aPlantType = PlantTypes::FromOldSeedType(theSeedType);
-	if (aPlantType.mBaseReanim != ReanimationType::REANIM_NONE)
+	if (aPlantType.mBaseReanim != OldReanimationType::REANIM_NONE)
 	{
 		ReanimatorEnsureDefinitionLoaded(aPlantType.mBaseReanim, true);
 	}
 
 	if (theSeedType == SeedType::SEED_CHERRYBOMB)
 	{
-		ReanimatorEnsureDefinitionLoaded(ReanimationType::REANIM_ZOMBIE_CHARRED, true);
+		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ZOMBIE_CHARRED, true);
 	}
 	else if (theSeedType == SeedType::SEED_JALAPENO)
 	{
-		ReanimatorEnsureDefinitionLoaded(ReanimationType::REANIM_JALAPENO_FIRE, true);
+		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_JALAPENO_FIRE, true);
 	}
 	else if (theSeedType == SeedType::SEED_TORCHWOOD)
 	{
-		ReanimatorEnsureDefinitionLoaded(ReanimationType::REANIM_FIRE_PEA, true);
-		ReanimatorEnsureDefinitionLoaded(ReanimationType::REANIM_JALAPENO_FIRE, true);
+		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_FIRE_PEA, true);
+		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_JALAPENO_FIRE, true);
 	}
 	else if (Plant::IsNocturnal(aPlantType))
 	{
-		ReanimatorEnsureDefinitionLoaded(ReanimationType::REANIM_SLEEPING, true);
+		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_SLEEPING, true);
 	}
 }
 

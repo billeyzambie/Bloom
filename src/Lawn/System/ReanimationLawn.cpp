@@ -62,7 +62,7 @@ void ReanimatorCache::UpdateReanimationForVariation(Reanimation *theReanim, Draw
 void ReanimatorCache::DrawReanimatorFrame(Graphics *g,
 										  float thePosX,
 										  float thePosY,
-										  ReanimationType theReanimationType,
+										  OldReanimationType theReanimationType,
 										  const char *theTrackName,
 										  DrawVariation theDrawVariation)
 {
@@ -73,11 +73,11 @@ void ReanimatorCache::DrawReanimatorFrame(Graphics *g,
 	{
 		aReanim.SetFramesForLayer(theTrackName);
 	}
-	if (theReanimationType == ReanimationType::REANIM_KERNELPULT)
+	if (theReanimationType == OldReanimationType::REANIM_KERNELPULT)
 	{
 		aReanim.AssignRenderGroupToTrack("Cornpult_butter", RENDER_GROUP_HIDDEN);
 	}
-	else if (theReanimationType == ReanimationType::REANIM_SUNFLOWER)
+	else if (theReanimationType == OldReanimationType::REANIM_SUNFLOWER)
 	{
 		aReanim.mAnimTime = 0.15f;
 	}
@@ -151,7 +151,7 @@ GPUImage *ReanimatorCache::MakeCachedMowerFrame(LawnMowerType theMowerType)
 		DrawReanimatorFrame(&aMemoryGraphics,
 							10.0f,
 							0.0f,
-							ReanimationType::REANIM_LAWNMOWER,
+							OldReanimationType::REANIM_LAWNMOWER,
 							"anim_normal",
 							DrawVariation::VARIATION_NORMAL);
 		break;
@@ -165,7 +165,7 @@ GPUImage *ReanimatorCache::MakeCachedMowerFrame(LawnMowerType theMowerType)
 		DrawReanimatorFrame(&aMemoryGraphics,
 							10.0f,
 							25.0f,
-							ReanimationType::REANIM_POOL_CLEANER,
+							OldReanimationType::REANIM_POOL_CLEANER,
 							nullptr,
 							DrawVariation::VARIATION_NORMAL);
 		break;
@@ -179,7 +179,7 @@ GPUImage *ReanimatorCache::MakeCachedMowerFrame(LawnMowerType theMowerType)
 		DrawReanimatorFrame(&aMemoryGraphics,
 							10.0f,
 							0.0f,
-							ReanimationType::REANIM_ROOF_CLEANER,
+							OldReanimationType::REANIM_ROOF_CLEANER,
 							nullptr,
 							DrawVariation::VARIATION_NORMAL);
 		break;
@@ -193,7 +193,7 @@ GPUImage *ReanimatorCache::MakeCachedMowerFrame(LawnMowerType theMowerType)
 		DrawReanimatorFrame(&aMemoryGraphics,
 							10.0f,
 							0.0f,
-							ReanimationType::REANIM_LAWNMOWER,
+							OldReanimationType::REANIM_LAWNMOWER,
 							"anim_tricked",
 							DrawVariation::VARIATION_NORMAL);
 		break;
@@ -307,10 +307,10 @@ GPUImage *ReanimatorCache::MakeCachedZombieFrame(ZombieType theZombieType)
 		aUseZombieType = ZombieType::ZOMBIE_POLEVAULTER;
 	}
 	ZombieDefinition &aZombieDef = GetZombieDefinition(aUseZombieType);
-	TOD_ASSERT(aZombieDef.mReanimationType != ReanimationType::REANIM_NONE);
+	TOD_ASSERT(aZombieDef.mReanimationType != OldReanimationType::REANIM_NONE);
 
 	float aPosX = 40.0f, aPosY = 40.0f;
-	if (aZombieDef.mReanimationType == ReanimationType::REANIM_ZOMBIE)
+	if (aZombieDef.mReanimationType == OldReanimationType::REANIM_ZOMBIE)
 	{
 		Reanimation aReanim;
 		aReanim.ReanimationInitializeType(aPosX, aPosY, aZombieDef.mReanimationType);
@@ -322,7 +322,7 @@ GPUImage *ReanimatorCache::MakeCachedZombieFrame(ZombieType theZombieType)
 		else if (theZombieType == ZombieType::ZOMBIE_FLAG)
 		{
 			Reanimation aReanimFlag;
-			aReanimFlag.ReanimationInitializeType(aPosX, aPosY, ReanimationType::REANIM_FLAG);
+			aReanimFlag.ReanimationInitializeType(aPosX, aPosY, OldReanimationType::REANIM_FLAG);
 			aReanimFlag.SetFramesForLayer("Zombie_flag");
 			aReanimFlag.Draw(&aMemoryGraphics);
 		}
@@ -364,13 +364,13 @@ GPUImage *ReanimatorCache::MakeCachedZombieFrame(ZombieType theZombieType)
 
 
 	}
-	else if (aZombieDef.mReanimationType == ReanimationType::REANIM_BOSS)
+	else if (aZombieDef.mReanimationType == OldReanimationType::REANIM_BOSS)
 	{
 		Reanimation aReanim;
 		aReanim.ReanimationInitializeType(-524.0f, -88.0f, aZombieDef.mReanimationType);
 		aReanim.SetFramesForLayer("anim_head_idle");
 		Reanimation aReanimDriver;
-		aReanimDriver.ReanimationInitializeType(46.0f, 22.0f, ReanimationType::REANIM_BOSS_DRIVER);
+		aReanimDriver.ReanimationInitializeType(46.0f, 22.0f, OldReanimationType::REANIM_BOSS_DRIVER);
 		aReanimDriver.SetFramesForLayer("anim_idle");
 
 		aReanim.Draw(&aMemoryGraphics);

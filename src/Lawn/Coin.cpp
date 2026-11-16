@@ -59,7 +59,7 @@ void Coin::CoinInitialize(int theX, int theY, CoinType theCoinType, CoinMotion t
 	{
 		float aPosX = mWidth * 0.5f;
 		float aPosY = mHeight * 0.5f;
-		Reanimation *aSunReanim = mApp->AddReanimation(0.0f, 0.0f, 0, ReanimationType::REANIM_SUN);
+		Reanimation *aSunReanim = mApp->AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_SUN);
 		aSunReanim->SetPosition(mPosX + aPosX, mPosY + aPosY);
 		aSunReanim->mLoopType = ReanimLoopType::REANIM_LOOP;
 		aSunReanim->mAnimRate = 6.0f;
@@ -72,7 +72,7 @@ void Coin::CoinInitialize(int theX, int theY, CoinType theCoinType, CoinMotion t
 
 		float aPosX = 9.0f;
 		float aPosY = 9.0f;
-		Reanimation *aCoinReanim = mApp->AddReanimation(0.0f, 0.0f, 0, ReanimationType::REANIM_COIN_SILVER);
+		Reanimation *aCoinReanim = mApp->AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_COIN_SILVER);
 		aCoinReanim->SetPosition(mPosX + aPosX, mPosY + aPosY);
 		aCoinReanim->mLoopType = ReanimLoopType::REANIM_LOOP;
 		aCoinReanim->mAnimTime = RandRangeFloat(0.0f, 0.99f);
@@ -86,7 +86,7 @@ void Coin::CoinInitialize(int theX, int theY, CoinType theCoinType, CoinMotion t
 
 		float aPosX = 9.0f;
 		float aPosY = 9.0f;
-		Reanimation *aCoinReanim = mApp->AddReanimation(0.0f, 0.0f, 0, ReanimationType::REANIM_COIN_GOLD);
+		Reanimation *aCoinReanim = mApp->AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_COIN_GOLD);
 		aCoinReanim->SetPosition(mPosX + aPosX, mPosY + aPosY);
 		aCoinReanim->mLoopType = ReanimLoopType::REANIM_LOOP;
 		aCoinReanim->mAnimTime = RandRangeFloat(0.0f, 0.99f);
@@ -100,7 +100,7 @@ void Coin::CoinInitialize(int theX, int theY, CoinType theCoinType, CoinMotion t
 
 		float aPosX = -3.0f;
 		float aPosY = 4.0f;
-		Reanimation *aCoinReanim = mApp->AddReanimation(0.0f, 0.0f, 0, ReanimationType::REANIM_DIAMOND);
+		Reanimation *aCoinReanim = mApp->AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_DIAMOND);
 		aCoinReanim->SetPosition(mPosX + aPosX, mPosY + aPosY);
 		aCoinReanim->mLoopType = ReanimLoopType::REANIM_LOOP;
 		aCoinReanim->mAnimTime = RandRangeFloat(0.0f, 0.99f);

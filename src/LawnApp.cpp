@@ -747,7 +747,7 @@ void LawnApp::DoPauseDialog()
 												 "Resume Game" /*"[RESUME_GAME]"*/,
 												 Dialog::BUTTONS_FOOTER);
 
-	aDialog->mReanimation->AddReanimation(72.0f, 42.0f, ReanimationType::REANIM_ZOMBIE_NEWSPAPER);
+	aDialog->mReanimation->AddReanimation(72.0f, 42.0f, OldReanimationType::REANIM_ZOMBIE_NEWSPAPER);
 	aDialog->mSpaceAfterHeader = 155;
 	aDialog->CalcSize(0, 10);
 	CenterDialog(aDialog, aDialog->mWidth, aDialog->mHeight);
@@ -1345,9 +1345,9 @@ void LawnApp::Init()
 #endif
 	aTimer.Start();
 
-	ReanimatorLoadDefinitions(gLawnReanimationArray, ReanimationType::NUM_REANIMS);
-	ReanimatorEnsureDefinitionLoaded(ReanimationType::REANIM_LOADBAR_SPROUT, true);
-	ReanimatorEnsureDefinitionLoaded(ReanimationType::REANIM_LOADBAR_ZOMBIEHEAD, true);
+	ReanimatorLoadDefinitions(gLawnReanimationArray, OldReanimationType::NUM_REANIMS);
+	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_LOADBAR_SPROUT, true);
+	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_LOADBAR_ZOMBIEHEAD, true);
 
 #ifdef _DEBUG
 	aDuration = aTimer.GetDuration();
@@ -2402,7 +2402,7 @@ bool LawnApp::SeedTypeAvailable(SeedType theSeedType)
 	return HasSeedType(theSeedType);
 }
 
-Reanimation *LawnApp::AddReanimation(float theX, float theY, int theRenderOrder, ReanimationType theReanimationType)
+Reanimation *LawnApp::AddReanimation(float theX, float theY, int theRenderOrder, OldReanimationType theReanimationType)
 {
 	return mEffectSystem->mReanimationHolder->AllocReanimation(theX, theY, theRenderOrder, theReanimationType);
 }
@@ -2559,7 +2559,7 @@ void LawnApp::CrazyDaveEnter()
 	TOD_ASSERT(mCrazyDaveState == CRAZY_DAVE_OFF);
 	TOD_ASSERT(!ReanimationTryToGet(mCrazyDaveReanimID));
 
-	Reanimation *aCrazyDaveReanim = AddReanimation(0.0f, 0.0f, 0, ReanimationType::REANIM_CRAZY_DAVE);
+	Reanimation *aCrazyDaveReanim = AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_CRAZY_DAVE);
 	aCrazyDaveReanim->mIsAttachment = true;
 	aCrazyDaveReanim->SetBasePoseFromAnim("anim_idle_handing");
 	mCrazyDaveReanimID = ReanimationGetID(aCrazyDaveReanim);
@@ -2743,7 +2743,7 @@ void LawnApp::CrazyDaveTalkMessage(const SexyString &theMessage)
 		{
 			aCrazyDaveReanim->PlayReanim("anim_talk_handing", ReanimLoopType::REANIM_LOOP, 50, 12.0f);
 
-			Reanimation *aWallnutReanim = AddReanimation(0.0f, 0.0f, 0, ReanimationType::REANIM_WALLNUT);
+			Reanimation *aWallnutReanim = AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_WALLNUT);
 			aWallnutReanim->PlayReanim("anim_idle", ReanimLoopType::REANIM_LOOP, 0, 12.0f);
 
 			ReanimatorTrackInstance *aHandTrackInstance = aCrazyDaveReanim->GetTrackInstanceByName("Dave_handinghand");
@@ -2765,7 +2765,7 @@ void LawnApp::CrazyDaveTalkMessage(const SexyString &theMessage)
 		{
 			aCrazyDaveReanim->PlayReanim("anim_talk_handing", ReanimLoopType::REANIM_LOOP, 50, 12.0f);
 
-			Reanimation *aHammerReanim = AddReanimation(0.0f, 0.0f, 0, ReanimationType::REANIM_HAMMER);
+			Reanimation *aHammerReanim = AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_HAMMER);
 			aHammerReanim->PlayReanim("anim_whack_zombie", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 0, 24.0f);
 			aHammerReanim->mAnimTime = 1.0f;
 
@@ -2788,7 +2788,7 @@ void LawnApp::CrazyDaveTalkMessage(const SexyString &theMessage)
 			aCrazyDaveReanim->PlayReanim("anim_talk_handing", ReanimLoopType::REANIM_LOOP, 50, 12.0f);
 
 			Reanimation *aFertilizerReanim =
-				AddReanimation(0.0f, 0.0f, 0, ReanimationType::REANIM_ZENGARDEN_FERTILIZER);
+				AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_ZENGARDEN_FERTILIZER);
 			aFertilizerReanim->PlayReanim("bag", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 0, 24.0f);
 			aFertilizerReanim->mAnimRate = 0.0f;
 
@@ -2807,7 +2807,7 @@ void LawnApp::CrazyDaveTalkMessage(const SexyString &theMessage)
 		{
 			aCrazyDaveReanim->PlayReanim("anim_talk_handing", ReanimLoopType::REANIM_LOOP, 50, 12.0f);
 
-			Reanimation *aTreeFoodReanim = AddReanimation(0.0f, 0.0f, 0, ReanimationType::REANIM_TREEOFWISDOM_TREEFOOD);
+			Reanimation *aTreeFoodReanim = AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_TREEOFWISDOM_TREEFOOD);
 			aTreeFoodReanim->PlayReanim("bag", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 0, 24.0f);
 			aTreeFoodReanim->mAnimRate = 0.0f;
 
@@ -2826,7 +2826,7 @@ void LawnApp::CrazyDaveTalkMessage(const SexyString &theMessage)
 		{
 			aCrazyDaveReanim->PlayReanim("anim_talk_handing", ReanimLoopType::REANIM_LOOP, 50, 12.0f);
 
-			Reanimation *aMoneyBagReanim = AddReanimation(0.0f, 0.0f, 0, ReanimationType::REANIM_ZENGARDEN_FERTILIZER);
+			Reanimation *aMoneyBagReanim = AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_ZENGARDEN_FERTILIZER);
 			aMoneyBagReanim->PlayReanim("bag", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 0, 24.0f);
 			aMoneyBagReanim->mAnimRate = 0.0f;
 			aMoneyBagReanim->SetImageOverride("bag", IMAGE_MONEYBAG);
@@ -2970,7 +2970,7 @@ void LawnApp::UpdateCrazyDave()
 		if (mCrazyDaveBlinkCounter <= 0)
 		{
 			mCrazyDaveBlinkCounter = RandRangeInt(400, 800);
-			Reanimation *aBlinkReanim = AddReanimation(0.0f, 0.0f, 0, ReanimationType::REANIM_CRAZY_DAVE);
+			Reanimation *aBlinkReanim = AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_CRAZY_DAVE);
 			aBlinkReanim->SetFramesForLayer("anim_blink");
 			aBlinkReanim->mLoopType = ReanimLoopType::REANIM_PLAY_ONCE_FULL_LAST_FRAME_AND_HOLD;
 			aBlinkReanim->mAnimRate = 15.0f;
@@ -3096,21 +3096,21 @@ void LawnApp::PreloadForUser()
 		return;
 	}
 
-	ReanimatorEnsureDefinitionLoaded(ReanimationType::REANIM_PUFF, true);
-	ReanimatorEnsureDefinitionLoaded(ReanimationType::REANIM_LAWN_MOWERED_ZOMBIE, true);
-	ReanimatorEnsureDefinitionLoaded(ReanimationType::REANIM_READYSETPLANT, true);
+	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_PUFF, true);
+	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_LAWN_MOWERED_ZOMBIE, true);
+	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_READYSETPLANT, true);
 	mCompletedLoadingThreadTasks += 68;
-	ReanimatorEnsureDefinitionLoaded(ReanimationType::REANIM_FINAL_WAVE, true);
-	ReanimatorEnsureDefinitionLoaded(ReanimationType::REANIM_SUN, true);
-	ReanimatorEnsureDefinitionLoaded(ReanimationType::REANIM_TEXT_FADE_ON, true);
+	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_FINAL_WAVE, true);
+	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_SUN, true);
+	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_TEXT_FADE_ON, true);
 	mCompletedLoadingThreadTasks += 68;
-	ReanimatorEnsureDefinitionLoaded(ReanimationType::REANIM_ZOMBIE, true);
+	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ZOMBIE, true);
 	mCompletedLoadingThreadTasks += 68;
-	ReanimatorEnsureDefinitionLoaded(ReanimationType::REANIM_ZOMBIE_NEWSPAPER, true);
+	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ZOMBIE_NEWSPAPER, true);
 	mCompletedLoadingThreadTasks += 68;
-	ReanimatorEnsureDefinitionLoaded(ReanimationType::REANIM_SELECTOR_SCREEN, true);
+	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_SELECTOR_SCREEN, true);
 	mCompletedLoadingThreadTasks += 340;
-	ReanimatorEnsureDefinitionLoaded(ReanimationType::REANIM_ZOMBIE_HAND, true);
+	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ZOMBIE_HAND, true);
 	mCompletedLoadingThreadTasks += 68;
 
 	if (mPlayerInfo)

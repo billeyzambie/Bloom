@@ -628,7 +628,7 @@ void AttachmentOverrideScale(AttachmentID &theAttachmentID, float theScale)
 	}
 }
 
-void AttachmentReanimTypeDie(AttachmentID &theAttachmentID, ReanimationType theReanimType)
+void AttachmentReanimTypeDie(AttachmentID &theAttachmentID, OldReanimationType theReanimType)
 {
 	Attachment *aAttachment =
 		gEffectSystem->mAttachmentHolder->mAttachments.DataArrayTryToGet((unsigned int)theAttachmentID);

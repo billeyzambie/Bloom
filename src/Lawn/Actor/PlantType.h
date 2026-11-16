@@ -25,7 +25,7 @@ class BLOOM_API PlantType final : public BloomType
 	Attributes mAttributes;
 	int mSunCost = 100;
 	int mRefreshTime = 750;
-	ReanimationType mBaseReanim = ReanimationType::REANIM_NONE;
+	OldReanimationType mBaseReanim = OldReanimationType::REANIM_NONE;
 	PlantType(
 		const std::string &theModName,
 		const std::string &theTypeName,

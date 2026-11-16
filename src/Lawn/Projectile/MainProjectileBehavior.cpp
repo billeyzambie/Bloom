@@ -112,7 +112,7 @@ void MainProjectileBehavior::DoImpact(DoImpactContext &theImpactContext)
 				aProjectile.mPosX + 38.0f,
 				aProjectile.mPosY - 20.0f,
 				aProjectile.mRenderOrder + 1,
-				ReanimationType::REANIM_JALAPENO_FIRE
+				OldReanimationType::REANIM_JALAPENO_FIRE
 			);
 			aFireReanim->mAnimTime = 0.25f;
 			aFireReanim->mAnimRate = 24.0f;

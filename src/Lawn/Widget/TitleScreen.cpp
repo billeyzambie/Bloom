@@ -434,10 +434,10 @@ void TitleScreen::Update()
 	{
 		if (aPrevWidth < aTriggerPoint[i] && mCurBarWidth >= aTriggerPoint[i])
 		{
-			ReanimationType aReanimType = ReanimationType::REANIM_LOADBAR_SPROUT;
+			OldReanimationType aReanimType = OldReanimationType::REANIM_LOADBAR_SPROUT;
 			if (i == 4)
 			{
-				aReanimType = ReanimationType::REANIM_LOADBAR_ZOMBIEHEAD;
+				aReanimType = OldReanimationType::REANIM_LOADBAR_ZOMBIEHEAD;
 			}
 			float aPosX = aTriggerPoint[i] + 225.0f;
 			float aPosY = 511.0f;

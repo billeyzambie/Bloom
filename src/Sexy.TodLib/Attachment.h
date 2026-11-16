@@ -94,7 +94,7 @@ void AttachmentDetach(AttachmentID &theAttachmentID);
 void AttachmentDetachCrossFadeParticleType(AttachmentID &theAttachmentID,
 													  ParticleEffect theParticleEffect,
 													  const char *theCrossFadeName);
-void AttachmentReanimTypeDie(AttachmentID &theAttachmentID, ReanimationType theReanimType);
+void AttachmentReanimTypeDie(AttachmentID &theAttachmentID, OldReanimationType theReanimType);
 void AttachmentDie(AttachmentID &theAttachmentID);
 void AttachmentCrossFade(AttachmentID &theAttachmentID, const char *theCrossFadeName);
 AttachEffect *FindFirstAttachment(AttachmentID &theAttachmentID);

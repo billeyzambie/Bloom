@@ -23,7 +23,7 @@ class MessageWidget
 	int mDuration;
 	MessageStyle mMessageStyle;
 	ReanimationID mTextReanimID[MAX_MESSAGE_LENGTH];
-	ReanimationType mReanimType;
+	OldReanimationType mReanimType;
 	int mSlideOffTime;
 	SexyCharByte mLabelNext[MAX_MESSAGE_LENGTH];
 	MessageStyle mMessageStyleNext;
