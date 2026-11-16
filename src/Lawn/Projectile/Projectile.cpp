@@ -1,5 +1,6 @@
 #include "../Board.h"
 #include "../Actor/Plant.h"
+#include "../Actor/PlantTypes.h"
 #include "../Zombie.h"
 #include "../Cutscene.h"
 #include "Projectile.h"
@@ -18,7 +19,7 @@
 #include "../../BloomLib/BoundedSync.h"
 
 Projectile::Projectile(const ProjectileType &theType) 
-	: mType(theType), mAttributes(theType.mAttributes),
+	: mType(theType),
 	GameObject(GameObjectType::OBJECT_TYPE_PROJECTILE)
 {
 	mBehaviors.Initialize(mType);
@@ -73,6 +74,7 @@ void Projectile::ProjectileInitialize(
 	mProjectileAge = 0;
 	mClickBackoffCounter = 0;
 	mAnimTicksPerFrame = 0;
+	mAttributes = mType.mAttributes;
 
 	if (mType == ProjectileTypes::SNOWPEA)
 	{
@@ -120,10 +122,10 @@ Plant *Projectile::FindCollisionTargetPlant()
 
 		if (mType == ProjectileTypes::ZOMBIE_PEA)
 		{
-			if (aPlant->mType == SeedType::SEED_PUFFSHROOM || aPlant->mType == SeedType::SEED_SUNSHROOM ||
-				aPlant->mType == SeedType::SEED_POTATOMINE || aPlant->mType == SeedType::SEED_SPIKEWEED ||
-				aPlant->mType == SeedType::SEED_SPIKEROCK ||
-				aPlant->mType == SeedType::SEED_LILYPAD)
+			if (aPlant->mType == PlantTypes::PUFF_SHROOM || aPlant->mType == PlantTypes::SUN_SHROOM ||
+				aPlant->mType == PlantTypes::POTATO_MINE || aPlant->mType == PlantTypes::SPIKEWEED ||
+				aPlant->mType == PlantTypes::SPIKEROCK ||
+				aPlant->mType == PlantTypes::LILY_PAD)
 				continue;
 		}
 
@@ -155,7 +157,7 @@ bool Projectile::PeaAboutToHitTorchwood()
 	Plant *aPlant = nullptr;
 	while (mBoard->IteratePlants(aPlant))
 	{
-		if (aPlant->mType == SeedType::SEED_TORCHWOOD && aPlant->mRow == mRow && !aPlant->NotOnGround() &&
+		if (aPlant->mType == PlantTypes::TORCHWOOD && aPlant->mRow == mRow && !aPlant->NotOnGround() &&
 			mHitTorchwoodGridX != aPlant->mPlantCol)
 		{
 			Rect aPlantAttackRect = aPlant->GetPlantAttackRect(PlantWeapon::WEAPON_PRIMARY);
