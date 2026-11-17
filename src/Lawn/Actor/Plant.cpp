@@ -22,7 +22,7 @@
 #include "../../Sexy.TodLib/TodFoley.h"
 #include "../../Sexy.TodLib/TodDebug.h"
 #include "../../Sexy.TodLib/Attachment.h"
-#include "../../Sexy.TodLib/Reanimator.h"
+#include "../../Sexy.TodLib/Reanimation/Reanimator.h"
 #include "../../Sexy.TodLib/TodParticle.h"
 #include "../../Sexy.TodLib/EffectSystem.h"
 #include "../../Sexy.TodLib/TodStringFile.h"
@@ -5199,7 +5199,6 @@ bool Plant::IsShooter(const PlantType &thePlantType)
 		   thePlantType == PlantTypes::FUME_SHROOM || thePlantType == PlantTypes::SCAREDY_SHROOM ||
 		   thePlantType == PlantTypes::THREEPEATER || thePlantType == PlantTypes::SEA_SHROOM ||
 		   thePlantType == PlantTypes::CACTUS || thePlantType == PlantTypes::SEA_SHROOM ||
-		   thePlantType == PlantTypes::SPLIT_PEA || thePlantType == PlantTypes::STARFRUIT ||
 		   thePlantType == PlantTypes::SPLIT_PEA || thePlantType == PlantTypes::STARFRUIT ||
 		   thePlantType == PlantTypes::CABBAGE_PULT || thePlantType == PlantTypes::KERNEL_PULT ||
 		   thePlantType == PlantTypes::MELON_PULT || thePlantType == PlantTypes::GATLING_PEA ||

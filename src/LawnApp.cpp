@@ -17,7 +17,7 @@
 #include "Lawn/System/ProfileMgr.h"
 #include "Lawn/System/PopDRMComm.h"
 #include "Lawn/Widget/GameButton.h"
-#include "Sexy.TodLib/Reanimator.h"
+#include "Sexy.TodLib/Reanimation/Reanimator.h"
 #include "Lawn/Widget/UserDialog.h"
 #include "Lawn/System/TypingCheck.h"
 #include "Sexy.TodLib/TodParticle.h"

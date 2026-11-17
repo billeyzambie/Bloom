@@ -4,7 +4,7 @@
 #include "../Board.h"
 #include "../System/Damage.h"
 #include "../../Sexy.TodLib/Attachment.h"
-#include "../../Sexy.TodLib/Reanimator.h"
+#include "../../Sexy.TodLib/Reanimation/Reanimator.h"
 #include "../../Sexy.TodLib/TodParticle.h"
 #include "../../LawnApp.h"
 

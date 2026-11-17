@@ -4,7 +4,7 @@
 #include <string>
 #include "CompiledDefinition.h"
 #include "TodList.h"
-#include "Reanimator.h"
+#include "Reanimation/Reanimator.h"
 #include "TodParticle.h"
 #include "../BloomLib/NamespacedString.h"
 

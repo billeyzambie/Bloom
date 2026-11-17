@@ -4,7 +4,7 @@
 #include "../LawnApp.h"
 #include "CursorObject.h"
 #include "../Resources.h"
-#include "../Sexy.TodLib/Reanimator.h"
+#include "../Sexy.TodLib/Reanimation/Reanimator.h"
 #include "../SexyAppFramework/WidgetManager.h"
 
 #include "StoreItem/StoreItemTypes.h"
@@ -188,12 +188,16 @@ void CursorObject::Draw(Graphics *g)
 			break; // CursorPreview draws the ghost plant in gamepad mode; skip this to avoid a double draw
 		}
 #endif
-		const PlantType &aPlantType = PlantTypes::FromOldSeedType(mType);
+		const PlantType *aPlantType = PlantTypes::FromOptionalOldSeedType(mType);
 		float aOffsetX = -10.0f;
-		float aOffsetY = PlantDrawHeightOffset(mBoard, nullptr, aPlantType, -1, -1) - 10.0f;
-		if (aPlantType.mAttributes.mIsFlying || mType == SeedType::SEED_GRAVEBUSTER)
+		float aOffsetY = 0;
+		if (aPlantType)
 		{
-			aOffsetY += 30.0f;
+			aOffsetY += PlantDrawHeightOffset(mBoard, nullptr, *aPlantType, -1, -1) - 10.0f;
+			if (aPlantType->mAttributes.mIsFlying || mType == SeedType::SEED_GRAVEBUSTER)
+			{
+				aOffsetY += 30.0f;
+			}
 		}
 		aOffsetY -= 15.0f;
 		if (mApp->IsIZombieLevel())

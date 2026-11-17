@@ -13,7 +13,7 @@
 #include "System/Achievements.h"
 #include "../Sexy.TodLib/TodFoley.h"
 #include "../Sexy.TodLib/TodDebug.h"
-#include "../Sexy.TodLib/Reanimator.h"
+#include "../Sexy.TodLib/Reanimation/Reanimator.h"
 #include "../Sexy.TodLib/Attachment.h"
 
 #include "StoreItem/StoreItemTypes.h"

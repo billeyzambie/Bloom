@@ -17,7 +17,7 @@
 #include "../Sexy.TodLib/TodFoley.h"
 #include "Widget/SeedChooserScreen.h"
 #include "../Sexy.TodLib/Attachment.h"
-#include "../Sexy.TodLib/Reanimator.h"
+#include "../Sexy.TodLib/Reanimation/Reanimator.h"
 #include "../SexyAppFramework/Dialog.h"
 #include "../SexyAppFramework/MTRand.h"
 #include "../Sexy.TodLib/TodParticle.h"
@@ -2757,9 +2757,6 @@ bool Board::IsIceAt(int theGridX, int theGridY)
 
 PlantingReason Board::CanPlantAt(int theGridX, int theGridY, SeedType theSeedType)
 {
-	const PlantType &aPlantType = PlantTypes::FromOldSeedType(theSeedType);
-	const PlantAttributes &anAttributes = aPlantType.mAttributes;
-
 	if (theGridX < 0 || theGridX >= MAX_GRID_SIZE_X || theGridY < 0 || theGridY >= MAX_GRID_SIZE_Y)
 	{
 		return PlantingReason::PLANTING_NOT_HERE;
@@ -2770,6 +2767,9 @@ PlantingReason Board::CanPlantAt(int theGridX, int theGridY, SeedType theSeedTyp
 	{
 		return aReason;
 	}
+
+	const PlantType &aPlantType = PlantTypes::FromOldSeedType(theSeedType);
+	const PlantAttributes &anAttributes = aPlantType.mAttributes;
 
 	PlantsOnLawn aPlantOnLawn;
 	GetPlantsOnLawn(theGridX, theGridY, &aPlantOnLawn);

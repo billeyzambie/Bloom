@@ -5,7 +5,7 @@
 #include "ReanimationLawn.h"
 #include "../../Sexy.TodLib/TodDebug.h"
 #include "../../SexyAppFramework/Color.h"
-#include "../../Sexy.TodLib/Reanimator.h"
+#include "../../Sexy.TodLib/Reanimation/Reanimator.h"
 #include "../../SexyAppFramework/GPUImage.h"
 #include "../../SexyAppFramework/Renderer.h"
 

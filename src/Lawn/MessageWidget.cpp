@@ -5,7 +5,7 @@
 #include "MessageWidget.h"
 #include "../SexyAppFramework/Font.h"
 #include "../Sexy.TodLib/TodCommon.h"
-#include "../Sexy.TodLib/Reanimator.h"
+#include "../Sexy.TodLib/Reanimation/Reanimator.h"
 #include "../Sexy.TodLib/TodStringFile.h"
 
 MessageWidget::MessageWidget(LawnApp *theApp)

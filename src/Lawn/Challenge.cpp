@@ -26,7 +26,7 @@
 #include "../Sexy.TodLib/TodFoley.h"
 #include "../Sexy.TodLib/TodCommon.h"
 #include "../SexyAppFramework/Font.h"
-#include "../Sexy.TodLib/Reanimator.h"
+#include "../Sexy.TodLib/Reanimation/Reanimator.h"
 #include "../SexyAppFramework/Debug.h"
 #include "../SexyAppFramework/MTRand.h"
 #include "../Sexy.TodLib/TodParticle.h"

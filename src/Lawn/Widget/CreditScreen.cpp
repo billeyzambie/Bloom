@@ -7,7 +7,7 @@
 #include "../System/PoolEffect.h"
 #include "../../Sexy.TodLib/TodFoley.h"
 #include "../../Sexy.TodLib/Attachment.h"
-#include "../../Sexy.TodLib/Reanimator.h"
+#include "../../Sexy.TodLib/Reanimation/Reanimator.h"
 #include "../../Sexy.TodLib/TodParticle.h"
 #include "../../SexyAppFramework/Dialog.h"
 #include "../../Sexy.TodLib/EffectSystem.h"

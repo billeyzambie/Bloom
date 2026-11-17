@@ -8,7 +8,7 @@
 #include "../../Sexy.TodLib/TodStringFile.h"
 #include "../../Sexy.TodLib/EffectSystem.h"
 #include "../../Sexy.TodLib/TodDebug.h"
-#include "../../Sexy.TodLib/Reanimator.h"
+#include "../../Sexy.TodLib/Reanimation/Reanimator.h"
 #include "../../GameConstants.h"
 #include "../System/Music.h"
 

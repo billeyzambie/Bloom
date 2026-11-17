@@ -11,7 +11,7 @@
 #include "../../Sexy.TodLib/Trail.h"
 #include <zlib.h>
 #include "../../Sexy.TodLib/Attachment.h"
-#include "../../Sexy.TodLib/Reanimator.h"
+#include "../../Sexy.TodLib/Reanimation/Reanimator.h"
 #include "../../Sexy.TodLib/TodParticle.h"
 #include "../../Sexy.TodLib/EffectSystem.h"
 #include "../../GameConstants.h"

@@ -12,7 +12,7 @@
 #include "Widget/StoreScreen.h"
 #include "System/ReanimationLawn.h"
 #include "../Sexy.TodLib/TodFoley.h"
-#include "../Sexy.TodLib/Reanimator.h"
+#include "../Sexy.TodLib/Reanimation/Reanimator.h"
 #include "../Sexy.TodLib/Attachment.h"
 #include "../Sexy.TodLib/TodParticle.h"
 #include "../Sexy.TodLib/EffectSystem.h"

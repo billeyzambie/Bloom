@@ -3,7 +3,7 @@
 #include "Trail.h"
 #include "TodDebug.h"
 #include "Attachment.h"
-#include "Reanimator.h"
+#include "Reanimation/Reanimator.h"
 #include "TodParticle.h"
 #include "EffectSystem.h"
 #include "../GameConstants.h"

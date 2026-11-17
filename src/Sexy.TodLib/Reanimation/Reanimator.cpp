@@ -1,15 +1,15 @@
-#include "TodDebug.h"
-#include "TodCommon.h"
-#include "Definition.h"
+#include "../TodDebug.h"
+#include "../TodCommon.h"
+#include "../Definition.h"
 #include "Reanimator.h"
-#include "../LawnApp.h"
-#include "Attachment.h"
+#include "../../LawnApp.h"
+#include "../Attachment.h"
 #include "ReanimAtlas.h"
-#include "EffectSystem.h"
-#include "../GameConstants.h"
-#include "../SexyAppFramework/Font.h"
-#include "../SexyAppFramework/PerfTimer.h"
-#include "../SexyAppFramework/MemoryImage.h"
+#include "../EffectSystem.h"
+#include "../../GameConstants.h"
+#include "../../SexyAppFramework/Font.h"
+#include "../../SexyAppFramework/PerfTimer.h"
+#include "../../SexyAppFramework/MemoryImage.h"
 
 int gReanimatorDefCount;
 ReanimatorDefinition *gReanimatorDefArray;
@@ -334,8 +334,6 @@ void ReanimationCreateAtlas(ReanimatorDefinition *theDefinition, OldReanimationT
 	ReanimAtlas *aAtlas = new ReanimAtlas();
 	theDefinition->mReanimAtlas = aAtlas;
 	aAtlas->ReanimAtlasCreate(theDefinition);
-
-	TodHesitationTrace("atlas '%s'", aParam.mReanimFileName.CStr());
 	int aDuration = std::max(aTimer.GetDuration(), 0.0);
 	if (aDuration > 20 && theReanimationType != OldReanimationType::REANIM_NONE)
 		TodTraceAndLog("[TodLib] - LOADING:Long atlas '%s' %d ms on %s", aParam.mReanimFileName.CStr(), aDuration,
@@ -356,6 +354,8 @@ void ReanimationPreload(OldReanimationType theReanimationType)
 
 void Reanimation::ReanimationInitialize(float theX, float theY, ReanimatorDefinition *theDefinition)
 {
+	TOD_ASSERT(mReanimationType != OldReanimationType::REANIM_NONE);
+
 	TOD_ASSERT(mTrackInstances == nullptr);
 	ReanimationCreateAtlas(theDefinition, mReanimationType);
 	mDead = false;

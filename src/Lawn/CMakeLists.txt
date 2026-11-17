@@ -16,6 +16,8 @@ file(GLOB LAWN_FILES
     # Todlib is a part of pvz
     "${CMAKE_SOURCE_DIR}/src/Sexy.TodLib/*.cpp"
     "${CMAKE_SOURCE_DIR}/src/Sexy.TodLib/*.h"
+    "${CMAKE_SOURCE_DIR}/src/Sexy.TodLib/Reanimation/*.cpp"
+    "${CMAKE_SOURCE_DIR}/src/Sexy.TodLib/Reanimation/*.h"
 )
 list(APPEND SOURCES ${LAWN_FILES})
 

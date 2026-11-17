@@ -4,7 +4,7 @@
 #include "../LawnApp.h"
 #include "System/ReanimationLawn.h"
 #include "../Sexy.TodLib/TodFoley.h"
-#include "../Sexy.TodLib/Reanimator.h"
+#include "../Sexy.TodLib/Reanimation/Reanimator.h"
 #include "StoreItem/StoreItemTypes.h"
 
 void LawnMower::LawnMowerInitialize(int theRow)
