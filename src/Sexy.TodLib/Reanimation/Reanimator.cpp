@@ -2,6 +2,7 @@
 #include "../TodCommon.h"
 #include "../Definition.h"
 #include "Reanimator.h"
+#include "ReanimationType.h"
 #include "../../LawnApp.h"
 #include "../Attachment.h"
 #include "ReanimAtlas.h"
@@ -271,7 +272,7 @@ ReanimatorTrackInstance::ReanimatorTrackInstance()
 	mIgnoreExtraAdditiveColor = false;
 }
 
-Reanimation::Reanimation()
+Reanimation::Reanimation(const ReanimationType &theType) : mReanimationType(theType)
 {
 	mAnimTime = 0;
 	mAnimRate = 12.0f;
@@ -294,7 +295,6 @@ Reanimation::Reanimation()
 	mReanimationHolder = nullptr;
 	mTrackInstances = nullptr;
 	mFilterEffect = FilterEffect::FILTER_EFFECT_NONE;
-	mReanimationType = OldReanimationType::REANIM_NONE;
 }
 
 Reanimation::~Reanimation()
@@ -314,12 +314,11 @@ void Reanimation::ReanimationDelete()
 	}
 }
 
-void Reanimation::ReanimationInitializeType(float theX, float theY, OldReanimationType theReanimType)
+void Reanimation::ReanimationInitializeType(float theX, float theY)
 {
-	TOD_ASSERT(theReanimType >= 0 && theReanimType < gReanimatorDefCount);
-	ReanimatorEnsureDefinitionLoaded(theReanimType, false);
-	mReanimationType = theReanimType;
-	ReanimationInitialize(theX, theY, &gReanimatorDefArray[(int)theReanimType]);
+	//TOD_ASSERT(theReanimType >= 0 && theReanimType < gReanimatorDefCount);
+	ReanimatorEnsureDefinitionLoaded(mReanimationType, false);
+	ReanimationInitialize(theX, theY, &gReanimatorDefArray[mReanimationType.GetNumericalId()]);
 }
 
 void ReanimationCreateAtlas(ReanimatorDefinition *theDefinition, OldReanimationType theReanimationType)
@@ -1091,13 +1090,13 @@ void ReanimationHolder::InitializeHolder()
 Reanimation *ReanimationHolder::AllocReanimation(float theX,
 												 float theY,
 												 int theRenderOrder,
-												 OldReanimationType theReanimationType)
+												 const ReanimationType &theReanimationType)
 {
 	TOD_ASSERT(mReanimations.mSize != mReanimations.mMaxSize);
-	Reanimation *aReanim = mReanimations.DataArrayAlloc();
+	Reanimation *aReanim = mReanimations.DataArrayAlloc(theReanimationType);
 	aReanim->mRenderOrder = theRenderOrder;
 	aReanim->mReanimationHolder = this;
-	aReanim->ReanimationInitializeType(theX, theY, theReanimationType);
+	aReanim->ReanimationInitializeType(theX, theY);
 	return aReanim;
 }
 

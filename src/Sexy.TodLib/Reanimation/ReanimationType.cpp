@@ -33,12 +33,10 @@ void ReanimationType::Update(const LawnApp &theLawnApp)
 
 Reanimation *ReanimationType::Instantiate(void *theBuffer) const
 {
-	return //new (theBuffer) Reanimation(*this);
-		nullptr;
+	return new (theBuffer) Reanimation(*this);
 }
 
 Reanimation *ReanimationType::MoveInstance(void *theDestinationBuffer, void *theSourceBuffer) const
 {
-	return nullptr;
-	 //new (theDestinationBuffer) Reanimation(std::move(*reinterpret_cast<Reanimation *>(theSourceBuffer)));
+	return new (theDestinationBuffer) Reanimation(std::move(*reinterpret_cast<Reanimation *>(theSourceBuffer)));
 }

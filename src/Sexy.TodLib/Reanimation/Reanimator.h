@@ -1,7 +1,7 @@
 #ifndef __REANIMATION_H__
 #define __REANIMATION_H__
 
-#include "../DataArray.h"
+#include "../../BloomLib/BloomDataArray.h"
 #include "../FilterEffect.h"
 #include "../../SexyAppFramework/SexyMatrix.h"
 
@@ -70,18 +70,18 @@ class ReanimationParams
 	ResourcePath mReanimFileName;
 	int mReanimParamFlags;
 };
-extern int gReanimationParamArraySize;
-extern ReanimationParams *gReanimationParamArray;
+extern BLOOM_API int gReanimationParamArraySize;
+extern BLOOM_API ReanimationParams *gReanimationParamArray;
 
-void ReanimationFillInMissingData(float &thePrev, float &theValue);
-void ReanimationFillInMissingData(void *&thePrev, void *&theValue);
-bool ReanimationLoadDefinition(const ResourcePath &theFileName, ReanimatorDefinition *theDefinition);
-void ReanimationFreeDefinition(ReanimatorDefinition *theDefinition);
-void _cdecl ReanimatorEnsureDefinitionLoaded(OldReanimationType theReanimType, bool theIsPreloading);
-void ReanimatorLoadDefinitions(ReanimationParams *theReanimationParamArray, int theReanimationParamArraySize);
-void ReanimatorFreeDefinitions();
+void BLOOM_API ReanimationFillInMissingData(float &thePrev, float &theValue);
+void BLOOM_API ReanimationFillInMissingData(void *&thePrev, void *&theValue);
+bool BLOOM_API ReanimationLoadDefinition(const ResourcePath &theFileName, ReanimatorDefinition *theDefinition);
+void BLOOM_API ReanimationFreeDefinition(ReanimatorDefinition *theDefinition);
+void BLOOM_API _cdecl ReanimatorEnsureDefinitionLoaded(OldReanimationType theReanimType, bool theIsPreloading);
+void BLOOM_API ReanimatorLoadDefinitions(ReanimationParams *theReanimationParamArray, int theReanimationParamArraySize);
+void BLOOM_API ReanimatorFreeDefinitions();
 
-extern ReanimationParams gLawnReanimationArray[(int)OldReanimationType::NUM_REANIMS];
+extern BLOOM_API ReanimationParams gLawnReanimationArray[(int)OldReanimationType::NUM_REANIMS];
 
 enum
 {
@@ -91,10 +91,12 @@ enum
 
 constexpr const int NO_BASE_POSE = -2;
 
-class ReanimationHolder
+class ReanimationType;
+
+class BLOOM_API ReanimationHolder
 {
   public:
-	DataArray<Reanimation> mReanimations;
+	BloomDataArray<Reanimation> mReanimations;
 
   public:
 	ReanimationHolder()
@@ -105,7 +107,7 @@ class ReanimationHolder
 
 	void InitializeHolder();
 	void DisposeHolder();
-	Reanimation *AllocReanimation(float theX, float theY, int theRenderOrder, OldReanimationType theReanimationType);
+	Reanimation *AllocReanimation(float theX, float theY, int theRenderOrder, const ReanimationType &theReanimationType);
 };
 
 class ReanimatorFrameTime
@@ -116,7 +118,7 @@ class ReanimatorFrameTime
 	int mAnimFrameAfterInt;	 //+0x8：后一个整数帧
 };
 
-class ReanimatorTransform
+class BLOOM_API ReanimatorTransform
 {
   public:
 	float mTransX;
@@ -135,7 +137,7 @@ class ReanimatorTransform
 	ReanimatorTransform();
 };
 
-class ReanimatorTrackInstance
+class BLOOM_API ReanimatorTrackInstance
 {
   public:
 	int mBlendCounter;
@@ -157,10 +159,14 @@ class ReanimatorTrackInstance
 	ReanimatorTrackInstance();
 };
 
-class Reanimation
+class BLOOM_API Reanimation
 {
+	typedef ReanimationType Type;
+	typedef Type RegistryType;
+	template <class T> using TypeT = Type;
+
   public:
-	OldReanimationType mReanimationType;
+	const ReanimationType &mReanimationType;
 	float mAnimTime;
 	float mAnimRate;
 	ReanimatorDefinition *mDefinition;
@@ -184,11 +190,11 @@ class Reanimation
 	FilterEffect mFilterEffect;
 
   public:
-	Reanimation();
+	Reanimation(const ReanimationType &theType);
 	~Reanimation();
 
 	void ReanimationInitialize(float theX, float theY, ReanimatorDefinition *theDefinition);
-	void ReanimationInitializeType(float theX, float theY, OldReanimationType theReanimType);
+	void ReanimationInitializeType(float theX, float theY);
 	void ReanimationDie();
 	void Update();
 	void Draw(Graphics *g);
