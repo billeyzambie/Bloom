@@ -18,6 +18,7 @@
 #include "Widget/SeedChooserScreen.h"
 #include "../Sexy.TodLib/Attachment.h"
 #include "../Sexy.TodLib/Reanimation/Reanimator.h"
+#include "../Sexy.TodLib/Reanimation/ReanimationTypes.h"
 #include "../SexyAppFramework/Dialog.h"
 #include "../SexyAppFramework/MTRand.h"
 #include "../Sexy.TodLib/TodParticle.h"
@@ -847,7 +848,7 @@ void Board::LoadBackgroundImages()
 		break;
 
 	case BackgroundType::BACKGROUND_TREEOFWISDOM:
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_TREEOFWISDOM, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::TREE_OF_WISDOM, true);
 		break;
 
 	case BackgroundType::BACKGROUND_ZOMBIQUARIUM:
@@ -1272,7 +1273,7 @@ void Board::FreezeEffectsForCutscene(bool theFreeze)
 	Reanimation *aReanim = nullptr;
 	while (IterateReanimations(aReanim))
 	{
-		if (aReanim->mReanimationType == OldReanimationType::REANIM_SLEEPING)
+		if (aReanim->mType == OldReanimationType::REANIM_SLEEPING)
 		{
 			aReanim->mAnimRate = theFreeze ? 0.0f : RandRangeFloat(6, 8);
 		}
@@ -1566,7 +1567,7 @@ void Board::InitLevel()
 Reanimation *Board::CreateRakeReanim(float theRakeX, float theRakeY, int theRenderOrder)
 {
 	Reanimation *aReanim = mApp->AddReanimation(
-		GridToPixelX(theRakeX, theRakeY) + 20, GridToPixelY(theRakeX, theRakeY), theRenderOrder, REANIM_RAKE);
+		GridToPixelX(theRakeX, theRakeY) + 20, GridToPixelY(theRakeX, theRakeY), theRenderOrder, ReanimationTypes::RAKE);
 	aReanim->mAnimRate = 0;
 	aReanim->mLoopType = ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD;
 	aReanim->mIsAttachment = true;
@@ -5355,11 +5356,11 @@ void Board::ZombiesWon(Zombie *theZombie)
 	StopAllZombieSounds();
 	mApp->PlaySample(Sexy::SOUND_LOSEMUSIC);
 
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ZOMBIES_WON, true);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::ZOMBIES_WON, true);
 	Reanimation *aReanim = mApp->AddReanimation(-BOARD_OFFSET,
 												0,
 												MakeRenderOrder(RenderLayer::RENDER_LAYER_SCREEN_FADE, 0, 0),
-												OldReanimationType::REANIM_ZOMBIES_WON);
+												ReanimationTypes::ZOMBIES_WON);
 	aReanim->mLoopType = ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD;
 	aReanim->GetTrackInstanceByName("fullscreen")->mTrackColor = Color::Black;
 	aReanim->SetFramesForLayer("anim_screen");
@@ -5456,7 +5457,7 @@ void Board::NextWaveComing()
 		if (!IsSurvivalStageWithRepick() && (mApp->mGameMode == GameMode::GAMEMODE_CHALLENGE_LAST_STAND && IsLastStandFinalStage()) && !mApp->IsContinuousChallenge())
 		{
 			mApp->AddReanimation(
-				0, 30, MakeRenderOrder(RenderLayer::RENDER_LAYER_ABOVE_UI, 0, 0), OldReanimationType::REANIM_FINAL_WAVE);
+				0, 30, MakeRenderOrder(RenderLayer::RENDER_LAYER_ABOVE_UI, 0, 0), ReanimationTypes::FINAL_WAVE);
 			mFinalWaveSoundCounter = 60;
 		}
 	}
@@ -10532,7 +10533,7 @@ void Board::DoFwoosh(int theRow)
 
 		float aPosX = 750.0f * i / 11.0f + 10.0f;
 		float aPosY = GetPosYBasedOnRow(aPosX + 10.0f, theRow) - 10.0f;
-		Reanimation *aFwoosh = mApp->AddReanimation(aPosX, aPosY, aRenderOrder, OldReanimationType::REANIM_JALAPENO_FIRE);
+		Reanimation *aFwoosh = mApp->AddReanimation(aPosX, aPosY, aRenderOrder, ReanimationTypes::JALAPENO_FIRE);
 		aFwoosh->SetFramesForLayer("anim_flame");
 		aFwoosh->mLoopType = ReanimLoopType::REANIM_LOOP_FULL_LAST_FRAME;
 		aFwoosh->mAnimRate *= RandRangeFloat(0.7f, 1.3f);

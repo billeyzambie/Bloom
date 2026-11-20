@@ -9,6 +9,7 @@ constexpr const int DIALOG_HEADER_OFFSET = 45;
 class LawnApp;
 class LawnDialog;
 class Reanimation;
+class ReanimationType;
 class LawnStoneButton;
 class ReanimationWidget;
 namespace Sexy
@@ -36,7 +37,7 @@ class ReanimationWidget : public Widget
 	void Dispose();
 	virtual void Draw(Graphics *);
 	virtual void Update();
-	void AddReanimation(float x, float y, OldReanimationType theReanimationType);
+	void AddReanimation(float x, float y, const ReanimationType &theReanimationType);
 };
 
 class LawnDialog : public Dialog

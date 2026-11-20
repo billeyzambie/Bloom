@@ -11,6 +11,7 @@
 #include "../../Sexy.TodLib/TodFoley.h"
 #include "../../Sexy.TodLib/TodDebug.h"
 #include "../../Sexy.TodLib/Reanimation/Reanimator.h"
+#include "../../Sexy.TodLib/Reanimation/ReanimationTypes.h"
 #include "../System/Achievements.h"
 #include "../../Sexy.TodLib/Attachment.h"
 #include "../../Sexy.TodLib/TodParticle.h"
@@ -86,7 +87,7 @@ void Projectile::ProjectileInitialize(
 	{
 		float aOffsetX = -25.0f;
 		float aOffsetY = -25.0f;
-		Reanimation *aFirePeaReanim = mApp->AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_FIRE_PEA);
+		Reanimation *aFirePeaReanim = mApp->AddReanimation(0.0f, 0.0f, 0, ReanimationTypes::FIRE_PEA);
 		if (mMotionType == ProjectileMotion::MOTION_BACKWARDS)
 		{
 			aFirePeaReanim->OverrideScale(-1.0f, 1.0f);

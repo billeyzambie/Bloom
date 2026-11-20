@@ -11,6 +11,10 @@ ReanimationType::ReanimationType(
 	: BloomType(theModName, theTypeName),
 	mAttributeBaseValues(theAttributes), mAttributes(theAttributes)
 {
+	mFile = {
+		mResourceId.NamespaceView(),
+		"reanim/" + mResourceId.CreateBarePathString() + ".reanim"
+	};
 }
 
 ReanimationType::operator OldReanimationType() const

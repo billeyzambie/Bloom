@@ -76,9 +76,11 @@ class ZombieDrawPosition
 
 class Plant;
 class Reanimation;
+class ReanimationType;
 class TodParticleSystem;
 class Zombatar;
 struct Damage;
+
 class BLOOM_API Zombie : public GameObject
 {
   public:
@@ -527,7 +529,7 @@ class BLOOM_API Zombie : public GameObject
 	/// @brief Loads and returns the Reanimation resource for the given Reanimation type
 	/// @param theReanimationType The type of Reanimation to load
 	/// @return Pointer to the loaded Reanimation object
-	Reanimation *LoadReanim(OldReanimationType theReanimationType);
+	Reanimation *LoadReanim(const ReanimationType &theReanimationType);
 
 	/// @brief Applies damage to a flying Zombie
 	/// @param theDamage Amount of damage to apply
@@ -661,7 +663,7 @@ class BLOOM_API Zombie : public GameObject
 	/// @param thePosY Y offset for the attached Reanimation
 	/// @param theReanimType Type of Reanimation to attach
 	/// @return Pointer to the newly created attached Reanimation
-	Reanimation *AddAttachedReanim(int thePosX, int thePosY, OldReanimationType theReanimType);
+	Reanimation *AddAttachedReanim(int thePosX, int thePosY, const ReanimationType &theReanimType);
 
 	/// @brief Pulls the Zombie under the water (used by Tangle Kelp and similar)
 	void DragUnder();
@@ -1059,16 +1061,18 @@ class BLOOM_API Zombie : public GameObject
 	ZombieID GetId();
 };
 
-class ZombieDefinition
+class BLOOM_API ZombieDefinition
 {
   public:
 	ZombieType mZombieType;
-	OldReanimationType mReanimationType;
+	OldReanimationType mOldReanimationType;
 	int mZombieValue;
 	int mStartingLevel;
 	int mFirstAllowedWave;
 	int mPickWeight;
 	const SexyCharByte *mZombieName;
+
+	const ReanimationType &GetReanimationType() const;
 };
 extern ZombieDefinition gZombieDefs[NUM_ZOMBIE_TYPES];
 

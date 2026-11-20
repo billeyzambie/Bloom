@@ -4,6 +4,7 @@
 #include "../../BloomLib/BloomDataArray.h"
 #include "../FilterEffect.h"
 #include "../../SexyAppFramework/SexyMatrix.h"
+#include "ReanimationType.h"
 
 #define MAX_REANIMATIONS_SIZE 1024U
 
@@ -15,6 +16,7 @@ class AttacherInfo;
 class AttachEffect;
 class TodTriangleGroup;
 class TodParticleSystem;
+class ReanimationHolder;
 class ReanimatorTransform;
 class ReanimatorDefinition;
 namespace Sexy
@@ -63,25 +65,13 @@ class ReanimatorDefinition
 extern int gReanimatorDefCount;
 extern ReanimatorDefinition *gReanimatorDefArray;
 
-class ReanimationParams
-{
-  public:
-	OldReanimationType mReanimationType;
-	ResourcePath mReanimFileName;
-	int mReanimParamFlags;
-};
-extern BLOOM_API int gReanimationParamArraySize;
-extern BLOOM_API ReanimationParams *gReanimationParamArray;
-
 void BLOOM_API ReanimationFillInMissingData(float &thePrev, float &theValue);
 void BLOOM_API ReanimationFillInMissingData(void *&thePrev, void *&theValue);
 bool BLOOM_API ReanimationLoadDefinition(const ResourcePath &theFileName, ReanimatorDefinition *theDefinition);
 void BLOOM_API ReanimationFreeDefinition(ReanimatorDefinition *theDefinition);
-void BLOOM_API _cdecl ReanimatorEnsureDefinitionLoaded(OldReanimationType theReanimType, bool theIsPreloading);
-void BLOOM_API ReanimatorLoadDefinitions(ReanimationParams *theReanimationParamArray, int theReanimationParamArraySize);
+void BLOOM_API _cdecl ReanimatorEnsureDefinitionLoaded(const ReanimationType &theReanimType, bool theIsPreloading);
+void BLOOM_API ReanimatorLoadDefinitions();
 void BLOOM_API ReanimatorFreeDefinitions();
-
-extern BLOOM_API ReanimationParams gLawnReanimationArray[(int)OldReanimationType::NUM_REANIMS];
 
 enum
 {
@@ -90,25 +80,6 @@ enum
 };
 
 constexpr const int NO_BASE_POSE = -2;
-
-class ReanimationType;
-
-class BLOOM_API ReanimationHolder
-{
-  public:
-	BloomDataArray<Reanimation> mReanimations;
-
-  public:
-	ReanimationHolder()
-	{
-		;
-	}
-	~ReanimationHolder();
-
-	void InitializeHolder();
-	void DisposeHolder();
-	Reanimation *AllocReanimation(float theX, float theY, int theRenderOrder, const ReanimationType &theReanimationType);
-};
 
 class ReanimatorFrameTime
 {
@@ -159,17 +130,20 @@ class BLOOM_API ReanimatorTrackInstance
 	ReanimatorTrackInstance();
 };
 
-class BLOOM_API Reanimation
+class BLOOM_API Reanimation final
 {
+  public:
 	typedef ReanimationType Type;
 	typedef Type RegistryType;
 	template <class T> using TypeT = Type;
 
-  public:
-	const ReanimationType &mReanimationType;
+	const ReanimationType &mType;
+	ReanimatorDefinition *mDefinition;
+	ReanimationHolder *mReanimationHolder;
+	ReanimatorTrackInstance *mTrackInstances;
+
 	float mAnimTime;
 	float mAnimRate;
-	ReanimatorDefinition *mDefinition;
 	ReanimLoopType mLoopType;
 	bool mDead;
 	int mFrameStart;
@@ -177,9 +151,7 @@ class BLOOM_API Reanimation
 	int mFrameBasePose;
 	SexyTransform2D mOverlayMatrix;
 	Color mColorOverride;
-	ReanimatorTrackInstance *mTrackInstances;
 	int mLoopCount;
-	ReanimationHolder *mReanimationHolder;
 	bool mIsAttachment;
 	int mRenderOrder;
 	Color mExtraAdditiveColor;
@@ -195,6 +167,7 @@ class BLOOM_API Reanimation
 
 	void ReanimationInitialize(float theX, float theY, ReanimatorDefinition *theDefinition);
 	void ReanimationInitializeType(float theX, float theY);
+	void Sync(BoundedSync &theSync);
 	void ReanimationDie();
 	void Update();
 	void Draw(Graphics *g);
@@ -254,14 +227,31 @@ class BLOOM_API Reanimation
 						 const Color &theColor,
 						 int theDrawMode,
 						 const Rect &theSrcRect);
-	Reanimation *FindSubReanim(OldReanimationType theReanimType);
+	Reanimation *FindSubReanim(const ReanimationType &theReanimType);
 };
 
-void ReanimationCreateAtlas(ReanimatorDefinition *theDefinition, OldReanimationType theReanimationType);
-void ReanimationPreload(OldReanimationType theReanimationType);
+void ReanimationCreateAtlas(ReanimatorDefinition *theDefinition, const ReanimationType &theReanimationType);
+void ReanimationPreload(const ReanimationType &theReanimationType);
 void BlendTransform(ReanimatorTransform *theResult,
 					const ReanimatorTransform &theTransform1,
 					const ReanimatorTransform &theTransform2,
 					float theBlendFactor);
+
+class BLOOM_API ReanimationHolder
+{
+  public:
+	BloomDataArray<Reanimation> mReanimations;
+
+  public:
+	ReanimationHolder()
+	{
+		;
+	}
+	~ReanimationHolder();
+
+	void InitializeHolder();
+	void DisposeHolder();
+	Reanimation *AllocReanimation(float theX, float theY, int theRenderOrder, const ReanimationType &theReanimationType);
+};
 
 #endif

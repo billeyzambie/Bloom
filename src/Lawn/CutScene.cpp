@@ -21,6 +21,7 @@
 #include "../Sexy.TodLib/TodCommon.h"
 #include "../Sexy.TodLib/Attachment.h"
 #include "../Sexy.TodLib/Reanimation/Reanimator.h"
+#include "../Sexy.TodLib/Reanimation/ReanimationTypes.h"
 #include "../Sexy.TodLib/TodParticle.h"
 #include "../Sexy.TodLib/TodStringFile.h"
 #include "../SexyAppFramework/PerfTimer.h"
@@ -358,11 +359,11 @@ void CutScene::PreloadResources()
 
 	if (mCrazyDaveDialogStart != -1)
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_CRAZY_DAVE, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::CRAZY_DAVE, true);
 	}
 	if (mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::RAKE).mPurchases)
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_RAKE, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::RAKE, true);
 	}
 	if (mApp->mGameMode == GameMode::GAMEMODE_CHALLENGE_ZEN_GARDEN)
 	{
@@ -372,55 +373,55 @@ void CutScene::PreloadResources()
 
 	if (mBoard->StageHasRoof())
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ROOF_CLEANER, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::ROOF_CLEANER, true);
 	}
 	else
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_LAWNMOWER, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::LAWN_MOWER, true);
 	}
 	if (mBoard->StageHasPool())
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_SPLASH, true);
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_POOL_CLEANER, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::SPLASH, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::POOL_CLEANER, true);
 	}
 
 	if (mBoard->CanDropLoot())
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_COIN_SILVER, true);
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_COIN_GOLD, true);
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_DIAMOND, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::COIN_SILVER, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::COIN_GOLD, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::DIAMOND, true);
 	}
 
 	if (mSodTime > 0)
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_SODROLL, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::SOD_ROLL, true);
 	}
 	if (mApp->mGameMode == GameMode::GAMEMODE_CHALLENGE_PORTAL_COMBAT)
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_PORTAL_CIRCLE, true);
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_PORTAL_SQUARE, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::PORTAL_CIRCLE, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::PORTAL_SQUARE, true);
 	}
 	if (mApp->IsWhackAZombieLevel() || mApp->IsScaryPotterLevel())
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_HAMMER, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::HAMMER, true);
 	}
 	if (mApp->IsStormyNightLevel() || mApp->mGameMode == GameMode::GAMEMODE_CHALLENGE_RAINING_SEEDS)
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_RAIN_CIRCLE, true);
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_RAIN_SPLASH, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::RAIN_CIRCLE, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::RAIN_SPLASH, true);
 	}
 
 	if (mApp->mGameMode == GameMode::GAMEMODE_CHALLENGE_ZEN_GARDEN)
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ZENGARDEN_WATERINGCAN, true);
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ZENGARDEN_FERTILIZER, true);
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ZENGARDEN_BUGSPRAY, true);
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ZENGARDEN_PHONOGRAPH, true);
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_STINKY, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::ZEN_GARDEN_WATERING_CAN, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::ZEN_GARDEN_FERTILIZER, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::ZEN_GARDEN_BUG_SPRAY, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::ZEN_GARDEN_PHONOGRAPH, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::STINKY, true);
 	}
 	if (mApp->mGameMode == GameMode::GAMEMODE_TREE_OF_WISDOM)
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ZENGARDEN_FERTILIZER, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::ZEN_GARDEN_FERTILIZER, true);
 	}
 	if (mApp->mGameMode == GameMode::GAMEMODE_UPSELL)
 	{
@@ -1183,7 +1184,7 @@ void CutScene::AnimateBoard()
 			if (mBoard->mLevel == 1)
 			{
 				mApp->AddReanimation(
-					0, 0, Board::MakeRenderOrder(RenderLayer::RENDER_LAYER_TOP, 0, 0), OldReanimationType::REANIM_SODROLL);
+					0, 0, Board::MakeRenderOrder(RenderLayer::RENDER_LAYER_TOP, 0, 0), ReanimationTypes::SOD_ROLL);
 				mApp->AddTodParticle(35,
 									 348,
 									 Board::MakeRenderOrder(RenderLayer::RENDER_LAYER_TOP, 0, 1),
@@ -1194,11 +1195,11 @@ void CutScene::AnimateBoard()
 				mApp->AddReanimation(0,
 									 -102,
 									 Board::MakeRenderOrder(RenderLayer::RENDER_LAYER_TOP, 0, 0),
-									 OldReanimationType::REANIM_SODROLL);
+									 ReanimationTypes::SOD_ROLL);
 				mApp->AddReanimation(0,
 									 111,
 									 Board::MakeRenderOrder(RenderLayer::RENDER_LAYER_TOP, 0, 0),
-									 OldReanimationType::REANIM_SODROLL);
+									 ReanimationTypes::SOD_ROLL);
 				mApp->AddTodParticle(35,
 									 246,
 									 Board::MakeRenderOrder(RenderLayer::RENDER_LAYER_TOP, 0, 1),
@@ -1213,11 +1214,11 @@ void CutScene::AnimateBoard()
 				mApp->AddReanimation(-3,
 									 -198,
 									 Board::MakeRenderOrder(RenderLayer::RENDER_LAYER_TOP, 0, 0),
-									 OldReanimationType::REANIM_SODROLL);
+									 ReanimationTypes::SOD_ROLL);
 				mApp->AddReanimation(-3,
 									 203,
 									 Board::MakeRenderOrder(RenderLayer::RENDER_LAYER_TOP, 0, 0),
-									 OldReanimationType::REANIM_SODROLL);
+									 ReanimationTypes::SOD_ROLL);
 				mApp->AddTodParticle(32,
 									 150,
 									 Board::MakeRenderOrder(RenderLayer::RENDER_LAYER_TOP, 0, 1),
@@ -1308,7 +1309,7 @@ void CutScene::AnimateBoard()
 		mApp->AddReanimation(400,
 							 324,
 							 Board::MakeRenderOrder(RenderLayer::RENDER_LAYER_SCREEN_FADE, 0, 0),
-							 OldReanimationType::REANIM_READYSETPLANT);
+							 ReanimationTypes::READY_SET_PLANT);
 		mApp->PlaySample(SOUND_READYSETPLANT);
 		if (!mApp->IsFinalBossLevel())
 		{
@@ -1476,10 +1477,10 @@ void CutScene::UpdateZombiesWon()
 
 	if (mCutsceneTime == LostTimeBrainGraphicStart)
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ZOMBIES_WON, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::ZOMBIES_WON, true);
 		int aRenderPosition = Board::MakeRenderOrder(RenderLayer::RENDER_LAYER_SCREEN_FADE, 0, 0);
 		Reanimation *aReanimation =
-			mApp->AddReanimation(-BOARD_OFFSET, 0, aRenderPosition, OldReanimationType::REANIM_ZOMBIES_WON);
+			mApp->AddReanimation(-BOARD_OFFSET, 0, aRenderPosition, ReanimationTypes::ZOMBIES_WON);
 		aReanimation->mAnimRate = 12.0f;
 		aReanimation->mLoopType = ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD;
 		aReanimation->GetTrackInstanceByName("fullscreen")->mTrackColor = Color::Black;
@@ -1756,7 +1757,7 @@ void CutScene::ClearUpsellBoard()
 	Reanimation *aReanim = nullptr;
 	while (mBoard->IterateReanimations(aReanim))
 	{
-		if (aReanim->mReanimationType != OldReanimationType::REANIM_CRAZY_DAVE)
+		if (aReanim->mType != ReanimationTypes::CRAZY_DAVE)
 			aReanim->ReanimationDie();
 	}
 	mBoard->mPoolSparklyParticleID = ParticleSystemID::PARTICLESYSTEMID_NULL;
@@ -2114,7 +2115,7 @@ void CutScene::UpdateUpsell()
 	{
 	case 3305:
 	{
-		Reanimation *aReanimSquash = mApp->AddReanimation(0, 0, 0, OldReanimationType::REANIM_SQUASH);
+		Reanimation *aReanimSquash = mApp->AddReanimation(0, 0, 0, ReanimationTypes::SQUASH);
 		aReanimSquash->PlayReanim("anim_idle", ReanimLoopType::REANIM_LOOP, 0, 15.0f);
 		AttachEffect *anAttachEffect = AttachReanim(
 			aCrazyDaveReanim->GetTrackInstanceByName("Dave_handinghand")->mAttachmentID, aReanimSquash, 92.0f, 387.0f);
@@ -2126,11 +2127,11 @@ void CutScene::UpdateUpsell()
 
 	case 3306:
 	{
-		Reanimation *aReanimThreepeater = mApp->AddReanimation(0, 0, 0, OldReanimationType::REANIM_THREEPEATER);
+		Reanimation *aReanimThreepeater = mApp->AddReanimation(0, 0, 0, ReanimationTypes::THREEPEATER);
 		aReanimThreepeater->PlayReanim("anim_idle", ReanimLoopType::REANIM_LOOP, 0, 15.0f);
 		for (int i = 1; i < 4; i++)
 		{
-			Reanimation *aReanimHead = mApp->AddReanimation(0, 0, 0, OldReanimationType::REANIM_THREEPEATER);
+			Reanimation *aReanimHead = mApp->AddReanimation(0, 0, 0, ReanimationTypes::THREEPEATER);
 			aReanimHead->mLoopType = ReanimLoopType::REANIM_LOOP;
 			aReanimHead->mAnimRate = aReanimThreepeater->mAnimRate;
 			aReanimHead->SetFramesForLayer(StrFormat("anim_head_idle%d", i).c_str());
@@ -2146,7 +2147,7 @@ void CutScene::UpdateUpsell()
 
 	case 3307:
 	{
-		Reanimation *aReanimMagnet = mApp->AddReanimation(0, 0, 0, OldReanimationType::REANIM_MAGNETSHROOM);
+		Reanimation *aReanimMagnet = mApp->AddReanimation(0, 0, 0, ReanimationTypes::MAGNET_SHROOM);
 		aReanimMagnet->PlayReanim("anim_idle", ReanimLoopType::REANIM_LOOP, 0, 15.0f);
 		TodScaleRotateTransformMatrix(aReanimMagnet->mOverlayMatrix, 0, 0, 0.3f, 1, 1);
 		AttachEffect *anAttachEffect = AttachReanim(
@@ -2158,8 +2159,8 @@ void CutScene::UpdateUpsell()
 	}
 
 	case 3309:
-		aCrazyDaveReanim->FindSubReanim(OldReanimationType::REANIM_THREEPEATER)->ReanimationDie();
-		aCrazyDaveReanim->FindSubReanim(OldReanimationType::REANIM_MAGNETSHROOM)->ReanimationDie();
+		aCrazyDaveReanim->FindSubReanim(ReanimationTypes::THREEPEATER)->ReanimationDie();
+		aCrazyDaveReanim->FindSubReanim(ReanimationTypes::MAGNET_SHROOM)->ReanimationDie();
 		break;
 
 	case 3312:
@@ -2209,8 +2210,8 @@ void CutScene::DrawUpsell(Graphics *g)
 {
 	if (mCrazyDaveLastTalkIndex == 3315)
 	{
-		Reanimation aReanim;
-		aReanim.ReanimationInitializeType(565, 360, OldReanimationType::REANIM_FLOWER_POT);
+		Reanimation aReanim(ReanimationTypes::FLOWER_POT);
+		aReanim.ReanimationInitializeType(565, 360);
 		aReanim.SetFramesForLayer("anim_zengarden");
 		aReanim.OverrideScale(1.3f, 1.3f);
 		aReanim.Draw(g);

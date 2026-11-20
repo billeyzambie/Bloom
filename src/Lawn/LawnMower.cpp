@@ -5,6 +5,7 @@
 #include "System/ReanimationLawn.h"
 #include "../Sexy.TodLib/TodFoley.h"
 #include "../Sexy.TodLib/Reanimation/Reanimator.h"
+#include "../Sexy.TodLib/Reanimation/ReanimationTypes.h"
 #include "StoreItem/StoreItemTypes.h"
 
 void LawnMower::LawnMowerInitialize(int theRow)
@@ -23,26 +24,26 @@ void LawnMower::LawnMowerInitialize(int theRow)
 	mSquishedCounter = 0;
 	mLastPortalX = -1;
 
-	OldReanimationType aReanimType;
+	const ReanimationType *aReanimType = nullptr;
 	if (mBoard->StageHasRoof())
 	{
 		mMowerType = LawnMowerType::LAWNMOWER_ROOF;
-		aReanimType = OldReanimationType::REANIM_ROOF_CLEANER;
+		aReanimType = ReanimationTypes::ROOF_CLEANER;
 	}
 	else if (mBoard->mPlantRow[mRow] == PlantRowType::PLANTROW_POOL &&
 			 mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::POOL_CLEANER).mPurchases
 		)
 	{
 		mMowerType = LawnMowerType::LAWNMOWER_POOL;
-		aReanimType = OldReanimationType::REANIM_POOL_CLEANER;
+		aReanimType = ReanimationTypes::POOL_CLEANER;
 	}
 	else
 	{
 		mMowerType = LawnMowerType::LAWNMOWER_LAWN;
-		aReanimType = OldReanimationType::REANIM_LAWNMOWER;
+		aReanimType = ReanimationTypes::LAWN_MOWER;
 	}
 
-	Reanimation *aMowerReanim = mApp->AddReanimation(0.0f, 18.0f, mRenderOrder, aReanimType);
+	Reanimation *aMowerReanim = mApp->AddReanimation(0.0f, 18.0f, mRenderOrder, *aReanimType);
 	aMowerReanim->mAnimRate = 0.0f;
 	aMowerReanim->mLoopType = ReanimLoopType::REANIM_LOOP;
 	aMowerReanim->mIsAttachment = true;
@@ -78,7 +79,7 @@ void LawnMower::UpdatePool()
 	if (isPoolRange && mMowerHeight == MowerHeight::MOWER_HEIGHT_LAND)
 	{
 		Reanimation *aSplashReanim =
-			mApp->AddReanimation(mPosX + 0.0f, mPosY + 25.0f, mRenderOrder + 1, OldReanimationType::REANIM_SPLASH);
+			mApp->AddReanimation(mPosX + 0.0f, mPosY + 25.0f, mRenderOrder + 1, ReanimationTypes::SPLASH);
 		aSplashReanim->OverrideScale(1.2f, 0.8f);
 		mApp->AddTodParticle(
 			mPosX + 0.0f + 50.0f, mPosY + 0.0f + 42.0f, mRenderOrder + 1, ParticleEffect::PARTICLE_PLANTING_POOL);
@@ -102,7 +103,7 @@ void LawnMower::UpdatePool()
 			mAltitude = -28.0f;
 			mMowerHeight = MowerHeight::MOWER_HEIGHT_UP_TO_LAND;
 			Reanimation *aSplashReanim =
-				mApp->AddReanimation(mPosX + 0.0f, mPosY + 25.0f, mRenderOrder + 1, OldReanimationType::REANIM_SPLASH);
+				mApp->AddReanimation(mPosX + 0.0f, mPosY + 25.0f, mRenderOrder + 1, ReanimationTypes::SPLASH);
 			aSplashReanim->OverrideScale(1.2f, 0.8f);
 			mApp->AddTodParticle(
 				mPosX + 0.0f + 50.0f, mPosY + 0.0f + 42.0f, mRenderOrder + 1, ParticleEffect::PARTICLE_PLANTING_POOL);
@@ -247,7 +248,7 @@ void LawnMower::Update()
 		mPosX > 50.0f)
 	{
 		Reanimation *aSplashReanim =
-			mApp->AddReanimation(mPosX, mPosY + 25.0f, mRenderOrder + 1, OldReanimationType::REANIM_SPLASH);
+			mApp->AddReanimation(mPosX, mPosY + 25.0f, mRenderOrder + 1, ReanimationTypes::SPLASH);
 		aSplashReanim->OverrideScale(1.2f, 0.8f);
 		mApp->AddTodParticle(mPosX + 50.0f, mPosY + 67.0f, mRenderOrder + 1, ParticleEffect::PARTICLE_PLANTING_POOL);
 		mApp->PlaySample(SOUND_ZOMBIE_ENTERING_WATER);

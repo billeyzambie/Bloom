@@ -23,6 +23,7 @@
 #include "../../Sexy.TodLib/TodDebug.h"
 #include "../../Sexy.TodLib/Attachment.h"
 #include "../../Sexy.TodLib/Reanimation/Reanimator.h"
+#include "../../Sexy.TodLib/Reanimation/ReanimationTypes.h"
 #include "../../Sexy.TodLib/TodParticle.h"
 #include "../../Sexy.TodLib/EffectSystem.h"
 #include "../../Sexy.TodLib/TodStringFile.h"
@@ -95,10 +96,10 @@ void Plant::PlantInitialize(int theGridX, int theGridY)
 	mRenderOrder = CalcRenderOrder();
 
 	Reanimation *aBodyReanim = nullptr;
-	if (mType.mBaseReanim != OldReanimationType::REANIM_NONE)
+	if (mType.mBaseReanim)
 	{
 		float aOffsetY = PlantDrawHeightOffset(mBoard, this, mType, mPlantCol, mRow);
-		aBodyReanim = mApp->AddReanimation(0.0f, aOffsetY, mRenderOrder + 1, mType.mBaseReanim);
+		aBodyReanim = mApp->AddReanimation(0.0f, aOffsetY, mRenderOrder + 1, *mType.mBaseReanim);
 		aBodyReanim->mLoopType = ReanimLoopType::REANIM_LOOP;
 		aBodyReanim->mAnimRate = RandRangeFloat(10.0f, 15.0f);
 
@@ -159,7 +160,7 @@ void Plant::PlantInitialize(int theGridX, int theGridY)
 		if (aBodyReanim)
 		{
 			aBodyReanim->mAnimRate = RandRangeFloat(15.0f, 20.0f);
-			Reanimation *aHeadReanim = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, mType.mBaseReanim);
+			Reanimation *aHeadReanim = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, *mType.mBaseReanim);
 			aHeadReanim->mLoopType = ReanimLoopType::REANIM_LOOP;
 			aHeadReanim->mAnimRate = aBodyReanim->mAnimRate;
 			aHeadReanim->SetFramesForLayer("anim_head_idle");
@@ -175,14 +176,14 @@ void Plant::PlantInitialize(int theGridX, int theGridY)
 		TOD_ASSERT(aBodyReanim);
 
 		aBodyReanim->mAnimRate = RandRangeFloat(15.0f, 20.0f);
-		Reanimation *aHeadReanim1 = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, mType.mBaseReanim);
+		Reanimation *aHeadReanim1 = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, *mType.mBaseReanim);
 		aHeadReanim1->mLoopType = ReanimLoopType::REANIM_LOOP;
 		aHeadReanim1->mAnimRate = aBodyReanim->mAnimRate;
 		aHeadReanim1->SetFramesForLayer("anim_head_idle");
 		aHeadReanim1->AttachToAnotherReanimation(aBodyReanim, "anim_idle");
 		mHeadReanimID = mApp->ReanimationGetID(aHeadReanim1);
 
-		Reanimation *aHeadReanim2 = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, mType.mBaseReanim);
+		Reanimation *aHeadReanim2 = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, *mType.mBaseReanim);
 		aHeadReanim2->mLoopType = ReanimLoopType::REANIM_LOOP;
 		aHeadReanim2->mAnimRate = aBodyReanim->mAnimRate;
 		aHeadReanim2->SetFramesForLayer("anim_splitpea_idle");
@@ -195,21 +196,21 @@ void Plant::PlantInitialize(int theGridX, int theGridY)
 		TOD_ASSERT(aBodyReanim);
 
 		aBodyReanim->mAnimRate = RandRangeFloat(15.0f, 20.0f);
-		Reanimation *aHeadReanim1 = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, mType.mBaseReanim);
+		Reanimation *aHeadReanim1 = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, *mType.mBaseReanim);
 		aHeadReanim1->mLoopType = ReanimLoopType::REANIM_LOOP;
 		aHeadReanim1->mAnimRate = aBodyReanim->mAnimRate;
 		aHeadReanim1->SetFramesForLayer("anim_head_idle1");
 		aHeadReanim1->AttachToAnotherReanimation(aBodyReanim, "anim_head1");
 		mHeadReanimID = mApp->ReanimationGetID(aHeadReanim1);
 
-		Reanimation *aHeadReanim2 = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, mType.mBaseReanim);
+		Reanimation *aHeadReanim2 = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, *mType.mBaseReanim);
 		aHeadReanim2->mLoopType = ReanimLoopType::REANIM_LOOP;
 		aHeadReanim2->mAnimRate = aBodyReanim->mAnimRate;
 		aHeadReanim2->SetFramesForLayer("anim_head_idle2");
 		aHeadReanim2->AttachToAnotherReanimation(aBodyReanim, "anim_head2");
 		mHeadReanimID2 = mApp->ReanimationGetID(aHeadReanim2);
 
-		Reanimation *aHeadReanim3 = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, mType.mBaseReanim);
+		Reanimation *aHeadReanim3 = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, *mType.mBaseReanim);
 		aHeadReanim3->mLoopType = ReanimLoopType::REANIM_LOOP;
 		aHeadReanim3->mAnimRate = aBodyReanim->mAnimRate;
 		aHeadReanim3->SetFramesForLayer("anim_head_idle3");
@@ -475,7 +476,7 @@ void Plant::SetSleeping(bool theIsAsleep)
 			aPosY -= 12.0f;
 
 		Reanimation *aSleepReanim =
-			mApp->AddReanimation(aPosX, aPosY, mRenderOrder + 2, OldReanimationType::REANIM_SLEEPING);
+			mApp->AddReanimation(aPosX, aPosY, mRenderOrder + 2, ReanimationTypes::SLEEPING);
 		aSleepReanim->mLoopType = ReanimLoopType::REANIM_LOOP;
 		aSleepReanim->mAnimRate = RandRangeFloat(6.0f, 8.0f);
 		aSleepReanim->mAnimTime = RandRangeFloat(0.0f, 0.9f);
@@ -1158,7 +1159,7 @@ void Plant::UpdatePotato()
 			PlayBodyReanim("anim_armed", ReanimLoopType::REANIM_LOOP, 0, aRate);
 
 			Reanimation *aLightReanim =
-				mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, mType.mBaseReanim);
+				mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, *mType.mBaseReanim);
 			aLightReanim->mLoopType = ReanimLoopType::REANIM_LOOP;
 			aLightReanim->mAnimRate = aRate - 2.0f;
 			aLightReanim->SetFramesForLayer("anim_glow");
@@ -1215,7 +1216,7 @@ void Plant::UpdateTanglekelp()
 				aVinesPosY = 37.0f;
 			}
 			Reanimation *aGrabReanim =
-				aZombie->AddAttachedReanim(aVinesPosX, aVinesPosY, OldReanimationType::REANIM_TANGLEKELP);
+				aZombie->AddAttachedReanim(aVinesPosX, aVinesPosY, ReanimationTypes::TANGLE_KELP);
 			if (aGrabReanim)
 			{
 				aGrabReanim->SetFramesForLayer("anim_grab");
@@ -1242,7 +1243,7 @@ void Plant::UpdateTanglekelp()
 		{
 			int aRenderPosition = Board::MakeRenderOrder(RenderLayer::RENDER_LAYER_PARTICLE, mRow, 0);
 			Reanimation *aSplashReanim =
-				mApp->AddReanimation(mX - 23, mY + 7, aRenderPosition, OldReanimationType::REANIM_SPLASH);
+				mApp->AddReanimation(mX - 23, mY + 7, aRenderPosition, ReanimationTypes::SPLASH);
 			aSplashReanim->OverrideScale(1.3f, 1.3f);
 
 			mApp->AddTodParticle(mX + 31, mY + 64, aRenderPosition, ParticleEffect::PARTICLE_PLANTING_POOL);
@@ -1561,7 +1562,7 @@ void Plant::UpdateSquash()
 			{
 				if (mBoard->IsPoolSquare(aTargetCol, mRow))
 				{
-					mApp->AddReanimation(mX - 11, mY + 20, mRenderOrder + 1, OldReanimationType::REANIM_SPLASH);
+					mApp->AddReanimation(mX - 11, mY + 20, mRenderOrder + 1, ReanimationTypes::SPLASH);
 					mApp->PlayFoley(FoleyType::FOLEY_SPLAT);
 					mApp->PlaySample(SOUND_ZOMBIESPLASH);
 
@@ -3066,7 +3067,7 @@ Reanimation *Plant::AttachBlinkAnim(Reanimation *theReanimBody)
 		return nullptr;
 
 	Reanimation *aBlinkReanim =
-		aApp->mEffectSystem->mReanimationHolder->AllocReanimation(0.0f, 0.0f, 0, mType.mBaseReanim);
+		aApp->mEffectSystem->mReanimationHolder->AllocReanimation(0.0f, 0.0f, 0, *mType.mBaseReanim);
 	aBlinkReanim->SetFramesForLayer(aTrackToPlay);
 	aBlinkReanim->mLoopType = ReanimLoopType::REANIM_PLAY_ONCE_FULL_LAST_FRAME_AND_HOLD;
 	aBlinkReanim->mAnimRate = 15.0f;
@@ -4221,7 +4222,7 @@ void Plant::DrawSeedType(Graphics *g,
 			TodDrawImageScaledF(
 				&aSeedG, IMAGE_REANIM_WALLNUT_BODY, thePosX - 53.0f, thePosY - 56.0f, aSeedG.mScaleX, aSeedG.mScaleY);
 		}
-		else if (PlantTypes::FromOldSeedType(aSeedType).mBaseReanim != OldReanimationType::REANIM_NONE)
+		else if (PlantTypes::FromOldSeedType(aSeedType).mBaseReanim)
 		{
 			gLawnApp->mReanimatorCache->DrawCachedPlant(
 				&aSeedG, thePosX + aOffsetX, thePosY + aOffsetY, aSeedType, aDrawVariation);
@@ -5289,27 +5290,27 @@ Rect Plant::GetPlantAttackRect(PlantWeapon thePlantWeapon)
 void Plant::PreloadPlantResources(SeedType theSeedType)
 {
 	const PlantType &aPlantType = PlantTypes::FromOldSeedType(theSeedType);
-	if (aPlantType.mBaseReanim != OldReanimationType::REANIM_NONE)
+	if (aPlantType.mBaseReanim)
 	{
-		ReanimatorEnsureDefinitionLoaded(aPlantType.mBaseReanim, true);
+		ReanimatorEnsureDefinitionLoaded(*aPlantType.mBaseReanim, true);
 	}
 
 	if (theSeedType == SeedType::SEED_CHERRYBOMB)
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ZOMBIE_CHARRED, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::ZOMBIE_CHARRED, true);
 	}
 	else if (theSeedType == SeedType::SEED_JALAPENO)
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_JALAPENO_FIRE, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::JALAPENO_FIRE, true);
 	}
 	else if (theSeedType == SeedType::SEED_TORCHWOOD)
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_FIRE_PEA, true);
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_JALAPENO_FIRE, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::FIRE_PEA, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::JALAPENO_FIRE, true);
 	}
 	else if (Plant::IsNocturnal(aPlantType))
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_SLEEPING, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::SLEEPING, true);
 	}
 }
 

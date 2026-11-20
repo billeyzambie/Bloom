@@ -2,6 +2,7 @@
 #include "TodDebug.h"
 #include "Attachment.h"
 #include "Reanimation/Reanimator.h"
+#include "Reanimation/ReanimationType.h"
 #include "TodParticle.h"
 #include "EffectSystem.h"
 #include "../SexyAppFramework/Graphics.h"
@@ -366,7 +367,7 @@ void Attachment::Draw(Graphics *g, bool theParentHidden)
 
 	DataArray<TodParticleSystem> &aParticleSystems = gEffectSystem->mParticleHolder->mParticleSystems;
 	DataArray<Trail> &aTrails = gEffectSystem->mTrailHolder->mTrails;
-	DataArray<Reanimation> &aReanimations = gEffectSystem->mReanimationHolder->mReanimations;
+	BloomDataArray<Reanimation> &aReanimations = gEffectSystem->mReanimationHolder->mReanimations;
 	DataArray<Attachment> &aAttachments = gEffectSystem->mAttachmentHolder->mAttachments;
 
 	for (int i = 0; i < mNumEffects; i++)
@@ -424,7 +425,7 @@ void Attachment::Detach()
 
 	DataArray<TodParticleSystem> &aParticleSystems = gEffectSystem->mParticleHolder->mParticleSystems;
 	DataArray<Trail> &aTrails = gEffectSystem->mTrailHolder->mTrails;
-	DataArray<Reanimation> &aReanimations = gEffectSystem->mReanimationHolder->mReanimations;
+	BloomDataArray<Reanimation> &aReanimations = gEffectSystem->mReanimationHolder->mReanimations;
 	DataArray<Attachment> &aAttachments = gEffectSystem->mAttachmentHolder->mAttachments;
 
 	for (int i = 0; i < mNumEffects; i++)
@@ -485,7 +486,7 @@ void Attachment::AttachmentDie()
 
 	DataArray<TodParticleSystem> &aParticleSystems = gEffectSystem->mParticleHolder->mParticleSystems;
 	DataArray<Trail> &aTrails = gEffectSystem->mTrailHolder->mTrails;
-	DataArray<Reanimation> &aReanimations = gEffectSystem->mReanimationHolder->mReanimations;
+	BloomDataArray<Reanimation> &aReanimations = gEffectSystem->mReanimationHolder->mReanimations;
 	DataArray<Attachment> &aAttachments = gEffectSystem->mAttachmentHolder->mAttachments;
 
 	for (int i = 0; i < mNumEffects; i++)
@@ -628,7 +629,7 @@ void AttachmentOverrideScale(AttachmentID &theAttachmentID, float theScale)
 	}
 }
 
-void AttachmentReanimTypeDie(AttachmentID &theAttachmentID, OldReanimationType theReanimType)
+void AttachmentReanimTypeDie(AttachmentID &theAttachmentID, const ReanimationType &theReanimType)
 {
 	Attachment *aAttachment =
 		gEffectSystem->mAttachmentHolder->mAttachments.DataArrayTryToGet((unsigned int)theAttachmentID);
@@ -644,7 +645,7 @@ void AttachmentReanimTypeDie(AttachmentID &theAttachmentID, OldReanimationType t
 		{
 			Reanimation *aReanimation =
 				gEffectSystem->mReanimationHolder->mReanimations.DataArrayTryToGet(aAttachEffect->mEffectID);
-			if (aReanimation && aReanimation->mReanimationType == theReanimType)
+			if (aReanimation && aReanimation->mType == theReanimType)
 			{
 				aReanimation->ReanimationDie();
 			}

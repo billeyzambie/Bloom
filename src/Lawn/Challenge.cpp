@@ -27,6 +27,7 @@
 #include "../Sexy.TodLib/TodCommon.h"
 #include "../SexyAppFramework/Font.h"
 #include "../Sexy.TodLib/Reanimation/Reanimator.h"
+#include "../Sexy.TodLib/Reanimation/ReanimationTypes.h"
 #include "../SexyAppFramework/Debug.h"
 #include "../SexyAppFramework/MTRand.h"
 #include "../Sexy.TodLib/TodParticle.h"
@@ -236,9 +237,9 @@ Challenge::Challenge()
 	if (mApp->mBoard && mApp->mGameMode == GAMEMODE_CHALLENGE_SLOT_MACHINE)
 	{
 		Rect aHandleRect = SlotMachineGetHandleRect();
-		ReanimatorEnsureDefinitionLoaded(REANIM_SLOT_MACHINE_HANDLE, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::SLOT_MACHINE_HANDLE, true);
 		Reanimation *aHandleReanim =
-			mApp->AddReanimation(aHandleRect.mX - 377, aHandleRect.mY - 20, 0, REANIM_SLOT_MACHINE_HANDLE);
+			mApp->AddReanimation(aHandleRect.mX - 377, aHandleRect.mY - 20, 0, ReanimationTypes::SLOT_MACHINE_HANDLE);
 		aHandleReanim->mIsAttachment = true;
 		aHandleReanim->mAnimRate = 0;
 		mReanimChallenge = mApp->ReanimationGetID(aHandleReanim);
@@ -4080,7 +4081,7 @@ void Challenge::ScaryPotterMalletPot(GridItem *theScaryPot)
 	mChallengeGridY = theScaryPot->mGridY;
 	int aXPos = mBoard->GridToPixelX(theScaryPot->mGridX, theScaryPot->mGridY);
 	int aYPos = mBoard->GridToPixelY(theScaryPot->mGridX, theScaryPot->mGridY);
-	Reanimation *aMalletReanim = mApp->AddReanimation(aXPos, aYPos, RENDER_LAYER_TOP, REANIM_HAMMER);
+	Reanimation *aMalletReanim = mApp->AddReanimation(aXPos, aYPos, RENDER_LAYER_TOP, ReanimationTypes::HAMMER);
 	aMalletReanim->PlayReanim("anim_open_pot", REANIM_PLAY_ONCE_AND_HOLD, 0, 40.0f);
 	mReanimChallenge = mApp->ReanimationGetID(aMalletReanim);
 	mChallengeState = STATECHALLENGE_SCARY_POTTER_MALLETING;
@@ -5124,21 +5125,21 @@ void Challenge::UpdateRain()
 	{
 		float aPosX = RandRangeFloat(40.0f, 740.0f);
 		float aPosY = RandRangeFloat(90.0f, 240.0f);
-		Reanimation *aSplashReanim = mApp->AddReanimation(aPosX, aPosY, RENDER_LAYER_GROUND, REANIM_RAIN_SPLASH);
+		Reanimation *aSplashReanim = mApp->AddReanimation(aPosX, aPosY, RENDER_LAYER_GROUND, ReanimationTypes::RAIN_SPLASH);
 		aSplashReanim->mColorOverride = Color(255, 255, 255, RandRangeInt(100, 200));
 		float aScale = RandRangeFloat(0.7f, 1.2f);
 		aSplashReanim->OverrideScale(aScale, aScale);
 
 		aPosX = RandRangeFloat(40.0f, 740.0f);
 		aPosY = RandRangeFloat(290.0f, 410.0f);
-		Reanimation *aCircleReanim = mApp->AddReanimation(aPosX, aPosY, RENDER_LAYER_GROUND, REANIM_RAIN_CIRCLE);
+		Reanimation *aCircleReanim = mApp->AddReanimation(aPosX, aPosY, RENDER_LAYER_GROUND, ReanimationTypes::RAIN_CIRCLE);
 		aSplashReanim->mColorOverride = Color(255, 255, 255, RandRangeInt(50, 150));
 		aScale = RandRangeFloat(0.7f, 1.1f);
 		aSplashReanim->OverrideScale(aScale, aScale);
 
 		aPosX = RandRangeFloat(40.0f, 740.0f);
 		aPosY = RandRangeFloat(450.0f, 580.0f);
-		Reanimation *aRainReanim = mApp->AddReanimation(aPosX, aPosY, RENDER_LAYER_GROUND, REANIM_RAIN_SPLASH);
+		Reanimation *aRainReanim = mApp->AddReanimation(aPosX, aPosY, RENDER_LAYER_GROUND, ReanimationTypes::RAIN_SPLASH);
 		aSplashReanim->mColorOverride = Color(255, 255, 255, RandRangeInt(100, 200));
 		aScale = RandRangeFloat(0.7f, 1.2f);
 		aSplashReanim->OverrideScale(aScale, aScale);
@@ -5320,8 +5321,8 @@ void Challenge::TreeOfWisdomDraw(Graphics *g)
 
 void Challenge::TreeOfWisdomInit()
 {
-	ReanimatorEnsureDefinitionLoaded(REANIM_TREEOFWISDOM, true);
-	Reanimation *aReanimTree = mApp->AddReanimation(0.5f, 0.5f, 0, REANIM_TREEOFWISDOM);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::TREE_OF_WISDOM, true);
+	Reanimation *aReanimTree = mApp->AddReanimation(0.5f, 0.5f, 0, ReanimationTypes::TREE_OF_WISDOM);
 	aReanimTree->mIsAttachment = true;
 	aReanimTree->AssignRenderGroupToPrefix("bg", 1);
 	aReanimTree->AssignRenderGroupToPrefix("tree", 2);
@@ -5347,7 +5348,7 @@ void Challenge::TreeOfWisdomInit()
 
 	for (int i = 0; i < 6; i++)
 	{
-		Reanimation *aReanimCloud = mApp->AddReanimation(0, 0, 0, REANIM_TREEOFWISDOM_CLOUDS);
+		Reanimation *aReanimCloud = mApp->AddReanimation(0, 0, 0, ReanimationTypes::TREE_OF_WISDOM_CLOUDS);
 		aReanimCloud->PlayReanim(StrFormat("Cloud%d", i + 1).c_str(), REANIM_PLAY_ONCE_AND_HOLD, 0, 0);
 		mReanimClouds[i] = mApp->ReanimationGetID(aReanimCloud);
 
@@ -5399,7 +5400,7 @@ void Challenge::TreeOfWisdomFertilize()
 	aTreeFood->mGridX = 0;
 	aTreeFood->mGridY = 0;
 	aTreeFood->mRenderOrder = Board::MakeRenderOrder(RENDER_LAYER_ABOVE_UI, 0, 0);
-	Reanimation *aReanim = mApp->AddReanimation(340.0f, 300.0f, 0, REANIM_TREEOFWISDOM_TREEFOOD);
+	Reanimation *aReanim = mApp->AddReanimation(340.0f, 300.0f, 0, ReanimationTypes::TREE_OF_WISDOM_TREE_FOOD);
 	aReanim->mLoopType = REANIM_PLAY_ONCE_AND_HOLD;
 	aTreeFood->mGridItemReanimID = mApp->ReanimationGetID(aReanim);
 	aTreeFood->mGridItemState = GRIDITEM_STATE_ZEN_TOOL_FERTILIZER;

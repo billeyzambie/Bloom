@@ -8,17 +8,19 @@
 #include "Projectile/ProjectileBehaviorType.h"
 #include "Projectile/ProjectileType.h"
 #include "Actor/PlantType.h"
+#include "../Sexy.TodLib/Reanimation/ReanimationType.h"
 
 namespace Registries
 {
-
+	
+BLOOM_GLOBAL Registry<ReanimationType> REANIMATIONS;
 BLOOM_GLOBAL Registry<StoreItemType> STORE_ITEMS;
 BLOOM_GLOBAL Registry<StoreItemGroup> STORE_ITEM_GROUPS;
 BLOOM_GLOBAL Registry<ProjectileBehaviorType> PROJECTILE_BEHAVIORS;
 BLOOM_GLOBAL Registry<ProjectileType> PROJECTILES;
 BLOOM_GLOBAL Registry<PlantType> PLANTS;
 
-constexpr int NUM_REGISTRIES = 5;
+constexpr int NUM_REGISTRIES = 6;
 
 extern BLOOM_API const std::array<IRegistry *, NUM_REGISTRIES> REGISTRIES;
 

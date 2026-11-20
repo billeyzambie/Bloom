@@ -11,6 +11,7 @@
 #include "System/Damage.h"
 #include "../Sexy.TodLib/TodFoley.h"
 #include "../Sexy.TodLib/Reanimation/Reanimator.h"
+#include "../Sexy.TodLib/Reanimation/ReanimationTypes.h"
 #include "../Sexy.TodLib/TodParticle.h"
 #include "../SexyAppFramework/WidgetManager.h"
 
@@ -365,8 +366,8 @@ void GridItem::DrawScaryPot(Graphics *g)
 		{
 			int aSuns = mBoard->mChallenge->ScaryPotterCountSunInPot(this);
 
-			Reanimation aReanim;
-			aReanim.ReanimationInitializeType(0.0f, 0.0f, OldReanimationType::REANIM_SUN);
+			Reanimation aReanim(ReanimationTypes::SUN);
+			aReanim.ReanimationInitializeType(0.0f, 0.0f);
 			aReanim.OverrideScale(0.5f, 0.5f);
 
 			for (int i = 0; i < aSuns; i++)
@@ -475,14 +476,14 @@ void GridItem::OpenPortal()
 	Reanimation *aPortalReanim = mApp->ReanimationTryToGet(mGridItemReanimID);
 	if (aPortalReanim == nullptr)
 	{
-		OldReanimationType aReanimType = OldReanimationType::REANIM_PORTAL_CIRCLE;
+		const ReanimationType *aReanimType = ReanimationTypes::PORTAL_CIRCLE;
 		if (mGridItemType == GridItemType::GRIDITEM_PORTAL_SQUARE)
 		{
 			aYPos += 25.0f;
 			aXPos -= 4.0f;
-			aReanimType = OldReanimationType::REANIM_PORTAL_SQUARE;
+			aReanimType = ReanimationTypes::PORTAL_SQUARE;
 		}
-		aPortalReanim = mApp->AddReanimation(aXPos, aYPos, 0, aReanimType);
+		aPortalReanim = mApp->AddReanimation(aXPos, aYPos, 0, *aReanimType);
 		aPortalReanim->mIsAttachment = true;
 		mGridItemReanimID = mApp->ReanimationGetID(aPortalReanim);
 	}

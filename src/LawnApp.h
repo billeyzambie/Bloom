@@ -24,6 +24,7 @@ class PottedPlant;
 class EffectSystem;
 class TodParticleSystem;
 class Reanimation;
+class ReanimationType;
 class ReanimatorCache;
 class ProfileMgr;
 class PlayerInfo;
@@ -536,9 +537,9 @@ class BLOOM_API LawnApp : public SexyApp
 	/// @param theX The X coordinate of the reanimation
 	/// @param theY The Y coordinate of the reanimation
 	/// @param theRenderOrder The render order of the Reanimation
-	/// @param theReanimationType The Reanimation to create (see ReanimationType enum)
+	/// @param theReanimationType The Reanimation to create
 	/// @return The created Reanimation
-	Reanimation *AddReanimation(float theX, float theY, int theRenderOrder, OldReanimationType theReanimationType);
+	Reanimation *AddReanimation(float theX, float theY, int theRenderOrder, const ReanimationType &theReanimationType);
 
 	/// @brief Add a new ParticleSystem to the EffectSystem
 	/// @param theX The X coordinate of the ParticleSystem

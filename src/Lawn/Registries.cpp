@@ -4,6 +4,7 @@ namespace Registries
 {
 
 const std::array<IRegistry *, NUM_REGISTRIES> REGISTRIES = {
+	&REANIMATIONS,
 	&STORE_ITEM_GROUPS,
 	&STORE_ITEMS,
 	&PROJECTILE_BEHAVIORS,

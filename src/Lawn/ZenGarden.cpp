@@ -13,6 +13,7 @@
 #include "System/ReanimationLawn.h"
 #include "../Sexy.TodLib/TodFoley.h"
 #include "../Sexy.TodLib/Reanimation/Reanimator.h"
+#include "../Sexy.TodLib/Reanimation/ReanimationTypes.h"
 #include "../Sexy.TodLib/Attachment.h"
 #include "../Sexy.TodLib/TodParticle.h"
 #include "../Sexy.TodLib/EffectSystem.h"
@@ -916,7 +917,7 @@ void ZenGarden::MouseDownWithFeedingTool(int x, int y, CursorType theCursorType)
 				aZenTool->mPosX = x;
 				aZenTool->mPosY = y;
 				Reanimation *aWateringCanReanim =
-					mApp->AddReanimation(x, y, 0, OldReanimationType::REANIM_ZENGARDEN_WATERINGCAN);
+					mApp->AddReanimation(x, y, 0, ReanimationTypes::ZEN_GARDEN_WATERING_CAN);
 				aWateringCanReanim->PlayReanim("anim_water_area", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 0, 8.0f);
 				aZenTool->mGridItemReanimID = mApp->ReanimationGetID(aWateringCanReanim);
 				aZenTool->mGridItemState = GridItemState::GRIDITEM_STATE_ZEN_TOOL_GOLD_WATERING_CAN;
@@ -925,7 +926,7 @@ void ZenGarden::MouseDownWithFeedingTool(int x, int y, CursorType theCursorType)
 			else
 			{
 				Reanimation *aWateringCanReanim = mApp->AddReanimation(
-					aPlantToFeed->mX + 32, aPlantToFeed->mY, 0, OldReanimationType::REANIM_ZENGARDEN_WATERINGCAN);
+					aPlantToFeed->mX + 32, aPlantToFeed->mY, 0, ReanimationTypes::ZEN_GARDEN_WATERING_CAN);
 				aWateringCanReanim->PlayReanim("anim_water", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 0, 0.0f);
 				aZenTool->mGridItemReanimID = mApp->ReanimationGetID(aWateringCanReanim);
 				aZenTool->mGridItemState = GridItemState::GRIDITEM_STATE_ZEN_TOOL_GOLD_WATERING_CAN;
@@ -935,7 +936,7 @@ void ZenGarden::MouseDownWithFeedingTool(int x, int y, CursorType theCursorType)
 		else if (theCursorType == CursorType::CURSOR_TYPE_FERTILIZER)
 		{
 			Reanimation *aFertilizerReanim = mApp->AddReanimation(
-				aPlantToFeed->mX, aPlantToFeed->mY, 0, OldReanimationType::REANIM_ZENGARDEN_FERTILIZER);
+				aPlantToFeed->mX, aPlantToFeed->mY, 0, ReanimationTypes::ZEN_GARDEN_FERTILIZER);
 			aFertilizerReanim->mLoopType = ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD;
 			aZenTool->mGridItemReanimID = mApp->ReanimationGetID(aFertilizerReanim);
 			aZenTool->mGridItemState = GridItemState::GRIDITEM_STATE_ZEN_TOOL_FERTILIZER;
@@ -947,7 +948,7 @@ void ZenGarden::MouseDownWithFeedingTool(int x, int y, CursorType theCursorType)
 		else if (theCursorType == CursorType::CURSOR_TYPE_BUG_SPRAY)
 		{
 			Reanimation *aBugSprayReanim = mApp->AddReanimation(
-				aPlantToFeed->mX + 54, aPlantToFeed->mY, 0, OldReanimationType::REANIM_ZENGARDEN_BUGSPRAY);
+				aPlantToFeed->mX + 54, aPlantToFeed->mY, 0, ReanimationTypes::ZEN_GARDEN_BUG_SPRAY);
 			aBugSprayReanim->mLoopType = ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD;
 			aZenTool->mGridItemReanimID = mApp->ReanimationGetID(aBugSprayReanim);
 			aZenTool->mGridItemState = GridItemState::GRIDITEM_STATE_ZEN_TOOL_BUG_SPRAY;
@@ -959,7 +960,7 @@ void ZenGarden::MouseDownWithFeedingTool(int x, int y, CursorType theCursorType)
 		else if (theCursorType == CursorType::CURSOR_TYPE_PHONOGRAPH)
 		{
 			Reanimation *aPhonographReanim = mApp->AddReanimation(
-				aPlantToFeed->mX + 20, aPlantToFeed->mY + 34, 0, OldReanimationType::REANIM_ZENGARDEN_PHONOGRAPH);
+				aPlantToFeed->mX + 20, aPlantToFeed->mY + 34, 0, ReanimationTypes::ZEN_GARDEN_PHONOGRAPH);
 			aPhonographReanim->mAnimRate = 20.0f;
 			aPhonographReanim->mLoopType = ReanimLoopType::REANIM_LOOP;
 			aZenTool->mGridItemReanimID = mApp->ReanimationGetID(aPhonographReanim);
@@ -1281,7 +1282,7 @@ void ZenGarden::AddStinky()
 	aStinky->mGoalX = aStinky->mPosX;
 	aStinky->mGoalY = aStinky->mPosY;
 	Reanimation *aReanimStinky =
-		mApp->AddReanimation(aStinky->mPosX, aStinky->mPosY, 0, OldReanimationType::REANIM_STINKY);
+		mApp->AddReanimation(aStinky->mPosX, aStinky->mPosY, 0, ReanimationTypes::STINKY);
 	aReanimStinky->OverrideScale(0.8f, 0.8f);
 	aStinky->mGridItemReanimID = mApp->ReanimationGetID(aReanimStinky);
 
@@ -1433,7 +1434,7 @@ void ZenGarden::StinkyFinishFallingAsleep(GridItem *theStinky, int theBlendTime)
 	aStinkyReanim->PlayReanim("anim_out", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, theBlendTime, 0.0f);
 	aStinkyReanim->mAnimRate = 0.0f;
 
-	Reanimation *aSleepingReanim = mApp->AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_SLEEPING);
+	Reanimation *aSleepingReanim = mApp->AddReanimation(0.0f, 0.0f, 0, ReanimationTypes::SLEEPING);
 	aSleepingReanim->mAnimRate = 3.0f;
 	aSleepingReanim->mLoopType = ReanimLoopType::REANIM_LOOP;
 	AttachReanim(aStinkyReanim->GetTrackInstanceByName("shell")->mAttachmentID, aSleepingReanim, 34.0f, 39.0f);

@@ -49,7 +49,7 @@ class ReanimatorCache
 	void DrawReanimatorFrame(Graphics *g,
 							 float thePosX,
 							 float thePosY,
-							 OldReanimationType theReanimationType,
+							 const ReanimationType &theReanimationType,
 							 const char *theTrackName,
 							 DrawVariation theDrawVariation);
 	void UpdateReanimationForVariation(Reanimation *theReanim, DrawVariation theDrawVariation);

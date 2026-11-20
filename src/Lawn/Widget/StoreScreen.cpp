@@ -16,6 +16,7 @@
 #include "../../Sexy.TodLib/TodFoley.h"
 #include "../../Sexy.TodLib/TodCommon.h"
 #include "../../Sexy.TodLib/Reanimation/Reanimator.h"
+#include "../../Sexy.TodLib/Reanimation/ReanimationTypes.h"
 #include "../../SexyAppFramework/Debug.h"
 #include "../../Sexy.TodLib/TodStringFile.h"
 #include "../../SexyAppFramework/ImageFont.h"
@@ -496,8 +497,8 @@ void StoreScreen::UpdateMouse()
 
 void StoreScreen::StorePreload()
 {
-	ReanimatorEnsureDefinitionLoaded(REANIM_CRAZY_DAVE, true);
-	ReanimatorEnsureDefinitionLoaded(REANIM_ZENGARDEN_FERTILIZER, true);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::CRAZY_DAVE, true);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::ZEN_GARDEN_FERTILIZER, true);
 	mApp->CrazyDaveEnter();
 
 	Plant::PreloadPlantResources(SeedType::SEED_GARLIC);

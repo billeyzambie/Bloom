@@ -1,6 +1,7 @@
 #include "PlantTypes.h"
 #include "Plant.h"
 #include "../Registries.h"
+#include "../../Sexy.TodLib/Reanimation/ReanimationTypes.h"
 
 namespace PlantTypes
 {
@@ -12,7 +13,7 @@ const auto &PEASHOOTER = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_PEASHOOTER;
+		theType.mBaseReanim = ReanimationTypes::PEASHOOTER;
 		theType.mSunCost = 100;
 		theType.mRefreshTime = 750;
 	}
@@ -25,7 +26,7 @@ const auto &SUNFLOWER = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_SUNFLOWER;
+		theType.mBaseReanim = ReanimationTypes::SUNFLOWER;
 		theType.mSunCost = 50;
 		theType.mRefreshTime = 750;
 	}
@@ -37,7 +38,7 @@ const auto &CHERRY_BOMB = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_CHERRYBOMB;
+		theType.mBaseReanim = ReanimationTypes::CHERRY_BOMB;
 		theType.mSunCost = 150;
 		theType.mRefreshTime = 5000;
 	}
@@ -49,7 +50,7 @@ const auto &WALL_NUT = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_WALLNUT;
+		theType.mBaseReanim = ReanimationTypes::WALL_NUT;
 		theType.mSunCost = 50;
 		theType.mRefreshTime = 3000;
 	}
@@ -61,7 +62,7 @@ const auto &POTATO_MINE = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_POTATOMINE;
+		theType.mBaseReanim = ReanimationTypes::POTATO_MINE;
 		theType.mSunCost = 25;
 		theType.mRefreshTime = 3000;
 	}
@@ -74,7 +75,7 @@ const auto &SNOW_PEA = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_SNOWPEA;
+		theType.mBaseReanim = ReanimationTypes::SNOW_PEA;
 		theType.mSunCost = 175;
 		theType.mRefreshTime = 750;
 	}
@@ -86,7 +87,7 @@ const auto &CHOMPER = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_CHOMPER;
+		theType.mBaseReanim = ReanimationTypes::CHOMPER;
 		theType.mSunCost = 150;
 		theType.mRefreshTime = 750;
 	}
@@ -99,7 +100,7 @@ const auto &REPEATER = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_REPEATER;
+		theType.mBaseReanim = ReanimationTypes::REPEATER;
 		theType.mSunCost = 200;
 		theType.mRefreshTime = 750;
 	}
@@ -112,7 +113,7 @@ const auto &PUFF_SHROOM = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_PUFFSHROOM;
+		theType.mBaseReanim = ReanimationTypes::PUFF_SHROOM;
 		theType.mSunCost = 0;
 		theType.mRefreshTime = 750;
 	}
@@ -125,7 +126,7 @@ const auto &SUN_SHROOM = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_SUNSHROOM;
+		theType.mBaseReanim = ReanimationTypes::SUN_SHROOM;
 		theType.mSunCost = 25;
 		theType.mRefreshTime = 750;
 	}
@@ -138,7 +139,7 @@ const auto &FUME_SHROOM = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_FUMESHROOM;
+		theType.mBaseReanim = ReanimationTypes::FUME_SHROOM;
 		theType.mSunCost = 75;
 		theType.mRefreshTime = 750;
 	}
@@ -150,7 +151,7 @@ const auto &GRAVE_BUSTER = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_FUMESHROOM;
+		theType.mBaseReanim = ReanimationTypes::FUME_SHROOM;
 		theType.mSunCost = 75;
 		theType.mRefreshTime = 750;
 	}
@@ -162,7 +163,7 @@ const auto &HYPNO_SHROOM = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_HYPNOSHROOM;
+		theType.mBaseReanim = ReanimationTypes::HYPNO_SHROOM;
 		theType.mSunCost = 75;
 		theType.mRefreshTime = 3000;
 	}
@@ -175,7 +176,7 @@ const auto &SCAREDY_SHROOM = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_SCRAREYSHROOM;
+		theType.mBaseReanim = ReanimationTypes::SCAREDY_SHROOM;
 		theType.mSunCost = 25;
 		theType.mRefreshTime = 750;
 	}
@@ -187,7 +188,7 @@ const auto &ICE_SHROOM = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_ICESHROOM;
+		theType.mBaseReanim = ReanimationTypes::ICE_SHROOM;
 		theType.mSunCost = 75;
 		theType.mRefreshTime = 5000;
 	}
@@ -199,7 +200,7 @@ const auto &DOOM_SHROOM = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_DOOMSHROOM;
+		theType.mBaseReanim = ReanimationTypes::DOOM_SHROOM;
 		theType.mSunCost = 125;
 		theType.mRefreshTime = 5000;
 	}
@@ -211,7 +212,7 @@ const auto &LILY_PAD = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_LILYPAD;
+		theType.mBaseReanim = ReanimationTypes::LILY_PAD;
 		theType.mSunCost = 25;
 		theType.mRefreshTime = 750;
 	}
@@ -223,7 +224,7 @@ const auto &SQUASH = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_SQUASH;
+		theType.mBaseReanim = ReanimationTypes::SQUASH;
 		theType.mSunCost = 50;
 		theType.mRefreshTime = 3000;
 	}
@@ -236,7 +237,7 @@ const auto &THREEPEATER = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_THREEPEATER;
+		theType.mBaseReanim = ReanimationTypes::THREEPEATER;
 		theType.mSunCost = 125;
 		theType.mRefreshTime = 750;
 	}
@@ -248,7 +249,7 @@ const auto &TANGLE_KELP = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_TANGLEKELP;
+		theType.mBaseReanim = ReanimationTypes::TANGLE_KELP;
 		theType.mSunCost = 25;
 		theType.mRefreshTime = 3000;
 	}
@@ -260,7 +261,7 @@ const auto &JALAPENO = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_JALAPENO;
+		theType.mBaseReanim = ReanimationTypes::JALAPENO;
 		theType.mSunCost = 125;
 		theType.mRefreshTime = 5000;
 	}
@@ -272,7 +273,7 @@ const auto &SPIKEWEED = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_SPIKEWEED;
+		theType.mBaseReanim = ReanimationTypes::SPIKEWEED;
 		theType.mSunCost = 100;
 		theType.mRefreshTime = 750;
 	}
@@ -284,7 +285,7 @@ const auto &TORCHWOOD = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_TORCHWOOD;
+		theType.mBaseReanim = ReanimationTypes::TORCHWOOD;
 		theType.mSunCost = 175;
 		theType.mRefreshTime = 750;
 	}
@@ -296,7 +297,7 @@ const auto &TALL_NUT = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_TALLNUT;
+		theType.mBaseReanim = ReanimationTypes::TALL_NUT;
 		theType.mSunCost = 125;
 		theType.mRefreshTime = 3000;
 	}
@@ -309,7 +310,7 @@ const auto &SEA_SHROOM = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_SEASHROOM;
+		theType.mBaseReanim = ReanimationTypes::SEA_SHROOM;
 		theType.mSunCost = 0;
 		theType.mRefreshTime = 3000;
 	}
@@ -322,7 +323,7 @@ const auto &PLANTERN = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_PLANTERN;
+		theType.mBaseReanim = ReanimationTypes::PLANTERN;
 		theType.mSunCost = 25;
 		theType.mRefreshTime = 3000;
 	}
@@ -335,7 +336,7 @@ const auto &CACTUS = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_CACTUS;
+		theType.mBaseReanim = ReanimationTypes::CACTUS;
 		theType.mSunCost = 125;
 		theType.mRefreshTime = 750;
 	}
@@ -347,7 +348,7 @@ const auto &BLOVER = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_BLOVER;
+		theType.mBaseReanim = ReanimationTypes::BLOVER;
 		theType.mSunCost = 100;
 		theType.mRefreshTime = 750;
 	}
@@ -360,7 +361,7 @@ const auto &SPLIT_PEA = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_SPLITPEA;
+		theType.mBaseReanim = ReanimationTypes::SPLIT_PEA;
 		theType.mSunCost = 125;
 		theType.mRefreshTime = 750;
 	}
@@ -373,7 +374,7 @@ const auto &STARFRUIT = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_STARFRUIT;
+		theType.mBaseReanim = ReanimationTypes::STARFRUIT;
 		theType.mSunCost = 125;
 		theType.mRefreshTime = 750;
 	}
@@ -385,7 +386,7 @@ const auto &PUMPKIN = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_PUMPKIN;
+		theType.mBaseReanim = ReanimationTypes::PUMPKIN;
 		theType.mSunCost = 125;
 		theType.mRefreshTime = 3000;
 	}
@@ -397,7 +398,7 @@ const auto &MAGNET_SHROOM = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_MAGNETSHROOM;
+		theType.mBaseReanim = ReanimationTypes::MAGNET_SHROOM;
 		theType.mSunCost = 100;
 		theType.mRefreshTime = 750;
 	}
@@ -410,7 +411,7 @@ const auto &CABBAGE_PULT = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_CABBAGEPULT;
+		theType.mBaseReanim = ReanimationTypes::CABBAGE_PULT;
 		theType.mSunCost = 100;
 		theType.mRefreshTime = 750;
 	}
@@ -422,7 +423,7 @@ const auto &FLOWER_POT = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_FLOWER_POT;
+		theType.mBaseReanim = ReanimationTypes::FLOWER_POT;
 		theType.mSunCost = 25;
 		theType.mRefreshTime = 750;
 	}
@@ -435,7 +436,7 @@ const auto &KERNEL_PULT = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_KERNELPULT;
+		theType.mBaseReanim = ReanimationTypes::KERNEL_PULT;
 		theType.mSunCost = 100;
 		theType.mRefreshTime = 750;
 	}
@@ -448,7 +449,7 @@ const auto &COFFEE_BEAN = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_COFFEEBEAN;
+		theType.mBaseReanim = ReanimationTypes::COFFEE_BEAN;
 		theType.mSunCost = 75;
 		theType.mRefreshTime = 750;
 	}
@@ -460,7 +461,7 @@ const auto &GARLIC = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_GARLIC;
+		theType.mBaseReanim = ReanimationTypes::GARLIC;
 		theType.mSunCost = 50;
 		theType.mRefreshTime = 750;
 	}
@@ -472,7 +473,7 @@ const auto &UMBRELLA_LEAF = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_UMBRELLALEAF;
+		theType.mBaseReanim = ReanimationTypes::UMBRELLA_LEAF;
 		theType.mSunCost = 100;
 		theType.mRefreshTime = 750;
 	}
@@ -485,7 +486,7 @@ const auto &MARIGOLD = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_MARIGOLD;
+		theType.mBaseReanim = ReanimationTypes::MARIGOLD;
 		theType.mSunCost = 50;
 		theType.mRefreshTime = 3000;
 	}
@@ -498,7 +499,7 @@ const auto &MELON_PULT = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_MELONPULT;
+		theType.mBaseReanim = ReanimationTypes::MELON_PULT;
 		theType.mSunCost = 300;
 		theType.mRefreshTime = 750;
 	}
@@ -511,7 +512,7 @@ const auto &GATLING_PEA = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_GATLINGPEA;
+		theType.mBaseReanim = ReanimationTypes::GATLING_PEA;
 		theType.mSunCost = 250;
 		theType.mRefreshTime = 5000;
 	}
@@ -524,7 +525,7 @@ const auto &TWIN_SUNFLOWER = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_TWIN_SUNFLOWER;
+		theType.mBaseReanim = ReanimationTypes::TWIN_SUNFLOWER;
 		theType.mSunCost = 150;
 		theType.mRefreshTime = 5000;
 	}
@@ -537,7 +538,7 @@ const auto &GLOOM_SHROOM = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_TWIN_SUNFLOWER;
+		theType.mBaseReanim = ReanimationTypes::TWIN_SUNFLOWER;
 		theType.mSunCost = 150;
 		theType.mRefreshTime = 5000;
 	}
@@ -550,7 +551,7 @@ const auto &CATTAIL = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_TWIN_SUNFLOWER;
+		theType.mBaseReanim = ReanimationTypes::TWIN_SUNFLOWER;
 		theType.mSunCost = 225;
 		theType.mRefreshTime = 5000;
 	}
@@ -563,7 +564,7 @@ const auto &WINTER_MELON =  RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_WINTER_MELON;
+		theType.mBaseReanim = ReanimationTypes::WINTER_MELON;
 		theType.mSunCost = 200;
 		theType.mRefreshTime = 5000;
 	}
@@ -575,7 +576,7 @@ const auto &GOLD_MAGNET = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_GOLD_MAGNET;
+		theType.mBaseReanim = ReanimationTypes::GOLD_MAGNET;
 		theType.mSunCost = 50;
 		theType.mRefreshTime = 5000;
 	}
@@ -587,7 +588,7 @@ const auto &SPIKEROCK = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_SPIKEROCK;
+		theType.mBaseReanim = ReanimationTypes::SPIKEROCK;
 		theType.mSunCost = 125;
 		theType.mRefreshTime = 5000;
 	}
@@ -600,7 +601,7 @@ const auto &COB_CANNON = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_COBCANNON;
+		theType.mBaseReanim = ReanimationTypes::COB_CANNON;
 		theType.mSunCost = 500;
 		theType.mRefreshTime = 5000;
 	}
@@ -612,7 +613,7 @@ const auto &IMITATER = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_IMITATER;
+		theType.mBaseReanim = ReanimationTypes::IMITATER;
 		theType.mSunCost = 0;
 		theType.mRefreshTime = 750;
 	}
@@ -624,7 +625,7 @@ const auto &EXPLODE_O_NUT = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_WALLNUT;
+		theType.mBaseReanim = ReanimationTypes::WALL_NUT;
 		theType.mSunCost = 0;
 		theType.mRefreshTime = 3000;
 	}
@@ -636,7 +637,7 @@ const auto &GIANT_WALL_NUT = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_WALLNUT;
+		theType.mBaseReanim = ReanimationTypes::WALL_NUT;
 		theType.mSunCost = 0;
 		theType.mRefreshTime = 3000;
 	}
@@ -648,7 +649,7 @@ const auto &SPROUT = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_ZENGARDEN_SPROUT;
+		theType.mBaseReanim = ReanimationTypes::ZEN_GARDEN_SPROUT;
 		theType.mSunCost = 0;
 		theType.mRefreshTime = 3000;
 	}
@@ -661,7 +662,7 @@ const auto &LEFTPEATER = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_REPEATER;
+		theType.mBaseReanim = ReanimationTypes::REPEATER;
 		theType.mSunCost = 200;
 		theType.mRefreshTime = 750;
 	}
@@ -673,7 +674,7 @@ const auto &CUSTOM_TEST = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = OldReanimationType::REANIM_SNOWPEA;
+		theType.mBaseReanim = ReanimationTypes::SNOW_PEA;
 		theType.mSunCost = 150;
 		theType.mRefreshTime = 750;
 	}

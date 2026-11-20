@@ -9,13 +9,15 @@ class LawnApp;
 class BLOOM_API ReanimationType final : public BloomType
 {
   public:
-	static constexpr size_t INSTANCE_MAX_SIZE = 368;
+	static constexpr size_t INSTANCE_MAX_SIZE = -1;
 	struct Attributes
 	{
 	};
 	PatchHolder<ReanimationType> *mPatchHolder = nullptr;
 	Attributes mAttributeBaseValues;
 	Attributes mAttributes;
+	ResourcePath mFile;
+	bool mNoAtlas = false;
 	ReanimationType(
 		const std::string &theModName,
 		const std::string &theTypeName,

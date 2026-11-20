@@ -6,6 +6,7 @@
 #include "GridItem.h"
 #include "LawnMower.h"
 #include "Challenge.h"
+#include "Registries.h"
 #include "Projectile/Projectile.h"
 #include "Projectile/ProjectileTypes.h"
 #include "../LawnApp.h"
@@ -20,6 +21,7 @@
 #include "../Sexy.TodLib/TodDebug.h"
 #include "../Sexy.TodLib/TodCommon.h"
 #include "../Sexy.TodLib/Reanimation/Reanimator.h"
+#include "../Sexy.TodLib/Reanimation/ReanimationTypes.h"
 #include "../Sexy.TodLib/Attachment.h"
 #include "../Sexy.TodLib/TodParticle.h"
 #include "../BloomLib/Event.h"
@@ -80,6 +82,11 @@ ZombieDefinition &GetZombieDefinition(ZombieType theZombieType)
 	TOD_ASSERT(gZombieDefs[theZombieType].mZombieType == theZombieType);
 
 	return gZombieDefs[theZombieType];
+}
+
+const ReanimationType &ZombieDefinition::GetReanimationType() const
+{
+	return Registries::REANIMATIONS.GetByNumericalId(mOldReanimationType);
 }
 
 Zombie::Zombie() : GameObject(GameObjectType::OBJECT_TYPE_ZOMBIE)
@@ -182,10 +189,7 @@ void Zombie::ZombieInitialize(int theRow, ZombieType theType, bool theVariant, Z
 	const ZombieDefinition &aZombieDef = GetZombieDefinition(mZombieType);
 	RenderLayer aRenderLayer = RenderLayer::RENDER_LAYER_ZOMBIE;
 	int aRenderOffset = 4;
-	if (aZombieDef.mReanimationType != OldReanimationType::REANIM_NONE)
-	{
-		LoadReanim(aZombieDef.mReanimationType);
-	}
+	LoadReanim(aZombieDef.GetReanimationType());
 
 	switch (theType)
 	{
@@ -527,7 +531,7 @@ void Zombie::ZombieInitialize(int theRow, ZombieType theType, bool theVariant, Z
 		LoadPlainZombieReanim();
 
 		Reanimation *aBodyReanim = mApp->ReanimationGet(mBodyReanimID);
-		Reanimation *aFlagReanim = mApp->AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_FLAG);
+		Reanimation *aFlagReanim = mApp->AddReanimation(0.0f, 0.0f, 0, ReanimationTypes::FLAG);
 		aFlagReanim->PlayReanim("Zombie_flag", ReanimLoopType::REANIM_LOOP, 0, 15.0f);
 		mSpecialHeadReanimID = mApp->ReanimationGetID(aFlagReanim);
 		ReanimatorTrackInstance *aTrackInstance = aBodyReanim->GetTrackInstanceByName("Zombie_flaghand");
@@ -581,7 +585,7 @@ void Zombie::ZombieInitialize(int theRow, ZombieType theType, bool theVariant, Z
 			SetAnimRate(aAnimRate);
 		}
 
-		Reanimation *aPropellerReanim = mApp->AddReanimation(0.0f, 0.0f, 0, aZombieDef.mReanimationType);
+		Reanimation *aPropellerReanim = mApp->AddReanimation(0.0f, 0.0f, 0, aZombieDef.GetReanimationType());
 		aPropellerReanim->SetFramesForLayer("Propeller");
 		aPropellerReanim->mLoopType = ReanimLoopType::REANIM_LOOP_FULL_LAST_FRAME;
 		aPropellerReanim->AttachToAnotherReanimation(aBodyReanim, "hat");
@@ -667,7 +671,7 @@ void Zombie::ZombieInitialize(int theRow, ZombieType theType, bool theVariant, Z
 
 		ReanimatorTrackInstance *aTrackInstance = aBodyReanim->GetTrackInstanceByName("anim_head1");
 		aTrackInstance->mImageOverride = IMAGE_BLANK;
-		Reanimation *aHeadReanim = mApp->AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_PEASHOOTER);
+		Reanimation *aHeadReanim = mApp->AddReanimation(0.0f, 0.0f, 0, ReanimationTypes::PEASHOOTER);
 		aHeadReanim->PlayReanim("anim_head_idle", ReanimLoopType::REANIM_LOOP, 0, 15.0f);
 		mSpecialHeadReanimID = mApp->ReanimationGetID(aHeadReanim);
 		AttachEffect *aAttachEffect = AttachReanim(aTrackInstance->mAttachmentID, aHeadReanim, 0.0f, 0.0f);
@@ -688,7 +692,7 @@ void Zombie::ZombieInitialize(int theRow, ZombieType theType, bool theVariant, Z
 
 		Reanimation *aBodyReanim = mApp->ReanimationGet(mBodyReanimID);
 		ReanimatorTrackInstance *aTrackInstance = aBodyReanim->GetTrackInstanceByName("Zombie_body");
-		Reanimation *aHeadReanim = mApp->AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_WALLNUT);
+		Reanimation *aHeadReanim = mApp->AddReanimation(0.0f, 0.0f, 0, ReanimationTypes::WALL_NUT);
 		aHeadReanim->PlayReanim("anim_idle", ReanimLoopType::REANIM_LOOP, 0, 15.0f);
 		mSpecialHeadReanimID = mApp->ReanimationGetID(aHeadReanim);
 		AttachEffect *aAttachEffect = AttachReanim(aTrackInstance->mAttachmentID, aHeadReanim, 0.0f, 0.0f);
@@ -710,7 +714,7 @@ void Zombie::ZombieInitialize(int theRow, ZombieType theType, bool theVariant, Z
 
 		Reanimation *aBodyReanim = mApp->ReanimationGet(mBodyReanimID);
 		ReanimatorTrackInstance *aTrackInstance = aBodyReanim->GetTrackInstanceByName("Zombie_body");
-		Reanimation *aHeadReanim = mApp->AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_TALLNUT);
+		Reanimation *aHeadReanim = mApp->AddReanimation(0.0f, 0.0f, 0, ReanimationTypes::TALL_NUT);
 		aHeadReanim->PlayReanim("anim_idle", ReanimLoopType::REANIM_LOOP, 0, 15.0f);
 		mSpecialHeadReanimID = mApp->ReanimationGetID(aHeadReanim);
 		AttachEffect *aAttachEffect = AttachReanim(aTrackInstance->mAttachmentID, aHeadReanim, 0.0f, 0.0f);
@@ -733,7 +737,7 @@ void Zombie::ZombieInitialize(int theRow, ZombieType theType, bool theVariant, Z
 
 		Reanimation *aBodyReanim = mApp->ReanimationGet(mBodyReanimID);
 		ReanimatorTrackInstance *aTrackInstance = aBodyReanim->GetTrackInstanceByName("Zombie_body");
-		Reanimation *aHeadReanim = mApp->AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_JALAPENO);
+		Reanimation *aHeadReanim = mApp->AddReanimation(0.0f, 0.0f, 0, ReanimationTypes::JALAPENO);
 		aHeadReanim->PlayReanim("anim_idle", ReanimLoopType::REANIM_LOOP, 0, 15.0f);
 		mSpecialHeadReanimID = mApp->ReanimationGetID(aHeadReanim);
 		AttachEffect *aAttachEffect = AttachReanim(aTrackInstance->mAttachmentID, aHeadReanim, 0.0f, 0.0f);
@@ -761,7 +765,7 @@ void Zombie::ZombieInitialize(int theRow, ZombieType theType, bool theVariant, Z
 
 		ReanimatorTrackInstance *aTrackInstance = aBodyReanim->GetTrackInstanceByName("anim_head1");
 		aTrackInstance->mImageOverride = IMAGE_BLANK;
-		Reanimation *aHeadReanim = mApp->AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_GATLINGPEA);
+		Reanimation *aHeadReanim = mApp->AddReanimation(0.0f, 0.0f, 0, ReanimationTypes::GATLING_PEA);
 		aHeadReanim->PlayReanim("anim_head_idle", ReanimLoopType::REANIM_LOOP, 0, 15.0f);
 		mSpecialHeadReanimID = mApp->ReanimationGetID(aHeadReanim);
 		AttachEffect *aAttachEffect = AttachReanim(aTrackInstance->mAttachmentID, aHeadReanim, 0.0f, 0.0f);
@@ -787,7 +791,7 @@ void Zombie::ZombieInitialize(int theRow, ZombieType theType, bool theVariant, Z
 
 		ReanimatorTrackInstance *aTrackInstance = aBodyReanim->GetTrackInstanceByName("anim_head1");
 		aTrackInstance->mImageOverride = IMAGE_BLANK;
-		Reanimation *aHeadReanim = mApp->AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_SQUASH);
+		Reanimation *aHeadReanim = mApp->AddReanimation(0.0f, 0.0f, 0, ReanimationTypes::SQUASH);
 		aHeadReanim->PlayReanim("anim_idle", ReanimLoopType::REANIM_LOOP, 0, 15.0f);
 		mSpecialHeadReanimID = mApp->ReanimationGetID(aHeadReanim);
 		AttachEffect *aAttachEffect = AttachReanim(aTrackInstance->mAttachmentID, aHeadReanim, 0.0f, 0.0f);
@@ -988,7 +992,7 @@ void Zombie::SetupZombatar()
 	aTrackInstance->mImageOverride = IMAGE_BLANK;
 	aBodyReanim->AssignRenderGroupToPrefix("anim_head1", RENDER_GROUP_ZOMBATAR_COSMETICS);
 
-	Reanimation *aHeadReanim = mApp->AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_ZOMBATAR_HEAD);
+	Reanimation *aHeadReanim = mApp->AddReanimation(0.0f, 0.0f, 0, ReanimationTypes::ZOMBATAR_HEAD);
 	aHeadReanim->PlayReanim("anim_head1", ReanimLoopType::REANIM_LOOP, 0, 15.0f);
 
 	AttachEffect *aAttachEffect = AttachReanim(aTrackInstance->mAttachmentID, aHeadReanim, 0.0f, 0.0f);
@@ -1009,7 +1013,7 @@ void Zombie::SetupZombatar()
 
 	#define CREATE_REANIM(id_holder) \
 	{ \
-		Reanimation *aItemReanim = mApp->AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_ZOMBATAR_HEAD); \
+		Reanimation *aItemReanim = mApp->AddReanimation(0.0f, 0.0f, 0, ReanimationTypes::ZOMBATAR_HEAD); \
 		aItemReanim->PlayReanim("anim_head1", ReanimLoopType::REANIM_LOOP, 0, 15.0f); \
 		AttachEffect *aAttachEffect = AttachReanim(aTrackInstance->mAttachmentID, aItemReanim, 0.0f, 0.0f); \
 		aItemReanim->mFrameBasePose = 0; \
@@ -1154,7 +1158,7 @@ void Zombie::ResetZombatar()
 	RESET_REANIM(aHatReanim)
 }
 
-Reanimation *Zombie::LoadReanim(OldReanimationType theReanimationType)
+Reanimation *Zombie::LoadReanim(const ReanimationType &theReanimationType)
 {
 	Reanimation *aBodyReanim = mApp->AddReanimation(0.0f, 0.0f, 0, theReanimationType);
 	mBodyReanimID = mApp->ReanimationGetID(aBodyReanim);
@@ -1969,7 +1973,7 @@ void Zombie::UpdateZombieDolphinRider()
 		if (aBodyReanim->ShouldTriggerTimedEvent(0.56f))
 		{
 			Reanimation *aSplashReanim =
-				mApp->AddReanimation(mX - 83, mY + 73, mRenderOrder + 1, OldReanimationType::REANIM_SPLASH);
+				mApp->AddReanimation(mX - 83, mY + 73, mRenderOrder + 1, ReanimationTypes::SPLASH);
 			aSplashReanim->OverrideScale(1.2f, 0.8f);
 			mApp->AddTodParticle(mX - 46, mY + 115, mRenderOrder + 1, ParticleEffect::PARTICLE_PLANTING_POOL);
 			mApp->PlayFoley(FoleyType::FOLEY_ZOMBIE_ENTERING_WATER);
@@ -2037,7 +2041,7 @@ void Zombie::UpdateZombieDolphinRider()
 		else if (aBodyReanim->ShouldTriggerTimedEvent(0.49f))
 		{
 			Reanimation *aSplashReanim =
-				mApp->AddReanimation(mX - 63, mY + 73, mRenderOrder + 1, OldReanimationType::REANIM_SPLASH);
+				mApp->AddReanimation(mX - 63, mY + 73, mRenderOrder + 1, ReanimationTypes::SPLASH);
 			aSplashReanim->OverrideScale(1.2f, 0.8f);
 			mApp->AddTodParticle(mX - 26, mY + 115, mRenderOrder + 1, ParticleEffect::PARTICLE_PLANTING_POOL);
 			mApp->PlayFoley(FoleyType::FOLEY_ZOMBIE_ENTERING_WATER);
@@ -2093,7 +2097,7 @@ void Zombie::UpdateZombieSnorkel()
 		if (aBodyReanim->ShouldTriggerTimedEvent(0.83f))
 		{
 			Reanimation *aSplashReanim =
-				mApp->AddReanimation(mX - 47, mY + 73, mRenderOrder + 1, OldReanimationType::REANIM_SPLASH);
+				mApp->AddReanimation(mX - 47, mY + 73, mRenderOrder + 1, ReanimationTypes::SPLASH);
 			aSplashReanim->OverrideScale(1.2f, 0.8f);
 			mApp->AddTodParticle(mX - 10, mY + 115, mRenderOrder + 1, ParticleEffect::PARTICLE_PLANTING_POOL);
 			mApp->PlayFoley(FoleyType::FOLEY_ZOMBIE_ENTERING_WATER);
@@ -2858,7 +2862,7 @@ void Zombie::UpdateZombieDigger()
 
 			mApp->AddTodParticle(mPosX + 60.0f, mPosY + 118.0f, mRenderOrder + 1, ParticleEffect::PARTICLE_DIGGER_RISE);
 			Reanimation *aDirtReanim = mApp->AddReanimation(
-				mPosX + 13.0f, mPosY + 97.0f, mRenderOrder + 1, OldReanimationType::REANIM_DIGGER_DIRT);
+				mPosX + 13.0f, mPosY + 97.0f, mRenderOrder + 1, ReanimationTypes::DIGGER_DIRT);
 			aDirtReanim->mAnimRate = 24.0f;
 		}
 	}
@@ -2889,7 +2893,7 @@ void Zombie::UpdateZombieDigger()
 	{
 		if (mPhaseCounter == 150)
 		{
-			AddAttachedReanim(23, 93, OldReanimationType::REANIM_ZOMBIE_SURPRISE);
+			AddAttachedReanim(23, 93, ReanimationTypes::ZOMBIE_SURPRISE);
 		}
 
 		if (mPhaseCounter == 0)
@@ -2902,7 +2906,7 @@ void Zombie::UpdateZombieDigger()
 			mApp->PlayFoley(FoleyType::FOLEY_DIRT_RISE);
 			mApp->AddTodParticle(mPosX + 60.0f, mPosY + 118.0f, mRenderOrder + 1, ParticleEffect::PARTICLE_DIGGER_RISE);
 			Reanimation *aDirtReanim = mApp->AddReanimation(
-				mPosX + 13.0f, mPosY + 97.0f, mRenderOrder + 1, OldReanimationType::REANIM_DIGGER_DIRT);
+				mPosX + 13.0f, mPosY + 97.0f, mRenderOrder + 1, ReanimationTypes::DIGGER_DIRT);
 			aDirtReanim->mAnimRate = 24.0f;
 		}
 	}
@@ -7079,7 +7083,7 @@ void Zombie::PoolSplash(bool theInToPoolSound)
 		aOffsetY -= -8.0f;
 	}
 
-	mApp->AddReanimation(mX + aOffsetX, mY + aOffsetY, mRenderOrder + 1, OldReanimationType::REANIM_SPLASH)
+	mApp->AddReanimation(mX + aOffsetX, mY + aOffsetY, mRenderOrder + 1, ReanimationTypes::SPLASH)
 		->OverrideScale(0.8f, 0.8f);
 	mApp->AddTodParticle(
 		mX + aOffsetX + 37.0f, mY + aOffsetY + 42.0f, mRenderOrder + 1, ParticleEffect::PARTICLE_PLANTING_POOL);
@@ -7791,7 +7795,7 @@ void Zombie::DropShield(unsigned int theDamageFlags)
 			!TestBit(theDamageFlags, (int)DamageFlags::DAMAGE_BYPASSES_SHIELD))
 		{
 			mApp->PlayFoley(FoleyType::FOLEY_NEWSPAPER_RIP);
-			AddAttachedReanim(-11, 0, OldReanimationType::REANIM_ZOMBIE_SURPRISE);
+			AddAttachedReanim(-11, 0, ReanimationTypes::ZOMBIE_SURPRISE);
 		}
 	}
 	else if (mShieldType == ShieldType::SHIELDTYPE_LADDER)
@@ -8631,7 +8635,7 @@ TodParticleSystem *Zombie::AddAttachedParticle(int thePosX, int thePosY, Particl
 	return aParticle;
 }
 
-Reanimation *Zombie::AddAttachedReanim(int thePosX, int thePosY, OldReanimationType theReanimType)
+Reanimation *Zombie::AddAttachedReanim(int thePosX, int thePosY, const ReanimationType &theReanimType)
 {
 	if (mDead)
 		return nullptr;
@@ -8859,7 +8863,7 @@ void Zombie::MowDown()
 		mZombieType == ZombieType::ZOMBIE_DOLPHIN_RIDER || IsBobsledTeamWithSled() || IsFlying() || mInPool)
 	{
 		Reanimation *aPuffReanim =
-			mApp->AddReanimation(mPosX - 73.0f, mPosY - 56.0f, mRenderOrder + 2, OldReanimationType::REANIM_PUFF);
+			mApp->AddReanimation(mPosX - 73.0f, mPosY - 56.0f, mRenderOrder + 2, ReanimationTypes::PUFF);
 		aPuffReanim->SetFramesForLayer("anim_puff");
 		mApp->AddTodParticle(mPosX + 110.0f, mPosY + 0.0f, mRenderOrder + 1, ParticleEffect::PARTICLE_MOWER_CLOUD);
 
@@ -8905,7 +8909,7 @@ void Zombie::MowDown()
 	}
 
 	Reanimation *aMoweredReanim =
-		mApp->AddReanimation(0.0f, 0.0f, mRenderOrder, OldReanimationType::REANIM_LAWN_MOWERED_ZOMBIE);
+		mApp->AddReanimation(0.0f, 0.0f, mRenderOrder, ReanimationTypes::LAWN_MOWERED_ZOMBIE);
 	aMoweredReanim->mAnimRate = 8.0f;
 	aMoweredReanim->mIsAttachment = false;
 	aMoweredReanim->mLoopType = ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD;
@@ -8993,7 +8997,7 @@ void Zombie::ApplyBurn()
 	}
 	else
 	{
-		OldReanimationType aReanimType = OldReanimationType::REANIM_ZOMBIE_CHARRED;
+		const ReanimationType *aReanimType = ReanimationTypes::ZOMBIE_CHARRED;
 		float aCharredPosX = mPosX + 22.0f;
 		float aCharredPosY = mPosY - 10.0f;
 		if (mZombieType == ZombieType::ZOMBIE_BALLOON)
@@ -9003,7 +9007,7 @@ void Zombie::ApplyBurn()
 		if (mZombieType == ZombieType::ZOMBIE_IMP)
 		{
 			aCharredPosX -= 6.0f;
-			aReanimType = OldReanimationType::REANIM_ZOMBIE_CHARRED_IMP;
+			aReanimType = ReanimationTypes::ZOMBIE_CHARRED_IMP;
 		}
 		if (mZombieType == ZombieType::ZOMBIE_DIGGER)
 		{
@@ -9011,28 +9015,28 @@ void Zombie::ApplyBurn()
 			{
 				aCharredPosX += 14.0f;
 			}
-			aReanimType = OldReanimationType::REANIM_ZOMBIE_CHARRED_DIGGER;
+			aReanimType = ReanimationTypes::ZOMBIE_CHARRED_DIGGER;
 		}
 		if (mZombieType == ZombieType::ZOMBIE_ZAMBONI)
 		{
-			aReanimType = OldReanimationType::REANIM_ZOMBIE_CHARRED_ZAMBONI;
+			aReanimType = ReanimationTypes::ZOMBIE_CHARRED_ZAMBONI;
 			aCharredPosX += 61.0f;
 			aCharredPosY -= 16.0f;
 		}
 		if (mZombieType == ZombieType::ZOMBIE_CATAPULT)
 		{
-			aReanimType = OldReanimationType::REANIM_ZOMBIE_CHARRED_CATAPULT;
+			aReanimType = ReanimationTypes::ZOMBIE_CHARRED_CATAPULT;
 			aCharredPosX -= 36.0f;
 			aCharredPosY -= 20.0f;
 		}
 		if (mZombieType == ZombieType::ZOMBIE_GARGANTUAR || mZombieType == ZombieType::ZOMBIE_REDEYE_GARGANTUAR)
 		{
-			aReanimType = OldReanimationType::REANIM_ZOMBIE_CHARRED_GARGANTUAR;
+			aReanimType = ReanimationTypes::ZOMBIE_CHARRED_GARGANTUAR;
 			aCharredPosX -= 15.0f;
 			aCharredPosY -= 10.0f;
 		}
 
-		Reanimation *aCharredReanim = mApp->AddReanimation(aCharredPosX, aCharredPosY, mRenderOrder, aReanimType);
+		Reanimation *aCharredReanim = mApp->AddReanimation(aCharredPosX, aCharredPosY, mRenderOrder, *aReanimType);
 		aCharredReanim->mAnimRate *= RandRangeFloat(0.9f, 1.1f);
 		if (mZombiePhase == ZombiePhase::PHASE_DIGGER_WALKING_WITHOUT_AXE)
 		{
@@ -9215,7 +9219,7 @@ void Zombie::PlayDeathAnim(unsigned int theDamageFlags)
 		mAltitude = 0.0f;
 	}
 
-	AttachmentReanimTypeDie(mAttachmentID, OldReanimationType::REANIM_ZOMBIE_SURPRISE);
+	AttachmentReanimTypeDie(mAttachmentID, ReanimationTypes::ZOMBIE_SURPRISE);
 	StopEating();
 
 	if (mShieldType != ShieldType::SHIELDTYPE_NONE)
@@ -10366,7 +10370,7 @@ void Zombie::BossDestroyFireball()
 			Reanimation *aReanim = mApp->AddReanimation(aPosX + 60.0f * sin(aAngle),
 														aPosY + 60.0f * cos(aAngle),
 														400000,
-														OldReanimationType::REANIM_JALAPENO_FIRE);
+														ReanimationTypes::JALAPENO_FIRE);
 			aReanim->mAnimTime = 0.2f;
 			aReanim->mLoopType = ReanimLoopType::REANIM_PLAY_ONCE_FULL_LAST_FRAME;
 			aReanim->mAnimRate = RandRangeFloat(20.0f, 25.0f);
@@ -10417,7 +10421,7 @@ void Zombie::BossHeadSpitContact()
 	Reanimation *aFireBallReanim;
 	if (mIsFireBall)
 	{
-		aFireBallReanim = mApp->AddReanimation(455.0f, aPosY, mRenderOrder + 1, OldReanimationType::REANIM_BOSS_FIREBALL);
+		aFireBallReanim = mApp->AddReanimation(455.0f, aPosY, mRenderOrder + 1, ReanimationTypes::BOSS_FIREBALL);
 		aFireBallReanim->PlayReanim("anim_form", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 0, 16.0f);
 		aFireBallReanim->mIsAttachment = true;
 		aFireBallReanim->AssignRenderGroupToTrack("additive", RENDER_GROUP_BOSS_FIREBALL_ADDITIVE);
@@ -10425,7 +10429,7 @@ void Zombie::BossHeadSpitContact()
 	}
 	else
 	{
-		aFireBallReanim = mApp->AddReanimation(455.0f, aPosY, mRenderOrder + 1, OldReanimationType::REANIM_BOSS_ICEBALL);
+		aFireBallReanim = mApp->AddReanimation(455.0f, aPosY, mRenderOrder + 1, ReanimationTypes::BOSS_ICEBALL);
 		aFireBallReanim->PlayReanim("anim_form", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 0, 16.0f);
 		aFireBallReanim->mIsAttachment = true;
 		aFireBallReanim->AssignRenderGroupToTrack("ice_highlight", RENDER_GROUP_BOSS_FIREBALL_ADDITIVE);
@@ -10809,7 +10813,7 @@ void Zombie::BossSetupReanim()
 	aBodyReanim->AssignRenderGroupToPrefix("Boss_innerarm", RENDER_GROUP_BOSS_BACK_ARM);
 	aBodyReanim->AssignRenderGroupToPrefix("Boss_RV", RENDER_GROUP_BOSS_BACK_ARM);
 
-	Reanimation *aHeadReanim = mApp->AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_BOSS_DRIVER);
+	Reanimation *aHeadReanim = mApp->AddReanimation(0.0f, 0.0f, 0, ReanimationTypes::BOSS_DRIVER);
 	aHeadReanim->PlayReanim("anim_idle", ReanimLoopType::REANIM_LOOP, 0, 18.0f);
 	mSpecialHeadReanimID = mApp->ReanimationGetID(aHeadReanim);
 
@@ -10851,51 +10855,48 @@ void Zombie::DrawBossPart(Graphics *g, BossPart theBossPart)
 void Zombie::PreloadZombieResources(ZombieType theZombieType)
 {
 	const ZombieDefinition &aZombieDef = GetZombieDefinition(theZombieType);
-	if (aZombieDef.mReanimationType != OldReanimationType::REANIM_NONE)
-	{
-		ReanimatorEnsureDefinitionLoaded(aZombieDef.mReanimationType, true);
-	}
+	ReanimatorEnsureDefinitionLoaded(aZombieDef.GetReanimationType(), true);
 
 	if (theZombieType == ZombieType::ZOMBIE_DIGGER)
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_DIGGER_DIRT, true);
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ZOMBIE_CHARRED_DIGGER, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::DIGGER_DIRT, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::ZOMBIE_CHARRED_DIGGER, true);
 	}
 	else if (theZombieType == ZombieType::ZOMBIE_BOSS)
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_BOSS_DRIVER, true);
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_BOSS_FIREBALL, true);
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_BOSS_ICEBALL, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::BOSS_DRIVER, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::BOSS_FIREBALL, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::BOSS_ICEBALL, true);
 
 		for (int i = 0; i < LENGTH(gBossZombieList); i++)
 		{
 			const ZombieDefinition &aDef = GetZombieDefinition(gBossZombieList[i]);
-			ReanimatorEnsureDefinitionLoaded(aDef.mReanimationType, true);
+			ReanimatorEnsureDefinitionLoaded(aDef.GetReanimationType(), true);
 		}
 	}
 	else if (theZombieType == ZombieType::ZOMBIE_DANCER)
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_BACKUP_DANCER, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::BACKUP_DANCER, true);
 	}
 	else if (theZombieType == ZombieType::ZOMBIE_GARGANTUAR || theZombieType == ZombieType::ZOMBIE_REDEYE_GARGANTUAR)
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_IMP, true);
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ZOMBIE_CHARRED_IMP, true);
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ZOMBIE_CHARRED_GARGANTUAR, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::IMP, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::ZOMBIE_CHARRED_IMP, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::ZOMBIE_CHARRED_GARGANTUAR, true);
 	}
 	else if (theZombieType == ZombieType::ZOMBIE_ZAMBONI)
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_IMP, true);
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ZOMBIE_CHARRED_ZAMBONI, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::IMP, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::ZOMBIE_CHARRED_ZAMBONI, true);
 	}
 	else if (theZombieType == ZombieType::ZOMBIE_CATAPULT)
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ZOMBIE_CHARRED_CATAPULT, true);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::ZOMBIE_CHARRED_CATAPULT, true);
 	}
 
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_PUFF, true);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ZOMBIE_CHARRED, true);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_LAWN_MOWERED_ZOMBIE, true);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::PUFF, true);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::ZOMBIE_CHARRED, true);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::LAWN_MOWERED_ZOMBIE, true);
 }
 
 void Zombie::ApplyBossSmokeParticles(bool theEnable)
@@ -10977,7 +10978,7 @@ void Zombie::EnableFuture(bool theEnableFuture)
 		return;
 
 	Reanimation *aBodyReanim = mApp->ReanimationTryToGet(mBodyReanimID);
-	if (aBodyReanim == nullptr || aBodyReanim->mReanimationType != OldReanimationType::REANIM_ZOMBIE)
+	if (aBodyReanim == nullptr || aBodyReanim->mType != ReanimationTypes::ZOMBIE)
 		return;
 
 	if (theEnableFuture)

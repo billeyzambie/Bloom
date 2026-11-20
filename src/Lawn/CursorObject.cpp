@@ -5,6 +5,7 @@
 #include "CursorObject.h"
 #include "../Resources.h"
 #include "../Sexy.TodLib/Reanimation/Reanimator.h"
+#include "../Sexy.TodLib/Reanimation/ReanimationTypes.h"
 #include "../SexyAppFramework/WidgetManager.h"
 
 #include "StoreItem/StoreItemTypes.h"
@@ -26,8 +27,8 @@ CursorObject::CursorObject() : GameObject(GameObjectType::OBJECT_TYPE_NONE)
 
 	if (mApp->IsWhackAZombieLevel())
 	{
-		ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_HAMMER, true);
-		Reanimation *aHammerReanim = mApp->AddReanimation(-25.0f, 16.0f, 0, OldReanimationType::REANIM_HAMMER);
+		ReanimatorEnsureDefinitionLoaded(ReanimationTypes::HAMMER, true);
+		Reanimation *aHammerReanim = mApp->AddReanimation(-25.0f, 16.0f, 0, ReanimationTypes::HAMMER);
 		aHammerReanim->mIsAttachment = true;
 		aHammerReanim->PlayReanim("anim_whack_zombie", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 0, 24.0f);
 		aHammerReanim->mAnimTime = 1.0f;

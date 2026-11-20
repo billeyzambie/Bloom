@@ -6,6 +6,7 @@
 #include "../SexyAppFramework/Font.h"
 #include "../Sexy.TodLib/TodCommon.h"
 #include "../Sexy.TodLib/Reanimation/Reanimator.h"
+#include "../Sexy.TodLib/Reanimation/ReanimationTypes.h"
 #include "../Sexy.TodLib/TodStringFile.h"
 
 MessageWidget::MessageWidget(LawnApp *theApp)
@@ -37,7 +38,7 @@ void MessageWidget::ClearReanim()
 
 void MessageWidget::ClearLabel()
 {
-	if (mReanimType != OldReanimationType::REANIM_NONE)
+	if (mReanimType)
 	{
 		mDuration = std::min(mDuration, 100 + mSlideOffTime + 1);
 	}
@@ -53,7 +54,7 @@ void MessageWidget::SetLabel(const SexyString &theNewLabel, MessageStyle theMess
 	TOD_ASSERT(utf8::is_valid(aLabel));
 	TOD_ASSERT(utf8::distance(aLabel.begin(), aLabel.end()) < MAX_MESSAGE_LENGTH - 1);
 
-	if (mReanimType != OldReanimationType::REANIM_NONE && mDuration > 0)
+	if (mReanimType && mDuration > 0)
 	{
 		mMessageStyleNext = theMessageStyle;
 		size_t count = 0;
@@ -88,7 +89,7 @@ void MessageWidget::SetLabel(const SexyString &theNewLabel, MessageStyle theMess
 		strncpy(mLabel, aLabel.c_str(), aByteCount);
 		mLabel[aByteCount] = '\0';
 		mMessageStyle = theMessageStyle;
-		mReanimType = OldReanimationType::REANIM_NONE;
+		mReanimType = nullptr;
 
 		switch (theMessageStyle)
 		{
@@ -124,7 +125,7 @@ void MessageWidget::SetLabel(const SexyString &theNewLabel, MessageStyle theMess
 
 		case MessageStyle::MESSAGE_STYLE_HUGE_WAVE:
 			mDuration = 750;
-			mReanimType = OldReanimationType::REANIM_TEXT_FADE_ON;
+			mReanimType = ReanimationTypes::TEXT_FADE_ON;
 			break;
 
 		case MessageStyle::MESSAGE_STYLE_SLOT_MACHINE:
@@ -140,7 +141,7 @@ void MessageWidget::SetLabel(const SexyString &theNewLabel, MessageStyle theMess
 			break;
 		}
 
-		if (mReanimType != OldReanimationType::REANIM_NONE)
+		if (mReanimType)
 		{
 			LayoutReanimText();
 		}
@@ -185,7 +186,7 @@ void MessageWidget::LayoutReanimText()
 	float aCurPosX = -aLineWidth[0] * 0.5f;
 	for (int aPos = 0; aPos < aLabelLen; aPos++)
 	{
-		Reanimation *aReanimText = mApp->AddReanimation(aCurPosX, aCurPosY, 0, mReanimType);
+		Reanimation *aReanimText = mApp->AddReanimation(aCurPosX, aCurPosY, 0, *mReanimType);
 		aReanimText->mIsAttachment = true;
 		aReanimText->PlayReanim("anim_enter", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 0.0f, 0.0f);
 		mTextReanimID[aPos] = mApp->ReanimationGetID(aReanimText);
@@ -229,10 +230,10 @@ void MessageWidget::Update()
 			break;
 		}
 
-		int aTextSpeed = mReanimType == OldReanimationType::REANIM_TEXT_FADE_ON ? 100 : 1;
+		int aTextSpeed = mReanimType == ReanimationTypes::TEXT_FADE_ON ? 100 : 1;
 		if (mDuration > mSlideOffTime)
 		{
-			if (mReanimType == OldReanimationType::REANIM_TEXT_FADE_ON)
+			if (mReanimType == ReanimationTypes::TEXT_FADE_ON)
 			{
 				aTextReanim->mAnimRate = 60.0f;
 			}
@@ -280,7 +281,7 @@ void MessageWidget::DrawReanimatedText(Graphics *g, Font *theFont, const Color &
 
 		aTransform.mTransX += aTextReanim->mOverlayMatrix.m02;
 		aTransform.mTransY += aTextReanim->mOverlayMatrix.m12 + thePosY - BOARD_HEIGHT / 2;
-		if (mReanimType == OldReanimationType::REANIM_TEXT_FADE_ON && mDisplayTime - mDuration < mSlideOffTime)
+		if (mReanimType == ReanimationTypes::TEXT_FADE_ON && mDisplayTime - mDuration < mSlideOffTime)
 		{
 			float aStretch = 1.0f - aTextReanim->mAnimTime;
 			aTransform.mTransX += aStretch * aTextReanim->mOverlayMatrix.m02;
@@ -417,7 +418,7 @@ void MessageWidget::Draw(Graphics *g)
 		break;
 	}
 
-	if (mReanimType != OldReanimationType::REANIM_NONE)
+	if (mReanimType)
 	{
 		if (aFont == Sexy::FONT_CONTINUUMBOLD14)
 		{

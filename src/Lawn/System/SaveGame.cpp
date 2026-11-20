@@ -111,43 +111,6 @@ void SaveGameContext::SyncResourceId(ResourceId &theResourceId)
 	}
 }
 
-//0x4814C0
-void SaveGameContext::SyncReanimationDef(ReanimatorDefinition *&theDefinition)
-{
-	if (mReading)
-	{
-		int aReanimType;
-		SyncInt(aReanimType);
-		if (aReanimType == (int)OldReanimationType::REANIM_NONE)
-		{
-			theDefinition = nullptr;
-		}
-		else if (aReanimType >= 0 && aReanimType < (int)OldReanimationType::NUM_REANIMS)
-		{
-			ReanimatorEnsureDefinitionLoaded((OldReanimationType)aReanimType, true);
-			theDefinition = &gReanimatorDefArray[aReanimType];
-		}
-		else
-		{
-			mFailed = true;
-		}
-	}
-	else
-	{
-		int aReanimType = (int)OldReanimationType::REANIM_NONE;
-		for (int i = 0; i < (int)OldReanimationType::NUM_REANIMS; i++)
-		{
-			ReanimatorDefinition *aDef = &gReanimatorDefArray[i];
-			if (theDefinition == aDef)
-			{
-				aReanimType = i;
-				break;
-			}
-		}
-		SyncInt(aReanimType);
-	}
-}
-
 //0x481560
 void SaveGameContext::SyncParticleDef(TodParticleDefinition *&theDefinition)
 {
@@ -341,45 +304,6 @@ void SyncParticleSystem(Board *theBoard, TodParticleSystem *theParticleSystem, S
 	}
 }
 
-//0x4818F0
-void SyncReanimation(Board *theBoard, Reanimation *theReanimation, SaveGameContext &theContext)
-{
-	theContext.SyncReanimationDef(theReanimation->mDefinition);
-	if (theContext.mReading)
-	{
-		theReanimation->mReanimationHolder = theBoard->mApp->mEffectSystem->mReanimationHolder;
-	}
-
-	if (theReanimation->mDefinition->mTrackCount != 0)
-	{
-		int aSize = theReanimation->mDefinition->mTrackCount * sizeof(ReanimatorTrackInstance);
-		if (theContext.mReading)
-		{
-			theReanimation->mTrackInstances = (ReanimatorTrackInstance *)FindGlobalAllocator(aSize)->Calloc(aSize);
-		}
-		theContext.SyncBytes(theReanimation->mTrackInstances, aSize);
-
-		for (int aTrackIndex = 0; aTrackIndex < theReanimation->mDefinition->mTrackCount; aTrackIndex++)
-		{
-			ReanimatorTrackInstance &aTrackInstance = theReanimation->mTrackInstances[aTrackIndex];
-			theContext.SyncImage(aTrackInstance.mImageOverride);
-
-			if (theContext.mReading)
-			{
-				aTrackInstance.mBlendTransform.mText = "";
-				TOD_ASSERT(aTrackInstance.mBlendTransform.mFont == nullptr);
-				TOD_ASSERT(aTrackInstance.mBlendTransform.mImage == nullptr);
-			}
-			else
-			{
-				TOD_ASSERT(aTrackInstance.mBlendTransform.mText[0] == NULL);
-				TOD_ASSERT(aTrackInstance.mBlendTransform.mFont == nullptr);
-				TOD_ASSERT(aTrackInstance.mBlendTransform.mImage == nullptr);
-			}
-		}
-	}
-}
-
 void SyncTrail(Board *theBoard, Trail *theTrail, SaveGameContext &theContext)
 {
 	theContext.SyncTrailDef(theTrail->mDefinition);
@@ -404,15 +328,15 @@ void SyncBoard(SaveGameContext &theContext, Board *theBoard)
 
 	SyncDataArray(theContext, theBoard->mZombies);
 	theBoard->mPlants.DataArraySync(theContext);
-	theBoard->mProjectiles.DataArraySync(theContext);					 
-	SyncDataArray(theContext, theBoard->mCoins);								 
-	SyncDataArray(theContext, theBoard->mLawnMowers);											 
-	SyncDataArray(theContext, theBoard->mGridItems);											 
+	theBoard->mProjectiles.DataArraySync(theContext);
+	SyncDataArray(theContext, theBoard->mCoins);
+	SyncDataArray(theContext, theBoard->mLawnMowers);
+	SyncDataArray(theContext, theBoard->mGridItems);
 	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mParticleHolder->mParticleSystems); 
-	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mParticleHolder->mEmitters);		 
-	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mParticleHolder->mParticles);		 
-	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mReanimationHolder->mReanimations); 
-	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mTrailHolder->mTrails);			 
+	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mParticleHolder->mEmitters);
+	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mParticleHolder->mParticles);
+	theBoard->mApp->mEffectSystem->mReanimationHolder->mReanimations.DataArraySync(theContext); 
+	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mTrailHolder->mTrails);
 	SyncDataArray(theContext, theBoard->mApp->mEffectSystem->mAttachmentHolder->mAttachments);	 
 
 	{
@@ -420,13 +344,6 @@ void SyncBoard(SaveGameContext &theContext, Board *theBoard)
 		while (theBoard->mApp->mEffectSystem->mParticleHolder->mParticleSystems.IterateNext(aParticle))
 		{
 			SyncParticleSystem(theBoard, aParticle, theContext);
-		}
-	}
-	{
-		Reanimation *aReanimation = nullptr;
-		while (theBoard->mApp->mEffectSystem->mReanimationHolder->mReanimations.IterateNext(aReanimation))
-		{
-			SyncReanimation(theBoard, aReanimation, theContext);
 		}
 	}
 	{

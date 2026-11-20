@@ -6,11 +6,12 @@
 
 class Plant;
 class LawnApp;
+class ReanimationType;
 
 class BLOOM_API PlantType final : public BloomType
 {
   public:
-	static constexpr size_t INSTANCE_MAX_SIZE = 368;
+	static constexpr size_t INSTANCE_MAX_SIZE = -1;
 	struct Attributes
 	{
 		int mWidth = 80;
@@ -25,7 +26,7 @@ class BLOOM_API PlantType final : public BloomType
 	Attributes mAttributes;
 	int mSunCost = 100;
 	int mRefreshTime = 750;
-	OldReanimationType mBaseReanim = OldReanimationType::REANIM_NONE;
+	const ReanimationType *mBaseReanim = nullptr;
 	PlantType(
 		const std::string &theModName,
 		const std::string &theTypeName,

@@ -5,6 +5,7 @@
 #include "../System/Damage.h"
 #include "../../Sexy.TodLib/Attachment.h"
 #include "../../Sexy.TodLib/Reanimation/Reanimator.h"
+#include "../../Sexy.TodLib/Reanimation/ReanimationTypes.h"
 #include "../../Sexy.TodLib/TodParticle.h"
 #include "../../LawnApp.h"
 
@@ -112,7 +113,7 @@ void MainProjectileBehavior::DoImpact(DoImpactContext &theImpactContext)
 				aProjectile.mPosX + 38.0f,
 				aProjectile.mPosY - 20.0f,
 				aProjectile.mRenderOrder + 1,
-				OldReanimationType::REANIM_JALAPENO_FIRE
+				ReanimationTypes::JALAPENO_FIRE
 			);
 			aFireReanim->mAnimTime = 0.25f;
 			aFireReanim->mAnimRate = 24.0f;

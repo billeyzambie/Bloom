@@ -8,6 +8,7 @@
 #include "../../Sexy.TodLib/TodFoley.h"
 #include "../../Sexy.TodLib/Attachment.h"
 #include "../../Sexy.TodLib/Reanimation/Reanimator.h"
+#include "../../Sexy.TodLib/Reanimation/ReanimationTypes.h"
 #include "../../Sexy.TodLib/TodParticle.h"
 #include "../../SexyAppFramework/Dialog.h"
 #include "../../Sexy.TodLib/EffectSystem.h"
@@ -387,76 +388,76 @@ void CreditScreen::PreLoadCredits()
 	TodLoadResources({"PVZ", "DelayLoad_Background5"});
 	TodLoadResources({"PVZ", "DelayLoad_Background6"});
 
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_CREDITS_MAIN, true);
-	ReanimationPreload(OldReanimationType::REANIM_CREDITS_MAIN);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_CREDITS_MAIN2, true);
-	ReanimationPreload(OldReanimationType::REANIM_CREDITS_MAIN2);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_CREDITS_MAIN3, true);
-	ReanimationPreload(OldReanimationType::REANIM_CREDITS_MAIN3);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ZOMBIE_CREDITS_DANCE, true);
-	ReanimationPreload(OldReanimationType::REANIM_ZOMBIE_CREDITS_DANCE);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_CREDITS_BIGBRAIN, true);
-	ReanimationPreload(OldReanimationType::REANIM_CREDITS_BIGBRAIN);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_CREDITS_FLOWER_PETALS, true);
-	ReanimationPreload(OldReanimationType::REANIM_CREDITS_FLOWER_PETALS);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_CREDITS_INFANTRY, true);
-	ReanimationPreload(OldReanimationType::REANIM_CREDITS_INFANTRY);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_CREDITS_STAGE, true);
-	ReanimationPreload(OldReanimationType::REANIM_CREDITS_STAGE);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_CREDITS_THROAT, true);
-	ReanimationPreload(OldReanimationType::REANIM_CREDITS_THROAT);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_SUNFLOWER, true);
-	ReanimationPreload(OldReanimationType::REANIM_SUNFLOWER);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_SUN, true);
-	ReanimationPreload(OldReanimationType::REANIM_SUN);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_CREDITS_CRAZYDAVE, true);
-	ReanimationPreload(OldReanimationType::REANIM_CREDITS_CRAZYDAVE);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ZOMBIE, true);
-	ReanimationPreload(OldReanimationType::REANIM_ZOMBIE);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_DIGGER, true);
-	ReanimationPreload(OldReanimationType::REANIM_DIGGER);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ZOMBIE_FOOTBALL, true);
-	ReanimationPreload(OldReanimationType::REANIM_ZOMBIE_FOOTBALL);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ZOMBIE_CREDITS_CONEHEAD, true);
-	ReanimationPreload(OldReanimationType::REANIM_ZOMBIE_CREDITS_CONEHEAD);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_ZOMBIE_CREDITS_SCREEN_DOOR, true);
-	ReanimationPreload(OldReanimationType::REANIM_ZOMBIE_CREDITS_SCREEN_DOOR);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_CREDITS_ZOMBIEARMY1, true);
-	ReanimationPreload(OldReanimationType::REANIM_CREDITS_ZOMBIEARMY1);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_CREDITS_ZOMBIEARMY2, true);
-	ReanimationPreload(OldReanimationType::REANIM_CREDITS_ZOMBIEARMY2);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_CREDITS_TOMBSTONES, true);
-	ReanimationPreload(OldReanimationType::REANIM_CREDITS_TOMBSTONES);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_CREDITS_SOLARPOWER, true);
-	ReanimationPreload(OldReanimationType::REANIM_CREDITS_SOLARPOWER);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_CREDITS_ANYHOUR, true);
-	ReanimationPreload(OldReanimationType::REANIM_CREDITS_ANYHOUR);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_CREDITS_WEARETHEUNDEAD, true);
-	ReanimationPreload(OldReanimationType::REANIM_CREDITS_WEARETHEUNDEAD);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_CREDITS_DISCOLIGHTS, true);
-	ReanimationPreload(OldReanimationType::REANIM_CREDITS_DISCOLIGHTS);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_CREDITS_BOSSDANCE, true);
-	ReanimationPreload(OldReanimationType::REANIM_CREDITS_BOSSDANCE);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_TALLNUT, true);
-	ReanimationPreload(OldReanimationType::REANIM_TALLNUT);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_SNOWPEA, true);
-	ReanimationPreload(OldReanimationType::REANIM_SNOWPEA);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_PEASHOOTER, true);
-	ReanimationPreload(OldReanimationType::REANIM_PEASHOOTER);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_REPEATER, true);
-	ReanimationPreload(OldReanimationType::REANIM_REPEATER);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_KERNELPULT, true);
-	ReanimationPreload(OldReanimationType::REANIM_KERNELPULT);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_WALLNUT, true);
-	ReanimationPreload(OldReanimationType::REANIM_WALLNUT);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_FUMESHROOM, true);
-	ReanimationPreload(OldReanimationType::REANIM_FUMESHROOM);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_PUFFSHROOM, true);
-	ReanimationPreload(OldReanimationType::REANIM_PUFFSHROOM);
-	ReanimatorEnsureDefinitionLoaded(OldReanimationType::REANIM_SUNSHROOM, true);
-	ReanimationPreload(OldReanimationType::REANIM_SUNSHROOM);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::CREDITS_MAIN, true);
+	ReanimationPreload(ReanimationTypes::CREDITS_MAIN);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::CREDITS_MAIN_2, true);
+	ReanimationPreload(ReanimationTypes::CREDITS_MAIN_2);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::CREDITS_MAIN_3, true);
+	ReanimationPreload(ReanimationTypes::CREDITS_MAIN_3);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::ZOMBIE_CREDITS_DANCE, true);
+	ReanimationPreload(ReanimationTypes::ZOMBIE_CREDITS_DANCE);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::CREDITS_BIG_BRAIN, true);
+	ReanimationPreload(ReanimationTypes::CREDITS_BIG_BRAIN);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::CREDITS_FLOWER_PETALS, true);
+	ReanimationPreload(ReanimationTypes::CREDITS_FLOWER_PETALS);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::CREDITS_INFANTRY, true);
+	ReanimationPreload(ReanimationTypes::CREDITS_INFANTRY);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::CREDITS_STAGE, true);
+	ReanimationPreload(ReanimationTypes::CREDITS_STAGE);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::CREDITS_THROAT, true);
+	ReanimationPreload(ReanimationTypes::CREDITS_THROAT);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::SUNFLOWER, true);
+	ReanimationPreload(ReanimationTypes::SUNFLOWER);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::SUN, true);
+	ReanimationPreload(ReanimationTypes::SUN);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::CREDITS_CRAZY_DAVE, true);
+	ReanimationPreload(ReanimationTypes::CREDITS_CRAZY_DAVE);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::ZOMBIE, true);
+	ReanimationPreload(ReanimationTypes::ZOMBIE);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::DIGGER, true);
+	ReanimationPreload(ReanimationTypes::DIGGER);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::ZOMBIE_FOOTBALL, true);
+	ReanimationPreload(ReanimationTypes::ZOMBIE_FOOTBALL);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::ZOMBIE_CREDITS_CONEHEAD, true);
+	ReanimationPreload(ReanimationTypes::ZOMBIE_CREDITS_CONEHEAD);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::ZOMBIE_CREDITS_SCREEN_DOOR, true);
+	ReanimationPreload(ReanimationTypes::ZOMBIE_CREDITS_SCREEN_DOOR);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::CREDITS_ZOMBIE_ARMY_1, true);
+	ReanimationPreload(ReanimationTypes::CREDITS_ZOMBIE_ARMY_1);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::CREDITS_ZOMBIE_ARMY_2, true);
+	ReanimationPreload(ReanimationTypes::CREDITS_ZOMBIE_ARMY_2);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::CREDITS_TOMB_STONES, true);
+	ReanimationPreload(ReanimationTypes::CREDITS_TOMB_STONES);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::CREDITS_SOLAR_POWER, true);
+	ReanimationPreload(ReanimationTypes::CREDITS_SOLAR_POWER);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::CREDITS_ANY_HOUR, true);
+	ReanimationPreload(ReanimationTypes::CREDITS_ANY_HOUR);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::CREDITS_WE_ARE_THE_UNDEAD, true);
+	ReanimationPreload(ReanimationTypes::CREDITS_WE_ARE_THE_UNDEAD);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::CREDITS_DISCO_LIGHTS, true);
+	ReanimationPreload(ReanimationTypes::CREDITS_DISCO_LIGHTS);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::CREDITS_BOSS_DANCE, true);
+	ReanimationPreload(ReanimationTypes::CREDITS_BOSS_DANCE);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::TALL_NUT, true);
+	ReanimationPreload(ReanimationTypes::TALL_NUT);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::SNOW_PEA, true);
+	ReanimationPreload(ReanimationTypes::SNOW_PEA);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::PEASHOOTER, true);
+	ReanimationPreload(ReanimationTypes::PEASHOOTER);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::REPEATER, true);
+	ReanimationPreload(ReanimationTypes::REPEATER);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::KERNEL_PULT, true);
+	ReanimationPreload(ReanimationTypes::KERNEL_PULT);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::WALL_NUT, true);
+	ReanimationPreload(ReanimationTypes::WALL_NUT);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::FUME_SHROOM, true);
+	ReanimationPreload(ReanimationTypes::FUME_SHROOM);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::PUFF_SHROOM, true);
+	ReanimationPreload(ReanimationTypes::PUFF_SHROOM);
+	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::SUN_SHROOM, true);
+	ReanimationPreload(ReanimationTypes::SUN_SHROOM);
 
-	ReanimatorDefinition *aMain2Def = &gReanimatorDefArray[(int)OldReanimationType::REANIM_CREDITS_MAIN2];
+	ReanimatorDefinition *aMain2Def = &gReanimatorDefArray[ReanimationTypes::CREDITS_MAIN_2->GetNumericalId()];
 	for (int aTrackIndex = 0; aTrackIndex < aMain2Def->mTrackCount; aTrackIndex++)
 	{
 		ReanimatorTrack *aTrack = &aMain2Def->mTracks[aTrackIndex];
@@ -469,7 +470,7 @@ void CreditScreen::PreLoadCredits()
 			}
 		}
 	}
-	ReanimatorDefinition *aMain3Def = &gReanimatorDefArray[(int)OldReanimationType::REANIM_CREDITS_MAIN3];
+	ReanimatorDefinition *aMain3Def = &gReanimatorDefArray[ReanimationTypes::CREDITS_MAIN_3->GetNumericalId()];
 	for (int aTrackIndex = 0; aTrackIndex < aMain3Def->mTrackCount; aTrackIndex++)
 	{
 		ReanimatorTrack *aTrack = &aMain3Def->mTracks[aTrackIndex];
@@ -482,7 +483,7 @@ void CreditScreen::PreLoadCredits()
 			}
 		}
 	}
-	ReanimatorDefinition *aUndeadDef = &gReanimatorDefArray[(int)OldReanimationType::REANIM_CREDITS_WEARETHEUNDEAD];
+	ReanimatorDefinition *aUndeadDef = &gReanimatorDefArray[ReanimationTypes::CREDITS_WE_ARE_THE_UNDEAD->GetNumericalId()];
 	for (int aTrackIndex = 0; aTrackIndex < aUndeadDef->mTrackCount; aTrackIndex++)
 	{
 		ReanimatorTrack *aTrack = &aUndeadDef->mTracks[aTrackIndex];
@@ -560,7 +561,7 @@ Reanimation *CreditScreen::PlayReanim(int aIndex)
 
 	if (aIndex == 1)
 	{
-		aCreditsReanim = mApp->AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_CREDITS_MAIN);
+		aCreditsReanim = mApp->AddReanimation(0.0f, 0.0f, 0, ReanimationTypes::CREDITS_MAIN);
 		aCreditsReanim->AssignRenderGroupToPrefix("Background", 1);
 		aCreditsReanim->AssignRenderGroupToPrefix("attacher__Zombie", 2);
 		aCreditsReanim->AssignRenderGroupToPrefix("Words", 3);
@@ -568,7 +569,7 @@ Reanimation *CreditScreen::PlayReanim(int aIndex)
 	}
 	else if (aIndex == 2)
 	{
-		aCreditsReanim = mApp->AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_CREDITS_MAIN2);
+		aCreditsReanim = mApp->AddReanimation(0.0f, 0.0f, 0, ReanimationTypes::CREDITS_MAIN_2);
 		aCreditsReanim->AssignRenderGroupToPrefix("Background", 1);
 		aCreditsReanim->AssignRenderGroupToPrefix("attacher__Zombie", 2);
 		aCreditsReanim->AssignRenderGroupToPrefix("Words", 3);
@@ -577,7 +578,7 @@ Reanimation *CreditScreen::PlayReanim(int aIndex)
 	}
 	else if (aIndex == 3)
 	{
-		aCreditsReanim = mApp->AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_CREDITS_MAIN3);
+		aCreditsReanim = mApp->AddReanimation(0.0f, 0.0f, 0, ReanimationTypes::CREDITS_MAIN_3);
 		aCreditsReanim->AssignRenderGroupToPrefix("Background", 1);
 		aCreditsReanim->AssignRenderGroupToPrefix("attacher__Zombie", 2);
 		aCreditsReanim->AssignRenderGroupToPrefix("attacher__DiscoLights", 2);
@@ -747,11 +748,11 @@ void CreditScreen::DrawFinalCredits(Graphics *g)
 	g->ClearClipRect();
 }
 
-void DrawReanimToPreload(Graphics *g, OldReanimationType theReanimType)
+void DrawReanimToPreload(Graphics *g, const ReanimationType &theReanimType)
 {
-	Reanimation aReanim;
+	Reanimation aReanim(theReanimType);
 	aReanim.mAnimRate = 0.3f;
-	aReanim.ReanimationInitializeType(0.0f, 0.0f, theReanimType);
+	aReanim.ReanimationInitializeType(0.0f, 0.0f);
 	aReanim.Draw(g);
 }
 
@@ -775,11 +776,11 @@ void CreditScreen::Draw(Graphics *g)
 		g->DrawImage(IMAGE_BACKGROUND3, 0, 0);
 		g->DrawImage(IMAGE_BACKGROUND4, 0, 0);
 		g->DrawImage(IMAGE_BACKGROUND5, 0, 0);
-		DrawReanimToPreload(g, OldReanimationType::REANIM_CREDITS_BOSSDANCE);
-		DrawReanimToPreload(g, OldReanimationType::REANIM_CREDITS_CRAZYDAVE);
-		DrawReanimToPreload(g, OldReanimationType::REANIM_ZOMBIE_CREDITS_DANCE);
-		DrawReanimToPreload(g, OldReanimationType::REANIM_CREDITS_STAGE);
-		DrawReanimToPreload(g, OldReanimationType::REANIM_SUNFLOWER);
+		DrawReanimToPreload(g, ReanimationTypes::CREDITS_BOSS_DANCE);
+		DrawReanimToPreload(g, ReanimationTypes::CREDITS_CRAZY_DAVE);
+		DrawReanimToPreload(g, ReanimationTypes::ZOMBIE_CREDITS_DANCE);
+		DrawReanimToPreload(g, ReanimationTypes::CREDITS_STAGE);
+		DrawReanimToPreload(g, ReanimationTypes::SUNFLOWER);
 	}
 	g->SetColor(Color::Black);
 	g->FillRect(0, 0, mWidth, mHeight);
@@ -1036,11 +1037,11 @@ void CreditScreen::Draw(Graphics *g)
 	}
 }
 
-Reanimation *CreditScreen::FindSubReanim(Reanimation *theReanim, OldReanimationType theReanimType)
+Reanimation *CreditScreen::FindSubReanim(Reanimation *theReanim, const ReanimationType &theReanimType)
 {
 	if (theReanim->mDefinition == 0)
 		return nullptr; //ANOTHER SIMPLE FIX I MADE
-	if (theReanim->mReanimationType == theReanimType)
+	if (theReanim->mType == theReanimType)
 		return theReanim;
 
 	for (int i = 0; i < theReanim->mDefinition->mTrackCount; i++)
@@ -1069,7 +1070,7 @@ void CreditScreen::UpdateBlink()
 
 	mBlinkCountdown = 700;
 	Reanimation *aCreditsReanim = mApp->ReanimationGet(mCreditsReanimID);
-	Reanimation *aSunFlowerReanim = FindSubReanim(aCreditsReanim, OldReanimationType::REANIM_SUNFLOWER);
+	Reanimation *aSunFlowerReanim = FindSubReanim(aCreditsReanim, ReanimationTypes::SUNFLOWER);
 	if (aSunFlowerReanim)
 	{
 		if (mCreditsPhase == CreditsPhase::CREDITS_MAIN3)
@@ -1082,7 +1083,7 @@ void CreditScreen::UpdateBlink()
 			}
 		}
 
-		Reanimation *aBlinkReanim = mApp->AddReanimation(0.0f, 0.0f, 0, OldReanimationType::REANIM_SUNFLOWER);
+		Reanimation *aBlinkReanim = mApp->AddReanimation(0.0f, 0.0f, 0, ReanimationTypes::SUNFLOWER);
 		aBlinkReanim->SetFramesForLayer("anim_blink");
 		aBlinkReanim->mAnimRate = 15.0f;
 		aBlinkReanim->mLoopType = ReanimLoopType::REANIM_PLAY_ONCE_FULL_LAST_FRAME;
@@ -1241,7 +1242,7 @@ void CreditScreen::UpdateMovie()
 			aTrackWords2->mTrackColor = Color::White;
 		}
 
-		Reanimation *aUndeadReanim = FindSubReanim(aCreditsReanim, OldReanimationType::REANIM_CREDITS_WEARETHEUNDEAD);
+		Reanimation *aUndeadReanim = FindSubReanim(aCreditsReanim, ReanimationTypes::CREDITS_WE_ARE_THE_UNDEAD);
 		if (aUndeadReanim)
 		{
 			ReanimatorTrackInstance *aTrackWordsUndead1 = aUndeadReanim->GetTrackInstanceByName("bubbletext1");
@@ -1480,13 +1481,13 @@ void CreditScreen::UpdateMovie()
 		}
 	}
 
-	Reanimation *aSunFlowerReanim = FindSubReanim(aCreditsReanim, OldReanimationType::REANIM_SUNFLOWER);
+	Reanimation *aSunFlowerReanim = FindSubReanim(aCreditsReanim, ReanimationTypes::SUNFLOWER);
 	if (aSunFlowerReanim)
 	{
 		if (mCreditsPhase == CreditsPhase::CREDITS_MAIN3 && aCreditsReanim->mAnimTime > aFrameFactor * 255.0f)
 		{
 			aSunFlowerReanim->SetImageOverride("anim_idle", IMAGE_REANIM_SUNFLOWER_HEAD_WINK);
-			Reanimation *aStageReanim = FindSubReanim(aCreditsReanim, OldReanimationType::REANIM_CREDITS_STAGE);
+			Reanimation *aStageReanim = FindSubReanim(aCreditsReanim, ReanimationTypes::CREDITS_STAGE);
 			aSunFlowerReanim->mAnimTime -=
 				aSunFlowerReanim->mAnimRate * SECONDS_PER_UPDATE / aSunFlowerReanim->mFrameCount;
 			aStageReanim->mAnimTime -= aStageReanim->mAnimRate * SECONDS_PER_UPDATE / aStageReanim->mFrameCount;
@@ -1525,7 +1526,7 @@ void CreditScreen::TurnOffTongues(Reanimation *theReanim, int aParentTrack)
 	for (int aTrackIndex = 0; aTrackIndex < theReanim->mDefinition->mTrackCount; aTrackIndex++)
 	{
 		ReanimatorTrackInstance *aTrackInstance = &theReanim->mTrackInstances[aTrackIndex];
-		if (theReanim->mReanimationType == OldReanimationType::REANIM_ZOMBIE_CREDITS_DANCE && aParentTrack % 4 != 1 &&
+		if (theReanim->mType == ReanimationTypes::ZOMBIE_CREDITS_DANCE && aParentTrack % 4 != 1 &&
 			stricmp(theReanim->mDefinition->mTracks[aTrackIndex].mName, "anim_tongue") == 0)
 		{
 			aTrackInstance->mRenderGroup = RENDER_GROUP_HIDDEN;

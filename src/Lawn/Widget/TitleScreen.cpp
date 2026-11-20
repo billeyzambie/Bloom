@@ -9,6 +9,7 @@
 #include "../../Sexy.TodLib/EffectSystem.h"
 #include "../../Sexy.TodLib/TodDebug.h"
 #include "../../Sexy.TodLib/Reanimation/Reanimator.h"
+#include "../../Sexy.TodLib/Reanimation/ReanimationTypes.h"
 #include "../../GameConstants.h"
 #include "../System/Music.h"
 
@@ -434,14 +435,14 @@ void TitleScreen::Update()
 	{
 		if (aPrevWidth < aTriggerPoint[i] && mCurBarWidth >= aTriggerPoint[i])
 		{
-			OldReanimationType aReanimType = OldReanimationType::REANIM_LOADBAR_SPROUT;
+			const ReanimationType *aReanimType = ReanimationTypes::LOAD_BAR_SPROUT;
 			if (i == 4)
 			{
-				aReanimType = OldReanimationType::REANIM_LOADBAR_ZOMBIEHEAD;
+				aReanimType = ReanimationTypes::LOAD_BAR_ZOMBIE_HEAD;
 			}
 			float aPosX = aTriggerPoint[i] + 225.0f;
 			float aPosY = 511.0f;
-			Reanimation *aSproutReanim = mApp->AddReanimation(aPosX, aPosY, 0, aReanimType);
+			Reanimation *aSproutReanim = mApp->AddReanimation(aPosX, aPosY, 0, *aReanimType);
 			aSproutReanim->mAnimRate = 18.0f;
 			aSproutReanim->mLoopType = ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD;
 

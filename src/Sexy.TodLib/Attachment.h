@@ -16,6 +16,7 @@ using namespace Sexy;
 
 class Trail;
 class Reanimation;
+class ReanimationType;
 class TodParticleSystem;
 
 class AttachEffect
@@ -94,7 +95,7 @@ void AttachmentDetach(AttachmentID &theAttachmentID);
 void AttachmentDetachCrossFadeParticleType(AttachmentID &theAttachmentID,
 													  ParticleEffect theParticleEffect,
 													  const char *theCrossFadeName);
-void AttachmentReanimTypeDie(AttachmentID &theAttachmentID, OldReanimationType theReanimType);
+void AttachmentReanimTypeDie(AttachmentID &theAttachmentID, const ReanimationType &theReanimType);
 void AttachmentDie(AttachmentID &theAttachmentID);
 void AttachmentCrossFade(AttachmentID &theAttachmentID, const char *theCrossFadeName);
 AttachEffect *FindFirstAttachment(AttachmentID &theAttachmentID);

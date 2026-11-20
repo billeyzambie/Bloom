@@ -62,6 +62,7 @@ class LawnApp;
 class LawnStoneButton;
 class NewLawnButton;
 class Reanimation;
+class ReanimationType;
 
 class CreditScreen : public Widget, public ButtonListener
 {
@@ -112,7 +113,7 @@ class CreditScreen : public Widget, public ButtonListener
 	Reanimation *PlayReanim(int aIndex);
 	void JumpToFrame(CreditsPhase thePhase, float theFrame);
 	void GetTiming(CreditsTiming **theBeforeTiming, CreditsTiming **theAfterTiming, float *theFraction);
-	static Reanimation *FindSubReanim(Reanimation *theReanim, OldReanimationType theReanimType);
+	static Reanimation *FindSubReanim(Reanimation *theReanim, const ReanimationType &theReanimType);
 	void DrawFogEffect(Graphics *g, float theTime);
 	void UpdateBlink();
 	void TurnOffTongues(Reanimation *theReanim, int aParentTrack);
@@ -124,7 +125,7 @@ class CreditScreen : public Widget, public ButtonListener
 };
 
 void DrawDisco(Graphics *g, float aCenterX, float aCenterY, float theTime);
-void DrawReanimToPreload(Graphics *g, OldReanimationType theReanimType);
+void DrawReanimToPreload(Graphics *g, const ReanimationType &theReanimType);
 
 class CreditsOverlay : public Widget
 {
