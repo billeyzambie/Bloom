@@ -1062,4 +1062,11 @@ const auto &ZOMBATAR_HEAD = RegisterTypeOf<Reanimation>(
 	}
 );
 
+
+const auto &GOLD_BLOOM = RegisterTypeOf<Reanimation>(
+	"PVZ", "GOLDBLOOM",
+	{
+	}
+);
+
 }

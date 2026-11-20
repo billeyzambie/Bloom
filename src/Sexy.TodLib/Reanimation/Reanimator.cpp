@@ -961,8 +961,7 @@ Reanimation *ReanimationHolder::AllocReanimation(float theX,
 
 void ReanimatorEnsureDefinitionLoaded(const ReanimationType &theReanimType, bool theIsPreloading)
 {
-	TOD_ASSERT(theReanimType >= 0 && theReanimType < gReanimatorDefCount);
-	ReanimatorDefinition *aReanimDef = &gReanimatorDefArray[(int)theReanimType];
+	ReanimatorDefinition *aReanimDef = &gReanimatorDefArray[theReanimType.GetNumericalId()];
 	if (aReanimDef->mTracks != nullptr)
 		return;
 	if (theIsPreloading)

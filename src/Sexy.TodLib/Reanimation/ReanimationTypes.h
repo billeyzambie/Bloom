@@ -150,5 +150,6 @@ extern BLOOM_API const RegistryHolder<ReanimationType> &CREDITS_WE_ARE_THE_UNDEA
 extern BLOOM_API const RegistryHolder<ReanimationType> &CREDITS_DISCO_LIGHTS;
 extern BLOOM_API const RegistryHolder<ReanimationType> &FLAG;
 extern BLOOM_API const RegistryHolder<ReanimationType> &ZOMBATAR_HEAD;
+extern BLOOM_API const RegistryHolder<ReanimationType> &GOLD_BLOOM;
 
 } // namespace ReanimationTypes

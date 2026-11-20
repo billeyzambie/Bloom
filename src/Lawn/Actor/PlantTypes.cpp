@@ -674,7 +674,7 @@ const auto &CUSTOM_TEST = RegisterTypeOf<Plant>(
 	},
 	[](PlantType &theType, PlantAttributes &theAttributes)
 	{
-		theType.mBaseReanim = ReanimationTypes::SNOW_PEA;
+		theType.mBaseReanim = ReanimationTypes::GOLD_BLOOM;
 		theType.mSunCost = 150;
 		theType.mRefreshTime = 750;
 	}
