@@ -18,6 +18,7 @@ class BLOOM_API ReanimationType final : public BloomType
 	Attributes mAttributes;
 	ResourcePath mFile;
 	bool mNoAtlas = false;
+	bool mPlantHasSeparateHead = false;
 	ReanimationType(
 		const std::string &theModName,
 		const std::string &theTypeName,

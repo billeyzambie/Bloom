@@ -48,6 +48,7 @@ const auto &PEASHOOTER = RegisterTypeOf<Reanimation>(
 	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
 	{
 		theType.mFile = {"PVZ", "reanim/PeaShooterSingle.reanim"};
+		theType.mPlantHasSeparateHead = true;
 	}
 );
 
@@ -107,6 +108,10 @@ const auto &DOOM_SHROOM = RegisterTypeOf<Reanimation>(
 const auto &SNOW_PEA = RegisterTypeOf<Reanimation>(
 	"PVZ", "SNOWPEA",
 	{
+	},
+	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	{
+		theType.mPlantHasSeparateHead = true;
 	}
 );
 
@@ -117,6 +122,7 @@ const auto &REPEATER = RegisterTypeOf<Reanimation>(
 	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
 	{
 		theType.mFile = {"PVZ", "reanim/PeaShooter.reanim"};
+		theType.mPlantHasSeparateHead = true;
 	}
 );
 
@@ -533,6 +539,10 @@ const auto &UMBRELLA_LEAF = RegisterTypeOf<Reanimation>(
 const auto &GATLING_PEA = RegisterTypeOf<Reanimation>(
 	"PVZ", "GATLINGPEA",
 	{
+	},
+	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	{
+		theType.mPlantHasSeparateHead = true;
 	}
 );
 

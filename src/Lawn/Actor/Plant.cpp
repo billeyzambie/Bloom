@@ -133,6 +133,21 @@ void Plant::PlantInitialize(int theGridX, int theGridY)
 	else
 		mLaunchCounter = 0;
 
+	if (aBodyReanim && aBodyReanim->mType.mPlantHasSeparateHead)
+	{
+		aBodyReanim->mAnimRate = RandRangeFloat(15.0f, 20.0f);
+		Reanimation *aHeadReanim = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, *mType.mBaseReanim);
+		aHeadReanim->mLoopType = ReanimLoopType::REANIM_LOOP;
+		aHeadReanim->mAnimRate = aBodyReanim->mAnimRate;
+		aHeadReanim->SetFramesForLayer("anim_head_idle");
+		mHeadReanimID = mApp->ReanimationGetID(aHeadReanim);
+
+		if (aBodyReanim->TrackExists("anim_stem"))
+			aHeadReanim->AttachToAnotherReanimation(aBodyReanim, "anim_stem");
+		else if (aBodyReanim->TrackExists("anim_idle"))
+			aHeadReanim->AttachToAnotherReanimation(aBodyReanim, "anim_idle");
+	}
+
 	switch (mType.GetNumericalId())
 	{
 	case SeedType::SEED_BLOVER: {
@@ -152,26 +167,6 @@ void Plant::PlantInitialize(int theGridX, int theGridY)
 
 		break;
 	}
-	case SeedType::SEED_PEASHOOTER:
-	case SeedType::SEED_SNOWPEA:
-	case SeedType::SEED_REPEATER:
-	case SeedType::SEED_LEFTPEATER:
-	case SeedType::SEED_GATLINGPEA:
-		if (aBodyReanim)
-		{
-			aBodyReanim->mAnimRate = RandRangeFloat(15.0f, 20.0f);
-			Reanimation *aHeadReanim = mApp->AddReanimation(0.0f, 0.0f, mRenderOrder + 2, *mType.mBaseReanim);
-			aHeadReanim->mLoopType = ReanimLoopType::REANIM_LOOP;
-			aHeadReanim->mAnimRate = aBodyReanim->mAnimRate;
-			aHeadReanim->SetFramesForLayer("anim_head_idle");
-			mHeadReanimID = mApp->ReanimationGetID(aHeadReanim);
-
-			if (aBodyReanim->TrackExists("anim_stem"))
-				aHeadReanim->AttachToAnotherReanimation(aBodyReanim, "anim_stem");
-			else if (aBodyReanim->TrackExists("anim_idle"))
-				aHeadReanim->AttachToAnotherReanimation(aBodyReanim, "anim_idle");
-		}
-		break;
 	case SeedType::SEED_SPLITPEA: {
 		TOD_ASSERT(aBodyReanim);
 
@@ -3041,9 +3036,7 @@ Reanimation *Plant::AttachBlinkAnim(Reanimation *theReanimBody)
 			aTrackToAttach = "anim_face2";
 		}
 	}
-	else if (mType == PlantTypes::PEASHOOTER || mType == PlantTypes::SNOW_PEA ||
-			 mType == PlantTypes::REPEATER || mType == PlantTypes::LEFTPEATER ||
-			 mType == PlantTypes::GATLING_PEA)
+	else if (aAnimToAttach->mType.mPlantHasSeparateHead)
 	{
 		if (theReanimBody->TrackExists("anim_stem"))
 		{
