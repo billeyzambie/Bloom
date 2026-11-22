@@ -7,8 +7,8 @@ class CursorObject : public GameObject
 {
   public:
 	int mSeedBankIndex;
-	SeedType mType;
-	SeedType mImitaterType;
+	OldSeedType mType;
+	OldSeedType mImitaterType;
 	CursorType mCursorType;
 	CoinID mCoinID;
 	PlantID mGlovePlantID;

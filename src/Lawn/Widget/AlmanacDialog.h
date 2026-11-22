@@ -41,7 +41,7 @@ class AlmanacDialog : public LawnDialog
 	GameButton *mZombieButton;
 	AlmanacPage mOpenPage;
 	Reanimation *mReanim[4];
-	SeedType mSelectedSeed;
+	OldSeedType mSelectedSeed;
 	ZombieType mSelectedZombie;
 	Plant *mPlant;
 	Zombie *mZombie;
@@ -63,8 +63,8 @@ class AlmanacDialog : public LawnDialog
 	void DrawPlants(Graphics *g);
 	void DrawZombies(Graphics *g);
 	virtual void Draw(Graphics *g);
-	void GetSeedPosition(SeedType theSeedType, int &x, int &y);
-	SeedType SeedHitTest(int x, int y);
+	void GetSeedPosition(OldSeedType theSeedType, int &x, int &y);
+	OldSeedType SeedHitTest(int x, int y);
 	bool ZombieHasSilhouette(ZombieType theZombieType);
 	bool ZombieIsShown(ZombieType theZombieType);
 	bool ZombieHasDescription(ZombieType theZombieType);
@@ -78,7 +78,7 @@ class AlmanacDialog : public LawnDialog
 
 	virtual void MouseWheel(int theDelta);
 	static ZombieType GetZombieType(int theIndex);
-	void ShowPlant(SeedType theSeedType);
+	void ShowPlant(OldSeedType theSeedType);
 	void ShowZombie(ZombieType theZombieType);
 };
 extern bool gZombieDefeated[NUM_ZOMBIE_TYPES];

@@ -31,7 +31,7 @@ class BLOOM_API Coin : public GameObject
 	CoinMotion mCoinMotion;
 	AttachmentID mAttachmentID;
 	float mCollectionDistance;
-	SeedType mUsableSeedType;
+	OldSeedType mUsableSeedType;
 	PottedPlant mPottedPlantSpec;
 	bool mNeedsBouncyArrow;
 	bool mHasBouncyArrow;
@@ -101,7 +101,7 @@ class BLOOM_API Coin : public GameObject
 	float GetSunScale();
 	/// @brief Get the SeedType that the Coin represents
 	/// @return The SeedType determined by the current adventure level
-	SeedType GetFinalSeedPacketType();
+	OldSeedType GetFinalSeedPacketType();
 	/// @brief Is the Coin the Level Award
 	/// @return True if it's the Level Award, false otherwise
 	bool IsLevelAward();

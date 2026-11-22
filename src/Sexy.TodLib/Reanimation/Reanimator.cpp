@@ -179,6 +179,7 @@ void Reanimation::Sync(BoundedSync &theSync)
 	if (theSync.mReading)
 	{
 		mDefinition = &gReanimatorDefArray[mType.GetNumericalId()];
+		ReanimatorEnsureDefinitionLoaded(mType, false);
 		mReanimationHolder = gLawnApp->mEffectSystem->mReanimationHolder;
 	}
 

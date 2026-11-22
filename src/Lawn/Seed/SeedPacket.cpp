@@ -1,26 +1,26 @@
-#include "Board.h"
-#include "Cutscene.h"
-#include "Challenge.h"
-#include "Actor/PlantTypes.h"
-#include "SeedPacket.h"
-#include "ResourceInclude.h"
-#include "../LawnApp.h"
-#include "CursorObject.h"
-#include "../Resources.h"
-#include "MessageWidget.h"
-#include "../SexyAppFramework/Font.h"
-#include "../Sexy.TodLib/FilterEffect.h"
-#include "../SexyAppFramework/SexyMatrix.h"
+#include "../Board.h"
+#include "../Cutscene.h"
+#include "../Challenge.h"
+#include "../Actor/PlantTypes.h"
+#include "../Seed/SeedPacket.h"
+#include "../ResourceInclude.h"
+#include "../../LawnApp.h"
+#include "../CursorObject.h"
+#include "../../Resources.h"
+#include "../MessageWidget.h"
+#include "../../SexyAppFramework/Font.h"
+#include "../../Sexy.TodLib/FilterEffect.h"
+#include "../../SexyAppFramework/SexyMatrix.h"
 
 bool mIgnorePacketSpriteScale = false;
 
 SeedPacket::SeedPacket() : GameObject(GameObjectType::OBJECT_TYPE_SEEDPACKET)
 {
 	mSlotMachiningPosition = 0.0f;
-	mPacketType = SeedType::SEED_NONE;
-	mImitaterType = SeedType::SEED_NONE;
+	mType = OldSeedType::SEED_NONE;
+	mImitaterType = OldSeedType::SEED_NONE;
 	mIndex = -1;
-	mSlotMachiningNextSeed = SeedType::SEED_NONE;
+	mSlotMachiningNextSeed = OldSeedType::SEED_NONE;
 	mWidth = 50;
 	mHeight = 70;
 	mRefreshCounter = 0;
@@ -29,7 +29,7 @@ SeedPacket::SeedPacket() : GameObject(GameObjectType::OBJECT_TYPE_SEEDPACKET)
 	mActive = true;
 	mOffsetX = 0;
 	mSlotMachineCountDown = 0;
-	mSlotMachiningNextSeed = SeedType::SEED_NONE;
+	mSlotMachiningNextSeed = OldSeedType::SEED_NONE;
 	mTimesUsed = 0;
 }
 
@@ -37,30 +37,30 @@ void SeedPacket::PickNextSlotMachineSeed()
 {
 	int aPeasCount = mBoard->CountPlantByType(PlantTypes::PEASHOOTER);
 
-	SeedType SLOT_SEED_TYPES[] = {SeedType::SEED_SUNFLOWER,
-								  SeedType::SEED_PEASHOOTER,
-								  SeedType::SEED_SNOWPEA,
-								  SeedType::SEED_WALLNUT,
-								  SeedType::SEED_SLOT_MACHINE_SUN,
-								  SeedType::SEED_SLOT_MACHINE_DIAMOND};
+	OldSeedType SLOT_SEED_TYPES[] = {OldSeedType::SEED_SUNFLOWER,
+								  OldSeedType::SEED_PEASHOOTER,
+								  OldSeedType::SEED_SNOWPEA,
+								  OldSeedType::SEED_WALLNUT,
+								  OldSeedType::SEED_SLOT_MACHINE_SUN,
+								  OldSeedType::SEED_SLOT_MACHINE_DIAMOND};
 
 	int aSeedsCount = 0;
-	TodWeightedArray aSeedWeightArray[(int)SeedType::NUM_SEED_TYPES];
+	TodWeightedArray aSeedWeightArray[(int)OldSeedType::NUM_SEED_TYPES];
 	for (int i = 0; i < LENGTH(SLOT_SEED_TYPES); i++)
 	{
-		SeedType aSeedType = SLOT_SEED_TYPES[i];
+		OldSeedType aSeedType = SLOT_SEED_TYPES[i];
 
 		int aWeight = 100;
-		if (aSeedType == SeedType::SEED_PEASHOOTER)
+		if (aSeedType == OldSeedType::SEED_PEASHOOTER)
 		{
 			aWeight = TodAnimateCurve(0, 5, aPeasCount, 200, 100, TodCurves::CURVE_LINEAR);
 		}
-		else if (aSeedType == SeedType::SEED_SLOT_MACHINE_DIAMOND)
+		else if (aSeedType == OldSeedType::SEED_SLOT_MACHINE_DIAMOND)
 		{
 			aWeight = 30;
 		}
 
-		if (mIndex == 2 && aSeedType != SeedType::SEED_SLOT_MACHINE_DIAMOND)
+		if (mIndex == 2 && aSeedType != OldSeedType::SEED_SLOT_MACHINE_DIAMOND)
 		{
 			if (aSeedType == mBoard->mSeedBank->mSeedPackets[0].mSlotMachiningNextSeed ||
 				aSeedType == mBoard->mSeedBank->mSeedPackets[1].mSlotMachiningNextSeed)
@@ -74,7 +74,7 @@ void SeedPacket::PickNextSlotMachineSeed()
 		aSeedsCount++;
 	}
 
-	mSlotMachiningNextSeed = (SeedType)TodPickFromWeightedArray(aSeedWeightArray, aSeedsCount);
+	mSlotMachiningNextSeed = (OldSeedType)TodPickFromWeightedArray(aSeedWeightArray, aSeedsCount);
 }
 
 void SeedPacket::SlotMachineStart()
@@ -103,12 +103,12 @@ void SeedPacket::FlashIfReady()
 		mBoard->SetTutorialState(TutorialState::TUTORIAL_LEVEL_1_PICK_UP_PEASHOOTER);
 	}
 	else if (mBoard->mTutorialState == TutorialState::TUTORIAL_LEVEL_2_REFRESH_SUNFLOWER &&
-			 mPacketType == SeedType::SEED_SUNFLOWER)
+			 mType == OldSeedType::SEED_SUNFLOWER)
 	{
 		mBoard->SetTutorialState(TutorialState::TUTORIAL_LEVEL_2_PICK_UP_SUNFLOWER);
 	}
 	else if (mBoard->mTutorialState == TutorialState::TUTORIAL_MORESUN_REFRESH_SUNFLOWER &&
-			 mPacketType == SeedType::SEED_SUNFLOWER)
+			 mType == OldSeedType::SEED_SUNFLOWER)
 	{
 		mBoard->SetTutorialState(TutorialState::TUTORIAL_MORESUN_PICK_UP_SUNFLOWER);
 	}
@@ -116,7 +116,7 @@ void SeedPacket::FlashIfReady()
 
 void SeedPacket::Activate()
 {
-	TOD_ASSERT(mPacketType != SeedType::SEED_NONE);
+	TOD_ASSERT(mType != OldSeedType::SEED_NONE);
 	mActive = true;
 }
 
@@ -142,7 +142,7 @@ void SeedPacket::SetActivate(bool theActive)
 
 void SeedPacket::Update()
 {
-	if (mApp->mGameScene != GameScenes::SCENE_PLAYING || mPacketType == SeedType::SEED_NONE)
+	if (mApp->mGameScene != GameScenes::SCENE_PLAYING || mType == OldSeedType::SEED_NONE)
 	{
 		return;
 	}
@@ -173,7 +173,7 @@ void SeedPacket::Update()
 
 		if (mSlotMachiningPosition >= 1.0f)
 		{
-			mPacketType = mSlotMachiningNextSeed;
+			mType = mSlotMachiningNextSeed;
 			if (mSlotMachineCountDown == 0)
 			{
 				Activate();
@@ -195,74 +195,74 @@ void SeedPacket::Update()
 void SeedPacketDrawSeed(Graphics *g,
 						float x,
 						float y,
-						SeedType theSeedType,
-						SeedType theImitaterType,
+						OldSeedType theSeedType,
+						OldSeedType theImitaterType,
 						float theOffsetX,
 						float theOffsetY,
 						float theScale)
 {
 	Image *aImage = IMAGE_PACKET_PLANTS;
-	SeedType aSeedType = theSeedType;
-	if (theSeedType == SeedType::SEED_IMITATER && theImitaterType != SeedType::SEED_NONE)
+	OldSeedType aSeedType = theSeedType;
+	if (theSeedType == OldSeedType::SEED_IMITATER && theImitaterType != OldSeedType::SEED_NONE)
 	{
 		aSeedType = theImitaterType;
 		FilterEffect aFilterEffect = FilterEffect::FILTER_EFFECT_WASHED_OUT;
-		if (theImitaterType == SeedType::SEED_HYPNOSHROOM || theImitaterType == SeedType::SEED_SQUASH ||
-			theImitaterType == SeedType::SEED_POTATOMINE || theImitaterType == SeedType::SEED_GARLIC ||
-			theImitaterType == SeedType::SEED_LILYPAD)
+		if (theImitaterType == OldSeedType::SEED_HYPNOSHROOM || theImitaterType == OldSeedType::SEED_SQUASH ||
+			theImitaterType == OldSeedType::SEED_POTATOMINE || theImitaterType == OldSeedType::SEED_GARLIC ||
+			theImitaterType == OldSeedType::SEED_LILYPAD)
 			aFilterEffect = FilterEffect::FILTER_EFFECT_LESS_WASHED_OUT;
 		aImage = FilterEffectGetImage(aImage, aFilterEffect);
 	}
 
-	if (aSeedType == SeedType::SEED_POTATOMINE && g->mScaleX <= 1.0f)
+	if (aSeedType == OldSeedType::SEED_POTATOMINE && g->mScaleX <= 1.0f)
 	{
 		TodDrawImageCelScaledF(g, aImage, x, y, 0, 0, g->mScaleX, g->mScaleY);
 	}
-	else if (aSeedType == SeedType::SEED_CHOMPER && g->mScaleX <= 1.0f)
+	else if (aSeedType == OldSeedType::SEED_CHOMPER && g->mScaleX <= 1.0f)
 	{
 		TodDrawImageCelScaledF(g, aImage, x, y, 1, 0, g->mScaleX, g->mScaleY);
 	}
-	else if (aSeedType == SeedType::SEED_HYPNOSHROOM && g->mScaleX <= 1.0f)
+	else if (aSeedType == OldSeedType::SEED_HYPNOSHROOM && g->mScaleX <= 1.0f)
 	{
 		TodDrawImageCelScaledF(g, aImage, x, y, 2, 0, g->mScaleX, g->mScaleY);
 	}
-	else if (aSeedType == SeedType::SEED_TALLNUT && g->mScaleX <= 1.0f)
+	else if (aSeedType == OldSeedType::SEED_TALLNUT && g->mScaleX <= 1.0f)
 	{
 		TodDrawImageCelScaledF(g, aImage, x, y, 3, 0, g->mScaleX, g->mScaleY);
 	}
-	else if (aSeedType == SeedType::SEED_BLOVER && g->mScaleX <= 1.0f)
+	else if (aSeedType == OldSeedType::SEED_BLOVER && g->mScaleX <= 1.0f)
 	{
 		TodDrawImageCelScaledF(g, aImage, x, y, 4, 0, g->mScaleX, g->mScaleY);
 	}
-	else if (aSeedType == SeedType::SEED_PUMPKINSHELL && g->mScaleX <= 1.0f)
+	else if (aSeedType == OldSeedType::SEED_PUMPKINSHELL && g->mScaleX <= 1.0f)
 	{
 		TodDrawImageCelScaledF(g, aImage, x, y, 5, 0, g->mScaleX, g->mScaleY);
 	}
-	else if (aSeedType == SeedType::SEED_TWINSUNFLOWER && g->mScaleX <= 1.0f)
+	else if (aSeedType == OldSeedType::SEED_TWINSUNFLOWER && g->mScaleX <= 1.0f)
 	{
 		TodDrawImageCelScaledF(g, aImage, x, y, 6, 0, g->mScaleX, g->mScaleY);
 	}
-	else if (aSeedType == SeedType::SEED_COBCANNON && g->mScaleX <= 1.0f)
+	else if (aSeedType == OldSeedType::SEED_COBCANNON && g->mScaleX <= 1.0f)
 	{
 		TodDrawImageCelScaledF(g, aImage, x, y, 7, 0, g->mScaleX, g->mScaleY);
 	}
-	else if (aSeedType == SeedType::SEED_CABBAGEPULT && g->mScaleX <= 1.0f)
+	else if (aSeedType == OldSeedType::SEED_CABBAGEPULT && g->mScaleX <= 1.0f)
 	{
 		TodDrawImageCelScaledF(g, aImage, x, y, 8, 0, g->mScaleX, g->mScaleY);
 	}
-	else if (aSeedType == SeedType::SEED_KERNELPULT && g->mScaleX <= 1.0f)
+	else if (aSeedType == OldSeedType::SEED_KERNELPULT && g->mScaleX <= 1.0f)
 	{
 		TodDrawImageCelScaledF(g, aImage, x, y, 9, 0, g->mScaleX, g->mScaleY);
 	}
-	else if (aSeedType == SeedType::SEED_MELONPULT && g->mScaleX <= 1.0f)
+	else if (aSeedType == OldSeedType::SEED_MELONPULT && g->mScaleX <= 1.0f)
 	{
 		TodDrawImageCelScaledF(g, aImage, x, y, 10, 0, g->mScaleX, g->mScaleY);
 	}
-	else if (aSeedType == SeedType::SEED_WINTERMELON && g->mScaleX <= 1.0f)
+	else if (aSeedType == OldSeedType::SEED_WINTERMELON && g->mScaleX <= 1.0f)
 	{
 		TodDrawImageCelScaledF(g, aImage, x, y, 11, 0, g->mScaleX, g->mScaleY);
 	}
-	else if (aSeedType == SeedType::SEED_SPIKEROCK && g->mScaleX <= 1.0f)
+	else if (aSeedType == OldSeedType::SEED_SPIKEROCK && g->mScaleX <= 1.0f)
 	{
 		TodDrawImageCelScaledF(g, aImage, x, y, 12, 0, g->mScaleX, g->mScaleY);
 	}
@@ -279,15 +279,15 @@ void SeedPacketDrawSeed(Graphics *g,
 void DrawSeedPacket(Graphics *g,
 					float x,
 					float y,
-					SeedType theSeedType,
-					SeedType theImitaterType,
+					OldSeedType theSeedType,
+					OldSeedType theImitaterType,
 					float thePercentDark,
 					int theGrayness,
 					bool theDrawCost,
 					bool theUseCurrentCost)
 {
-	SeedType aSeedType = theSeedType;
-	if (aSeedType == SeedType::SEED_IMITATER && theImitaterType != SeedType::SEED_NONE)
+	OldSeedType aSeedType = theSeedType;
+	if (aSeedType == OldSeedType::SEED_IMITATER && theImitaterType != OldSeedType::SEED_NONE)
 	{
 		aSeedType = theImitaterType;
 	}
@@ -305,14 +305,14 @@ void DrawSeedPacket(Graphics *g,
 
 	const PlantType *aPlantType = PlantTypes::FromOptionalOldSeedType(aSeedType);
 
-	int aPacketBackground = theSeedType == SeedType::SEED_IMITATER					 ? 0
+	int aPacketBackground = theSeedType == OldSeedType::SEED_IMITATER					 ? 0
 							: aPlantType && Plant::IsUpgrade(*aPlantType)							 ? 1
-							: theSeedType == SeedType::SEED_BEGHOULED_BUTTON_CRATER	 ? 3
-							: theSeedType == SeedType::SEED_BEGHOULED_BUTTON_SHUFFLE ? 4
-							: theSeedType == SeedType::SEED_SLOT_MACHINE_SUN		 ? 5
-							: theSeedType == SeedType::SEED_SLOT_MACHINE_DIAMOND	 ? 6
-							: theSeedType == SeedType::SEED_ZOMBIQUARIUM_SNORKLE	 ? 7
-							: theSeedType == SeedType::SEED_ZOMBIQUARIUM_TROPHY		 ? 8
+							: theSeedType == OldSeedType::SEED_BEGHOULED_BUTTON_CRATER	 ? 3
+							: theSeedType == OldSeedType::SEED_BEGHOULED_BUTTON_SHUFFLE ? 4
+							: theSeedType == OldSeedType::SEED_SLOT_MACHINE_SUN		 ? 5
+							: theSeedType == OldSeedType::SEED_SLOT_MACHINE_DIAMOND	 ? 6
+							: theSeedType == OldSeedType::SEED_ZOMBIQUARIUM_SNORKLE	 ? 7
+							: theSeedType == OldSeedType::SEED_ZOMBIQUARIUM_TROPHY		 ? 8
 																					 : 2;
 
 	if (g->mScaleX > 1 && !mIgnorePacketSpriteScale)
@@ -333,208 +333,208 @@ void DrawSeedPacket(Graphics *g,
 	float aOffsetY = 8.0f;
 	switch (aSeedType)
 	{
-	case SeedType::SEED_TALLNUT:
+	case OldSeedType::SEED_TALLNUT:
 		aScale = 0.3f;
 		aOffsetX = 12.0f;
 		aOffsetY = 22.0f;
 		break;
 
-	case SeedType::SEED_INSTANT_COFFEE:
+	case OldSeedType::SEED_INSTANT_COFFEE:
 		aScale = 0.55f;
 		aOffsetX = 0;
 		aOffsetY = 9.0f;
 		break;
 
-	case SeedType::SEED_COBCANNON:
+	case OldSeedType::SEED_COBCANNON:
 		aScale = 0.26f;
 		aOffsetX = 6.0f;
 		aOffsetY = 22.0f;
 		break;
 
-	case SeedType::SEED_CACTUS:
+	case OldSeedType::SEED_CACTUS:
 		aOffsetX = 9.0f;
 		aOffsetY = 13.0f;
 		break;
 
-	case SeedType::SEED_POTATOMINE:
+	case OldSeedType::SEED_POTATOMINE:
 		aScale = 0.4f;
 		aOffsetX = 8.0f;
 		aOffsetY = 12.0f;
 		break;
 
-	case SeedType::SEED_MAGNETSHROOM:
+	case OldSeedType::SEED_MAGNETSHROOM:
 		aOffsetY = 12.0f;
 		break;
 
-	case SeedType::SEED_FUMESHROOM:
-	case SeedType::SEED_PUMPKINSHELL:
-	case SeedType::SEED_CHOMPER:
-	case SeedType::SEED_DOOMSHROOM:
-	case SeedType::SEED_SQUASH:
-	case SeedType::SEED_HYPNOSHROOM:
-	case SeedType::SEED_SPIKEWEED:
-	case SeedType::SEED_SPIKEROCK:
-	case SeedType::SEED_PLANTERN:
-	case SeedType::SEED_TORCHWOOD:
-	case SeedType::SEED_TANGLEKELP:
+	case OldSeedType::SEED_FUMESHROOM:
+	case OldSeedType::SEED_PUMPKINSHELL:
+	case OldSeedType::SEED_CHOMPER:
+	case OldSeedType::SEED_DOOMSHROOM:
+	case OldSeedType::SEED_SQUASH:
+	case OldSeedType::SEED_HYPNOSHROOM:
+	case OldSeedType::SEED_SPIKEWEED:
+	case OldSeedType::SEED_SPIKEROCK:
+	case OldSeedType::SEED_PLANTERN:
+	case OldSeedType::SEED_TORCHWOOD:
+	case OldSeedType::SEED_TANGLEKELP:
 		aScale = 0.4f;
 		aOffsetX = 8.0f;
 		aOffsetY = 12.0f;
 		break;
 
-	case SeedType::SEED_TWINSUNFLOWER:
-	case SeedType::SEED_GLOOMSHROOM:
+	case OldSeedType::SEED_TWINSUNFLOWER:
+	case OldSeedType::SEED_GLOOMSHROOM:
 		aScale = 0.45f;
 		aOffsetX = 7.0f;
 		aOffsetY = 14.0f;
 		break;
 
-	case SeedType::SEED_CATTAIL:
+	case OldSeedType::SEED_CATTAIL:
 		aScale = 0.45f;
 		aOffsetX = 8.0f;
 		aOffsetY = 13.0f;
 		break;
 
-	case SeedType::SEED_UMBRELLA:
+	case OldSeedType::SEED_UMBRELLA:
 		aScale = 0.5f;
 		aOffsetX = 5.0f;
 		aOffsetY = 10.0f;
 		break;
 
-	case SeedType::SEED_KERNELPULT:
+	case OldSeedType::SEED_KERNELPULT:
 		aScale = 0.4f;
 		aOffsetX = 13.0f;
 		aOffsetY = 14.0f;
 		break;
 
-	case SeedType::SEED_CABBAGEPULT:
+	case OldSeedType::SEED_CABBAGEPULT:
 		aScale = 0.4f;
 		aOffsetX = 15.0f;
 		aOffsetY = 14.0f;
 		break;
 
-	case SeedType::SEED_MELONPULT:
-	case SeedType::SEED_WINTERMELON:
+	case OldSeedType::SEED_MELONPULT:
+	case OldSeedType::SEED_WINTERMELON:
 		aScale = 0.35f;
 		aOffsetX = 18.0f;
 		aOffsetY = 19.0f;
 		break;
 
-	case SeedType::SEED_GRAVEBUSTER:
+	case OldSeedType::SEED_GRAVEBUSTER:
 		aScale = 0.4f;
 		aOffsetX = 10.0f;
 		aOffsetY = 15.0f;
 		break;
 
-	case SeedType::SEED_SPLITPEA:
+	case OldSeedType::SEED_SPLITPEA:
 		aScale = 0.45f;
 		aOffsetX = 12.0f;
 		aOffsetY = 12.0f;
 		break;
 
-	case SeedType::SEED_BLOVER:
+	case OldSeedType::SEED_BLOVER:
 		aScale = 0.4f;
 		aOffsetX = 8.0f;
 		aOffsetY = 17.0f;
 		break;
 
-	case SeedType::SEED_STARFRUIT:
+	case OldSeedType::SEED_STARFRUIT:
 		aScale = 0.5f;
 		aOffsetX = 6.0f;
 		aOffsetY = 8.0f;
 		break;
 
-	case SeedType::SEED_THREEPEATER:
+	case OldSeedType::SEED_THREEPEATER:
 		aScale = 0.5f;
 		aOffsetX = 5.0f;
 		aOffsetY = 10.0f;
 		break;
 
-	case SeedType::SEED_GATLINGPEA:
+	case OldSeedType::SEED_GATLINGPEA:
 		aScale = 0.5f;
 		aOffsetX = 2.0f;
 		aOffsetY = 8.0f;
 		break;
 
-	case SeedType::SEED_ZOMBIE_NORMAL:
-	case SeedType::SEED_ZOMBIE_TRAFFIC_CONE:
-	case SeedType::SEED_ZOMBIE_PAIL:
-	case SeedType::SEED_ZOMBIE_DANCER:
+	case OldSeedType::SEED_ZOMBIE_NORMAL:
+	case OldSeedType::SEED_ZOMBIE_TRAFFIC_CONE:
+	case OldSeedType::SEED_ZOMBIE_PAIL:
+	case OldSeedType::SEED_ZOMBIE_DANCER:
 		aScale = 0.35f;
 		aOffsetX = -3.0f;
 		aOffsetY = -7.0f;
 		break;
 
-	case SeedType::SEED_ZOMBIE_POLEVAULTER:
+	case OldSeedType::SEED_ZOMBIE_POLEVAULTER:
 		aScale = 0.35f;
 		aOffsetX = -8.0f;
 		aOffsetY = -12.0f;
 		break;
 
-	case SeedType::SEED_ZOMBIE_LADDER:
-	case SeedType::SEED_ZOMBIE_DIGGER:
-	case SeedType::SEED_ZOMBIE_SCREEN_DOOR:
-	case SeedType::SEED_ZOMBIE_POGO:
+	case OldSeedType::SEED_ZOMBIE_LADDER:
+	case OldSeedType::SEED_ZOMBIE_DIGGER:
+	case OldSeedType::SEED_ZOMBIE_SCREEN_DOOR:
+	case OldSeedType::SEED_ZOMBIE_POGO:
 		aScale = 0.35f;
 		aOffsetX = -3.0f;
 		aOffsetY = -10.0f;
 		break;
 
-	case SeedType::SEED_ZOMBIE_BUNGEE:
+	case OldSeedType::SEED_ZOMBIE_BUNGEE:
 		aScale = 0.3f;
 		aOffsetX = 1.0f;
 		aOffsetY = -1.0f;
 		break;
 
-	case SeedType::SEED_ZOMBIE_FOOTBALL:
+	case OldSeedType::SEED_ZOMBIE_FOOTBALL:
 		aScale = 0.33f;
 		aOffsetX = -7.0f;
 		aOffsetY = -9.0f;
 		break;
 
-	case SeedType::SEED_ZOMBIE_BALLOON:
+	case OldSeedType::SEED_ZOMBIE_BALLOON:
 		aScale = 0.35f;
 		aOffsetX = -3.0f;
 		aOffsetY = -5.0f;
 		break;
 
-	case SeedType::SEED_ZOMBIE_IMP:
+	case OldSeedType::SEED_ZOMBIE_IMP:
 		aScale = 0.4f;
 		aOffsetX = -12.0f;
 		aOffsetY = -17.0f;
 		break;
 
-	case SeedType::SEED_ZOMBONI:
+	case OldSeedType::SEED_ZOMBONI:
 		aScale = 0.23f;
 		aOffsetX = 12.0f;
 		aOffsetY = 3.0f;
 		break;
 
-	case SeedType::SEED_ZOMBIE_GARGANTUAR:
+	case OldSeedType::SEED_ZOMBIE_GARGANTUAR:
 		aScale = 0.23f;
 		aOffsetX = 4.0f;
 		aOffsetY = 3.0f;
 		break;
 
-	case SeedType::SEED_BEGHOULED_BUTTON_SHUFFLE:
-	case SeedType::SEED_BEGHOULED_BUTTON_CRATER:
-	case SeedType::SEED_SLOT_MACHINE_SUN:
-	case SeedType::SEED_SLOT_MACHINE_DIAMOND:
-	case SeedType::SEED_ZOMBIQUARIUM_SNORKLE:
-	case SeedType::SEED_ZOMBIQUARIUM_TROPHY:
+	case OldSeedType::SEED_BEGHOULED_BUTTON_SHUFFLE:
+	case OldSeedType::SEED_BEGHOULED_BUTTON_CRATER:
+	case OldSeedType::SEED_SLOT_MACHINE_SUN:
+	case OldSeedType::SEED_SLOT_MACHINE_DIAMOND:
+	case OldSeedType::SEED_ZOMBIQUARIUM_SNORKLE:
+	case OldSeedType::SEED_ZOMBIQUARIUM_TROPHY:
 		aDrawSeedInMiddle = false;
 		break;
 	}
 	if (((LawnApp *)gSexyAppBase)->mGameMode == GameMode::GAMEMODE_CHALLENGE_BIG_TIME)
 	{
-		if (aSeedType == SeedType::SEED_WALLNUT || aSeedType == SeedType::SEED_SUNFLOWER ||
-			aSeedType == SeedType::SEED_MARIGOLD)
+		if (aSeedType == OldSeedType::SEED_WALLNUT || aSeedType == OldSeedType::SEED_SUNFLOWER ||
+			aSeedType == OldSeedType::SEED_MARIGOLD)
 		{
 			aOffsetX = 16.0f;
 			aOffsetY = 34.0f;
 		}
 	}
-	if (aSeedType == SeedType::SEED_GIANT_WALLNUT)
+	if (aSeedType == OldSeedType::SEED_GIANT_WALLNUT)
 	{
 		aScale *= 0.75f;
 		aOffsetX = 52.0f;
@@ -627,14 +627,14 @@ void SeedPacket::Draw(Graphics *g)
 		Graphics aClipG(*g);
 		aClipG.ClipRect(0, 0, mWidth, mHeight);
 
-		DrawSeedPacket(&aClipG, 0.0f, aOffsetY, mPacketType, SeedType::SEED_NONE, 0.0f, 128, false, false);
+		DrawSeedPacket(&aClipG, 0.0f, aOffsetY, mType, OldSeedType::SEED_NONE, 0.0f, 128, false, false);
 		DrawSeedPacket(
-			&aClipG, 0.0f, mHeight + aOffsetY, mSlotMachiningNextSeed, SeedType::SEED_NONE, 0.0f, 128, false, false);
+			&aClipG, 0.0f, mHeight + aOffsetY, mSlotMachiningNextSeed, OldSeedType::SEED_NONE, 0.0f, 128, false, false);
 	}
 	else
 	{
-		SeedType aUseSeedType = mPacketType;
-		if (mPacketType == SeedType::SEED_IMITATER && mImitaterType != SeedType::SEED_NONE)
+		OldSeedType aUseSeedType = mType;
+		if (mType == OldSeedType::SEED_IMITATER && mImitaterType != OldSeedType::SEED_NONE)
 		{
 			aUseSeedType = mImitaterType;
 		}
@@ -644,7 +644,7 @@ void SeedPacket::Draw(Graphics *g)
 		{
 			aDrawCost = false;
 		}
-		int aCost = mBoard->GetCurrentPlantCost(mPacketType, mImitaterType);
+		int aCost = mBoard->GetCurrentPlantCost(mType, mImitaterType);
 
 		int aGrayness = 255;
 		if ((mApp->mGameMode == GameMode::GAMEMODE_CHALLENGE_BEGHOULED && !mActive) ||
@@ -658,17 +658,17 @@ void SeedPacket::Draw(Graphics *g)
 			aPercentDark = 0.0f;
 		}
 		else if (mBoard->mTutorialState == TutorialState::TUTORIAL_LEVEL_1_PICK_UP_PEASHOOTER &&
-				 mBoard->mTutorialTimer == -1 && mPacketType == SeedType::SEED_PEASHOOTER)
+				 mBoard->mTutorialTimer == -1 && mType == OldSeedType::SEED_PEASHOOTER)
 		{
 			aGrayness = GetFlashingColor(mBoard->mMainCounter, 75).mRed;
 		}
 		else if (mBoard->mTutorialState == TutorialState::TUTORIAL_LEVEL_2_PICK_UP_SUNFLOWER &&
-				 mPacketType == SeedType::SEED_SUNFLOWER)
+				 mType == OldSeedType::SEED_SUNFLOWER)
 		{
 			aGrayness = GetFlashingColor(mBoard->mMainCounter, 75).mRed;
 		}
 		else if (mBoard->mTutorialState == TutorialState::TUTORIAL_MORESUN_PICK_UP_SUNFLOWER &&
-				 mPacketType == SeedType::SEED_SUNFLOWER)
+				 mType == OldSeedType::SEED_SUNFLOWER)
 		{
 			aGrayness = GetFlashingColor(mBoard->mMainCounter, 75).mRed;
 		}
@@ -686,19 +686,19 @@ void SeedPacket::Draw(Graphics *g)
 			aGrayness = 128;
 		}
 
-		DrawSeedPacket(g, mOffsetX, 0.0f, mPacketType, mImitaterType, aPercentDark, aGrayness, aDrawCost, true);
+		DrawSeedPacket(g, mOffsetX, 0.0f, mType, mImitaterType, aPercentDark, aGrayness, aDrawCost, true);
 	}
 }
 
 bool SeedPacket::CanPickUp()
 {
-	if (mBoard->mPaused || mApp->mGameScene != GameScenes::SCENE_PLAYING || mPacketType == SeedType::SEED_NONE)
+	if (mBoard->mPaused || mApp->mGameScene != GameScenes::SCENE_PLAYING || mType == OldSeedType::SEED_NONE)
 	{
 		return false;
 	}
 
-	SeedType aUseSeedType = mPacketType;
-	if (mPacketType == SeedType::SEED_IMITATER && mImitaterType != SeedType::SEED_NONE)
+	OldSeedType aUseSeedType = mType;
+	if (mType == OldSeedType::SEED_IMITATER && mImitaterType != OldSeedType::SEED_NONE)
 	{
 		aUseSeedType = mImitaterType;
 	}
@@ -715,7 +715,7 @@ bool SeedPacket::CanPickUp()
 			return false;
 		}
 
-		int aCost = mBoard->GetCurrentPlantCost(mPacketType, mImitaterType);
+		int aCost = mBoard->GetCurrentPlantCost(mType, mImitaterType);
 		if (!mBoard->CanTakeSunMoney(aCost) && !mBoard->HasConveyorBeltSeedBank())
 		{
 			return false;
@@ -739,7 +739,7 @@ bool SeedPacket::CanPickUp()
 
 void SeedPacket::MouseDown(int x, int y, int theClickCount)
 {
-	if (mBoard->mPaused || mApp->mGameScene != GameScenes::SCENE_PLAYING || mPacketType == SeedType::SEED_NONE)
+	if (mBoard->mPaused || mApp->mGameScene != GameScenes::SCENE_PLAYING || mType == OldSeedType::SEED_NONE)
 	{
 		return;
 	}
@@ -755,8 +755,8 @@ void SeedPacket::MouseDown(int x, int y, int theClickCount)
 		return;
 	}
 
-	SeedType aUseSeedType = mPacketType;
-	if (mPacketType == SeedType::SEED_IMITATER && mImitaterType != SeedType::SEED_NONE)
+	OldSeedType aUseSeedType = mType;
+	if (mType == OldSeedType::SEED_IMITATER && mImitaterType != OldSeedType::SEED_NONE)
 	{
 		aUseSeedType = mImitaterType;
 	}
@@ -776,7 +776,7 @@ void SeedPacket::MouseDown(int x, int y, int theClickCount)
 			return;
 		}
 
-		int aCost = mBoard->GetCurrentPlantCost(mPacketType, mImitaterType);
+		int aCost = mBoard->GetCurrentPlantCost(mType, mImitaterType);
 		if (!mBoard->CanTakeSunMoney(aCost) && !mBoard->HasConveyorBeltSeedBank())
 		{
 			mApp->PlaySample(SOUND_BUZZER);
@@ -794,49 +794,49 @@ void SeedPacket::MouseDown(int x, int y, int theClickCount)
 		if (!mBoard->PlantingRequirementsMet(aUseSeedType))
 		{
 			mApp->PlaySample(SOUND_BUZZER);
-			if (aUseSeedType == SeedType::SEED_GATLINGPEA)
+			if (aUseSeedType == OldSeedType::SEED_GATLINGPEA)
 			{
 				mBoard->DisplayAdvice("[ADVICE_PLANT_NEEDS_REPEATER]",
 									  MessageStyle::MESSAGE_STYLE_HINT_LONG,
 									  AdviceType::ADVICE_PLANT_NEEDS_REPEATER);
 			}
-			else if (aUseSeedType == SeedType::SEED_WINTERMELON)
+			else if (aUseSeedType == OldSeedType::SEED_WINTERMELON)
 			{
 				mBoard->DisplayAdvice("[ADVICE_PLANT_NEEDS_MELONPULT]",
 									  MessageStyle::MESSAGE_STYLE_HINT_LONG,
 									  AdviceType::ADVICE_PLANT_NEEDS_MELONPULT);
 			}
-			else if (aUseSeedType == SeedType::SEED_TWINSUNFLOWER)
+			else if (aUseSeedType == OldSeedType::SEED_TWINSUNFLOWER)
 			{
 				mBoard->DisplayAdvice("[ADVICE_PLANT_NEEDS_SUNFLOWER]",
 									  MessageStyle::MESSAGE_STYLE_HINT_LONG,
 									  AdviceType::ADVICE_PLANT_NEEDS_SUNFLOWER);
 			}
-			else if (aUseSeedType == SeedType::SEED_SPIKEROCK)
+			else if (aUseSeedType == OldSeedType::SEED_SPIKEROCK)
 			{
 				mBoard->DisplayAdvice("[ADVICE_PLANT_NEEDS_SPIKEWEED]",
 									  MessageStyle::MESSAGE_STYLE_HINT_LONG,
 									  AdviceType::ADVICE_PLANT_NEEDS_SPIKEWEED);
 			}
-			else if (aUseSeedType == SeedType::SEED_COBCANNON)
+			else if (aUseSeedType == OldSeedType::SEED_COBCANNON)
 			{
 				mBoard->DisplayAdvice("[ADVICE_PLANT_NEEDS_KERNELPULT]",
 									  MessageStyle::MESSAGE_STYLE_HINT_LONG,
 									  AdviceType::ADVICE_PLANT_NEEDS_KERNELPULT);
 			}
-			else if (aUseSeedType == SeedType::SEED_GOLD_MAGNET)
+			else if (aUseSeedType == OldSeedType::SEED_GOLD_MAGNET)
 			{
 				mBoard->DisplayAdvice("[ADVICE_PLANT_NEEDS_MAGNETSHROOM]",
 									  MessageStyle::MESSAGE_STYLE_HINT_LONG,
 									  AdviceType::ADVICE_PLANT_NEEDS_MAGNETSHROOM);
 			}
-			else if (aUseSeedType == SeedType::SEED_GLOOMSHROOM)
+			else if (aUseSeedType == OldSeedType::SEED_GLOOMSHROOM)
 			{
 				mBoard->DisplayAdvice("[ADVICE_PLANT_NEEDS_FUMESHROOM]",
 									  MessageStyle::MESSAGE_STYLE_HINT_LONG,
 									  AdviceType::ADVICE_PLANT_NEEDS_FUMESHROOM);
 			}
-			else if (aUseSeedType == SeedType::SEED_CATTAIL)
+			else if (aUseSeedType == OldSeedType::SEED_CATTAIL)
 			{
 				mBoard->DisplayAdvice("[ADVICE_PLANT_NEEDS_LILYPAD]",
 									  MessageStyle::MESSAGE_STYLE_HINT_LONG,
@@ -880,7 +880,7 @@ void SeedPacket::MouseDown(int x, int y, int theClickCount)
 	}
 	else
 	{
-		mBoard->mCursorObject->mType = mPacketType;
+		mBoard->mCursorObject->mType = mType;
 		mBoard->mCursorObject->mImitaterType = mImitaterType;
 		mBoard->mCursorObject->mCursorType = CursorType::CURSOR_TYPE_PLANT_FROM_BANK;
 		mBoard->mCursorObject->mSeedBankIndex = mIndex;
@@ -892,7 +892,7 @@ void SeedPacket::MouseDown(int x, int y, int theClickCount)
 		}
 		else if (mBoard->mTutorialState == TutorialState::TUTORIAL_LEVEL_2_PICK_UP_SUNFLOWER)
 		{
-			if (mPacketType == SeedType::SEED_SUNFLOWER)
+			if (mType == OldSeedType::SEED_SUNFLOWER)
 			{
 				mBoard->SetTutorialState(TutorialState::TUTORIAL_LEVEL_2_PLANT_SUNFLOWER);
 			}
@@ -903,7 +903,7 @@ void SeedPacket::MouseDown(int x, int y, int theClickCount)
 		}
 		else if (mBoard->mTutorialState == TutorialState::TUTORIAL_MORESUN_PICK_UP_SUNFLOWER)
 		{
-			if (mPacketType == SeedType::SEED_SUNFLOWER)
+			if (mType == OldSeedType::SEED_SUNFLOWER)
 			{
 				mBoard->SetTutorialState(TutorialState::TUTORIAL_MORESUN_PLANT_SUNFLOWER);
 			}
@@ -924,7 +924,7 @@ void SeedPacket::MouseDown(int x, int y, int theClickCount)
 
 void SeedPacket::WasPlanted()
 {
-	TOD_ASSERT(mPacketType != SeedType::SEED_NONE);
+	TOD_ASSERT(mType != OldSeedType::SEED_NONE);
 
 	if (mBoard->HasConveyorBeltSeedBank())
 	{
@@ -945,13 +945,13 @@ void SeedPacket::WasPlanted()
 	{
 		mTimesUsed++;
 		mRefreshing = true;
-		mRefreshTime = Plant::GetRefreshTime(mPacketType, mImitaterType);
+		mRefreshTime = Plant::GetRefreshTime(mType, mImitaterType);
 	}
 }
 
 bool SeedPacket::MouseHitTest(int theX, int theY, HitResult *theHitResult)
 {
-	if (mSlotMachineCountDown > 0 || mPacketType == SeedType::SEED_NONE)
+	if (mSlotMachineCountDown > 0 || mType == OldSeedType::SEED_NONE)
 	{
 		theHitResult->mObject = nullptr;
 		theHitResult->mObjectType = GameObjectType::OBJECT_TYPE_NONE;
@@ -1038,7 +1038,7 @@ void SeedBank::Draw(Graphics *g)
 		if (mApp->UsingGamepad())
 		{
 			SeedPacket *aSeedPacket = &mSeedPackets[mIndexGamepad];
-			if (aSeedPacket->mPacketType != SeedType::SEED_NONE)
+			if (aSeedPacket->mType != SeedType::SEED_NONE)
 			{
 				g->DrawImage(Sexy::IMAGE_SEED_SELECTOR, aSeedPacket->mX + aSeedPacket->mOffsetX - 5, 3);
 			}
@@ -1057,7 +1057,7 @@ void SeedBank::Draw(Graphics *g)
 		}
 #endif
 		SeedPacket *aSeedPacket = &mSeedPackets[i];
-		if (aSeedPacket->mPacketType != SeedType::SEED_NONE && aSeedPacket->BeginDraw(g))
+		if (aSeedPacket->mType != OldSeedType::SEED_NONE && aSeedPacket->BeginDraw(g))
 		{
 			aSeedPacket->Draw(g);
 			aSeedPacket->EndDraw(g);
@@ -1117,10 +1117,10 @@ bool SeedBank::ContainsPoint(int theX, int theY)
 	return theX >= mX && theX < mX + mWidth && theY >= mY && theY < mY + mHeight;
 }
 
-void SeedBank::AddSeed(SeedType theSeedType, bool thePlaceOnLeft)
+void SeedBank::AddSeed(OldSeedType theSeedType, bool thePlaceOnLeft)
 {
 	TOD_ASSERT(mBoard->HasConveyorBeltSeedBank());
-	TOD_ASSERT(theSeedType != SeedType::SEED_NONE);
+	TOD_ASSERT(theSeedType != OldSeedType::SEED_NONE);
 
 	int aNumSeeds = GetNumSeedsOnConveyorBelt();
 	if (aNumSeeds == mNumPackets)
@@ -1129,7 +1129,7 @@ void SeedBank::AddSeed(SeedType theSeedType, bool thePlaceOnLeft)
 	}
 
 	SeedPacket *aSeedPacket = &mSeedPackets[aNumSeeds];
-	aSeedPacket->mPacketType = theSeedType;
+	aSeedPacket->mType = theSeedType;
 	aSeedPacket->mRefreshCounter = 0;
 	aSeedPacket->mRefreshTime = 0;
 	aSeedPacket->mRefreshing = false;
@@ -1157,20 +1157,20 @@ void SeedBank::RemoveSeed(int theIndex)
 	for (int i = theIndex; i < mNumPackets; i++)
 	{
 		SeedPacket *aSeedPacket = &mSeedPackets[i];
-		if (aSeedPacket->mPacketType == SeedType::SEED_NONE)
+		if (aSeedPacket->mType == OldSeedType::SEED_NONE)
 		{
 			break;
 		}
 
 		if (i == mNumPackets - 1)
 		{
-			aSeedPacket->mPacketType = SeedType::SEED_NONE;
+			aSeedPacket->mType = OldSeedType::SEED_NONE;
 			aSeedPacket->mOffsetX = 0;
 		}
 		else
 		{
 			SeedPacket *aNextPacket = &mSeedPackets[i + 1];
-			aSeedPacket->mPacketType = aNextPacket->mPacketType;
+			aSeedPacket->mType = aNextPacket->mType;
 			aSeedPacket->mOffsetX = aNextPacket->mOffsetX + SEED_PACKET_WIDTH + 1;
 		}
 
@@ -1185,7 +1185,7 @@ int SeedBank::GetNumSeedsOnConveyorBelt()
 {
 	for (int i = 0; i < mNumPackets; i++)
 	{
-		if (mSeedPackets[i].mPacketType == SeedType::SEED_NONE)
+		if (mSeedPackets[i].mType == OldSeedType::SEED_NONE)
 		{
 			return i;
 		}
@@ -1193,12 +1193,12 @@ int SeedBank::GetNumSeedsOnConveyorBelt()
 	return mNumPackets;
 }
 
-int SeedBank::CountOfTypeOnConveyorBelt(SeedType theSeedType)
+int SeedBank::CountOfTypeOnConveyorBelt(OldSeedType theSeedType)
 {
 	int aCount = 0;
 	for (int i = 0; i < mNumPackets; i++)
 	{
-		if (mSeedPackets[i].mPacketType == theSeedType)
+		if (mSeedPackets[i].mType == theSeedType)
 		{
 			aCount++;
 		}
@@ -1206,17 +1206,17 @@ int SeedBank::CountOfTypeOnConveyorBelt(SeedType theSeedType)
 	return aCount;
 }
 
-void SeedPacket::SetPacketType(SeedType theSeedType, SeedType theImitaterType)
+void SeedPacket::SetPacketType(OldSeedType theSeedType, OldSeedType theImitaterType)
 {
-	mPacketType = theSeedType;
+	mType = theSeedType;
 	mImitaterType = theImitaterType;
 	mRefreshCounter = 0;
 	mRefreshTime = 0;
 	mRefreshing = false;
 	mActive = true;
 
-	SeedType aUseSeedType = theSeedType;
-	if (theSeedType == SeedType::SEED_IMITATER && theImitaterType != SeedType::SEED_NONE)
+	OldSeedType aUseSeedType = theSeedType;
+	if (theSeedType == OldSeedType::SEED_IMITATER && theImitaterType != OldSeedType::SEED_NONE)
 	{
 		aUseSeedType = theImitaterType;
 	}
@@ -1232,7 +1232,7 @@ void SeedPacket::SetPacketType(SeedType theSeedType, SeedType theImitaterType)
 	const PlantType &aUsePlantType = PlantTypes::FromOldSeedType(aUseSeedType);
 
 	if ((Plant::IsUpgrade(aUsePlantType) && !gLawnApp->IsSurvivalMode()) ||
-		Plant::GetRefreshTime(mPacketType, mImitaterType) == 5000)
+		Plant::GetRefreshTime(mType, mImitaterType) == 5000)
 	{
 		mRefreshTime = 3500;
 		mRefreshing = true;
@@ -1244,7 +1244,7 @@ void SeedPacket::SetPacketType(SeedType theSeedType, SeedType theImitaterType)
 		mRefreshing = true;
 		mActive = false;
 	}
-	else if (Plant::GetRefreshTime(mPacketType, mImitaterType) == 3000)
+	else if (Plant::GetRefreshTime(mType, mImitaterType) == 3000)
 	{
 		mRefreshTime = 2000;
 		mRefreshing = true;
@@ -1285,7 +1285,7 @@ void SeedBank::RefreshAllPackets()
 	for (int i = 0; i < mNumPackets; i++)
 	{
 		SeedPacket *aSeedPacket = &mSeedPackets[i];
-		if (aSeedPacket->mPacketType == SeedType::SEED_NONE)
+		if (aSeedPacket->mType == OldSeedType::SEED_NONE)
 		{
 			break;
 		}

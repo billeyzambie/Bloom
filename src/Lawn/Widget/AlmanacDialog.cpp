@@ -3,7 +3,7 @@
 #include "../Actor/PlantTypes.h"
 #include "../Zombie.h"
 #include "GameButton.h"
-#include "../SeedPacket.h"
+#include "../Seed/SeedPacket.h"
 #include "../../LawnApp.h"
 #include "AlmanacDialog.h"
 #include "../../Resources.h"
@@ -225,7 +225,7 @@ void AlmanacDialog::SetPage(AlmanacPage thePage)
 	}
 }
 
-void AlmanacDialog::ShowPlant(SeedType theSeedType)
+void AlmanacDialog::ShowPlant(OldSeedType theSeedType)
 {
 	mSelectedSeed = theSeedType;
 	SetPage(ALMANAC_PAGE_PLANTS);
@@ -259,7 +259,7 @@ void AlmanacDialog::Update()
 	int aMouseX = mApp->mWidgetManager->mLastMouseX;
 	int aMouseY = mApp->mWidgetManager->mLastMouseY;
 	ZombieType aZombieType = ZombieHitTest(aMouseX, aMouseY);
-	if (SeedHitTest(aMouseX, aMouseY) != SeedType::SEED_NONE || (aZombieType != ZombieType::ZOMBIE_INVALID && ZombieIsShown(aZombieType)) || 
+	if (SeedHitTest(aMouseX, aMouseY) != OldSeedType::SEED_NONE || (aZombieType != ZombieType::ZOMBIE_INVALID && ZombieIsShown(aZombieType)) || 
 		mCloseButton->IsMouseOver() || mIndexButton->IsMouseOver() || mPlantButton->IsMouseOver() || mZombieButton->IsMouseOver())
 	{
 		mApp->SetCursor(CURSOR_HAND);
@@ -314,15 +314,15 @@ void AlmanacDialog::DrawPlants(Graphics *g)
 				  Color(213, 159, 43),
 				  DrawStringJustification::DS_ALIGN_CENTER);
 
-	SeedType aSeedMouseOn = SeedHitTest(mApp->mWidgetManager->mLastMouseX, mApp->mWidgetManager->mLastMouseY);
-	for (SeedType aSeedType = SeedType::SEED_PEASHOOTER; aSeedType < NUM_ALMANAC_SEEDS;
-		 aSeedType = (SeedType)(aSeedType + 1))
+	OldSeedType aSeedMouseOn = SeedHitTest(mApp->mWidgetManager->mLastMouseX, mApp->mWidgetManager->mLastMouseY);
+	for (OldSeedType aSeedType = OldSeedType::SEED_PEASHOOTER; aSeedType < NUM_ALMANAC_SEEDS;
+		 aSeedType = (OldSeedType)(aSeedType + 1))
 	{
 		int aPosX, aPosY;
 		GetSeedPosition(aSeedType, aPosX, aPosY);
 		if (mApp->SeedTypeAvailable(aSeedType))
 		{
-			if (aSeedType == SeedType::SEED_IMITATER)
+			if (aSeedType == OldSeedType::SEED_IMITATER)
 			{
 				if (aSeedType == aSeedMouseOn)
 					g->DrawImage(Sexy::IMAGE_ALMANAC_IMITATER, aPosX, aPosY);
@@ -330,17 +330,17 @@ void AlmanacDialog::DrawPlants(Graphics *g)
 			}
 			else
 			{
-				DrawSeedPacket(g, aPosX, aPosY, aSeedType, SeedType::SEED_NONE, 0, 255, true, false);
+				DrawSeedPacket(g, aPosX, aPosY, aSeedType, OldSeedType::SEED_NONE, 0, 255, true, false);
 				if (aSeedType == aSeedMouseOn)
 					g->DrawImage(Sexy::IMAGE_SEEDPACKETFLASH, aPosX, aPosY);
 			}
 		}
 	}
 
-	if (mSelectedSeed == SeedType::SEED_LILYPAD || mSelectedSeed == SeedType::SEED_TANGLEKELP ||
-		mSelectedSeed == SeedType::SEED_CATTAIL || mSelectedSeed == SeedType::SEED_SEASHROOM)
+	if (mSelectedSeed == OldSeedType::SEED_LILYPAD || mSelectedSeed == OldSeedType::SEED_TANGLEKELP ||
+		mSelectedSeed == OldSeedType::SEED_CATTAIL || mSelectedSeed == OldSeedType::SEED_SEASHROOM)
 	{
-		bool aNight = mSelectedSeed == SeedType::SEED_SEASHROOM;
+		bool aNight = mSelectedSeed == OldSeedType::SEED_SEASHROOM;
 		g->DrawImage(aNight ? Sexy::IMAGE_ALMANAC_GROUNDNIGHTPOOL : Sexy::IMAGE_ALMANAC_GROUNDPOOL, 521, 107);
 
 		if (mApp->Is3DAccelerated())
@@ -354,10 +354,10 @@ void AlmanacDialog::DrawPlants(Graphics *g)
 	}
 	else
 	{
-		g->DrawImage(Plant::IsNocturnal(PlantTypes::FromOldSeedType(mSelectedSeed)) || mSelectedSeed == SeedType::SEED_GRAVEBUSTER ||
-							 mSelectedSeed == SeedType::SEED_PLANTERN
+		g->DrawImage(Plant::IsNocturnal(PlantTypes::FromOldSeedType(mSelectedSeed)) || mSelectedSeed == OldSeedType::SEED_GRAVEBUSTER ||
+							 mSelectedSeed == OldSeedType::SEED_PLANTERN
 						 ? Sexy::IMAGE_ALMANAC_GROUNDNIGHT
-					 : mSelectedSeed == SeedType::SEED_FLOWERPOT ? Sexy::IMAGE_ALMANAC_GROUNDROOF
+					 : mSelectedSeed == OldSeedType::SEED_FLOWERPOT ? Sexy::IMAGE_ALMANAC_GROUNDROOF
 																 : Sexy::IMAGE_ALMANAC_GROUNDDAY,
 					 521,
 					 107);
@@ -409,7 +409,7 @@ void AlmanacDialog::DrawPlants(Graphics *g)
 	TodDrawStringWrapped(g, aDescriptionName, Rect(485, 309 + aDistanceHeader - anOffsetSlider, 258 - aMaxWidthOffset, ALMANAC_PLANT_MAX_SPACE), Sexy::FONT_BRIANNETOD12, Color(40, 50, 90), DS_ALIGN_LEFT);
 	g->ClearClipRect();
 
-	if (mSelectedSeed != SeedType::SEED_IMITATER)
+	if (mSelectedSeed != OldSeedType::SEED_IMITATER)
 	{
 		SexyString aCostStr = TodReplaceString(
 			StrFormat("{KEYWORD}{COST}:{STAT} %d", aPlantType.mSunCost),"{COST}", "[COST]");
@@ -610,7 +610,7 @@ void AlmanacDialog::DrawZombies(Graphics *g)
 	{
 		if (TestBit(aFormat.mFormatFlags, TodStringFormatFlag::TOD_FORMAT_HIDE_UNTIL_MAGNETSHROOM))
 		{
-			if (mApp->HasSeedType(SeedType::SEED_MAGNETSHROOM))
+			if (mApp->HasSeedType(OldSeedType::SEED_MAGNETSHROOM))
 			{
 				aFormat.mNewColor.mAlpha = 255;
 				aFormat.mLineSpacingOffset = 0;
@@ -690,9 +690,9 @@ void AlmanacDialog::Draw(Graphics *g)
 	g->Translate(-mDescriptionScrollbar->mX, -mDescriptionScrollbar->mY);
 }
 
-void AlmanacDialog::GetSeedPosition(SeedType theSeedType, int &x, int &y)
+void AlmanacDialog::GetSeedPosition(OldSeedType theSeedType, int &x, int &y)
 {
-	if (theSeedType == SeedType::SEED_IMITATER)
+	if (theSeedType == OldSeedType::SEED_IMITATER)
 		x = 20, y = 23;
 	else
 	{
@@ -701,18 +701,18 @@ void AlmanacDialog::GetSeedPosition(SeedType theSeedType, int &x, int &y)
 	}
 }
 
-SeedType AlmanacDialog::SeedHitTest(int x, int y)
+OldSeedType AlmanacDialog::SeedHitTest(int x, int y)
 {
 	if (mMouseVisible && mOpenPage == AlmanacPage::ALMANAC_PAGE_PLANTS)
 	{
-		for (SeedType aSeedType = SeedType::SEED_PEASHOOTER; aSeedType < NUM_ALMANAC_SEEDS;
-			 aSeedType = (SeedType)(aSeedType + 1))
+		for (OldSeedType aSeedType = OldSeedType::SEED_PEASHOOTER; aSeedType < NUM_ALMANAC_SEEDS;
+			 aSeedType = (OldSeedType)(aSeedType + 1))
 		{
 			if (mApp->SeedTypeAvailable(aSeedType))
 			{
 				int aSeedX, aSeedY;
 				GetSeedPosition(aSeedType, aSeedX, aSeedY);
-				Rect aSeedRect = aSeedType == SeedType::SEED_IMITATER
+				Rect aSeedRect = aSeedType == OldSeedType::SEED_IMITATER
 									 ? Rect(aSeedX, aSeedY, 34, 46)
 									 : Rect(aSeedX, aSeedY, SEED_PACKET_WIDTH, SEED_PACKET_HEIGHT);
 				if (aSeedRect.Contains(x, y))
@@ -720,7 +720,7 @@ SeedType AlmanacDialog::SeedHitTest(int x, int y)
 			}
 		}
 	}
-	return SeedType::SEED_NONE;
+	return OldSeedType::SEED_NONE;
 }
 
 bool AlmanacDialog::ZombieHasSilhouette(ZombieType theZombieType)
@@ -824,8 +824,8 @@ void AlmanacDialog::MouseDown(int x, int y, int theClickCount)
 
 	mDescriptionScrollbar->MouseDown(x - mDescriptionScrollbar->mX, y - mDescriptionScrollbar->mY, theClickCount);
 
-	SeedType aSeedType = SeedHitTest(x, y);
-	if (aSeedType != SeedType::SEED_NONE && aSeedType != mSelectedSeed)
+	OldSeedType aSeedType = SeedHitTest(x, y);
+	if (aSeedType != OldSeedType::SEED_NONE && aSeedType != mSelectedSeed)
 	{
 		mSelectedSeed = aSeedType;
 		SetupPlant();

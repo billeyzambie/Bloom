@@ -41,7 +41,7 @@ enum BeghouledUpgrade
 
 struct BeghouledBoardState
 {
-	SeedType mSeedType[9][6];
+	OldSeedType mSeedType[9][6];
 };
 
 class Challenge
@@ -60,7 +60,7 @@ class Challenge
 	int mConveyorBeltCounter;
 	int mChallengeScore;
 	bool mShowBowlingLine;
-	SeedType mLastConveyorSeedType;
+	OldSeedType mLastConveyorSeedType;
 	int mSurvivalStage;
 	int mSlotMachineRollCount;
 	ReanimationID mReanimChallenge;
@@ -91,7 +91,7 @@ class Challenge
 	/// @param theBoardState The current Beghouled board state
 	/// @param theAllowMatches If true, allow picks that create immediate matches
 	/// @return A seed type that does not create an invalid board state
-	SeedType BeghouledPickSeed(int theGridX, int theGridY, BeghouledBoardState *theBoardState, bool theAllowMatches);
+	OldSeedType BeghouledPickSeed(int theGridX, int theGridY, BeghouledBoardState *theBoardState, bool theAllowMatches);
 
 	/// @brief Check if any valid match exists on the Beghouled board
 	/// @param theBoardState The current Beghouled board state
@@ -103,7 +103,7 @@ class Challenge
 	/// @param theGridY The grid Y coordinate
 	/// @param theBoardState The current Beghouled board state
 	/// @return The seed type at the position, or SEED_NONE if out of bounds
-	SeedType BeghouledGetPlantAt(int theGridX, int theGridY, BeghouledBoardState *theBoardState);
+	OldSeedType BeghouledGetPlantAt(int theGridX, int theGridY, BeghouledBoardState *theBoardState);
 
 	/// @brief Get the length of a vertical match at the given position
 	/// @param theGridX The starting grid X coordinate
@@ -215,7 +215,7 @@ class Challenge
 	/// @param theGridX The grid X coordinate
 	/// @param theGridY The grid Y coordinate
 	/// @return The required seed type, or SEED_NONE if no requirement
-	SeedType GetArtChallengeSeed(int theGridX, int theGridY);
+	OldSeedType GetArtChallengeSeed(int theGridX, int theGridY);
 
 	/// @brief Called when a plant is added to the board during an art challenge
 	/// @param thePlant The plant that was added
@@ -226,7 +226,7 @@ class Challenge
 	/// @param theGridY The grid Y coordinate
 	/// @param theSeedType The type of seed being planted
 	/// @return A PlantingReason indicating if planting is allowed
-	PlantingReason CanPlantAt(int theGridX, int theGridY, SeedType theSeedType);
+	PlantingReason CanPlantAt(int theGridX, int theGridY, OldSeedType theSeedType);
 
 	/// @brief Draw Beghouled-specific overlays (craters and twist indicator)
 	/// @param g The graphics context to draw with
@@ -415,7 +415,7 @@ class Challenge
 	/// @brief Add wallnut plants across the board for Shovel/Wallnut Bowling modes
 	void ShovelAddWallnuts();
 
-	void ScaryPotterPlacePot(ScaryPotType theScaryPotType, ZombieType theZombieType, SeedType theSeedType, int theCount, TodWeightedGridArray *theGridArray, int theGridArrayCount);
+	void ScaryPotterPlacePot(ScaryPotType theScaryPotType, ZombieType theZombieType, OldSeedType theSeedType, int theCount, TodWeightedGridArray *theGridArray, int theGridArrayCount);
 
 	/// @brief Initialize Scary Potter challenge (show shovel tutorial if needed)
 	void ScaryPotterStart();
@@ -450,7 +450,7 @@ class Challenge
 	/// @param theGridArrayCount The number of entries in theGridArray
 	void ScaryPotterDontPlaceInCol(int theCol, TodWeightedGridArray *theGridArray, int theGridArrayCount);
 
-	void ScaryPotterFillColumnWithPlant(int theCol, SeedType theSeedType, TodWeightedGridArray *theGridArray, int theGridArrayCount);
+	void ScaryPotterFillColumnWithPlant(int theCol, OldSeedType theSeedType, TodWeightedGridArray *theGridArray, int theGridArrayCount);
 
 	/// @brief Clear the board and advance to the next puzzle/I-Zombie stage
 	void PuzzleNextStageClear();
@@ -458,12 +458,12 @@ class Challenge
 	/// @brief Trigger the mallet animation to open a scary pot
 	/// @param theScaryPot The pot grid item to open
 	void ScaryPotterMalletPot(GridItem *theScaryPot);
-	static ZombieType IZombieSeedTypeToZombieType(SeedType theSeedType);
+	static ZombieType IZombieSeedTypeToZombieType(OldSeedType theSeedType);
 
 	/// @brief Check if a seed type is a zombie seed usable in I-Zombie/Zombiquarium
 	/// @param theSeedType The seed type to check
 	/// @return True if the seed represents a zombie type, false otherwise
-	static bool IsZombieSeedType(SeedType theSeedType);
+	static bool IsZombieSeedType(OldSeedType theSeedType);
 
 	/// @brief Handle mouse down in I-Zombie mode (place zombie on click)
 	/// @param theX The screen X coordinate
@@ -478,7 +478,7 @@ class Challenge
 	/// @param theSeedType The type of plant to place
 	/// @param theCount The number of plants to place
 	/// @param theGridY Optional row restriction (-1 for any row)
-	void IZombiePlacePlants(SeedType theSeedType, int theCount, int theGridY = -1);
+	void IZombiePlacePlants(OldSeedType theSeedType, int theCount, int theGridY = -1);
 
 	/// @brief Main update loop for the I-Zombie challenge
 	void IZombieUpdate();
@@ -557,7 +557,7 @@ class Challenge
 	/// @param theSeedType The type of plant to place
 	/// @param theGridX The grid X coordinate
 	/// @param theGridY The grid Y coordinate
-	void IZombiePlacePlantInSquare(SeedType theSeedType, int theGridX, int theGridY = -1);
+	void IZombiePlacePlantInSquare(OldSeedType theSeedType, int theGridX, int theGridY = -1);
 
 	/// @brief Advance Crazy Dave dialog text during Scary Potter levels
 	void AdvanceCrazyDaveDialog();
@@ -736,9 +736,9 @@ class Challenge
 	GridItem *GetPortalLeftRight(int theGridX, int theGridY, bool theToLeft = true);
 };
 
-extern SeedType gArtChallengeWallnut[6][9];
-extern SeedType gArtChallengeSunFlower[6][9];
-extern SeedType gArtChallengeStarFruit[6][9];
+extern OldSeedType gArtChallengeWallnut[6][9];
+extern OldSeedType gArtChallengeSunFlower[6][9];
+extern OldSeedType gArtChallengeStarFruit[6][9];
 
 class ZombieAllowedLevels
 {

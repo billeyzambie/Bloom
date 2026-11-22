@@ -1367,9 +1367,9 @@ void Zombie::BungeeStealTarget()
 	Plant *aPlant = mBoard->GetTopPlantAt(mTargetCol, mRow, PlantPriority::TOPPLANT_BUNGEE_ORDER);
 	if (aPlant && !aPlant->NotOnGround())
 	{
-		TOD_ASSERT(aPlant->mType != SeedType::SEED_GRAVEBUSTER);
+		TOD_ASSERT(aPlant->mType != OldSeedType::SEED_GRAVEBUSTER);
 
-		if (aPlant->mType != SeedType::SEED_COBCANNON && aPlant->mType != SeedType::SEED_GRAVEBUSTER)
+		if (aPlant->mType != OldSeedType::SEED_COBCANNON && aPlant->mType != OldSeedType::SEED_GRAVEBUSTER)
 		{
 			mTargetPlantID = (PlantID)mBoard->mPlants.DataArrayGetID(aPlant);
 			aPlant->mOnBungeeState = PlantOnBungeeState::GETTING_GRABBED_BY_BUNGEE;
@@ -6670,7 +6670,7 @@ void Zombie::SquishAllInSquare(int theX, int theY, ZombieAttackType theAttackTyp
 				continue;
 			}
 
-			if (aPlant->mType != SeedType::SEED_SPIKEROCK)
+			if (aPlant->mType != OldSeedType::SEED_SPIKEROCK)
 			{
 				mBoard->mPlantsEaten++;
 				aPlant->Squish();

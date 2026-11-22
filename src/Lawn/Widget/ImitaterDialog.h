@@ -8,13 +8,13 @@ class ImitaterDialog : public LawnDialog
 {
   public:
 	ToolTipWidget *mToolTip;
-	SeedType mToolTipSeed;
+	OldSeedType mToolTipSeed;
 
   public:
 	ImitaterDialog();
 	virtual ~ImitaterDialog();
 
-	SeedType SeedHitTest(int x, int y);
+	OldSeedType SeedHitTest(int x, int y);
 	void UpdateCursor();
 	virtual void Update();
 	void GetSeedPosition(int theIndex, int &x, int &y);

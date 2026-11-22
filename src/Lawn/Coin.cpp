@@ -4,7 +4,7 @@
 #include "ZenGarden.h"
 #include "Challenge.h"
 #include "../LawnApp.h"
-#include "SeedPacket.h"
+#include "Seed/SeedPacket.h"
 #include "CursorObject.h"
 #include "../Resources.h"
 #include "MessageWidget.h"
@@ -49,7 +49,7 @@ void Coin::CoinInitialize(int theX, int theY, CoinType theCoinType, CoinMotion t
 	mAttachmentID = AttachmentID::ATTACHMENTID_NULL;
 	mRenderOrder = Board::MakeRenderOrder(RenderLayer::RENDER_LAYER_COIN_BANK, 0, 1);
 	mScale = 1.0f;
-	mUsableSeedType = SeedType::SEED_NONE;
+	mUsableSeedType = OldSeedType::SEED_NONE;
 	mNeedsBouncyArrow = false;
 	mHasBouncyArrow = false;
 	mHitGround = false;
@@ -186,78 +186,78 @@ void Coin::CoinInitialize(int theX, int theY, CoinType theCoinType, CoinMotion t
 
 		mWidth = IMAGE_PRESENT->GetCelWidth();
 		mHeight = IMAGE_PRESENT->GetCelHeight();
-		SeedType aSeedType = SeedType::SEED_NONE;
+		OldSeedType aSeedType = OldSeedType::SEED_NONE;
 		if (mApp->IsSurvivalEndless(mApp->mGameMode) || mApp->IsEndlessIZombie(mApp->mGameMode) ||
 			mApp->IsEndlessScaryPotter(mApp->mGameMode))
 		{
-			SeedType aSeedType = mApp->mZenGarden->PickRandomPlantType();
+			OldSeedType aSeedType = mApp->mZenGarden->PickRandomPlantType();
 		}
 		else if (mBoard->mBackground == BackgroundType::BACKGROUND_1_DAY)
 		{
-			SeedType aSeedList[] = {SeedType::SEED_PEASHOOTER,
-									SeedType::SEED_SUNFLOWER,
-									SeedType::SEED_CHERRYBOMB,
-									SeedType::SEED_WALLNUT,
-									SeedType::SEED_REPEATER,
-									SeedType::SEED_POTATOMINE,
-									SeedType::SEED_SNOWPEA,
-									SeedType::SEED_CHOMPER};
+			OldSeedType aSeedList[] = {OldSeedType::SEED_PEASHOOTER,
+									OldSeedType::SEED_SUNFLOWER,
+									OldSeedType::SEED_CHERRYBOMB,
+									OldSeedType::SEED_WALLNUT,
+									OldSeedType::SEED_REPEATER,
+									OldSeedType::SEED_POTATOMINE,
+									OldSeedType::SEED_SNOWPEA,
+									OldSeedType::SEED_CHOMPER};
 
-			SeedType aSeedType = (SeedType)TodPickFromArray(aSeedList, LENGTH(aSeedList));
+			OldSeedType aSeedType = (OldSeedType)TodPickFromArray(aSeedList, LENGTH(aSeedList));
 		}
 		else if (mBoard->mBackground == BackgroundType::BACKGROUND_2_NIGHT)
 		{
-			SeedType aSeedList[] = {SeedType::SEED_PUFFSHROOM,
-									SeedType::SEED_SUNSHROOM,
-									SeedType::SEED_FUMESHROOM,
-									SeedType::SEED_GRAVEBUSTER,
-									SeedType::SEED_HYPNOSHROOM,
-									SeedType::SEED_SCAREDYSHROOM,
-									SeedType::SEED_ICESHROOM,
-									SeedType::SEED_DOOMSHROOM};
+			OldSeedType aSeedList[] = {OldSeedType::SEED_PUFFSHROOM,
+									OldSeedType::SEED_SUNSHROOM,
+									OldSeedType::SEED_FUMESHROOM,
+									OldSeedType::SEED_GRAVEBUSTER,
+									OldSeedType::SEED_HYPNOSHROOM,
+									OldSeedType::SEED_SCAREDYSHROOM,
+									OldSeedType::SEED_ICESHROOM,
+									OldSeedType::SEED_DOOMSHROOM};
 
-			SeedType aSeedType = (SeedType)TodPickFromArray(aSeedList, LENGTH(aSeedList));
+			OldSeedType aSeedType = (OldSeedType)TodPickFromArray(aSeedList, LENGTH(aSeedList));
 		}
 		else if (mBoard->mBackground == BackgroundType::BACKGROUND_3_POOL)
 		{
-			SeedType aSeedList[] = {SeedType::SEED_LILYPAD,
-									SeedType::SEED_SQUASH,
-									SeedType::SEED_THREEPEATER,
-									SeedType::SEED_TANGLEKELP,
-									SeedType::SEED_JALAPENO,
-									SeedType::SEED_SPIKEWEED,
-									SeedType::SEED_TORCHWOOD,
-									SeedType::SEED_TALLNUT};
+			OldSeedType aSeedList[] = {OldSeedType::SEED_LILYPAD,
+									OldSeedType::SEED_SQUASH,
+									OldSeedType::SEED_THREEPEATER,
+									OldSeedType::SEED_TANGLEKELP,
+									OldSeedType::SEED_JALAPENO,
+									OldSeedType::SEED_SPIKEWEED,
+									OldSeedType::SEED_TORCHWOOD,
+									OldSeedType::SEED_TALLNUT};
 
-			SeedType aSeedType = (SeedType)TodPickFromArray(aSeedList, LENGTH(aSeedList));
+			OldSeedType aSeedType = (OldSeedType)TodPickFromArray(aSeedList, LENGTH(aSeedList));
 		}
 		else if (mBoard->mBackground == BackgroundType::BACKGROUND_4_FOG)
 		{
-			SeedType aSeedList[] = {SeedType::SEED_SEASHROOM,
-									SeedType::SEED_PLANTERN,
-									SeedType::SEED_CACTUS,
-									SeedType::SEED_BLOVER,
-									SeedType::SEED_SPLITPEA,
-									SeedType::SEED_STARFRUIT,
-									SeedType::SEED_PUMPKINSHELL,
-									SeedType::SEED_MAGNETSHROOM};
+			OldSeedType aSeedList[] = {OldSeedType::SEED_SEASHROOM,
+									OldSeedType::SEED_PLANTERN,
+									OldSeedType::SEED_CACTUS,
+									OldSeedType::SEED_BLOVER,
+									OldSeedType::SEED_SPLITPEA,
+									OldSeedType::SEED_STARFRUIT,
+									OldSeedType::SEED_PUMPKINSHELL,
+									OldSeedType::SEED_MAGNETSHROOM};
 
-			SeedType aSeedType = (SeedType)TodPickFromArray(aSeedList, LENGTH(aSeedList));
+			OldSeedType aSeedType = (OldSeedType)TodPickFromArray(aSeedList, LENGTH(aSeedList));
 		}
 		else if (mBoard->mBackground == BackgroundType::BACKGROUND_5_ROOF)
 		{
-			SeedType aSeedList[] = {SeedType::SEED_CABBAGEPULT,
-									SeedType::SEED_KERNELPULT,
-									SeedType::SEED_INSTANT_COFFEE,
-									SeedType::SEED_GARLIC,
-									SeedType::SEED_UMBRELLA,
-									SeedType::SEED_MELONPULT};
+			OldSeedType aSeedList[] = {OldSeedType::SEED_CABBAGEPULT,
+									OldSeedType::SEED_KERNELPULT,
+									OldSeedType::SEED_INSTANT_COFFEE,
+									OldSeedType::SEED_GARLIC,
+									OldSeedType::SEED_UMBRELLA,
+									OldSeedType::SEED_MELONPULT};
 
-			SeedType aSeedType = (SeedType)TodPickFromArray(aSeedList, LENGTH(aSeedList));
+			OldSeedType aSeedType = (OldSeedType)TodPickFromArray(aSeedList, LENGTH(aSeedList));
 		}
 		else
 		{
-			SeedType aSeedType = mApp->mZenGarden->PickRandomPlantType();
+			OldSeedType aSeedType = mApp->mZenGarden->PickRandomPlantType();
 		}
 		mPottedPlantSpec.InitializePottedPlant(&PlantTypes::FromOldSeedType(aSeedType));
 	}
@@ -804,14 +804,14 @@ Color Coin::GetColor()
 	return Color::White;
 }
 
-SeedType Coin::GetFinalSeedPacketType()
+OldSeedType Coin::GetFinalSeedPacketType()
 {
 	if (mApp->IsFirstTimeAdventureMode() && mBoard && mBoard->mLevel <= 50)
 	{
 		return mApp->GetAwardSeedForLevel(mBoard->mLevel);
 	}
 
-	return SeedType::SEED_NONE;
+	return OldSeedType::SEED_NONE;
 }
 
 void Coin::Draw(Graphics *g)
@@ -895,13 +895,13 @@ void Coin::Draw(Graphics *g)
 	}
 	else if (mType == CoinType::COIN_FINAL_SEED_PACKET)
 	{
-		SeedType aSeedType = GetFinalSeedPacketType();
+		OldSeedType aSeedType = GetFinalSeedPacketType();
 		g->SetScale(mScale, mScale, 0.0f, 0.0f);
 		DrawSeedPacket(g,
 					   0.5f * (mWidth - mScale * mWidth) + mPosX,
 					   0.5f * (mHeight - mScale * mHeight) + mPosY,
 					   aSeedType,
-					   SeedType::SEED_NONE,
+					   OldSeedType::SEED_NONE,
 					   0.0f,
 					   255,
 					   true,
@@ -1014,7 +1014,7 @@ void Coin::Draw(Graphics *g)
 		}
 
 		g->SetColorizeImages(true);
-		DrawSeedPacket(g, (int)mPosX, (int)mPosY, mUsableSeedType, SeedType::SEED_NONE, 0.0f, aGrayness, false, false);
+		DrawSeedPacket(g, (int)mPosX, (int)mPosY, mUsableSeedType, OldSeedType::SEED_NONE, 0.0f, aGrayness, false, false);
 		g->SetColorizeImages(false);
 
 		return;
@@ -1305,7 +1305,7 @@ void Coin::Collect()
 		for (int i = 0; i < mBoard->mSeedBank->mNumPackets; i++)
 		{
 			SeedPacket *aSeedPacket = &mBoard->mSeedBank->mSeedPackets[i];
-			int aCost = mBoard->GetCurrentPlantCost(aSeedPacket->mPacketType, aSeedPacket->mImitaterType);
+			int aCost = mBoard->GetCurrentPlantCost(aSeedPacket->mType, aSeedPacket->mImitaterType);
 			int aSunProfit = mBoard->mSunMoney + mBoard->CountSunBeingCollected() - aCost;
 			if (aSunProfit >= 0 && aSunProfit < GetSunValue())
 			{

@@ -104,8 +104,8 @@ void ZenGarden::DrawPottedPlant(
 		}
 
 		Plant::DrawSeedType(&aPottedPlantG,
-							SeedType::SEED_FLOWERPOT,
-							SeedType::SEED_NONE,
+							OldSeedType::SEED_FLOWERPOT,
+							OldSeedType::SEED_NONE,
 							aPotVariation2,
 							x,
 							y + aPotOffsetY * theScale);
@@ -138,7 +138,7 @@ void ZenGarden::DrawPottedPlant(
 	}
 	aOffsetY += PlantPottedDrawHeightOffset(*aPlantType, aPottedPlantG.mScaleY);
 
-	Plant::DrawSeedType(&aPottedPlantG, *aPlantType, SeedType::SEED_NONE, aPlantVariation, x + aOffsetX, y + aOffsetY);
+	Plant::DrawSeedType(&aPottedPlantG, *aPlantType, OldSeedType::SEED_NONE, aPlantVariation, x + aOffsetX, y + aOffsetY);
 }
 
 void ZenGarden::PlantSetLaunchCounter(Plant *thePlant)
@@ -1156,89 +1156,89 @@ void ZenGarden::MovePlant(Plant *thePlant, int theGridX, int theGridY)
 	}
 }
 
-float ZenGarden::PlantPottedDrawHeightOffset(SeedType theSeedType, float theScale)
+float ZenGarden::PlantPottedDrawHeightOffset(OldSeedType theSeedType, float theScale)
 {
 	float aScaleOffsetFix = 0.0f;
 	float aHeightOffset = 0.0f;
-	if (theSeedType == SeedType::SEED_GRAVEBUSTER)
+	if (theSeedType == OldSeedType::SEED_GRAVEBUSTER)
 	{
 		aHeightOffset += 50.0f;
 		aScaleOffsetFix += 15.0f;
 	}
-	else if (theSeedType == SeedType::SEED_PUFFSHROOM)
+	else if (theSeedType == OldSeedType::SEED_PUFFSHROOM)
 	{
 		aHeightOffset += 10.0f;
 		aScaleOffsetFix += 24.0f;
 	}
-	else if (theSeedType == SeedType::SEED_SUNSHROOM)
+	else if (theSeedType == OldSeedType::SEED_SUNSHROOM)
 	{
 		aHeightOffset += 10.0f;
 		aScaleOffsetFix += 17.0f;
 	}
-	else if (theSeedType == SeedType::SEED_SCAREDYSHROOM)
+	else if (theSeedType == OldSeedType::SEED_SCAREDYSHROOM)
 	{
 		aHeightOffset += 5.0f;
 		aScaleOffsetFix += 5.0f;
 	}
-	else if (theSeedType == SeedType::SEED_TANGLEKELP)
+	else if (theSeedType == OldSeedType::SEED_TANGLEKELP)
 	{
 		aHeightOffset -= 18.0f;
 		aScaleOffsetFix += 20.0f;
 	}
-	else if (theSeedType == SeedType::SEED_SEASHROOM)
+	else if (theSeedType == OldSeedType::SEED_SEASHROOM)
 	{
 		aHeightOffset -= 20.0f;
 		aScaleOffsetFix += 15.0f;
 	}
-	else if (theSeedType == SeedType::SEED_LILYPAD)
+	else if (theSeedType == OldSeedType::SEED_LILYPAD)
 	{
 		aHeightOffset -= 10.0f;
 		aScaleOffsetFix += 30.0f;
 	}
-	else if (theSeedType == SeedType::SEED_CHOMPER)
+	else if (theSeedType == OldSeedType::SEED_CHOMPER)
 	{
 		aScaleOffsetFix += 0.0f;
 	}
-	else if (theSeedType == SeedType::SEED_HYPNOSHROOM || theSeedType == SeedType::SEED_MARIGOLD ||
-			 theSeedType == SeedType::SEED_PEASHOOTER || theSeedType == SeedType::SEED_REPEATER ||
-			 theSeedType == SeedType::SEED_LEFTPEATER || theSeedType == SeedType::SEED_SNOWPEA ||
-			 theSeedType == SeedType::SEED_THREEPEATER || theSeedType == SeedType::SEED_SUNFLOWER ||
-			 theSeedType == SeedType::SEED_MARIGOLD)
+	else if (theSeedType == OldSeedType::SEED_HYPNOSHROOM || theSeedType == OldSeedType::SEED_MARIGOLD ||
+			 theSeedType == OldSeedType::SEED_PEASHOOTER || theSeedType == OldSeedType::SEED_REPEATER ||
+			 theSeedType == OldSeedType::SEED_LEFTPEATER || theSeedType == OldSeedType::SEED_SNOWPEA ||
+			 theSeedType == OldSeedType::SEED_THREEPEATER || theSeedType == OldSeedType::SEED_SUNFLOWER ||
+			 theSeedType == OldSeedType::SEED_MARIGOLD)
 	{
 		aScaleOffsetFix += 10.0f;
 	}
-	else if (theSeedType == SeedType::SEED_STARFRUIT)
+	else if (theSeedType == OldSeedType::SEED_STARFRUIT)
 	{
 		aHeightOffset += 10.0f;
 		aScaleOffsetFix += 24.0f;
 	}
-	else if (theSeedType == SeedType::SEED_CABBAGEPULT || theSeedType == SeedType::SEED_MELONPULT)
+	else if (theSeedType == OldSeedType::SEED_CABBAGEPULT || theSeedType == OldSeedType::SEED_MELONPULT)
 	{
 		aScaleOffsetFix += 10.0f;
 		aHeightOffset += 3.0f;
 	}
-	else if (theSeedType == SeedType::SEED_POTATOMINE)
+	else if (theSeedType == OldSeedType::SEED_POTATOMINE)
 	{
 		aScaleOffsetFix += 5.0f;
 	}
-	else if (theSeedType == SeedType::SEED_TORCHWOOD)
+	else if (theSeedType == OldSeedType::SEED_TORCHWOOD)
 	{
 		aScaleOffsetFix += 3.0f;
 	}
-	else if (theSeedType == SeedType::SEED_SPIKEWEED)
+	else if (theSeedType == OldSeedType::SEED_SPIKEWEED)
 	{
 		aScaleOffsetFix += 10.0f;
 		aHeightOffset -= 13.0f;
 	}
-	else if (theSeedType == SeedType::SEED_BLOVER)
+	else if (theSeedType == OldSeedType::SEED_BLOVER)
 	{
 		aScaleOffsetFix += 10.0f;
 	}
-	else if (theSeedType == SeedType::SEED_PUMPKINSHELL)
+	else if (theSeedType == OldSeedType::SEED_PUMPKINSHELL)
 	{
 		aScaleOffsetFix += 20.0f;
 	}
-	else if (theSeedType == SeedType::SEED_PLANTERN)
+	else if (theSeedType == OldSeedType::SEED_PLANTERN)
 	{
 		aScaleOffsetFix -= 1.0f;
 	}
@@ -2134,7 +2134,7 @@ bool ZenGarden::MouseDownZenGarden(int x, int y, int theClickCount, HitResult *t
 			{
 				mBoard->ClearCursor();
 				mBoard->mCursorObject->mType = *aPottedPlant->mPlantType;
-				mBoard->mCursorObject->mImitaterType = SeedType::SEED_NONE;
+				mBoard->mCursorObject->mImitaterType = OldSeedType::SEED_NONE;
 				mBoard->mCursorObject->mCursorType = CursorType::CURSOR_TYPE_PLANT_FROM_WHEEL_BARROW;
 				return true;
 			}
@@ -2184,14 +2184,14 @@ void ZenGarden::SetPlantAnimSpeed(Plant *thePlant)
 	}
 
 	float aTargetRate;
-	if (thePlant->mType == SeedType::SEED_PEASHOOTER || thePlant->mType == SeedType::SEED_SNOWPEA ||
-		thePlant->mType == SeedType::SEED_REPEATER || thePlant->mType == SeedType::SEED_LEFTPEATER ||
-		thePlant->mType == SeedType::SEED_GATLINGPEA || thePlant->mType == SeedType::SEED_SPLITPEA ||
-		thePlant->mType == SeedType::SEED_THREEPEATER || thePlant->mType == SeedType::SEED_MARIGOLD)
+	if (thePlant->mType == OldSeedType::SEED_PEASHOOTER || thePlant->mType == OldSeedType::SEED_SNOWPEA ||
+		thePlant->mType == OldSeedType::SEED_REPEATER || thePlant->mType == OldSeedType::SEED_LEFTPEATER ||
+		thePlant->mType == OldSeedType::SEED_GATLINGPEA || thePlant->mType == OldSeedType::SEED_SPLITPEA ||
+		thePlant->mType == OldSeedType::SEED_THREEPEATER || thePlant->mType == OldSeedType::SEED_MARIGOLD)
 	{
 		aTargetRate = RandRangeFloat(15.0f, 20.0f);
 	}
-	else if (thePlant->mType == SeedType::SEED_POTATOMINE)
+	else if (thePlant->mType == OldSeedType::SEED_POTATOMINE)
 	{
 		aTargetRate = 12.0f;
 	}
@@ -2411,12 +2411,12 @@ void ZenGarden::SetupForZenTutorial()
 
 const PlantType &ZenGarden::PickRandomPlantType()
 {
-	SeedType aSeedList[(int)SeedType::SEED_GATLINGPEA];
+	OldSeedType aSeedList[(int)OldSeedType::SEED_GATLINGPEA];
 	int aSeedCount = 0;
-	for (int i = 0; i < (int)SeedType::SEED_GATLINGPEA; i++)
+	for (int i = 0; i < (int)OldSeedType::SEED_GATLINGPEA; i++)
 	{
-		SeedType aSeedType = (SeedType)i;
-		if (aSeedType != SeedType::SEED_MARIGOLD && aSeedType != SeedType::SEED_FLOWERPOT)
+		OldSeedType aSeedType = (OldSeedType)i;
+		if (aSeedType != OldSeedType::SEED_MARIGOLD && aSeedType != OldSeedType::SEED_FLOWERPOT)
 		{
 			aSeedList[aSeedCount] = aSeedType;
 			aSeedCount++;

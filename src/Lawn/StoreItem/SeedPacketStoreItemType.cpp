@@ -6,7 +6,7 @@
 #include "../LawnApp.h"
 #include "../Widget/StoreScreen.h"
 #include "../Sexy.TodLib/TodStringFile.h"
-#include "../SeedPacket.h"
+#include "../Seed/SeedPacket.h"
 #include "StoreItemModifiers.h"
 #include "../BloomLib/ListInsertion.h"
 

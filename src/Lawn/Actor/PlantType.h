@@ -32,7 +32,7 @@ class BLOOM_API PlantType final : public BloomType
 		const std::string &theTypeName,
 		const Attributes &theAttributes
 	);
-	operator SeedType() const;
+	operator OldSeedType() const;
 	virtual void CopyFrom(const PlantType &theOther);
 	void Update(const LawnApp &theLawnApp);
 	Plant *Instantiate(void *theBuffer) const;

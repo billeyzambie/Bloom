@@ -6,7 +6,7 @@
 #include "Cutscene.h"
 #include "Challenge.h"
 #include "LawnMower.h"
-#include "SeedPacket.h"
+#include "Seed/SeedPacket.h"
 #include "../LawnApp.h"
 #include "System/Music.h"
 #include "../Resources.h"
@@ -343,8 +343,8 @@ void CutScene::PreloadResources()
 		}
 	}
 
-	for (SeedType aSeedType = SeedType::SEED_PEASHOOTER; aSeedType < SeedType::NUM_SEED_TYPES;
-		 aSeedType = (SeedType)((int)aSeedType + 1))
+	for (OldSeedType aSeedType = OldSeedType::SEED_PEASHOOTER; aSeedType < OldSeedType::NUM_SEED_TYPES;
+		 aSeedType = (OldSeedType)((int)aSeedType + 1))
 	{
 		if (mApp->SeedTypeAvailable(aSeedType))
 		{
@@ -367,8 +367,8 @@ void CutScene::PreloadResources()
 	}
 	if (mApp->mGameMode == GameMode::GAMEMODE_CHALLENGE_ZEN_GARDEN)
 	{
-		Plant::PreloadPlantResources(SeedType::SEED_SPROUT);
-		Plant::PreloadPlantResources(SeedType::SEED_MARIGOLD);
+		Plant::PreloadPlantResources(OldSeedType::SEED_SPROUT);
+		Plant::PreloadPlantResources(OldSeedType::SEED_MARIGOLD);
 	}
 
 	if (mBoard->StageHasRoof())
@@ -436,25 +436,25 @@ void CutScene::PreloadResources()
 		Zombie::PreloadZombieResources(ZombieType::ZOMBIE_POGO);
 		Zombie::PreloadZombieResources(ZombieType::ZOMBIE_BALLOON);
 		Zombie::PreloadZombieResources(ZombieType::ZOMBIE_CATAPULT);
-		Plant::PreloadPlantResources(SeedType::SEED_SQUASH);
-		Plant::PreloadPlantResources(SeedType::SEED_THREEPEATER);
-		Plant::PreloadPlantResources(SeedType::SEED_MAGNETSHROOM);
-		Plant::PreloadPlantResources(SeedType::SEED_LILYPAD);
-		Plant::PreloadPlantResources(SeedType::SEED_TORCHWOOD);
-		Plant::PreloadPlantResources(SeedType::SEED_SPIKEWEED);
-		Plant::PreloadPlantResources(SeedType::SEED_TANGLEKELP);
-		Plant::PreloadPlantResources(SeedType::SEED_SUNFLOWER);
-		Plant::PreloadPlantResources(SeedType::SEED_PEASHOOTER);
-		Plant::PreloadPlantResources(SeedType::SEED_SUNSHROOM);
-		Plant::PreloadPlantResources(SeedType::SEED_FLOWERPOT);
-		Plant::PreloadPlantResources(SeedType::SEED_PLANTERN);
-		Plant::PreloadPlantResources(SeedType::SEED_FUMESHROOM);
-		Plant::PreloadPlantResources(SeedType::SEED_CACTUS);
-		Plant::PreloadPlantResources(SeedType::SEED_PUFFSHROOM);
-		Plant::PreloadPlantResources(SeedType::SEED_SEASHROOM);
-		Plant::PreloadPlantResources(SeedType::SEED_CABBAGEPULT);
-		Plant::PreloadPlantResources(SeedType::SEED_WALLNUT);
-		Plant::PreloadPlantResources(SeedType::SEED_CHOMPER);
+		Plant::PreloadPlantResources(OldSeedType::SEED_SQUASH);
+		Plant::PreloadPlantResources(OldSeedType::SEED_THREEPEATER);
+		Plant::PreloadPlantResources(OldSeedType::SEED_MAGNETSHROOM);
+		Plant::PreloadPlantResources(OldSeedType::SEED_LILYPAD);
+		Plant::PreloadPlantResources(OldSeedType::SEED_TORCHWOOD);
+		Plant::PreloadPlantResources(OldSeedType::SEED_SPIKEWEED);
+		Plant::PreloadPlantResources(OldSeedType::SEED_TANGLEKELP);
+		Plant::PreloadPlantResources(OldSeedType::SEED_SUNFLOWER);
+		Plant::PreloadPlantResources(OldSeedType::SEED_PEASHOOTER);
+		Plant::PreloadPlantResources(OldSeedType::SEED_SUNSHROOM);
+		Plant::PreloadPlantResources(OldSeedType::SEED_FLOWERPOT);
+		Plant::PreloadPlantResources(OldSeedType::SEED_PLANTERN);
+		Plant::PreloadPlantResources(OldSeedType::SEED_FUMESHROOM);
+		Plant::PreloadPlantResources(OldSeedType::SEED_CACTUS);
+		Plant::PreloadPlantResources(OldSeedType::SEED_PUFFSHROOM);
+		Plant::PreloadPlantResources(OldSeedType::SEED_SEASHROOM);
+		Plant::PreloadPlantResources(OldSeedType::SEED_CABBAGEPULT);
+		Plant::PreloadPlantResources(OldSeedType::SEED_WALLNUT);
+		Plant::PreloadPlantResources(OldSeedType::SEED_CHOMPER);
 	}
 	if (mApp->mGameMode == GameMode::GAMEMODE_INTRO)
 	{
@@ -464,14 +464,14 @@ void CutScene::PreloadResources()
 		Zombie::PreloadZombieResources(ZombieType::ZOMBIE_TRAFFIC_CONE);
 		Zombie::PreloadZombieResources(ZombieType::ZOMBIE_PAIL);
 		Zombie::PreloadZombieResources(ZombieType::ZOMBIE_ZAMBONI);
-		Plant::PreloadPlantResources(SeedType::SEED_SUNFLOWER);
-		Plant::PreloadPlantResources(SeedType::SEED_PEASHOOTER);
-		Plant::PreloadPlantResources(SeedType::SEED_SQUASH);
-		Plant::PreloadPlantResources(SeedType::SEED_THREEPEATER);
-		Plant::PreloadPlantResources(SeedType::SEED_LILYPAD);
-		Plant::PreloadPlantResources(SeedType::SEED_TORCHWOOD);
-		Plant::PreloadPlantResources(SeedType::SEED_SPIKEWEED);
-		Plant::PreloadPlantResources(SeedType::SEED_TANGLEKELP);
+		Plant::PreloadPlantResources(OldSeedType::SEED_SUNFLOWER);
+		Plant::PreloadPlantResources(OldSeedType::SEED_PEASHOOTER);
+		Plant::PreloadPlantResources(OldSeedType::SEED_SQUASH);
+		Plant::PreloadPlantResources(OldSeedType::SEED_THREEPEATER);
+		Plant::PreloadPlantResources(OldSeedType::SEED_LILYPAD);
+		Plant::PreloadPlantResources(OldSeedType::SEED_TORCHWOOD);
+		Plant::PreloadPlantResources(OldSeedType::SEED_SPIKEWEED);
+		Plant::PreloadPlantResources(OldSeedType::SEED_TANGLEKELP);
 	}
 
 	PlaceStreetZombies();
@@ -1056,7 +1056,7 @@ void CutScene::AddFlowerPots()
 	{
 		for (int y = 0; y < MAX_GRID_SIZE_Y; y++)
 		{
-			if (mBoard->CanPlantAt(x, y, SeedType::SEED_FLOWERPOT) == PlantingReason::PLANTING_OK)
+			if (mBoard->CanPlantAt(x, y, OldSeedType::SEED_FLOWERPOT) == PlantingReason::PLANTING_OK)
 			{
 				mBoard->NewPlant(x, y, PlantTypes::FLOWER_POT);
 			}

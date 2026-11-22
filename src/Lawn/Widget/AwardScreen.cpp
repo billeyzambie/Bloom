@@ -4,7 +4,7 @@
 #include "StoreScreen.h"
 #include "AwardScreen.h"
 #include "../ZenGarden.h"
-#include "../SeedPacket.h"
+#include "../Seed/SeedPacket.h"
 #include "../../LawnApp.h"
 #include "AlmanacDialog.h"
 #include "../System/Music.h"
@@ -288,7 +288,7 @@ void AwardScreen::DrawBottom(Graphics *g,
 
 void AwardScreen::DrawAwardSeed(Graphics *g)
 {
-	SeedType aSeedType = mApp->GetAwardSeedForLevel(mApp->mPlayerInfo->GetLevel() - 1);
+	OldSeedType aSeedType = mApp->GetAwardSeedForLevel(mApp->mPlayerInfo->GetLevel() - 1);
 	SexyString aAward = Plant::GetNameString(aSeedType, SEED_NONE);
 	SexyString aMessage;
 	if (mApp->IsTrialStageLocked() && aSeedType >= SEED_SQUASH && aSeedType != SEED_TANGLEKELP)

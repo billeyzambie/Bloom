@@ -261,25 +261,25 @@ class BLOOM_API Plant final : public GameObject
 	/// @param theSeedType The Plant's SeedType
 	/// @param theImitaterType [OPTIONAL] The actual SeedType if theSeedType == SeedType::SEED_IMITATER
 	/// @return The sun cost
-	static int GetCost(SeedType theSeedType, SeedType theImitaterType = SeedType::SEED_NONE);
+	static int GetCost(OldSeedType theSeedType, OldSeedType theImitaterType = OldSeedType::SEED_NONE);
 
 	/// @brief Get the Plant's Name
 	/// @param theSeedType The Plant's SeedType
 	/// @param theImitaterType [OPTIONAL] The actual SeedType if theSeedType == SeedType::SEED_IMITATER
 	/// @return The pre-translated name
-	static SexyString GetNameString(SeedType theSeedType, SeedType theImitaterType = SeedType::SEED_NONE);
+	static SexyString GetNameString(OldSeedType theSeedType, OldSeedType theImitaterType = OldSeedType::SEED_NONE);
 
 	/// @brief Get the Plant's Tooltip Label
 	/// @param theSeedType The Plant's SeedType
 	/// @param theImitaterType [OPTIONAL] The actual SeedType if theSeedType == SeedType::SEED_IMITATER
 	/// @return The pre-translated tooltip label
-	static SexyString GetToolTip(SeedType theSeedType);
+	static SexyString GetToolTip(OldSeedType theSeedType);
 
 	/// @brief Get the Plant's Refresh Timer
 	/// @param theSeedType The Plant's SeedType
 	/// @param theImitaterType [OPTIONAL] The actual SeedType if theSeedType == SeedType::SEED_IMITATER
 	/// @return The pre-translated tooltip label
-	static int GetRefreshTime(SeedType theSeedType, SeedType theImitaterType = SeedType::SEED_NONE);
+	static int GetRefreshTime(OldSeedType theSeedType, OldSeedType theImitaterType = OldSeedType::SEED_NONE);
 
 	/// @brief Is the Plant Nocturnal
 	/// @param thePlantType The Plant's SeedType
@@ -374,8 +374,8 @@ class BLOOM_API Plant final : public GameObject
 	/// @param thePosX The X position
 	/// @param thePosY The Y position
 	static void DrawSeedType(Graphics *g,
-							 SeedType theSeedType,
-							 SeedType theImitaterType,
+							 OldSeedType theSeedType,
+							 OldSeedType theImitaterType,
 							 DrawVariation theDrawVariation,
 							 float thePosX,
 							 float thePosY);
@@ -554,7 +554,7 @@ class BLOOM_API Plant final : public GameObject
 	bool IsSpiky();
 
 	/// @brief Preload a Plant's assets
-	static void PreloadPlantResources(SeedType theSeedType);
+	static void PreloadPlantResources(OldSeedType theSeedType);
 
 	/// @brief Is the Plant part of the Gameplay
 	bool IsInPlay();
@@ -601,7 +601,7 @@ float PlantDrawHeightOffset(Board *theBoard, Plant *thePlant, const PlantType &t
 /// @param theCol The theSeedType to check
 /// @param theFlowerPotScale The scale of the flowerpot
 /// @return The final Y offset
-float PlantFlowerPotHeightOffset(SeedType theSeedType, float theFlowerPotScale);
+float PlantFlowerPotHeightOffset(OldSeedType theSeedType, float theFlowerPotScale);
 
 /// @brief Plant Definition used for setting it up in PlantInitialize
 //class PlantDefinition

@@ -83,9 +83,9 @@ void Achievements::SyncAchievements()
 		GiveAchievement(AchievementID::ACHIEVEMENT_TOWERING_WISDOM, true);
 
 	bool aHasAllPlants = true;
-	for (int i = SeedType::SEED_PEASHOOTER; i < SeedType::NUM_SEEDS_IN_CHOOSER; i++)
+	for (int i = OldSeedType::SEED_PEASHOOTER; i < OldSeedType::NUM_SEEDS_IN_CHOOSER; i++)
 	{
-		if (!mApp->SeedTypeAvailable(SeedType(i)))
+		if (!mApp->SeedTypeAvailable(OldSeedType(i)))
 			aHasAllPlants = false;
 	}
 

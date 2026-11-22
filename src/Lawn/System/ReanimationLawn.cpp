@@ -114,24 +114,24 @@ GPUImage *ReanimatorCache::MakeBlankGPUImage(int theWidth, int theHeight)
 }
 
 void ReanimatorCache::GetPlantImageSize(
-	SeedType theSeedType, int &theOffsetX, int &theOffsetY, int &theWidth, int &theHeight)
+	OldSeedType theSeedType, int &theOffsetX, int &theOffsetY, int &theWidth, int &theHeight)
 {
 	theOffsetX = -20;
 	theOffsetY = -20;
 	theWidth = 120;
 	theHeight = 120;
 
-	if (theSeedType == SeedType::SEED_TALLNUT)
+	if (theSeedType == OldSeedType::SEED_TALLNUT)
 	{
 		theOffsetY = -40;
 		theHeight += 40;
 	}
-	else if (theSeedType == SeedType::SEED_MELONPULT || theSeedType == SeedType::SEED_WINTERMELON)
+	else if (theSeedType == OldSeedType::SEED_MELONPULT || theSeedType == OldSeedType::SEED_WINTERMELON)
 	{
 		theOffsetX = -40;
 		theWidth += 40;
 	}
-	else if (theSeedType == SeedType::SEED_COBCANNON)
+	else if (theSeedType == OldSeedType::SEED_COBCANNON)
 	{
 		theWidth += 80;
 	}
@@ -207,7 +207,7 @@ GPUImage *ReanimatorCache::MakeCachedMowerFrame(LawnMowerType theMowerType)
 	return aImage;
 }
 
-GPUImage *ReanimatorCache::MakeCachedPlantFrame(SeedType theSeedType, DrawVariation theDrawVariation)
+GPUImage *ReanimatorCache::MakeCachedPlantFrame(OldSeedType theSeedType, DrawVariation theDrawVariation)
 {
 	int aOffsetX, aOffsetY, aWidth, aHeight;
 	GetPlantImageSize(theSeedType, aOffsetX, aOffsetY, aWidth, aHeight);
@@ -218,7 +218,7 @@ GPUImage *ReanimatorCache::MakeCachedPlantFrame(SeedType theSeedType, DrawVariat
 	const PlantType &aPlantType = PlantTypes::FromOldSeedType(theSeedType);
 	//TOD_ASSERT(aPlantType.mBaseReanim != ReanimationType::REANIM_NONE);
 
-	if (theSeedType == SeedType::SEED_POTATOMINE)
+	if (theSeedType == OldSeedType::SEED_POTATOMINE)
 	{
 		aMemoryGraphics.mScaleX = 0.85f;
 		aMemoryGraphics.mScaleY = 0.85f;
@@ -229,7 +229,7 @@ GPUImage *ReanimatorCache::MakeCachedPlantFrame(SeedType theSeedType, DrawVariat
 							"anim_armed",
 							theDrawVariation);
 	}
-	else if (theSeedType == SeedType::SEED_INSTANT_COFFEE)
+	else if (theSeedType == OldSeedType::SEED_INSTANT_COFFEE)
 	{
 		aMemoryGraphics.mScaleX = 0.8f;
 		aMemoryGraphics.mScaleY = 0.8f;
@@ -240,7 +240,7 @@ GPUImage *ReanimatorCache::MakeCachedPlantFrame(SeedType theSeedType, DrawVariat
 							"anim_idle",
 							theDrawVariation);
 	}
-	else if (theSeedType == SeedType::SEED_EXPLODE_O_NUT)
+	else if (theSeedType == OldSeedType::SEED_EXPLODE_O_NUT)
 	{
 		aMemoryGraphics.SetColorizeImages(true);
 		aMemoryGraphics.SetColor(Color(255, 64, 64));
@@ -252,14 +252,14 @@ GPUImage *ReanimatorCache::MakeCachedPlantFrame(SeedType theSeedType, DrawVariat
 		DrawReanimatorFrame(
 			&aMemoryGraphics, -aOffsetX, -aOffsetY, *aPlantType.mBaseReanim, "anim_idle", theDrawVariation);
 
-		if (theSeedType == SeedType::SEED_PEASHOOTER || theSeedType == SeedType::SEED_SNOWPEA ||
-			theSeedType == SeedType::SEED_REPEATER || theSeedType == SeedType::SEED_LEFTPEATER ||
-			theSeedType == SeedType::SEED_GATLINGPEA)
+		if (theSeedType == OldSeedType::SEED_PEASHOOTER || theSeedType == OldSeedType::SEED_SNOWPEA ||
+			theSeedType == OldSeedType::SEED_REPEATER || theSeedType == OldSeedType::SEED_LEFTPEATER ||
+			theSeedType == OldSeedType::SEED_GATLINGPEA)
 		{
 			DrawReanimatorFrame(
 				&aMemoryGraphics, -aOffsetX, -aOffsetY, *aPlantType.mBaseReanim, "anim_head_idle", theDrawVariation);
 		}
-		else if (theSeedType == SeedType::SEED_SPLITPEA)
+		else if (theSeedType == OldSeedType::SEED_SPLITPEA)
 		{
 			DrawReanimatorFrame(
 				&aMemoryGraphics, -aOffsetX, -aOffsetY, *aPlantType.mBaseReanim, "anim_head_idle", theDrawVariation);
@@ -270,7 +270,7 @@ GPUImage *ReanimatorCache::MakeCachedPlantFrame(SeedType theSeedType, DrawVariat
 								"anim_splitpea_idle",
 								theDrawVariation);
 		}
-		else if (theSeedType == SeedType::SEED_THREEPEATER)
+		else if (theSeedType == OldSeedType::SEED_THREEPEATER)
 		{
 			DrawReanimatorFrame(&aMemoryGraphics,
 								-aOffsetX,
@@ -409,7 +409,7 @@ GPUImage *ReanimatorCache::MakeCachedZombieFrame(ZombieType theZombieType)
 void ReanimatorCache::ReanimatorCacheInitialize()
 {
 	mApp = (LawnApp *)gSexyAppBase;
-	for (int i = 0; i < SeedType::NUM_SEED_TYPES; i++)
+	for (int i = 0; i < OldSeedType::NUM_SEED_TYPES; i++)
 		mPlantImages[i] = nullptr;
 	for (int i = 0; i < LawnMowerType::NUM_MOWER_TYPES; i++)
 		mLawnMowers[i] = nullptr;
@@ -419,7 +419,7 @@ void ReanimatorCache::ReanimatorCacheInitialize()
 
 void ReanimatorCache::ReanimatorCacheDispose()
 {
-	for (int i = 0; i < SeedType::NUM_SEED_TYPES; i++)
+	for (int i = 0; i < OldSeedType::NUM_SEED_TYPES; i++)
 		delete mPlantImages[i];
 	while (mImageVariationList.mSize != 0)
 	{
@@ -434,9 +434,9 @@ void ReanimatorCache::ReanimatorCacheDispose()
 }
 
 void ReanimatorCache::DrawCachedPlant(
-	Graphics *g, float thePosX, float thePosY, SeedType theSeedType, DrawVariation theDrawVariation)
+	Graphics *g, float thePosX, float thePosY, OldSeedType theSeedType, DrawVariation theDrawVariation)
 {
-	TOD_ASSERT(theSeedType >= 0 && theSeedType < SeedType::NUM_SEED_TYPES);
+	TOD_ASSERT(theSeedType >= 0 && theSeedType < OldSeedType::NUM_SEED_TYPES);
 
 	GPUImage *aImage = nullptr;
 	if (theDrawVariation != DrawVariation::VARIATION_NORMAL)

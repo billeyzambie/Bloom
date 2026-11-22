@@ -524,7 +524,7 @@ class BLOOM_API LawnApp : public SexyApp
 	/// @brief Open the Almanac on a certain entry
 	/// @param theSeedType [OPTIONAL - SeedType::SEED_NONE] The SeedType to open the page
 	/// @param theZombieType [OPTIONAL - ZombieType::ZOMBIE_INVALID] The ZombieType to open the page on
-	AlmanacDialog *DoAlmanacDialog(SeedType theSeedType = SeedType::SEED_NONE, ZombieType theZombieType = ZombieType::ZOMBIE_INVALID);
+	AlmanacDialog *DoAlmanacDialog(OldSeedType theSeedType = OldSeedType::SEED_NONE, ZombieType theZombieType = ZombieType::ZOMBIE_INVALID);
 
 	/// @brief Close the Almanac
 	bool KillAlmanacDialog();
@@ -597,12 +597,12 @@ class BLOOM_API LawnApp : public SexyApp
 	/// @brief Check if we have a SeedType
 	/// @param theSeedType The SeedType to check
 	/// @return True if we have the SeedType, false otherwise
-	bool HasSeedType(SeedType theSeedType);
+	bool HasSeedType(OldSeedType theSeedType);
 
 	/// @brief Check if we have a SeedType
 	/// @param theSeedType The SeedType to check
 	/// @return True if we have the SeedType, false otherwise
-	bool SeedTypeAvailable(SeedType theSeedType);
+	bool SeedTypeAvailable(OldSeedType theSeedType);
 
 	/// @brief End the Level
 	void EndLevel();
@@ -649,7 +649,7 @@ class BLOOM_API LawnApp : public SexyApp
 	/// @brief Get the SeedType awarded in a level
 	/// @param theLevel The level to check
 	/// @return Awarded SeedType
-	static SeedType GetAwardSeedForLevel(int theLevel);
+	static OldSeedType GetAwardSeedForLevel(int theLevel);
 
 	/// @brief Get Crazy Dave's text from a specific index
 	/// @param theMessageIndex The message's index

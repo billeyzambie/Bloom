@@ -2,7 +2,7 @@
 #include "Music.h"
 #include "../Board.h"
 #include "../Challenge.h"
-#include "../SeedPacket.h"
+#include "../Seed/SeedPacket.h"
 #include "../../LawnApp.h"
 #include "../CursorObject.h"
 #include "../../Resources.h"

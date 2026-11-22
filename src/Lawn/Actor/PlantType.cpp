@@ -12,11 +12,11 @@ PlantType::PlantType(
 {
 }
 
-PlantType::operator SeedType() const
+PlantType::operator OldSeedType() const
 {
 	int aNumId = GetNumericalId();
-	TOD_ASSERT(aNumId < SeedType::NUM_SEED_TYPES, "Unhandled modded PlantType");
-	return (SeedType)aNumId;
+	TOD_ASSERT(aNumId < OldSeedType::NUM_SEED_TYPES, "Unhandled modded PlantType");
+	return (OldSeedType)aNumId;
 }
 
 void PlantType::CopyFrom(const PlantType &theOther)

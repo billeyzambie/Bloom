@@ -50,7 +50,7 @@ class ZenGarden
 	void MovePlant(Plant *thePlant, int theGridX, int theGridY);
 	void MouseDownWithMoneySign(Plant *thePlant);
 	Plant *PlacePottedPlant(int thePottedPlantIndex);
-	float PlantPottedDrawHeightOffset(SeedType theSeedType, float theScale);
+	float PlantPottedDrawHeightOffset(OldSeedType theSeedType, float theScale);
 	static float ZenPlantOffsetX(PottedPlant *thePottedPlant);
 	int GetPlantSellPrice(Plant *thePlant);
 	void ZenGardenUpdate();

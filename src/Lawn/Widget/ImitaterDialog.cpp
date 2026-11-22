@@ -1,6 +1,6 @@
 #include "../Actor/Plant.h"
 #include "GameButton.h"
-#include "../SeedPacket.h"
+#include "../Seed/SeedPacket.h"
 #include "../../LawnApp.h"
 #include "ImitaterDialog.h"
 #include "SeedChooserScreen.h"
@@ -20,7 +20,7 @@ ImitaterDialog::ImitaterDialog()
 	CalcSize(IMITATER_DIALOG_WIDTH - mWidth, IMITATER_DIALOG_HEIGHT - mHeight);
 	mToolTip = new ToolTipWidget();
 	mClip = false;
-	mToolTipSeed = SeedType::SEED_NONE;
+	mToolTipSeed = OldSeedType::SEED_NONE;
 	mLawnYesButton->mBtnNoDraw = true;
 	mLawnYesButton->mMouseVisible = false;
 	mLawnNoButton->mBtnNoDraw = true;
@@ -32,9 +32,9 @@ ImitaterDialog::~ImitaterDialog()
 	delete mToolTip;
 }
 
-SeedType ImitaterDialog::SeedHitTest(int x, int y)
+OldSeedType ImitaterDialog::SeedHitTest(int x, int y)
 {
-	for (SeedType aSeedType = (SeedType)0; aSeedType < SeedType::SEED_GATLINGPEA; aSeedType = (SeedType)(aSeedType + 1))
+	for (OldSeedType aSeedType = (OldSeedType)0; aSeedType < OldSeedType::SEED_GATLINGPEA; aSeedType = (OldSeedType)(aSeedType + 1))
 	{
 		if (mApp->SeedTypeAvailable(aSeedType))
 		{
@@ -46,13 +46,13 @@ SeedType ImitaterDialog::SeedHitTest(int x, int y)
 			}
 		}
 	}
-	return SeedType::SEED_NONE;
+	return OldSeedType::SEED_NONE;
 }
 
 void ImitaterDialog::UpdateCursor()
 {
-	SeedType aSeedType = SeedHitTest(mApp->mWidgetManager->mLastMouseX - mX, mApp->mWidgetManager->mLastMouseY - mY);
-	if (aSeedType != SeedType::SEED_NONE && !mApp->mSeedChooserScreen->SeedNotAllowedToPick(aSeedType))
+	OldSeedType aSeedType = SeedHitTest(mApp->mWidgetManager->mLastMouseX - mX, mApp->mWidgetManager->mLastMouseY - mY);
+	if (aSeedType != OldSeedType::SEED_NONE && !mApp->mSeedChooserScreen->SeedNotAllowedToPick(aSeedType))
 	{
 		mApp->SetCursor(CURSOR_HAND);
 	}
@@ -79,7 +79,7 @@ void ImitaterDialog::Draw(Graphics *g)
 {
 	LawnDialog::Draw(g);
 	g->SetLinearBlend(true);
-	for (SeedType aSeedType = (SeedType)0; aSeedType < SeedType::SEED_GATLINGPEA; aSeedType = (SeedType)(aSeedType + 1))
+	for (OldSeedType aSeedType = (OldSeedType)0; aSeedType < OldSeedType::SEED_GATLINGPEA; aSeedType = (OldSeedType)(aSeedType + 1))
 	{
 		if (mApp->SeedTypeAvailable(aSeedType))
 		{
@@ -87,7 +87,7 @@ void ImitaterDialog::Draw(Graphics *g)
 			GetSeedPosition(aSeedType, aSeedX, aSeedY);
 			bool aGrayed = mApp->mSeedChooserScreen->SeedNotAllowedToPick(aSeedType) ||
 						   mApp->mSeedChooserScreen->SeedNotRecommendedToPick(aSeedType);
-			DrawSeedPacket(g, aSeedX, aSeedY, SeedType::SEED_IMITATER, aSeedType, 0, aGrayed ? 115 : 255, true, false);
+			DrawSeedPacket(g, aSeedX, aSeedY, OldSeedType::SEED_IMITATER, aSeedType, 0, aGrayed ? 115 : 255, true, false);
 		}
 	}
 	mToolTip->Draw(g);
@@ -101,8 +101,8 @@ void ImitaterDialog::ShowToolTip()
 		return;
 	}
 
-	SeedType aSeedType = SeedHitTest(mApp->mWidgetManager->mLastMouseX - mX, mApp->mWidgetManager->mLastMouseY - mY);
-	if (aSeedType == SeedType::SEED_NONE)
+	OldSeedType aSeedType = SeedHitTest(mApp->mWidgetManager->mLastMouseX - mX, mApp->mWidgetManager->mLastMouseY - mY);
+	if (aSeedType == OldSeedType::SEED_NONE)
 	{
 		RemoveToolTip();
 	}
@@ -129,7 +129,7 @@ void ImitaterDialog::ShowToolTip()
 		{
 			mToolTip->SetWarningText("");
 		}
-		mToolTip->SetTitle(Plant::GetNameString(SeedType::SEED_IMITATER, aSeedType));
+		mToolTip->SetTitle(Plant::GetNameString(OldSeedType::SEED_IMITATER, aSeedType));
 		mToolTip->SetLabel(Plant::GetToolTip(aSeedType));
 
 		int aSeedX, aSeedY;
@@ -144,18 +144,18 @@ void ImitaterDialog::ShowToolTip()
 void ImitaterDialog::RemoveToolTip()
 {
 	mToolTip->mVisible = false;
-	mToolTipSeed = SeedType::SEED_NONE;
+	mToolTipSeed = OldSeedType::SEED_NONE;
 }
 
 void ImitaterDialog::MouseDown(int x, int y, int theClickCount)
 {
-	SeedType aSeedType = SeedHitTest(x, y);
-	if (aSeedType != SeedType::SEED_NONE)
+	OldSeedType aSeedType = SeedHitTest(x, y);
+	if (aSeedType != OldSeedType::SEED_NONE)
 	{
 		SeedChooserScreen *aSeedChooser = mApp->mSeedChooserScreen;
 		if (!aSeedChooser->SeedNotAllowedToPick(aSeedType))
 		{
-			ChosenSeed &aImitater = aSeedChooser->mChosenSeeds[SeedType::SEED_IMITATER];
+			ChosenSeed &aImitater = aSeedChooser->mChosenSeeds[OldSeedType::SEED_IMITATER];
 			aImitater.mSeedState = ChosenSeedState::SEED_IN_CHOOSER;
 			aImitater.mImitaterType = aSeedType;
 			aImitater.mX = aSeedChooser->mImitaterButton->mX;

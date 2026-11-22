@@ -8,7 +8,7 @@
 #include "ZenGarden.h"
 #include "LawnMower.h"
 #include "Challenge.h"
-#include "SeedPacket.h"
+#include "Seed/SeedPacket.h"
 #include "Projectile/Projectile.h"
 #include "../LawnApp.h"
 #include "../Resources.h"
@@ -166,7 +166,7 @@ ZombieAllowedLevels gZombieAllowedLevels[NUM_ZOMBIE_TYPES] = {
 	{ZOMBIE_REDEYE_GARGANTUAR, {0}},
 };
 
-SeedType gArtChallengeWallnut[MAX_GRID_SIZE_Y][MAX_GRID_SIZE_X] = {
+OldSeedType gArtChallengeWallnut[MAX_GRID_SIZE_Y][MAX_GRID_SIZE_X] = {
 	{SEED_NONE, SEED_NONE, SEED_NONE, SEED_NONE, SEED_WALLNUT, SEED_WALLNUT, SEED_WALLNUT, SEED_NONE, SEED_NONE},
 	{SEED_NONE, SEED_NONE, SEED_NONE, SEED_WALLNUT, SEED_NONE, SEED_NONE, SEED_NONE, SEED_WALLNUT, SEED_NONE},
 	{SEED_NONE, SEED_NONE, SEED_NONE, SEED_WALLNUT, SEED_NONE, SEED_NONE, SEED_NONE, SEED_WALLNUT, SEED_NONE},
@@ -174,7 +174,7 @@ SeedType gArtChallengeWallnut[MAX_GRID_SIZE_Y][MAX_GRID_SIZE_X] = {
 	{SEED_NONE, SEED_NONE, SEED_NONE, SEED_NONE, SEED_WALLNUT, SEED_WALLNUT, SEED_WALLNUT, SEED_NONE, SEED_NONE},
 	{SEED_NONE, SEED_NONE, SEED_NONE, SEED_NONE, SEED_NONE, SEED_NONE, SEED_NONE, SEED_NONE, SEED_NONE}};
 
-SeedType gArtChallengeSunFlower[MAX_GRID_SIZE_Y][MAX_GRID_SIZE_X] = {
+OldSeedType gArtChallengeSunFlower[MAX_GRID_SIZE_Y][MAX_GRID_SIZE_X] = {
 	{SEED_NONE, SEED_NONE, SEED_STARFRUIT, SEED_STARFRUIT, SEED_STARFRUIT, SEED_NONE, SEED_NONE, SEED_NONE, SEED_NONE},
 	{SEED_NONE,
 	 SEED_STARFRUIT,
@@ -190,7 +190,7 @@ SeedType gArtChallengeSunFlower[MAX_GRID_SIZE_Y][MAX_GRID_SIZE_X] = {
 	{SEED_NONE, SEED_NONE, SEED_UMBRELLA, SEED_UMBRELLA, SEED_UMBRELLA, SEED_NONE, SEED_NONE, SEED_NONE, SEED_NONE},
 	{SEED_NONE, SEED_NONE, SEED_NONE, SEED_NONE, SEED_NONE, SEED_NONE, SEED_NONE, SEED_NONE, SEED_NONE}};
 
-SeedType gArtChallengeStarFruit[MAX_GRID_SIZE_Y][MAX_GRID_SIZE_X] = {
+OldSeedType gArtChallengeStarFruit[MAX_GRID_SIZE_Y][MAX_GRID_SIZE_X] = {
 	{SEED_NONE, SEED_NONE, SEED_NONE, SEED_STARFRUIT, SEED_NONE, SEED_NONE, SEED_NONE, SEED_NONE, SEED_NONE},
 	{SEED_NONE, SEED_NONE, SEED_NONE, SEED_STARFRUIT, SEED_STARFRUIT, SEED_NONE, SEED_NONE, SEED_NONE, SEED_NONE},
 	{SEED_NONE,
@@ -482,10 +482,10 @@ bool Challenge::BeghouledTwistMoveCausesMatch(int theGridX, int theGridY, Beghou
 	if (!BeghouledTwistValidMove(theGridX, theGridY, theBoardState))
 		return false;
 
-	SeedType aSeed1 = theBoardState->mSeedType[theGridX][theGridY];
-	SeedType aSeed2 = theBoardState->mSeedType[theGridX + 1][theGridY];
-	SeedType aSeed3 = theBoardState->mSeedType[theGridX][theGridY + 1];
-	SeedType aSeed4 = theBoardState->mSeedType[theGridX + 1][theGridY + 1];
+	OldSeedType aSeed1 = theBoardState->mSeedType[theGridX][theGridY];
+	OldSeedType aSeed2 = theBoardState->mSeedType[theGridX + 1][theGridY];
+	OldSeedType aSeed3 = theBoardState->mSeedType[theGridX][theGridY + 1];
+	OldSeedType aSeed4 = theBoardState->mSeedType[theGridX + 1][theGridY + 1];
 
 	theBoardState->mSeedType[theGridX][theGridY] = aSeed3;
 	theBoardState->mSeedType[theGridX + 1][theGridY] = aSeed1;
@@ -568,8 +568,8 @@ bool Challenge::BeghouledIsValidMove(
 		mBeghouledEated[theFromX][theFromY] || mBeghouledEated[theToX][theToY])
 		return false;
 
-	SeedType aSeedFrom = theBoardState->mSeedType[theFromX][theFromY];
-	SeedType aSeedTo = theBoardState->mSeedType[theToX][theToY];
+	OldSeedType aSeedFrom = theBoardState->mSeedType[theFromX][theFromY];
+	OldSeedType aSeedTo = theBoardState->mSeedType[theToX][theToY];
 	if (aSeedFrom == SEED_NONE)
 		return false;
 
@@ -649,7 +649,7 @@ void Challenge::BeghouledDragUpdate(int x, int y)
 	}
 }
 
-SeedType Challenge::BeghouledGetPlantAt(int theGridX, int theGridY, BeghouledBoardState *theBoardState)
+OldSeedType Challenge::BeghouledGetPlantAt(int theGridX, int theGridY, BeghouledBoardState *theBoardState)
 {
 	if (theGridX < 0 || theGridX > BEGHOULED_MAX_GRIDSIZEX || theGridY < 0 || theGridY > BEGHOULED_MAX_GRIDSIZEY)
 		return SEED_NONE;
@@ -659,7 +659,7 @@ SeedType Challenge::BeghouledGetPlantAt(int theGridX, int theGridY, BeghouledBoa
 
 void Challenge::BeghouledRemoveHorizontalMatch(int theGridX, int theGridY, BeghouledBoardState *theBoardState)
 {
-	SeedType aSeedType = BeghouledGetPlantAt(theGridX, theGridY, theBoardState);
+	OldSeedType aSeedType = BeghouledGetPlantAt(theGridX, theGridY, theBoardState);
 	do
 	{
 		Plant *aPlant = mBoard->GetTopPlantAt(theGridX, theGridY, TOPPLANT_ANY);
@@ -673,7 +673,7 @@ void Challenge::BeghouledRemoveHorizontalMatch(int theGridX, int theGridY, Begho
 
 void Challenge::BeghouledRemoveVerticalMatch(int theGridX, int theGridY, BeghouledBoardState *theBoardState)
 {
-	SeedType aSeedType = BeghouledGetPlantAt(theGridX, theGridY, theBoardState);
+	OldSeedType aSeedType = BeghouledGetPlantAt(theGridX, theGridY, theBoardState);
 	do
 	{
 		Plant *aPlant = mBoard->GetTopPlantAt(theGridX, theGridY, TOPPLANT_ANY);
@@ -725,7 +725,7 @@ void Challenge::BeghouledUpdateCraters()
 		return;
 
 	SeedPacket *aSeedPacket = &mBoard->mSeedBank->mSeedPackets[4];
-	TOD_ASSERT(aSeedPacket->mPacketType == SeedType::SEED_BEGHOULED_BUTTON_CRATER);
+	TOD_ASSERT(aSeedPacket->mType == OldSeedType::SEED_BEGHOULED_BUTTON_CRATER);
 	aSeedPacket->SetActivate(BeghouledCanClearCrater());
 }
 
@@ -846,7 +846,7 @@ void Challenge::BeghouledRemoveMatches(BeghouledBoardState *theBoardState)
 
 int Challenge::BeghouledHorizontalMatchLength(int theGridX, int theGridY, BeghouledBoardState *theBoardState)
 {
-	SeedType aSeedType = BeghouledGetPlantAt(theGridX, theGridY, theBoardState);
+	OldSeedType aSeedType = BeghouledGetPlantAt(theGridX, theGridY, theBoardState);
 	if (aSeedType == SEED_NONE || BeghouledGetPlantAt(theGridX - 1, theGridY, theBoardState) == aSeedType)
 		return 0;
 
@@ -858,7 +858,7 @@ int Challenge::BeghouledHorizontalMatchLength(int theGridX, int theGridY, Beghou
 
 int Challenge::BeghouledVerticalMatchLength(int theGridX, int theGridY, BeghouledBoardState *theBoardState)
 {
-	SeedType aSeedType = BeghouledGetPlantAt(theGridX, theGridY, theBoardState);
+	OldSeedType aSeedType = BeghouledGetPlantAt(theGridX, theGridY, theBoardState);
 	if (aSeedType == SEED_NONE || BeghouledGetPlantAt(theGridX, theGridY - 1, theBoardState) == aSeedType)
 		return 0;
 
@@ -882,38 +882,38 @@ bool Challenge::BeghouledBoardHasMatch(BeghouledBoardState *theBoardState)
 	return false;
 }
 
-SeedType Challenge::BeghouledPickSeed(int theGridX,
+OldSeedType Challenge::BeghouledPickSeed(int theGridX,
 									  int theGridY,
 									  BeghouledBoardState *theBoardState,
 									  bool theAllowMatches)
 {
 	TOD_ASSERT(theBoardState->mSeedType[theGridX][theGridY] == SEED_NONE);
-	SeedType *aSeedState = &theBoardState->mSeedType[theGridX][theGridY];
+	OldSeedType *aSeedState = &theBoardState->mSeedType[theGridX][theGridY];
 	int aCount = 0;
 	int aPickArray[6];
 
 	for (int i = 0; i < 6; i++)
 	{
-		SeedType aSeedType;
+		OldSeedType aSeedType;
 		switch (i)
 		{
 		case 0:
-			aSeedType = SeedType::SEED_PUFFSHROOM;
+			aSeedType = OldSeedType::SEED_PUFFSHROOM;
 			break;
 		case 1:
-			aSeedType = SeedType::SEED_STARFRUIT;
+			aSeedType = OldSeedType::SEED_STARFRUIT;
 			break;
 		case 2:
-			aSeedType = SeedType::SEED_MAGNETSHROOM;
+			aSeedType = OldSeedType::SEED_MAGNETSHROOM;
 			break;
 		case 3:
-			aSeedType = SeedType::SEED_SNOWPEA;
+			aSeedType = OldSeedType::SEED_SNOWPEA;
 			break;
 		case 4:
-			aSeedType = SeedType::SEED_WALLNUT;
+			aSeedType = OldSeedType::SEED_WALLNUT;
 			break;
 		case 5:
-			aSeedType = SeedType::SEED_PEASHOOTER;
+			aSeedType = OldSeedType::SEED_PEASHOOTER;
 			break;
 		default:
 			TOD_ASSERT();
@@ -921,19 +921,19 @@ SeedType Challenge::BeghouledPickSeed(int theGridX,
 		}
 
 		if (mBeghouledPurcasedUpgrade[(int)BeghouledUpgrade::BEGHOULED_UPGRADE_REPEATER] &&
-			aSeedType == SeedType::SEED_PEASHOOTER)
+			aSeedType == OldSeedType::SEED_PEASHOOTER)
 		{
-			aSeedType = SeedType::SEED_REPEATER;
+			aSeedType = OldSeedType::SEED_REPEATER;
 		}
 		if (mBeghouledPurcasedUpgrade[(int)BeghouledUpgrade::BEGHOULED_UPGRADE_FUMESHROOM] &&
-			aSeedType == SeedType::SEED_PUFFSHROOM)
+			aSeedType == OldSeedType::SEED_PUFFSHROOM)
 		{
-			aSeedType = SeedType::SEED_FUMESHROOM;
+			aSeedType = OldSeedType::SEED_FUMESHROOM;
 		}
 		if (mBeghouledPurcasedUpgrade[(int)BeghouledUpgrade::BEGHOULED_UPGRADE_TALLNUT] &&
-			aSeedType == SeedType::SEED_WALLNUT)
+			aSeedType == OldSeedType::SEED_WALLNUT)
 		{
-			aSeedType = SeedType::SEED_TALLNUT;
+			aSeedType = OldSeedType::SEED_TALLNUT;
 		}
 
 		theBoardState->mSeedType[theGridX][theGridY] = aSeedType;
@@ -946,7 +946,7 @@ SeedType Challenge::BeghouledPickSeed(int theGridX,
 	}
 
 	theBoardState->mSeedType[theGridX][theGridY] = SEED_NONE;
-	return (SeedType)TodPickFromArray(aPickArray, aCount);
+	return (OldSeedType)TodPickFromArray(aPickArray, aCount);
 }
 
 void Challenge::BeghouledFillHoles(BeghouledBoardState *theBoardState, bool theAllowMatches)
@@ -955,7 +955,7 @@ void Challenge::BeghouledFillHoles(BeghouledBoardState *theBoardState, bool theA
 	{
 		for (int aRow = 0; aRow < BEGHOULED_MAX_GRIDSIZEY; aRow++)
 		{
-			if (theBoardState->mSeedType[aCol][aRow] == SeedType::SEED_NONE && !mBeghouledEated[aCol][aRow])
+			if (theBoardState->mSeedType[aCol][aRow] == OldSeedType::SEED_NONE && !mBeghouledEated[aCol][aRow])
 			{
 				theBoardState->mSeedType[aCol][aRow] = BeghouledPickSeed(aCol, aRow, theBoardState, theAllowMatches);
 			}
@@ -970,7 +970,7 @@ void Challenge::BeghouledCreatePlants(BeghouledBoardState *theOldBoardState, Beg
 		int aFallY = 80;
 		for (int aRow = BEGHOULED_MAX_GRIDSIZEY - 1; aRow >= 0; aRow--)
 		{
-			SeedType aSeedType = theNewBoardState->mSeedType[aCol][aRow];
+			OldSeedType aSeedType = theNewBoardState->mSeedType[aCol][aRow];
 			if (theOldBoardState->mSeedType[aCol][aRow] == SEED_NONE && aSeedType != SEED_NONE)
 			{
 				aFallY -= 100;
@@ -1378,8 +1378,8 @@ bool Challenge::BeghouledFlashFromBoardState(
 	if (mBeghouledEated[theFromX][theFromY] || mBeghouledEated[theToX][theToY])
 		return false;
 
-	SeedType aFromSeedType = theBoardState->mSeedType[theFromX][theFromY];
-	SeedType aToSeedType = theBoardState->mSeedType[theToX][theToY];
+	OldSeedType aFromSeedType = theBoardState->mSeedType[theFromX][theFromY];
+	OldSeedType aToSeedType = theBoardState->mSeedType[theToX][theToY];
 	theBoardState->mSeedType[theFromX][theFromY] = aToSeedType;
 	theBoardState->mSeedType[theToX][theToY] = aFromSeedType;
 
@@ -1852,7 +1852,7 @@ void Challenge::UpdateConveyorBelt()
 		}
 	}
 
-	SeedType aSeedType = (SeedType)TodPickFromWeightedArray(aSeedPickArray, aSeedPickCount);
+	OldSeedType aSeedType = (OldSeedType)TodPickFromWeightedArray(aSeedPickArray, aSeedPickCount);
 	mBoard->mSeedBank->AddSeed(aSeedType);
 	mLastConveyorSeedType = aSeedType;
 }
@@ -1866,9 +1866,9 @@ void Challenge::UpdateRainingSeeds()
 
 	Coin *aCoin = mBoard->AddCoin(RandRangeInt(100, 649), 60, COIN_USABLE_SEED_PACKET, COIN_MOTION_FROM_SKY_SLOW);
 
-	SeedType aSeedType;
+	OldSeedType aSeedType;
 	do
-		aSeedType = (SeedType)Rand(mApp->GetSeedsAvailable());
+		aSeedType = (OldSeedType)Rand(mApp->GetSeedsAvailable());
 	while (mBoard->SeedNotRecommendedForLevel(aSeedType) || !mApp->SeedTypeAvailable(aSeedType) ||
 		   Plant::IsUpgrade(PlantTypes::FromOldSeedType(aSeedType)) || aSeedType == SEED_SUNFLOWER || aSeedType == SEED_TWINSUNFLOWER ||
 		   aSeedType == SEED_INSTANT_COFFEE || aSeedType == SEED_UMBRELLA || aSeedType == SEED_SUNSHROOM ||
@@ -1969,15 +1969,15 @@ void Challenge::UpdateSlotMachine()
 		mApp->ReanimationGet(mReanimChallenge)->PlayReanim("anim_return", REANIM_PLAY_ONCE_AND_HOLD, 0, 24.0f);
 		mChallengeState = STATECHALLENGE_NORMAL;
 
-		SeedType aPacket1 = mBoard->mSeedBank->mSeedPackets[0].mPacketType;
-		SeedType aPacket2 = mBoard->mSeedBank->mSeedPackets[1].mPacketType;
-		SeedType aPacket3 = mBoard->mSeedBank->mSeedPackets[2].mPacketType;
+		OldSeedType aPacket1 = mBoard->mSeedBank->mSeedPackets[0].mType;
+		OldSeedType aPacket2 = mBoard->mSeedBank->mSeedPackets[1].mType;
+		OldSeedType aPacket3 = mBoard->mSeedBank->mSeedPackets[2].mType;
 		if (aPacket1 != aPacket2 || aPacket2 != aPacket3)
 		{
 			if (aPacket1 == aPacket2 || aPacket2 == aPacket3 || aPacket1 == aPacket3)
 			{
 				mApp->PlayFoley(FOLEY_ART_CHALLENGE);
-				SeedType aSeedType = (aPacket1 == aPacket2 || aPacket1 == aPacket3) ? aPacket1 : aPacket2;
+				OldSeedType aSeedType = (aPacket1 == aPacket2 || aPacket1 == aPacket3) ? aPacket1 : aPacket2;
 				if (aSeedType == SEED_SLOT_MACHINE_DIAMOND)
 				{
 					mBoard->DisplayAdvice(
@@ -2168,7 +2168,7 @@ void Challenge::Update()
 	}
 }
 
-SeedType Challenge::GetArtChallengeSeed(int theGridX, int theGridY)
+OldSeedType Challenge::GetArtChallengeSeed(int theGridX, int theGridY)
 {
 	if (theGridY < 6)
 	{
@@ -2229,7 +2229,7 @@ void Challenge::CheckForCompleteArtChallenge(int theGridX, int theGridY)
 	{
 		for (int aGridX = 0; aGridX < MAX_GRID_SIZE_X; aGridX++)
 		{
-			SeedType aSeedType = GetArtChallengeSeed(aGridX, aGridY);
+			OldSeedType aSeedType = GetArtChallengeSeed(aGridX, aGridY);
 			if (aSeedType != SEED_NONE)
 			{
 				Plant *aPlant = mBoard->GetTopPlantAt(aGridX, aGridY, TOPPLANT_ONLY_NORMAL_POSITION);
@@ -2252,7 +2252,7 @@ void Challenge::DrawArtChallenge(Graphics *g)
 	{
 		for (int aCol = 0; aCol < MAX_GRID_SIZE_X; aCol++)
 		{
-			SeedType aSeedType = GetArtChallengeSeed(aCol, aRow);
+			OldSeedType aSeedType = GetArtChallengeSeed(aCol, aRow);
 			if (aSeedType != SEED_NONE && mBoard->GetTopPlantAt(aCol, aRow, TOPPLANT_ONLY_NORMAL_POSITION) == nullptr)
 			{
 				Plant::DrawSeedType(g,
@@ -2378,7 +2378,7 @@ void Challenge::PlantAdded(Plant *thePlant)
 {
 	if (mApp->IsArtChallenge())
 	{
-		SeedType anArtSeed = GetArtChallengeSeed(thePlant->mPlantCol, thePlant->mRow);
+		OldSeedType anArtSeed = GetArtChallengeSeed(thePlant->mPlantCol, thePlant->mRow);
 		if (anArtSeed != SEED_NONE && anArtSeed == thePlant->mType)
 		{
 			mApp->PlayFoley(FOLEY_ART_CHALLENGE);
@@ -2388,7 +2388,7 @@ void Challenge::PlantAdded(Plant *thePlant)
 	}
 }
 
-PlantingReason Challenge::CanPlantAt(int theGridX, int theGridY, SeedType theSeedType)
+PlantingReason Challenge::CanPlantAt(int theGridX, int theGridY, OldSeedType theSeedType)
 {
 	if (mApp->IsWallnutBowlingLevel())
 	{
@@ -2420,7 +2420,7 @@ PlantingReason Challenge::CanPlantAt(int theGridX, int theGridY, SeedType theSee
 	}
 	else if (mApp->IsArtChallenge())
 	{
-		SeedType anArtSeed = GetArtChallengeSeed(theGridX, theGridY);
+		OldSeedType anArtSeed = GetArtChallengeSeed(theGridX, theGridY);
 		if (anArtSeed != SEED_NONE && anArtSeed != theSeedType && theSeedType != SEED_LILYPAD &&
 			theSeedType != SEED_PUMPKINSHELL)
 		{
@@ -3424,7 +3424,7 @@ bool Challenge::CanTargetZombieWithPortals(Plant *thePlant, Zombie *theZombie)
 void Challenge::BeghouledPacketClicked(SeedPacket *theSeedPacket)
 {
 	/*
-	SeedType aPacketType = theSeedPacket->mPacketType;
+	SeedType aPacketType = theSeedPacket->mType;
 	int aPacketCost = mBoard->GetCurrentPlantCost(aPacketType, SEED_NONE);
 	if (!mBoard->CanTakeSunMoney(aPacketCost))
 		return;
@@ -3462,11 +3462,11 @@ void Challenge::BeghouledPacketClicked(SeedPacket *theSeedPacket)
 	}
 	*/
 
-	int aPacketCost = mBoard->GetCurrentPlantCost(theSeedPacket->mPacketType, SEED_NONE);
+	int aPacketCost = mBoard->GetCurrentPlantCost(theSeedPacket->mType, SEED_NONE);
 	if (!mBoard->CanTakeSunMoney(aPacketCost))
 		return;
 
-	if (theSeedPacket->mPacketType == SEED_REPEATER &&
+	if (theSeedPacket->mType == SEED_REPEATER &&
 		!mBoard->mChallenge->mBeghouledPurcasedUpgrade[(int)BeghouledUpgrade::BEGHOULED_UPGRADE_REPEATER])
 	{
 		mBoard->mChallenge->mBeghouledPurcasedUpgrade[(int)BeghouledUpgrade::BEGHOULED_UPGRADE_REPEATER] = true;
@@ -3482,7 +3482,7 @@ void Challenge::BeghouledPacketClicked(SeedPacket *theSeedPacket)
 		}
 		theSeedPacket->Deactivate();
 	}
-	else if (theSeedPacket->mPacketType == SEED_FUMESHROOM &&
+	else if (theSeedPacket->mType == SEED_FUMESHROOM &&
 			 !mBoard->mChallenge->mBeghouledPurcasedUpgrade[(int)BeghouledUpgrade::BEGHOULED_UPGRADE_FUMESHROOM])
 	{
 		mBoard->mChallenge->mBeghouledPurcasedUpgrade[(int)BeghouledUpgrade::BEGHOULED_UPGRADE_FUMESHROOM] = true;
@@ -3498,7 +3498,7 @@ void Challenge::BeghouledPacketClicked(SeedPacket *theSeedPacket)
 		}
 		theSeedPacket->Deactivate();
 	}
-	else if (theSeedPacket->mPacketType == SEED_TALLNUT &&
+	else if (theSeedPacket->mType == SEED_TALLNUT &&
 			 !mBoard->mChallenge->mBeghouledPurcasedUpgrade[(int)BeghouledUpgrade::BEGHOULED_UPGRADE_TALLNUT])
 	{
 		mBoard->mChallenge->mBeghouledPurcasedUpgrade[(int)BeghouledUpgrade::BEGHOULED_UPGRADE_TALLNUT] = true;
@@ -3514,14 +3514,14 @@ void Challenge::BeghouledPacketClicked(SeedPacket *theSeedPacket)
 		}
 		theSeedPacket->Deactivate();
 	}
-	else if (theSeedPacket->mPacketType == SEED_BEGHOULED_BUTTON_SHUFFLE)
+	else if (theSeedPacket->mType == SEED_BEGHOULED_BUTTON_SHUFFLE)
 	{
 		if (mChallengeState == STATECHALLENGE_BEGHOULED_FALLING || mChallengeState == STATECHALLENGE_BEGHOULED_MOVING)
 			return;
 
 		BeghouledShuffle();
 	}
-	else if (theSeedPacket->mPacketType == SEED_BEGHOULED_BUTTON_CRATER)
+	else if (theSeedPacket->mType == SEED_BEGHOULED_BUTTON_CRATER)
 	{
 		if (!BeghouledCanClearCrater() || mChallengeState == STATECHALLENGE_BEGHOULED_FALLING ||
 			mChallengeState == STATECHALLENGE_BEGHOULED_MOVING)
@@ -3573,10 +3573,10 @@ Zombie *Challenge::ZombiquariumSpawnSnorkle()
 
 void Challenge::ZombiquariumPacketClicked(SeedPacket *theSeedPacket)
 {
-	int aCost = mBoard->GetCurrentPlantCost(theSeedPacket->mPacketType, SEED_NONE);
+	int aCost = mBoard->GetCurrentPlantCost(theSeedPacket->mType, SEED_NONE);
 	if (mBoard->CanTakeSunMoney(aCost))
 	{
-		if (theSeedPacket->mPacketType == SEED_ZOMBIQUARIUM_SNORKLE)
+		if (theSeedPacket->mType == SEED_ZOMBIQUARIUM_SNORKLE)
 		{
 			if (mBoard->CountZombiesOnScreen() > 100)
 				return;
@@ -3593,7 +3593,7 @@ void Challenge::ZombiquariumPacketClicked(SeedPacket *theSeedPacket)
 			mApp->AddTodParticle(
 				aZombie->mPosX + 60.0f, aZombie->mPosY + 20.0f, RENDER_LAYER_TOP, PARTICLE_PLANTING_POOL);
 		}
-		else if (theSeedPacket->mPacketType == SEED_ZOMBIQUARIUM_TROPHY)
+		else if (theSeedPacket->mType == SEED_ZOMBIQUARIUM_TROPHY)
 		{
 			SpawnLevelAward(2, 0);
 			mBoard->ClearAdvice(ADVICE_NONE);
@@ -3731,7 +3731,7 @@ void Challenge::ScaryPotterDontPlaceInCol(int theCol, TodWeightedGridArray *theG
 }
 
 void Challenge::ScaryPotterFillColumnWithPlant(int theCol,
-											   SeedType theSeedType,
+											   OldSeedType theSeedType,
 											   TodWeightedGridArray *theGridArray,
 											   int theGridArrayCount)
 {
@@ -3740,7 +3740,7 @@ void Challenge::ScaryPotterFillColumnWithPlant(int theCol,
 	for (int i = 0; i < MAX_GRID_SIZE_Y - 1; i++)
 	{
 		Plant *aPlant = mBoard->NewPlant(theCol, i, PlantTypes::FromOldSeedType(theSeedType));
-		if (theSeedType == SeedType::SEED_POTATOMINE)
+		if (theSeedType == OldSeedType::SEED_POTATOMINE)
 		{
 			aPlant->mStateCountdown = 10;
 		}
@@ -3749,7 +3749,7 @@ void Challenge::ScaryPotterFillColumnWithPlant(int theCol,
 
 void Challenge::ScaryPotterPlacePot(ScaryPotType theScaryPotType,
 									ZombieType theZombieType,
-									SeedType theSeedType,
+									OldSeedType theSeedType,
 									int theCount,
 									TodWeightedGridArray *theGridArray,
 									int theGridArrayCount)
@@ -4283,7 +4283,7 @@ void Challenge::PuzzleNextStageClear()
 	mApp->AddTodParticle(BOARD_WIDTH / 2, BOARD_HEIGHT / 2, RENDER_LAYER_TOP, PARTICLE_SCREEN_FLASH);
 }
 
-ZombieType Challenge::IZombieSeedTypeToZombieType(SeedType theSeedType)
+ZombieType Challenge::IZombieSeedTypeToZombieType(OldSeedType theSeedType)
 {
 	switch (theSeedType)
 	{
@@ -4343,7 +4343,7 @@ void Challenge::IZombieMouseDownWithZombie(int theX, int theY, int theClickCount
 {
 	if (theClickCount >= 0)
 	{
-		SeedType aSeedType = mBoard->mCursorObject->mType;
+		OldSeedType aSeedType = mBoard->mCursorObject->mType;
 		int aGridX = mBoard->PlantingPixelToGridX(theX, theY, aSeedType);
 		int aGridY = mBoard->PlantingPixelToGridY(theX, theY, aSeedType);
 		if (aGridX != -1 && aGridY != -1 && theClickCount)
@@ -4411,7 +4411,7 @@ void Challenge::IZombieSetupPlant(Plant *thePlant)
 	thePlant->UpdateReanim();
 }
 
-void Challenge::IZombiePlacePlantInSquare(SeedType theSeedType, int theGridX, int theGridY)
+void Challenge::IZombiePlacePlantInSquare(OldSeedType theSeedType, int theGridX, int theGridY)
 {
 	if (mBoard->CanPlantAt(theGridX, theGridY, theSeedType) == PLANTING_OK)
 	{
@@ -4419,7 +4419,7 @@ void Challenge::IZombiePlacePlantInSquare(SeedType theSeedType, int theGridX, in
 	}
 }
 
-void Challenge::IZombiePlacePlants(SeedType theSeedType, int theCount, int theGridY)
+void Challenge::IZombiePlacePlants(OldSeedType theSeedType, int theCount, int theGridY)
 {
 	int aColumns = 6;
 	GameMode aGameMode = mApp->mGameMode;
@@ -4754,7 +4754,7 @@ void Challenge::IZombieUpdate()
 	}
 }
 
-bool Challenge::IsZombieSeedType(SeedType theSeedType)
+bool Challenge::IsZombieSeedType(OldSeedType theSeedType)
 {
 	return theSeedType == SEED_ZOMBIQUARIUM_SNORKLE || theSeedType == SEED_ZOMBIQUARIUM_TROPHY ||
 		   theSeedType == SEED_ZOMBIE_NORMAL || theSeedType == SEED_ZOMBIE_TRAFFIC_CONE ||

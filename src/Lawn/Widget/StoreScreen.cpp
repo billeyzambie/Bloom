@@ -5,7 +5,7 @@
 #include "GameButton.h"
 #include "StoreScreen.h"
 #include "../ZenGarden.h"
-#include "../SeedPacket.h"
+#include "../Seed/SeedPacket.h"
 #include "../../LawnApp.h"
 #include "../../Resources.h"
 #include "../System/Music.h"
@@ -501,18 +501,18 @@ void StoreScreen::StorePreload()
 	ReanimatorEnsureDefinitionLoaded(ReanimationTypes::ZEN_GARDEN_FERTILIZER, true);
 	mApp->CrazyDaveEnter();
 
-	Plant::PreloadPlantResources(SeedType::SEED_GARLIC);
-	Plant::PreloadPlantResources(SeedType::SEED_TWINSUNFLOWER);
+	Plant::PreloadPlantResources(OldSeedType::SEED_GARLIC);
+	Plant::PreloadPlantResources(OldSeedType::SEED_TWINSUNFLOWER);
 
 	if (mApp->HasFinishedAdventure())
 	{
-		Plant::PreloadPlantResources(SeedType::SEED_GLOOMSHROOM);
-		Plant::PreloadPlantResources(SeedType::SEED_CATTAIL);
-		Plant::PreloadPlantResources(SeedType::SEED_WINTERMELON);
-		Plant::PreloadPlantResources(SeedType::SEED_GOLD_MAGNET);
-		Plant::PreloadPlantResources(SeedType::SEED_SPIKEROCK);
-		Plant::PreloadPlantResources(SeedType::SEED_COBCANNON);
-		Plant::PreloadPlantResources(SeedType::SEED_IMITATER);
+		Plant::PreloadPlantResources(OldSeedType::SEED_GLOOMSHROOM);
+		Plant::PreloadPlantResources(OldSeedType::SEED_CATTAIL);
+		Plant::PreloadPlantResources(OldSeedType::SEED_WINTERMELON);
+		Plant::PreloadPlantResources(OldSeedType::SEED_GOLD_MAGNET);
+		Plant::PreloadPlantResources(OldSeedType::SEED_SPIKEROCK);
+		Plant::PreloadPlantResources(OldSeedType::SEED_COBCANNON);
+		Plant::PreloadPlantResources(OldSeedType::SEED_IMITATER);
 	}
 }
 
@@ -964,9 +964,9 @@ void StoreScreen::PurchaseItem(const StoreItemType &theStoreItem)
 			if (dynamic_cast<const SeedPacketStoreItemType *>(&theStoreItem))
 			{
 				bool aHasAllPlants = true;
-				for (int i = SeedType::SEED_GATLINGPEA; i <= SeedType::SEED_IMITATER; i++)
+				for (int i = OldSeedType::SEED_GATLINGPEA; i <= OldSeedType::SEED_IMITATER; i++)
 				{
-					if (!mApp->SeedTypeAvailable(SeedType(i)))
+					if (!mApp->SeedTypeAvailable(OldSeedType(i)))
 						aHasAllPlants = false;
 				}
 				if (aHasAllPlants)

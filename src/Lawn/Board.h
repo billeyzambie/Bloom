@@ -349,7 +349,7 @@ class BLOOM_API Board : public Widget, public ButtonListener
 	/// @param theGridY The Grid Y Coordinate
 	/// @param theSeedType The SeedType to check
 	/// @return Reason for planting here (inspect PlantingReason enum)
-	PlantingReason CanPlantAt(int theGridX, int theGridY, SeedType theSeedType);
+	PlantingReason CanPlantAt(int theGridX, int theGridY, OldSeedType theSeedType);
 
 	/// @brief On Mouse Movement
 	virtual void MouseMove(int x, int y);
@@ -753,7 +753,7 @@ class BLOOM_API Board : public Widget, public ButtonListener
 
 	/// @return Flags that determine the recommendation of the seed (see NotRecommend)
 	/// @param theSeedType The SeedType to check
-	unsigned int SeedNotRecommendedForLevel(SeedType theSeedType);
+	unsigned int SeedNotRecommendedForLevel(OldSeedType theSeedType);
 
 	/// @brief Draw the Top-Right UI
 	/// @param g Graphics object
@@ -815,14 +815,14 @@ class BLOOM_API Board : public Widget, public ButtonListener
 	/// @param theX The Y Coordinate
 	/// @param theSeedType The SeedType for specific offsets
 	/// @return The translated Grid X
-	int PlantingPixelToGridX(int theX, int theY, SeedType theSeedType);
+	int PlantingPixelToGridX(int theX, int theY, OldSeedType theSeedType);
 
 	/// @brief Convert World-Space Coordinates to Grid Y Coordinates for Planting
 	/// @param theX The X Coordinate
 	/// @param theX The Y Coordinate
 	/// @param theSeedType The SeedType for specific offsets
 	/// @return The translated Grid Y
-	int PlantingPixelToGridY(int theX, int theY, SeedType theSeedType);
+	int PlantingPixelToGridY(int theX, int theY, OldSeedType theSeedType);
 
 	/// @brief Set the tutorial state
 	/// @return theTutorialState The current state (see TutorialState enum)
@@ -879,13 +879,13 @@ class BLOOM_API Board : public Widget, public ButtonListener
 	void UpdateTutorial();
 
 	/// @return SeedType the Cursor holds currently
-	SeedType GetSeedTypeInCursor();
+	OldSeedType GetSeedTypeInCursor();
 
 	int CountPlantByType(const PlantType &thePlantType);
 
 	/// @return True if the SeedType can be planted, false otherwise
 	/// @param theSeedType The SeedType to check
-	bool PlantingRequirementsMet(SeedType theSeedType);
+	bool PlantingRequirementsMet(OldSeedType theSeedType);
 
 	/// @return True if the CobCannon has the minimum requirements to be planted, false otherwise
 	bool HasValidCobCannonSpot();
@@ -1139,7 +1139,7 @@ class BLOOM_API Board : public Widget, public ButtonListener
 	/// @brief Get the number of plants that don't have a plant on top on  the Board
 	/// @param theSeedType The SeedType to count
 	/// @return Number of plants that are of type theSeedType and don't have a Plant on top on the Board
-	int CountEmptyPotsOrLilies(SeedType theSeedType);
+	int CountEmptyPotsOrLilies(OldSeedType theSeedType);
 
 	/// @brief Try to get a GridItem
 	/// @param theGridItemType The type to look fore
@@ -1163,12 +1163,12 @@ class BLOOM_API Board : public Widget, public ButtonListener
 	/// @return The SeedType's Cost
 	/// @param theSeedType The SeedType to check
 	/// @param theSeedType The theImitaterType to check incase theSeedType == SeedType::SEED_IMITATER
-	int GetCurrentPlantCost(SeedType theSeedType, SeedType theImitaterType);
+	int GetCurrentPlantCost(OldSeedType theSeedType, OldSeedType theImitaterType);
 
 	/// @brief Does the Plant's price increase dynamically
 	/// @param theSeedType The SeedType to check
 	/// @return True if the Plant's price increase, false otherwise
-	bool PlantUsesAcceleratedPricing(SeedType theSeedType);
+	bool PlantUsesAcceleratedPricing(OldSeedType theSeedType);
 
 	/// @brief Freeze the effects and animation on the Board for animations
 	/// @param theFreeze The freeze state
@@ -1201,7 +1201,7 @@ class BLOOM_API Board : public Widget, public ButtonListener
 	/// @brief Draw the ZenGarden buttons
 	/// @param g Graphics object
 	void DrawZenButtons(Graphics *g);
-	void OffsetYForPlanting(int &theY, SeedType theSeedType);
+	void OffsetYForPlanting(int &theY, OldSeedType theSeedType);
 
 	/// @brief Toggle the Future Mode
 	/// @param theEnableFuture The state of the mode

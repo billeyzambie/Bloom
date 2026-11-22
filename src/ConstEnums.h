@@ -1049,7 +1049,7 @@ enum SeedChooserState
 	CHOOSE_NORMAL = 0,
 	CHOOSE_VIEW_LAWN = 1
 };
-enum SeedType
+enum OldSeedType
 {
 	SEED_PEASHOOTER = 0,
 	SEED_SUNFLOWER = 1,

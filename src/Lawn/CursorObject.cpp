@@ -13,8 +13,8 @@
 
 CursorObject::CursorObject() : GameObject(GameObjectType::OBJECT_TYPE_NONE)
 {
-	mType = SeedType::SEED_NONE;
-	mImitaterType = SeedType::SEED_NONE;
+	mType = OldSeedType::SEED_NONE;
+	mImitaterType = OldSeedType::SEED_NONE;
 	mSeedBankIndex = -1;
 	mX = 0;
 	mY = 0;
@@ -195,7 +195,7 @@ void CursorObject::Draw(Graphics *g)
 		if (aPlantType)
 		{
 			aOffsetY += PlantDrawHeightOffset(mBoard, nullptr, *aPlantType, -1, -1) - 10.0f;
-			if (aPlantType->mAttributes.mIsFlying || mType == SeedType::SEED_GRAVEBUSTER)
+			if (aPlantType->mAttributes.mIsFlying || mType == OldSeedType::SEED_GRAVEBUSTER)
 			{
 				aOffsetY += 30.0f;
 			}
@@ -247,7 +247,7 @@ void CursorPreview::Update()
 		return;
 	}
 
-	SeedType aSeedType = mBoard->GetSeedTypeInCursor();
+	OldSeedType aSeedType = mBoard->GetSeedTypeInCursor();
 	int aMouseX = mApp->mWidgetManager->mLastMouseX;
 	int aMouseY = mApp->mWidgetManager->mLastMouseY;
 	mGridX = mBoard->PlantingPixelToGridX(aMouseX, aMouseY, aSeedType);
@@ -282,8 +282,8 @@ void CursorPreview::Update()
 
 void CursorPreview::Draw(Graphics *g)
 {
-	SeedType aSeedType = mBoard->GetSeedTypeInCursor();
-	if (aSeedType == SeedType::SEED_NONE)
+	OldSeedType aSeedType = mBoard->GetSeedTypeInCursor();
+	if (aSeedType == OldSeedType::SEED_NONE)
 		return;
 
 	g->SetColorizeImages(true);
@@ -319,7 +319,7 @@ void CursorPreview::Draw(Graphics *g)
 		{
 			//float aHeight = PlantDrawHeightOffset(mBoard, nullptr, aSeedType, mGridX, mGridY);
 			float aHeight = 0;
-			if (aSeedType == SeedType::SEED_ZOMBIE_GARGANTUAR)
+			if (aSeedType == OldSeedType::SEED_ZOMBIE_GARGANTUAR)
 			{
 				aHeight -= 30.0f;
 			}

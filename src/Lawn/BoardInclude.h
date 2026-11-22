@@ -6,7 +6,7 @@
 #include "GridItem.h"
 #include "Challenge.h"
 #include "LawnMower.h"
-#include "SeedPacket.h"
+#include "Seed/SeedPacket.h"
 #include "../LawnApp.h"
 #include "Projectile/Projectile.h"
 #include "ResourceInclude.h"

@@ -3,7 +3,7 @@
 #include "Challenge.h"
 #include "ZenGarden.h"
 #include "../LawnApp.h"
-#include "SeedPacket.h"
+#include "Seed/SeedPacket.h"
 #include "CursorObject.h"
 #include "../Resources.h"
 #include "MessageWidget.h"
@@ -34,7 +34,7 @@ GridItem::GridItem() : GameObject(GameObjectType::OBJECT_TYPE_GRID_ITEM)
 	mGridItemReanimID = ReanimationID::REANIMATIONID_NULL;
 	mGridItemParticleID = ParticleSystemID::PARTICLESYSTEMID_NULL;
 	mZombieType = ZombieType::ZOMBIE_INVALID;
-	mSeedType = SeedType::SEED_NONE;
+	mSeedType = OldSeedType::SEED_NONE;
 	mScaryPotType = ScaryPotType::SCARYPOT_NONE;
 	mHighlighted = false;
 	mTransparentCounter = 0;
@@ -334,7 +334,7 @@ void GridItem::DrawScaryPot(Graphics *g)
 						   aXPos + 23.0f,
 						   aYPos + 33.0f,
 						   mSeedType,
-						   SeedType::SEED_NONE,
+						   OldSeedType::SEED_NONE,
 						   0.0f,
 						   255,
 						   false,
@@ -571,7 +571,7 @@ void GridItem::UpdateScaryPot()
 	Plant *aPlant = nullptr;
 	while (mBoard->IteratePlants(aPlant))
 	{
-		if (aPlant->mType == SeedType::SEED_PLANTERN && !aPlant->NotOnGround())
+		if (aPlant->mType == OldSeedType::SEED_PLANTERN && !aPlant->NotOnGround())
 		{
 			int aDiffX = abs(aPlant->mPlantCol - mGridX);
 			int aDiffY = abs(aPlant->mRow - mGridY);

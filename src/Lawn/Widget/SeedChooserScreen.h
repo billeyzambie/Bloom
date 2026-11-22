@@ -25,12 +25,12 @@ class ChosenSeed
 	int mStartY;
 	int mEndX;
 	int mEndY;
-	SeedType mSeedType;
+	OldSeedType mSeedType;
 	ChosenSeedState mSeedState;
 	int mSeedIndexInBank;
 	bool mRefreshing;
 	int mRefreshCounter;
-	SeedType mImitaterType;
+	OldSeedType mImitaterType;
 	bool mCrazyDavePicked;
 };
 
@@ -81,9 +81,9 @@ class SeedChooserScreen : public Widget
 	bool Has7Rows();
 	void GetSeedPositionInChooser(int theIndex, int &x, int &y);
 	void GetSeedPositionInBank(int theIndex, int &x, int &y);
-	unsigned int SeedNotRecommendedToPick(SeedType theSeedType);
-	bool SeedNotAllowedToPick(SeedType theSeedType);
-	bool SeedNotAllowedDuringTrial(SeedType theSeedType);
+	unsigned int SeedNotRecommendedToPick(OldSeedType theSeedType);
+	bool SeedNotAllowedToPick(OldSeedType theSeedType);
+	bool SeedNotAllowedDuringTrial(OldSeedType theSeedType);
 	virtual void Draw(Graphics *g);
 	void UpdateViewLawn();
 	void LandFlyingSeed(ChosenSeed &theChosenSeed);
@@ -92,12 +92,12 @@ class SeedChooserScreen : public Widget
 	bool DisplayRepickWarningDialog(const SexyString &theMessage);
 	bool FlyersAreComming();
 	bool FlyProtectionCurrentlyPlanted();
-	bool CheckSeedUpgrade(SeedType theSeedTypeTo, SeedType theSeedTypeFrom);
+	bool CheckSeedUpgrade(OldSeedType theSeedTypeTo, OldSeedType theSeedTypeFrom);
 	void OnStartButton();
 	void PickRandomSeeds();
 	virtual void ButtonDepress(int theId);
-	SeedType SeedHitTest(int x, int y);
-	SeedType FindSeedInBank(int theIndexInBank);
+	OldSeedType SeedHitTest(int x, int y);
+	OldSeedType FindSeedInBank(int theIndexInBank);
 	void EnableStartButton(bool theEnabled);
 	void ClickedSeedInBank(ChosenSeed &theChosenSeed);
 	void ClickedSeedInChooser(ChosenSeed &theChosenSeed);
@@ -107,7 +107,7 @@ class SeedChooserScreen : public Widget
 	virtual void MouseUp(int x, int y, int theClickCount);
 	void UpdateImitaterButton();
 	virtual void MouseDown(int x, int y, int theClickCount);
-	bool PickedPlantType(SeedType theSeedType);
+	bool PickedPlantType(OldSeedType theSeedType);
 	void CloseSeedChooser();
 	virtual void KeyDown(KeyCode theKey);
 	virtual void KeyChar(SexyChar theChar);

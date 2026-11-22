@@ -1,8 +1,8 @@
 #ifndef __SEEDPACKET_H__
 #define __SEEDPACKET_H__
 
-#include "GameObject.h"
-#include "../GameConstants.h"
+#include "../GameObject.h"
+#include "../../GameConstants.h"
 
 constexpr const int SLOT_MACHINE_TIME = 400;
 constexpr const int CONVEYOR_SPEED = 4;
@@ -15,10 +15,10 @@ class SeedPacket : public GameObject
 	int mRefreshTime;
 	int mIndex;
 	int mOffsetX;
-	SeedType mPacketType;
-	SeedType mImitaterType;
+	OldSeedType mType;
+	OldSeedType mImitaterType;
 	int mSlotMachineCountDown;
-	SeedType mSlotMachiningNextSeed;
+	OldSeedType mSlotMachiningNextSeed;
 	float mSlotMachiningPosition;
 	bool mActive;
 	bool mRefreshing;
@@ -63,7 +63,7 @@ class SeedPacket : public GameObject
 	/// @brief Set the SeedType of the Packet
 	/// @param theSeedType The Type of the Packet
 	/// @param theImitaterType The Type of the Packet if theSeedType == SeedType::SEED_IMITATER
-	void SetPacketType(SeedType theSeedType, SeedType theImitaterType = SeedType::SEED_NONE);
+	void SetPacketType(OldSeedType theSeedType, OldSeedType theImitaterType = OldSeedType::SEED_NONE);
 };
 
 class SeedBank : public GameObject
@@ -105,7 +105,7 @@ class SeedBank : public GameObject
 	/// @brief Add a new Seed to the SeedBank
 	/// @param theSeedType The SeedType to add to the SeedBank
 	/// @param thePlaceOnLeft [OPTIONAL] Should it be added at the left side of the SeedBank
-	void AddSeed(SeedType theSeedType, bool thePlaceOnLeft = false);
+	void AddSeed(OldSeedType theSeedType, bool thePlaceOnLeft = false);
 	/// @brief Remove a new Seed to the SeedBank
 	/// @param theIndex The index of the SeedPacket to be removed
 	void RemoveSeed(int theIndex);
@@ -115,7 +115,7 @@ class SeedBank : public GameObject
 	/// @brief Count the number of SeedPackets on the ConvejorBelt
 	/// @param theSeedType The SeedType to count
 	/// @return The number of SeedPackets on the ConveyorBelt of a type
-	int CountOfTypeOnConveyorBelt(SeedType theSeedType);
+	int CountOfTypeOnConveyorBelt(OldSeedType theSeedType);
 	/// @brief Update the ConvejorBelt state
 	void UpdateConveyorBelt();
 	/// @brief Update the width of the SeedBank
@@ -136,8 +136,8 @@ class SeedBank : public GameObject
 void SeedPacketDrawSeed(Graphics *g,
 						float x,
 						float y,
-						SeedType theSeedType,
-						SeedType theImitaterType,
+						OldSeedType theSeedType,
+						OldSeedType theImitaterType,
 						float theOffsetX,
 						float theOffsetY,
 						float theScale);
@@ -155,8 +155,8 @@ void SeedPacketDrawSeed(Graphics *g,
 void DrawSeedPacket(Graphics *g,
 					float x,
 					float y,
-					SeedType theSeedType,
-					SeedType theImitaterType,
+					OldSeedType theSeedType,
+					OldSeedType theImitaterType,
 					float thePercentDark,
 					int theGrayness,
 					bool theDrawCost,

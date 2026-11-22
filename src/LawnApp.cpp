@@ -703,7 +703,7 @@ void LawnApp::DoNewOptions(bool theFromGameSelector)
 	mWidgetManager->SetFocus(aDialog);
 }
 
-AlmanacDialog *LawnApp::DoAlmanacDialog(SeedType theSeedType, ZombieType theZombieType)
+AlmanacDialog *LawnApp::DoAlmanacDialog(OldSeedType theSeedType, ZombieType theZombieType)
 {
 	PerfTimer mTimer;
 	mTimer.Start();
@@ -714,7 +714,7 @@ AlmanacDialog *LawnApp::DoAlmanacDialog(SeedType theSeedType, ZombieType theZomb
 	AddDialog(Dialogs::DIALOG_ALMANAC, aDialog);
 	mWidgetManager->SetFocus(aDialog);
 
-	if (theSeedType != SeedType::SEED_NONE)
+	if (theSeedType != OldSeedType::SEED_NONE)
 	{
 		aDialog->ShowPlant(theSeedType);
 	}
@@ -2354,7 +2354,7 @@ void LawnApp::CloseRequestAsync()
 	mCloseRequest = true;
 }
 
-SeedType LawnApp::GetAwardSeedForLevel(int theLevel)
+OldSeedType LawnApp::GetAwardSeedForLevel(int theLevel)
 {
 	int aArea = (theLevel - 1) / LEVELS_PER_AREA + 1;
 	int aSub = (theLevel - 1) % LEVELS_PER_AREA + 1;
@@ -2372,7 +2372,7 @@ SeedType LawnApp::GetAwardSeedForLevel(int theLevel)
 		aSeedsHasGot = 40;
 	}
 
-	return (SeedType)aSeedsHasGot;
+	return (OldSeedType)aSeedsHasGot;
 }
 
 int LawnApp::GetSeedsAvailable()
@@ -2383,22 +2383,22 @@ int LawnApp::GetSeedsAvailable()
 		return 49;
 	}
 
-	SeedType aSeedTypeMax = GetAwardSeedForLevel(aLevel);
+	OldSeedType aSeedTypeMax = GetAwardSeedForLevel(aLevel);
 	return std::min(49, (int)aSeedTypeMax);
 }
 
-bool LawnApp::HasSeedType(SeedType theSeedType)
+bool LawnApp::HasSeedType(OldSeedType theSeedType)
 {
-	if (IsTrialStageLocked() && theSeedType >= SeedType::SEED_JALAPENO)
+	if (IsTrialStageLocked() && theSeedType >= OldSeedType::SEED_JALAPENO)
 		return false;
 
-	if (theSeedType >= SeedType::SEED_GATLINGPEA && theSeedType <= SeedType::SEED_IMITATER)
-		return mPlayerInfo->mStoreItemData[theSeedType - SeedType::SEED_GATLINGPEA].mPurchases;
+	if (theSeedType >= OldSeedType::SEED_GATLINGPEA && theSeedType <= OldSeedType::SEED_IMITATER)
+		return mPlayerInfo->mStoreItemData[theSeedType - OldSeedType::SEED_GATLINGPEA].mPurchases;
 
 	return theSeedType < GetSeedsAvailable();
 }
 
-bool LawnApp::SeedTypeAvailable(SeedType theSeedType)
+bool LawnApp::SeedTypeAvailable(OldSeedType theSeedType)
 {
 	return HasSeedType(theSeedType);
 }
@@ -3063,7 +3063,7 @@ int LawnApp::GetNumPreloadingTasks()
 	int aTaskCount = 10;
 	if (mPlayerInfo)
 	{
-		for (SeedType i = SeedType::SEED_PEASHOOTER; i < SeedType::NUM_SEED_TYPES; i = (SeedType)((int)i + 1))
+		for (OldSeedType i = OldSeedType::SEED_PEASHOOTER; i < OldSeedType::NUM_SEED_TYPES; i = (OldSeedType)((int)i + 1))
 		{
 			if (SeedTypeAvailable(i) || HasFinishedAdventure())
 			{
@@ -3116,7 +3116,7 @@ void LawnApp::PreloadForUser()
 
 	if (mPlayerInfo)
 	{
-		for (SeedType i = SeedType::SEED_PEASHOOTER; i < SeedType::NUM_SEED_TYPES; i = (SeedType)((int)i + 1))
+		for (OldSeedType i = OldSeedType::SEED_PEASHOOTER; i < OldSeedType::NUM_SEED_TYPES; i = (OldSeedType)((int)i + 1))
 		{
 			if (SeedTypeAvailable(i) || HasFinishedAdventure())
 			{

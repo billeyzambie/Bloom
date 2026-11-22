@@ -40,7 +40,7 @@ class BLOOM_API GridItem : public GameObject
 	ReanimationID mGridItemReanimID;
 	ParticleSystemID mGridItemParticleID;
 	ZombieType mZombieType;
-	SeedType mSeedType;
+	OldSeedType mSeedType;
 	ScaryPotType mScaryPotType;
 	bool mHighlighted;
 	int mTransparentCounter;
