@@ -109,6 +109,11 @@ void LoadMods(std::vector<Mod> &theModList)
 
 	for (IRegistry *aRegistry : Registries::REGISTRIES)
 	{
+		aRegistry->Run();
+	}
+
+	for (IRegistry *aRegistry : Registries::REGISTRIES)
+	{
 		aRegistry->Freeze();
 	}
 }

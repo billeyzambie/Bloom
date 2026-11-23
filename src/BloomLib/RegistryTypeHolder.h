@@ -34,7 +34,7 @@ template <class T> class RegistryHolder
 
 	operator const T *() const
 	{
-		return TryGet();
+		return &Get();
 	}
 
 	operator const T &() const
@@ -44,7 +44,7 @@ template <class T> class RegistryHolder
 
 	const T *operator->() const
 	{
-		return TryGet();
+		return &Get();
 	}
 
 	std::tuple<T *, T *> Supply()
@@ -82,7 +82,7 @@ template <class S, class T> class RegistryTypeHolder : public RegistryHolder<T>
 	template <class U = S> requires std::is_same_v<U, S>
 	operator const TypeOf<U> *() const
 	{
-		return TryGet();
+		return &Get();
 	}
 
 	template <class U = S> requires std::is_same_v<U, S>

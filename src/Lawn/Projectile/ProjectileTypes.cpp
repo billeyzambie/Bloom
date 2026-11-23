@@ -1,5 +1,6 @@
 #include "ProjectileTypes.h"
 #include "ProjectileBehaviorTypes.h"
+#include "TestProjectileBehavior.h"
 #include "Projectile.h"
 #include "../Registries.h"
 #include "../../Sexy.TodLib/TodCommon.h"
@@ -210,7 +211,7 @@ const auto &CUSTOM_TEST = RegisterTypeOf<Projectile>(
 	{
 		theType.mBaseImage = {"PVZ", "IMAGE_BRAIN"};
 		theType.mBehaviorTypes.Add(
-			ProjectileBehaviorTypes::TEST,
+			RegisterTypeOf<TestProjectileBehavior>("PVZ", "FIRE", {}),
 			ListInsertion<ProjectileBehaviorType>::Before(ProjectileBehaviorTypes::MAIN)
 		);
 	}

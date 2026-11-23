@@ -335,12 +335,8 @@ const auto &BLOVER = RegisterTypeOf<Reanimation>(
 );
 
 const auto &FLOWER_POT = RegisterTypeOf<Reanimation>(
-	"PVZ", "LAWNMOWER",
+	"PVZ", "POT",
 	{
-	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
-	{
-		theType.mFile = {"PVZ", "reanim/Pot.reanim"};
 	}
 );
 
@@ -421,7 +417,7 @@ const auto &POGO = RegisterTypeOf<Reanimation>(
 );
 
 const auto &BACKUP_DANCER = RegisterTypeOf<Reanimation>(
-	"PVZ", "LAWNMOWER",
+	"PVZ", "ZOMBIE_BACKUP",
 	{
 	}
 );

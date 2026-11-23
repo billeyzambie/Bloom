@@ -12,7 +12,6 @@
 #include "SplashProjectileBehavior.h"
 #include "FireProjectileBehavior.h"
 #include "HomingProjectileBehavior.h"
-#include "TestProjectileBehavior.h"
 
 namespace ProjectileBehaviorTypes
 {
@@ -48,7 +47,5 @@ const auto &HOMING = RegisterTypeOf<HomingProjectileBehavior>(
 		.mAbilityIntensity = 2.0f
 	}
 );
-
-const auto &TEST = RegisterTypeOf<TestProjectileBehavior>("PVZ", "TEST", {});
 
 } // namespace ProjectileBehaviorTypes

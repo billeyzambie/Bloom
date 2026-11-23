@@ -10,25 +10,53 @@
 #include "BloomType.h"
 #include "NamespacedString.h"
 #include "Bloom.h"
-
-//#include "../Lawn/Projectile/Projectile.h"
-
 class LawnApp;
 
 class BLOOM_API IRegistry
 {
   public:
+	virtual void Run() = 0;
 	virtual void Freeze() = 0;
 	virtual void Update(const LawnApp &theLawnApp) = 0;
 };
 
+//#include "../Lawn/Projectile/Projectile.h"
+
 template <class T> class BLOOM_API Registry : public IRegistry
 {
+	enum State
+	{
+		NOT_YET,
+		RAN,
+		FROZEN
+	};
+
 	std::vector<std::unique_ptr<RegistryHolder<T>>> mHolders;
 	std::vector<T *> mTypes;
 	std::unordered_map<std::string, const T *> mTypesByResourceId;
 	int mNextId = 0;
-	bool mFrozen = false;
+	State mState = NOT_YET;
+
+	void SupplyHolder(RegistryHolder<T> &theHolder, int theNumId)
+	{
+		auto [aCurrent, anOriginal] = theHolder.Supply();
+
+		const std::string &aResourceIdAsString = aCurrent->mResourceId.AsString();
+
+		auto anIterator = mTypesByResourceId.find(aResourceIdAsString);
+		TOD_ASSERT(
+			anIterator == mTypesByResourceId.end(),
+			"Type with ResourceId %s already exists", aResourceIdAsString.c_str()
+		);
+		if (anIterator != mTypesByResourceId.end())
+		{
+			return;
+		}
+
+		aCurrent->mNumericalId = anOriginal->mNumericalId = theNumId;
+		mTypes.push_back(aCurrent);
+		mTypesByResourceId[aResourceIdAsString] = aCurrent;
+	}
 
   public:
 	static BLOOM_EXTERN_OR_INLINE Registry *gInstance;
@@ -38,11 +66,26 @@ template <class T> class BLOOM_API Registry : public IRegistry
 	}
 	Registry(const Registry &theCopied) = delete;
 	Registry &operator=(const Registry &theCopied) = delete;
+	
+	const RegistryHolder<T> &Register(std::function<T *()> theSupplier)
+	{
+		TOD_ASSERT(mState != FROZEN, "Type registered too late");
+		int anId = mNextId++;
+		TOD_ASSERT(anId == mHolders.size());
+		auto aHolder = std::make_unique<RegistryHolder<T>>(std::move(theSupplier));
+		auto *aHolderPtr = aHolder.get();
+		mHolders.push_back(std::move(aHolder));
+		if (mState == RAN)
+		{
+			SupplyHolder(*aHolderPtr, anId);
+		}
+		return *mHolders[anId];
+	}
 
 	template <class S>
 	const auto &Register(std::function<TypeOf<S> *()> theSupplier)
 	{
-		TOD_ASSERT(!mFrozen, "Type registered too late");
+		TOD_ASSERT(mState != FROZEN, "Type registered too late");
 		int anId = mNextId++;
 		TOD_ASSERT(anId == mHolders.size());
 		if constexpr (std::is_final_v<S>)
@@ -50,6 +93,10 @@ template <class T> class BLOOM_API Registry : public IRegistry
 			auto aHolder = std::make_unique<RegistryHolder<T>>(std::move(theSupplier));
 			auto *aHolderPtr = aHolder.get();
 			mHolders.push_back(std::move(aHolder));
+			if (mState == RAN)
+			{
+				SupplyHolder(*aHolderPtr, anId);
+			}
 			return *aHolderPtr;
 		}
 		else
@@ -57,6 +104,10 @@ template <class T> class BLOOM_API Registry : public IRegistry
 			auto aHolder = std::make_unique<RegistryTypeHolder<S, T>>(std::move(theSupplier));
 			auto *aHolderPtr = aHolder.get();
 			mHolders.push_back(std::move(aHolder));
+			if (mState == RAN)
+			{
+				SupplyHolder(*aHolderPtr, anId);
+			}
 			return *aHolderPtr;
 		}
 	}
@@ -80,17 +131,6 @@ template <class T> class BLOOM_API Registry : public IRegistry
 			theInitializationModifier(*aType, aType->mAttributeBaseValues);
 			return aType;
 		});
-	}
-	
-	const RegistryHolder<T> &Register(std::function<T *()> theSupplier)
-	{
-		TOD_ASSERT(!mFrozen, "Type registered too late");
-		int anId = mNextId++;
-		TOD_ASSERT(anId == mHolders.size());
-		mHolders.push_back(
-			std::make_unique<RegistryHolder<T>>(std::move(theSupplier))
-		);
-		return *mHolders[anId];
 	}
 
 	const T *GetByResourceId(const ResourceId &theResourceId) const
@@ -119,23 +159,22 @@ template <class T> class BLOOM_API Registry : public IRegistry
 	{
 		return mNextId;
 	}
-	virtual void Freeze() override
+	virtual void Run() override
 	{
-		if (mFrozen)
-			return;
+		TOD_ASSERT(mState == NOT_YET);
 
 		for (int i = 0; i < mNextId; i++)
 		{
-			auto [aCurrent, anOriginal] = mHolders[i]->Supply();
-
-			aCurrent->mNumericalId = anOriginal->mNumericalId = i;
-
-			mTypes.push_back(aCurrent);
-			
-			mTypesByResourceId[aCurrent->mResourceId.AsString()] = aCurrent;
+			RegistryHolder<T> &aHolder = *mHolders[i];
+			SupplyHolder(aHolder, i);
 		}
 
-		mFrozen = true;
+		mState = RAN;
+	}
+	virtual void Freeze() override
+	{
+		TOD_ASSERT(mState == RAN);
+		mState = FROZEN;
 	}
 	virtual void Update(const LawnApp &theLawnApp) override
 	{
