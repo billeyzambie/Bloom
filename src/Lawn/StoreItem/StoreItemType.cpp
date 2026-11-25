@@ -1,4 +1,5 @@
 #include "StoreItemType.h"
+#include "StoreItemBehaviorTypes.h"
 #include "../Sexy.TodLib/TodDebug.h"
 #include "../LawnApp.h"
 #include "../SexyAppFramework/Graphics.h"
@@ -116,17 +117,7 @@ StoreItemType::StoreItemType(
 	: BloomType(theModName, theTypeName),
 	mAttributeBaseValues(theAttributes), mAttributes(theAttributes)
 {
-	mModifiers.Add([](StoreItemModifierContext &theContext) {
-		if (theContext.mStoreItemData.mPurchases >= theContext.mAttributes.mMaxBuyCount)
-		{
-			theContext.mAttributes.mSoldOut = true;
-		}
-		if (!theContext.mLawnApp.HasFinishedAdventure() 
-			&& theContext.mPlayerInfo.GetLevel() <= theContext.mAttributes.mUnlockLevel)
-		{
-			theContext.mAttributes.mUnavailable = true;
-		}
-	});
+	mBehaviors.Add(StoreItemBehaviorTypes::MAIN);
 }
 
 StoreItemType::operator OldStoreItemType() const
@@ -139,10 +130,9 @@ StoreItemType::operator OldStoreItemType() const
 void StoreItemType::CopyFrom(const StoreItemType &theOther)
 {
 	mAttributeBaseValues = theOther.mAttributeBaseValues;
-	mModifiers = theOther.mModifiers;
-	mOnPurchase = theOther.mOnPurchase;
 	mInsertion = theOther.mInsertion;
 	mGroup = theOther.mGroup;
+	mBehaviors = theOther.mBehaviors;
 }
 
 int StoreItemType::GetCost() const
@@ -165,11 +155,6 @@ const std::string &StoreItemType::GetStoreMessage(const LawnApp &theLawnApp) con
 void StoreItemType::Update(const LawnApp &theLawnApp)
 {
 	mAttributes = mAttributeBaseValues;
-
-	StoreItemModifierContext aContext{*this, theLawnApp, *theLawnApp.mPlayerInfo,
-									  theLawnApp.mPlayerInfo->GetStoreItemData(*this), mAttributes};
-
-	mModifiers.Fire(aContext);
 }
 
 void StoreItemType::Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int thePosX, int thePosY, bool theIsForHighlight) const

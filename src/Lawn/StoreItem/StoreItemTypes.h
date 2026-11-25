@@ -36,7 +36,7 @@ extern BLOOM_API const RegistryHolder<StoreItemType> &CHOCOLATE;
 extern BLOOM_API const RegistryHolder<StoreItemType> &TREE_OF_WISDOM;
 extern BLOOM_API const RegistryHolder<StoreItemType> &TREE_FOOD;
 extern BLOOM_API const RegistryHolder<StoreItemType> &FIRST_AID;
-extern BLOOM_API const RegistryHolder<StoreItemType> &PLANTS_VS_ZOMBIES;
+extern BLOOM_API const RegistryHolder<StoreItemType> &PVZ;
 #ifdef INCLUDE_TEST_STORE_ITEM
 extern BLOOM_API const RegistryTypeHolder<StoreItemType> &CUSTOM_TEST;
 #endif

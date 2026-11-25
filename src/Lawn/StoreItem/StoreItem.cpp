@@ -1,11 +1,8 @@
 #include "StoreItem.h"
 
-StoreItem::StoreItem(const StoreItemType &theType) : mType(&theType)
+StoreItem::StoreItem(const StoreItemType &theType) : mType(theType)
 {
-}
-
-StoreItem::StoreItem() : mType(nullptr)
-{
+	mBehaviors.Initialize(mType);
 }
 
 void StoreItem::AddPurchases(int theCount)

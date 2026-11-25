@@ -2,11 +2,6 @@
 #include "ProjectileBehaviorType.h"
 #include "../Registries.h"
 
-#include "../Board.h"
-#include "../../LawnApp.h"
-#include "../Zombie.h"
-#include "Projectile.h"
-#include "ProjectileBehavior.h"
 #include "ApplyButterProjectileBehavior.h"
 #include "MainProjectileBehavior.h"
 #include "SplashProjectileBehavior.h"

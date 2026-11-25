@@ -24,10 +24,10 @@ template <class T> class BehaviorList
 	void Initialize(const T::Owner::Type &theOwnerType)
 	{
 		TOD_ASSERT(mBehaviors.empty());
-		mBehaviors.resize(theOwnerType.mBehaviorTypes.GetBehaviorTypes().size());
+		mBehaviors.resize(theOwnerType.mBehaviors.GetBehaviorTypes().size());
 		for (size_t i = 0; i < mBehaviors.size(); i++)
 		{
-			const T::Type *aType = theOwnerType.mBehaviorTypes.GetBehaviorTypes()[i];
+			const T::Type *aType = theOwnerType.mBehaviors.GetBehaviorTypes()[i];
 			mBehaviors[i].Initialize(*aType);
 		}
 	}

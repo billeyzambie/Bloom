@@ -1,5 +1,4 @@
 #include "ProjectileBehaviorType.h"
-#include "ProjectileBehavior.h"
 
 ProjectileBehaviorType::ProjectileBehaviorType(
 	const std::string &theModName, 

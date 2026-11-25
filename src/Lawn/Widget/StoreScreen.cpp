@@ -140,7 +140,7 @@ const StoreItemType *StoreScreen::GetStoreItemType(int theSpotIndex)
 {
 	if (mPage == STORE_PAGE_SLOT_UPGRADES && theSpotIndex == 6 && mApp->IsTrialStageLocked())
 	{
-		return StoreItemTypes::PLANTS_VS_ZOMBIES;
+		return StoreItemTypes::PVZ;
 	}
 
 	const StoreItemType *aResult = mStoreItemSpots[mPage * 8 + theSpotIndex];
@@ -327,7 +327,7 @@ void StoreScreen::DrawItem(Graphics *g, int theItemPosition, const StoreItemType
 
 	int aPosX, aPosY;
 	GetStorePosition(theItemPosition, aPosX, aPosY);
-	if (theItemType != StoreItemTypes::PLANTS_VS_ZOMBIES)
+	if (theItemType != StoreItemTypes::PVZ)
 	{
 		g->DrawImage(Sexy::IMAGE_STORE_PRICETAG, aPosX - 3, aPosY + 70);
 		SexyString aCostString = LawnApp::GetMoneyString(theItemType.GetCost());
@@ -1060,7 +1060,7 @@ void StoreScreen::MouseDown(int x, int y, int theClickCount)
 									 BUTTONS_FOOTER);
 				mWaitForDialog = false;
 			}
-			else if (aItemType == StoreItemTypes::PLANTS_VS_ZOMBIES)
+			else if (aItemType == StoreItemTypes::PVZ)
 			{
 				mWaitForDialog = true;
 				int aResult = mApp->LawnMessageBox(DIALOG_MESSAGE,

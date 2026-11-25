@@ -4,6 +4,7 @@
 #include "../BloomLib/EventList.h"
 #include "../BloomLib/ListInsertion.h"
 #include "../BloomLib/ImageGetter.h"
+#include "../BloomLib/BehaviorTypeList.h"
 
 #include "../ConstEnums.h"
 #include "../Resources.h"
@@ -15,13 +16,12 @@ class Graphics;
 }
 
 class LawnApp;
-class PlayerInfo;
-class StoreScreen;
 
 class StoreItem;
+class StoreItemBehaviorType;
 class StoreItemGroup;
 
-class BLOOM_API StoreItemType : public BloomType
+class BLOOM_API StoreItemType final : public BloomType
 {
   public:
 	struct Attributes
@@ -37,32 +37,16 @@ class BLOOM_API StoreItemType : public BloomType
 		bool mSoldOut = false;
 		bool mComingSoon = false;
 	};
-	struct ModifierContext
-	{
-		const StoreItemType &mStoreItemType;
-		const LawnApp &mLawnApp;
-		const PlayerInfo &mPlayerInfo;
-		const StoreItem &mStoreItemData;
-		Attributes &mAttributes;
-	};
-	struct PurchaseContext
-	{
-		bool mCanceled;
-		const StoreItemType &mStoreItemType;
-		StoreScreen *mStoreScreen;
-		LawnApp &mApp;
-		StoreItem &mStoreItemData;
-	};
 	PatchHolder<StoreItemType> *mPatchHolder = nullptr;
 	Attributes mAttributeBaseValues;
 	Attributes mAttributes;
-	EventList<ModifierContext> mModifiers;
-	EventList<PurchaseContext> mOnPurchase;
 
 	ImageGetter mBaseIcon;
 
 	const StoreItemGroup *mGroup = nullptr;
 	ListInsertion<StoreItemType> mInsertion;
+
+	BehaviorTypeList<StoreItemBehaviorType> mBehaviors;
 
   protected:
 	mutable std::string mStoreMessage;
@@ -73,19 +57,16 @@ class BLOOM_API StoreItemType : public BloomType
 		const Attributes &theAttributes
 	);
 	operator OldStoreItemType() const;
-	virtual void CopyFrom(const StoreItemType &theOther);
+	void CopyFrom(const StoreItemType &theOther);
 	int GetCost() const;
 
 	bool ExcludeFromSorting() const;
 
-	virtual const std::string &GetStoreMessage(const LawnApp &theLawnApp) const;
+	const std::string &GetStoreMessage(const LawnApp &theLawnApp) const;
 
 	void Update(const LawnApp &theLawnApp);
-	virtual void Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int thePosX, int thePosY, bool theIsForHighlight) const;
 
 	Sexy::Image *GetIcon() const;
 };
 
 typedef StoreItemType::Attributes StoreItemAttributes;
-typedef StoreItemType::ModifierContext StoreItemModifierContext;
-typedef StoreItemType::PurchaseContext StoreItemPurchaseContext;

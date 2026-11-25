@@ -2,7 +2,6 @@
 
 #include "../../BloomLib/Bloom.h"
 #include "ProjectileBehaviorType.h"
-#include "../../ConstEnums.h"
 
 class Projectile;
 class Zombie;

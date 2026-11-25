@@ -57,7 +57,7 @@ const auto &MELON = RegisterTypeOf<Projectile>(
 	[](ProjectileType &theType, ProjectileAttributes &theAttributes)
 	{
 		theType.mBaseImage = {"PVZ", "IMAGE_REANIM_MELONPULT_MELON"};
-		theType.mBehaviorTypes.Add(ProjectileBehaviorTypes::MELON_SPLASH);
+		theType.mBehaviors.Add(ProjectileBehaviorTypes::MELON_SPLASH);
 	}
 );
 
@@ -83,7 +83,7 @@ const auto &WINTERMELON = RegisterTypeOf<Projectile>(
 	{
 		SetBit(theAttributes.mDamageFlags, (int)DamageFlags::DAMAGE_FREEZE, true);
 		theType.mBaseImage = {"PVZ", "IMAGE_REANIM_WINTERMELON_PROJECTILE"};
-		theType.mBehaviorTypes.Add(ProjectileBehaviorTypes::MELON_SPLASH);
+		theType.mBehaviors.Add(ProjectileBehaviorTypes::MELON_SPLASH);
 	}
 );
 
@@ -95,7 +95,7 @@ const auto &FIREBALL = RegisterTypeOf<Projectile>(
 	},
 	[](ProjectileType &theType, ProjectileAttributes &theAttributes)
 	{
-		theType.mBehaviorTypes.Add(ProjectileBehaviorTypes::FIRE);
+		theType.mBehaviors.Add(ProjectileBehaviorTypes::FIRE);
 	}
 );
 
@@ -119,7 +119,7 @@ const auto &SPIKE = RegisterTypeOf<Projectile>(
 	[](ProjectileType &theType, ProjectileAttributes &theAttributes)
 	{
 		theType.mBaseImage = {"PVZ", "IMAGE_PROJECTILECACTUS"};
-		theType.mBehaviorTypes.Add(
+		theType.mBehaviors.Add(
 			ProjectileBehaviorTypes::HOMING,
 			ListInsertion<ProjectileBehaviorType>::Before(ProjectileBehaviorTypes::MAIN)
 		);
@@ -184,7 +184,7 @@ const auto &BUTTER = RegisterTypeOf<Projectile>(
 	[](ProjectileType &theType, ProjectileAttributes &theAttributes)
 	{
 		theType.mBaseImage = {"PVZ", "IMAGE_REANIM_CORNPULT_BUTTER"};
-		theType.mBehaviorTypes.Add(ProjectileBehaviorTypes::APPLY_BUTTER);
+		theType.mBehaviors.Add(ProjectileBehaviorTypes::APPLY_BUTTER);
 	}
 );
 
@@ -210,7 +210,7 @@ const auto &CUSTOM_TEST = RegisterTypeOf<Projectile>(
 	[](ProjectileType &theType, ProjectileAttributes &theAttributes)
 	{
 		theType.mBaseImage = {"PVZ", "IMAGE_BRAIN"};
-		theType.mBehaviorTypes.Add(
+		theType.mBehaviors.Add(
 			RegisterTypeOf<TestProjectileBehavior>("PVZ", "FIRE", {}),
 			ListInsertion<ProjectileBehaviorType>::Before(ProjectileBehaviorTypes::MAIN)
 		);

@@ -66,21 +66,6 @@ template <class T> class BLOOM_API Registry : public IRegistry
 	}
 	Registry(const Registry &theCopied) = delete;
 	Registry &operator=(const Registry &theCopied) = delete;
-	
-	const RegistryHolder<T> &Register(std::function<T *()> theSupplier)
-	{
-		TOD_ASSERT(mState != FROZEN, "Type registered too late");
-		int anId = mNextId++;
-		TOD_ASSERT(anId == mHolders.size());
-		auto aHolder = std::make_unique<RegistryHolder<T>>(std::move(theSupplier));
-		auto *aHolderPtr = aHolder.get();
-		mHolders.push_back(std::move(aHolder));
-		if (mState == RAN)
-		{
-			SupplyHolder(*aHolderPtr, anId);
-		}
-		return *mHolders[anId];
-	}
 
 	template <class S>
 	const auto &Register(std::function<TypeOf<S> *()> theSupplier)

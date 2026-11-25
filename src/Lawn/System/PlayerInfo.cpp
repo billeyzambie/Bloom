@@ -68,7 +68,7 @@ void PlayerInfo::SyncDetails(ProfileSyncer &theSync)
 				const StoreItemType *anItemType = Registries::STORE_ITEMS.GetByResourceId(aStoreItemId);
 				if (anItemType)
 				{
-					GetStoreItemData(*anItemType) = aKeyValuePair.value().get<StoreItem>();
+					from_json(aKeyValuePair.value(), GetStoreItemData(*anItemType));
 				}
 				else
 				{

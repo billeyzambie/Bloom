@@ -47,9 +47,8 @@ class BLOOM_API ProjectileType final : public BloomType
 	PatchHolder<ProjectileType> *mPatchHolder = nullptr;
 	Attributes mAttributeBaseValues;
 	Attributes mAttributes;
-	EventList<ModifierContext> mModifiers;
 	ImageGetter mBaseImage;
-	BehaviorTypeList<ProjectileBehaviorType> mBehaviorTypes;
+	BehaviorTypeList<ProjectileBehaviorType> mBehaviors;
 
 	ProjectileType(const std::string &theModName, const std::string &theTypeName, const Attributes &theAttributes);
 	operator OldProjectileType() const;

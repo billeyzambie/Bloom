@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../../BloomLib/Bloom.h"
+#include "../../BloomLib/BehaviorList.h"
 #include "StoreItemType.h"
+#include "StoreItemBehavior.h"
 
-//Subclassing will come later
 class BLOOM_API StoreItem final
 {
   public:
@@ -11,12 +11,12 @@ class BLOOM_API StoreItem final
 	typedef Type RegistryType;
 	template <class T> using TypeT = Type;
 
-	const StoreItemType *mType;
+	const StoreItemType &mType;
+	BehaviorList<StoreItemBehavior> mBehaviors;
+	StoreItemAttributes mAttributes;
 	int mPurchases = 0;
 	int mTotalPurchasesEver = 0;
 	int mLastPurchaseTime = 0;
 	StoreItem(const StoreItemType &theType);
-	StoreItem();
-	//virtual ~StoreItem() = default;
 	void AddPurchases(int theAmount);
 };

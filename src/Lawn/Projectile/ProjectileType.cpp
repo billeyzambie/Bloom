@@ -9,7 +9,7 @@ ProjectileType::ProjectileType(const std::string &theModName, const std::string 
 	: BloomType(theModName, theTypeName),
 	mAttributeBaseValues(theAttributes), mAttributes(theAttributes)
 {
-	mBehaviorTypes.Add(ProjectileBehaviorTypes::MAIN);
+	mBehaviors.Add(ProjectileBehaviorTypes::MAIN);
 }
 
 ProjectileType::operator OldProjectileType() const
@@ -23,17 +23,13 @@ void ProjectileType::CopyFrom(const ProjectileType &theOther)
 {
 	mBaseImage = theOther.mBaseImage;
 	mAttributeBaseValues = theOther.mAttributeBaseValues;
-	mModifiers = theOther.mModifiers;
-	mBehaviorTypes = theOther.mBehaviorTypes;
+	mBehaviors = theOther.mBehaviors;
 }
 
 void ProjectileType::Update(const LawnApp &theLawnApp)
 {
 	mAttributes = mAttributeBaseValues;
-
-	ProjectileModifierContext aContext{*this, theLawnApp, *theLawnApp.mPlayerInfo, mAttributes};
-
-	mModifiers.Fire(aContext);
+	//goofy
 }
 
 Projectile *ProjectileType::Instantiate(void *theBuffer) const
