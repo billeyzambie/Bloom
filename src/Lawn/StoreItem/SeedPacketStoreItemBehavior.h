@@ -20,5 +20,5 @@ class BLOOM_API SeedPacketStoreItemBehaviorType
   public:
 	using StoreItemBehaviorTypeT<SeedPacketStoreItemBehavior>
 		::StoreItemBehaviorTypeT<SeedPacketStoreItemBehavior>;
-	OldSeedType mSeedType;
+	OldSeedType mSeedType = OldSeedType::SEED_NONE;
 };

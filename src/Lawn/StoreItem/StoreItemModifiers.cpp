@@ -5,8 +5,6 @@ namespace StoreItemModifiers
 
 void ComingSoonUntilAdventureFinished(StoreItemModifierContext &theContext)
 {
-	if (!theContext.mLawnApp.HasFinishedAdventure())
-		theContext.mAttributes.mComingSoon = true;
 }
 
 void OnPurchaseSetPurchasesToCurrentTime(StoreItemPurchaseContext& theContext)

@@ -54,7 +54,6 @@ void Coin::CoinInitialize(int theX, int theY, CoinType theCoinType, CoinMotion t
 	mHasBouncyArrow = false;
 	mHitGround = false;
 	mTimesDropped = 0;
-	mPottedPlantSpec.InitializePottedPlant(nullptr);
 
 	if (IsSun())
 	{

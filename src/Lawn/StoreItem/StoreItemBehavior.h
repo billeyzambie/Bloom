@@ -30,7 +30,6 @@ class BLOOM_API StoreItemBehavior
 	struct DrawContext
 	{
 		StoreItem &mStoreItem;
-		StoreScreen *mStoreScreen;
 		Sexy::Graphics &mGraphics;
 		int mPosX; 
 		int mPosY;

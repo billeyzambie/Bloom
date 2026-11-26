@@ -51,7 +51,6 @@ class StoreScreen : public Dialog
 	int mStartDialog;
 	bool mEasyBuyingCheat;
 	bool mWaitForDialog;
-	PottedPlant mPottedPlantSpecs;
 	DataArray<Coin> mCoins;
 	bool mDrawnOnce;
 	bool mGoToTreeNow;

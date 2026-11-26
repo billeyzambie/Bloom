@@ -12,7 +12,8 @@ class BLOOM_API StoreItemBehaviorType : public BloomType
 
 	struct Attributes
 	{
-		int mUnused = 0;
+		//Just a level relevant to the behavior, if one exists. Might make a more serious attribute system one day
+		int mLevel = 0;
 	};
 	PatchHolder<StoreItemBehaviorType> *mPatchHolder = nullptr;
 	Attributes mAttributeBaseValues;

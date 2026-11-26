@@ -254,10 +254,10 @@ const StoreItem &PlayerInfo::GetStoreItemData(const StoreItemType &theStoreItemT
 	return mStoreItemData[theStoreItemType.GetNumericalId()];
 }
 
-void PottedPlant::InitializePottedPlant(const PlantType *thePlantType)
+void PottedPlant::InitializePottedPlant(const PlantType &thePlantType)
 {
 	memset(this, 0, sizeof(PottedPlant));
-	mPlantType = thePlantType;
+	mPlantType = &thePlantType;
 	mDrawVariation = DrawVariation::VARIATION_NORMAL;
 	mLastWateredTime = 0LL;
 	mFacing = (FacingDirection)RandRangeInt((int)FacingDirection::FACING_RIGHT, (int)FacingDirection::FACING_LEFT);

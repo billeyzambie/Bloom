@@ -2,7 +2,6 @@
 #include "StoreItem.h"
 #include "../Registries.h"
 #include "PacketUpgradeStoreItemType.h"
-#include "PottedPlantStoreItemType.h"
 #include "StoreItemBehaviorTypes.h"
 #include "StoreItemModifiers.h"
 #include "StoreItemGroups.h"
@@ -140,43 +139,49 @@ const auto &IMITATER = RegisterTypeOf<StoreItem>(
 	}
 );
 
-const auto &BONUS_LAWN_MOWER = Registries::STORE_ITEMS.Register([]() {
-	StoreItemAttributes anAttributes;
-	anAttributes.mMaxBuyCount = 2;
-	anAttributes.mUnavailable = true;
-	auto *aStoreItemType = new StoreItemType("PVZ", "BONUS_LAWN_MOWER", anAttributes);	//what even is this
-	return aStoreItemType;
-});
+const auto &BONUS_LAWN_MOWER = RegisterTypeOf<StoreItem>(
+	"PVZ", "BONUS_LAWN_MOWER", //what even is this
+	{
+		.mMaxBuyCount = 2,
+		.mUnavailable = true
+	}
+);
 
-const auto &POTTED_MARIGOLD_1 = Registries::STORE_ITEMS.Register([]() {
-	StoreItemAttributes anAttributes;
-	anAttributes.mCost = 250;
-	auto *aStoreItemType = new PottedPlantStoreItemType("PVZ", "POTTED_MARIGOLD_1", anAttributes);
+const auto &POTTED_MARIGOLD_1 = RegisterTypeOf<StoreItem>(
+	"PVZ", "POTTED_MARIGOLD_1",
+	{
+		.mCost = 250
+	},
+	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	{
+		theType.mGroup = StoreItemGroups::ZEN_GARDEN;
+		theType.mBehaviors.Add(StoreItemBehaviorTypes::POTTED_MARIGOLD);
+	}
+);
 
-	aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
+const auto &POTTED_MARIGOLD_2 = RegisterTypeOf<StoreItem>(
+	"PVZ", "POTTED_MARIGOLD_2",
+	{
+		.mCost = 250
+	},
+	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	{
+		theType.mGroup = StoreItemGroups::ZEN_GARDEN;
+		theType.mBehaviors.Add(StoreItemBehaviorTypes::POTTED_MARIGOLD);
+	}
+);
 
-	return (StoreItemType *)aStoreItemType;
-});
-
-const auto &POTTED_MARIGOLD_2 = Registries::STORE_ITEMS.Register([]() {
-	StoreItemAttributes anAttributes;
-	anAttributes.mCost = 250;
-	auto *aStoreItemType = new PottedPlantStoreItemType("PVZ", "POTTED_MARIGOLD_2", anAttributes);
-
-	aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
-
-	return (StoreItemType *)aStoreItemType;
-});
-
-const auto &POTTED_MARIGOLD_3 = Registries::STORE_ITEMS.Register([]() {
-	StoreItemAttributes anAttributes;
-	anAttributes.mCost = 250;
-	auto *aStoreItemType = new PottedPlantStoreItemType("PVZ", "POTTED_MARIGOLD_3", anAttributes);
-
-	aStoreItemType->mGroup = StoreItemGroups::ZEN_GARDEN;
-
-	return (StoreItemType *)aStoreItemType;
-});
+const auto &POTTED_MARIGOLD_3 = RegisterTypeOf<StoreItem>(
+	"PVZ", "POTTED_MARIGOLD_3",
+	{
+		.mCost = 250
+	},
+	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	{
+		theType.mGroup = StoreItemGroups::ZEN_GARDEN;
+		theType.mBehaviors.Add(StoreItemBehaviorTypes::POTTED_MARIGOLD);
+	}
+);
 
 const auto &GOLD_WATERING_CAN = RegisterTypeOf<StoreItem>(
 	"PVZ", "GOLD_WATERING_CAN",

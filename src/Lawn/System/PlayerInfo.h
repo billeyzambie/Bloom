@@ -47,7 +47,7 @@ class BLOOM_API PottedPlant
 	int64_t mLastChocolateTime;
 
   public:
-	void InitializePottedPlant(const PlantType *thePlantType);
+	void InitializePottedPlant(const PlantType &thePlantType);
 };
 
 class BLOOM_API ProfileSyncer
