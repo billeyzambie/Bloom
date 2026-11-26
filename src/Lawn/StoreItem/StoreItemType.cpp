@@ -1,12 +1,14 @@
 #include "StoreItemType.h"
+#include "StoreItemTypes.h"
+#include "StoreItemGroups.h"
 #include "StoreItemBehaviorTypes.h"
+#include "SeedPacketStoreItemBehavior.h"
 #include "../Sexy.TodLib/TodDebug.h"
 #include "../LawnApp.h"
-#include "../SexyAppFramework/Graphics.h"
+#include "../Registries.h"
 #include "../SexyAppFramework/Common.h"
 #include "../Sexy.TodLib/TodCommon.h"
 #include "StoreItem.h"
-#include "../System/PlayerInfo.h"
 
 static std::string CreateStoreMessage(const StoreItemType &theItemType)
 {
@@ -157,26 +159,18 @@ void StoreItemType::Update(const LawnApp &theLawnApp)
 	mAttributes = mAttributeBaseValues;
 }
 
-void StoreItemType::Draw(StoreScreen *theStoreScreen, Sexy::Graphics *g, int thePosX, int thePosY, bool theIsForHighlight) const
+void StoreItemType::MakeSeedPacketStoreItem(OldSeedType theSeedType)
 {
-	Sexy::Image *anIcon = GetIcon();
-
-	if (anIcon)
-		g->DrawImage(anIcon, thePosX + mAttributes.mDrawOffsetX, thePosY + mAttributes.mDrawOffsetY);
-	
-	int aCount = mAttributes.mBuyCount;
-
-	if (aCount != 1)
-	{
-		std::string aCountLabel = "x";
-		aCountLabel += std::to_string(aCount);
-		TodDrawString(g, aCountLabel, thePosX + 56, thePosY + 62, Sexy::FONT_HOUSEOFTERROR16, Color::White, DS_ALIGN_RIGHT);
-	}
-}
-
-Sexy::Image *StoreItemType::GetIcon() const
-{
-	if (mAttributes.mIconOverride)
-		return mAttributes.mIconOverride;
-	return mBaseIcon;
+	mGroup = StoreItemGroups::UPGRADES;
+	if (StoreItemTypes::IMITATER.TryGet())
+		mInsertion = ListInsertion<StoreItemType>::Before(StoreItemTypes::IMITATER);
+	mBehaviors.Add(RegisterTypeOf<SeedPacketStoreItemBehavior>(
+		"PVZ",
+		mResourceId.CreateBarePathString() + "_SEED_PACKET",
+		{},
+		[=](TypeOf<SeedPacketStoreItemBehavior> &theType, StoreItemBehaviorAttributes &theAttributes) 
+		{
+			theType.mSeedType = theSeedType;
+		}
+	));
 }

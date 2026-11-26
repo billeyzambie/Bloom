@@ -12,8 +12,7 @@ class BLOOM_API StoreItemBehaviorType : public BloomType
 
 	struct Attributes
 	{
-		int mUnlockLevel = 1;
-		int mMaxCount = 1;
+		int mUnused = 0;
 	};
 	PatchHolder<StoreItemBehaviorType> *mPatchHolder = nullptr;
 	Attributes mAttributeBaseValues;

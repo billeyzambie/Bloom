@@ -3,6 +3,11 @@
 #include "../../BloomLib/Bloom.h"
 #include "StoreItemBehaviorType.h"
 
+namespace Sexy
+{
+	class Graphics;
+}
+
 class StoreItem;
 class LawnApp;
 class PlayerInfo;
@@ -18,16 +23,25 @@ class BLOOM_API StoreItemBehavior
 
 	struct UpdateContext
 	{
+		StoreItem &mStoreItem;
 		const LawnApp &mLawnApp;
 		const PlayerInfo &mPlayerInfo;
+	};
+	struct DrawContext
+	{
 		StoreItem &mStoreItem;
+		StoreScreen *mStoreScreen;
+		Sexy::Graphics &mGraphics;
+		int mPosX; 
+		int mPosY;
+		bool mIsForHighlight;
 	};
 	struct PurchaseContext
 	{
 		bool mCanceled;
+		StoreItem &mStoreItem;
 		StoreScreen *mStoreScreen;
 		LawnApp &mApp;
-		StoreItem &mStoreItem;
 	};
 
 	const StoreItemBehaviorType &mType;
@@ -36,9 +50,9 @@ class BLOOM_API StoreItemBehavior
 
 	StoreItemBehavior(const StoreItemBehaviorType &theType);
 	virtual ~StoreItemBehavior() = default;
-
+	
 	virtual void OnPurchase(PurchaseContext &theContext);
-
+	virtual void Draw(DrawContext &theContext);
 	void Update(UpdateContext &theContext);
 
   protected:

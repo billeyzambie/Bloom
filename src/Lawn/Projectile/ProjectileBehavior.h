@@ -32,7 +32,6 @@ class BLOOM_API ProjectileBehavior
 	virtual ~ProjectileBehavior() = default;
 
 	virtual void DoImpact(DoImpactContext &theContext);
-
 	void Update(Projectile &theProjectile);
 
   protected:

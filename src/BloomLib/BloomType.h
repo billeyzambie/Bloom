@@ -25,7 +25,7 @@ concept IsBloomType = std::is_base_of_v<BloomType, T>;
 template <class T> class PatchHolder;
 
 template <class T>
-concept InstanceClassHasValidSize = sizeof(T) <= T::Type::INSTANCE_MAX_SIZE;
+concept InstanceClassHasValidSize = sizeof(T) <= T::RegistryType::INSTANCE_MAX_SIZE;
 
 template <class T>
 concept ValidInstanceClass = InstanceClassHasValidSize<T> && std::is_nothrow_move_constructible_v<T>;

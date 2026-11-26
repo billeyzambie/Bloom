@@ -19,3 +19,7 @@ void StoreItemBehavior::VirtualUpdate(UpdateContext &theContext)
 void StoreItemBehavior::OnPurchase(PurchaseContext &theStoreItem)
 {
 }
+
+void StoreItemBehavior::Draw(DrawContext &theStoreItem)
+{
+}

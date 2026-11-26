@@ -4,6 +4,12 @@
 #include "StoreItemType.h"
 #include "StoreItemBehavior.h"
 
+namespace Sexy
+{
+class Image;
+class Graphics;
+}
+
 class BLOOM_API StoreItem final
 {
   public:
@@ -19,4 +25,13 @@ class BLOOM_API StoreItem final
 	int mLastPurchaseTime = 0;
 	StoreItem(const StoreItemType &theType);
 	void AddPurchases(int theAmount);
+	Sexy::Image *GetIcon() const;
+	void Update(const LawnApp &theLawnApp);
+	void Draw(
+		StoreScreen *theStoreScreen, 
+		Sexy::Graphics *g, 
+		int thePosX, 
+		int thePosY,
+		bool theIsForHighlight
+	);
 };

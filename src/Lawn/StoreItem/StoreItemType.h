@@ -7,13 +7,6 @@
 #include "../BloomLib/BehaviorTypeList.h"
 
 #include "../ConstEnums.h"
-#include "../Resources.h"
-
-namespace Sexy
-{
-class Image;
-class Graphics;
-}
 
 class LawnApp;
 
@@ -66,7 +59,7 @@ class BLOOM_API StoreItemType final : public BloomType
 
 	void Update(const LawnApp &theLawnApp);
 
-	Sexy::Image *GetIcon() const;
+	void MakeSeedPacketStoreItem(OldSeedType theSeedType);
 };
 
 typedef StoreItemType::Attributes StoreItemAttributes;

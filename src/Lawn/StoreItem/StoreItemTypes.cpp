@@ -2,10 +2,11 @@
 #include "StoreItem.h"
 #include "../Registries.h"
 #include "PacketUpgradeStoreItemType.h"
-#include "SeedPacketStoreItemType.h"
 #include "PottedPlantStoreItemType.h"
+#include "StoreItemBehaviorTypes.h"
 #include "StoreItemModifiers.h"
 #include "StoreItemGroups.h"
+#include "ComingSoonBeforeNewGardensStoreItemBehavior.h"
 
 #include "../System/PlayerInfo.h"
 #include "../Widget/StoreScreen.h"
@@ -21,93 +22,123 @@ using namespace StoreItemModifiers;
 namespace StoreItemTypes
 {
 
-const auto &GATLING_PEA = Registries::STORE_ITEMS.Register([]() {
-	StoreItemAttributes anAttributes;
-	anAttributes.mCost = 500;
-	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "GATLING_PEA", anAttributes);
-	aStoreItemType->mSeedType = OldSeedType::SEED_GATLINGPEA;
+const auto &GATLING_PEA = RegisterTypeOf<StoreItem>(
+	"PVZ", "GATLING_PEA",
+	{
+		.mCost = 500
+	},
+	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	{
+		theType.MakeSeedPacketStoreItem(OldSeedType::SEED_GATLINGPEA);
+	}
+);
 
-	return (StoreItemType *)aStoreItemType;
-});
+const auto &TWIN_SUNFLOWER = RegisterTypeOf<StoreItem>(
+	"PVZ", "TWIN_SUNFLOWER",
+	{
+		.mCost = 500
+	},
+	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	{
+		theType.MakeSeedPacketStoreItem(OldSeedType::SEED_TWINSUNFLOWER);
+	}
+);
 
-const auto &TWIN_SUNFLOWER = Registries::STORE_ITEMS.Register([]() {
-	StoreItemAttributes anAttributes;
-	anAttributes.mCost = 500;
-	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "TWIN_SUNFLOWER", anAttributes);
-	aStoreItemType->mSeedType = OldSeedType::SEED_TWINSUNFLOWER;
+const auto &GLOOM_SHROOM = RegisterTypeOf<StoreItem>(
+	"PVZ", "GLOOM_SHROOM",
+	{
+		.mCost = 750,
+		.mUnlockLevel = 34
+	},
+	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	{
+		theType.MakeSeedPacketStoreItem(OldSeedType::SEED_GLOOMSHROOM);
+	}
+);
 
-	return (StoreItemType *)aStoreItemType;
-});
+const auto &CATTAIL = RegisterTypeOf<StoreItem>(
+	"PVZ", "CATTAIL",
+	{
+		.mCost = 1000,
+		.mUnlockLevel = 34
+	},
+	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	{
+		theType.MakeSeedPacketStoreItem(OldSeedType::SEED_CATTAIL);
+	}
+);
 
-const auto &GLOOM_SHROOM = Registries::STORE_ITEMS.Register([]() {
-	StoreItemAttributes anAttributes;
-	anAttributes.mCost = 750;
-	anAttributes.mUnlockLevel = 34;
-	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "GLOOM_SHROOM", anAttributes);
-	aStoreItemType->mSeedType = OldSeedType::SEED_GLOOMSHROOM;
+const auto &CATTAIL = RegisterTypeOf<StoreItem>(
+	"PVZ", "CATTAIL",
+	{
+		.mCost = 1000,
+		.mUnlockLevel = 34
+	},
+	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	{
+		theType.MakeSeedPacketStoreItem(OldSeedType::SEED_CATTAIL);
+	}
+);
 
-	return (StoreItemType *)aStoreItemType;
-});
+const auto &WINTER_MELON = RegisterTypeOf<StoreItem>(
+	"PVZ", "WINTER_MELON",
+	{
+		.mCost = 1000,
+		.mUnlockLevel = 50
+	},
+	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	{
+		theType.MakeSeedPacketStoreItem(OldSeedType::SEED_WINTERMELON);
+	}
+);
 
-const auto &CATTAIL = Registries::STORE_ITEMS.Register([]() {
-	StoreItemAttributes anAttributes;
-	anAttributes.mCost = 1000;
-	anAttributes.mUnlockLevel = 34;
-	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "CATTAIL", anAttributes);
-	aStoreItemType->mSeedType = OldSeedType::SEED_CATTAIL;
+const auto &GOLD_MAGNET = RegisterTypeOf<StoreItem>(
+	"PVZ", "GOLD_MAGNET",
+	{
+		.mCost = 300,
+		.mUnlockLevel = 41
+	},
+	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	{
+		theType.MakeSeedPacketStoreItem(OldSeedType::SEED_GOLD_MAGNET);
+	}
+);
 
-	return (StoreItemType *)aStoreItemType;
-});
+const auto &SPIKEROCK = RegisterTypeOf<StoreItem>(
+	"PVZ", "SPIKEROCK",
+	{
+		.mCost = 750,
+		.mUnlockLevel = 41
+	},
+	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	{
+		theType.MakeSeedPacketStoreItem(OldSeedType::SEED_SPIKEROCK);
+	}
+);
 
-const auto &WINTER_MELON = Registries::STORE_ITEMS.Register([]() {
-	StoreItemAttributes anAttributes;
-	anAttributes.mCost = 1000;
-	anAttributes.mUnlockLevel = 50;
-	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "WINTERMELON", anAttributes);
-	aStoreItemType->mSeedType = OldSeedType::SEED_WINTERMELON;
+const auto &COB_CANNON = RegisterTypeOf<StoreItem>(
+	"PVZ", "COB_CANNON",
+	{
+		.mCost = 2000,
+		.mUnlockLevel = 50
+	},
+	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	{
+		theType.MakeSeedPacketStoreItem(OldSeedType::SEED_COBCANNON);
+	}
+);
 
-	return (StoreItemType *)aStoreItemType;
-});
-
-const auto &GOLD_MAGNET = Registries::STORE_ITEMS.Register([]() {
-	StoreItemAttributes anAttributes;
-	anAttributes.mCost = 300;
-	anAttributes.mUnlockLevel = 41;
-	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "GOLD_MAGNET", anAttributes);
-	aStoreItemType->mSeedType = OldSeedType::SEED_GOLD_MAGNET;
-
-	return (StoreItemType *)aStoreItemType;
-});
-
-const auto &SPIKEROCK = Registries::STORE_ITEMS.Register([]() {
-	StoreItemAttributes anAttributes;
-	anAttributes.mCost = 750;
-	anAttributes.mUnlockLevel = 41;
-	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "SPIKEROCK", anAttributes);
-	aStoreItemType->mSeedType = OldSeedType::SEED_SPIKEROCK;
-
-	return (StoreItemType *)aStoreItemType;
-});
-
-const auto &COB_CANNON = Registries::STORE_ITEMS.Register([]() {
-	StoreItemAttributes anAttributes;
-	anAttributes.mCost = 2000;
-	anAttributes.mUnlockLevel = 50;
-	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "COB_CANNON", anAttributes);
-	aStoreItemType->mSeedType = OldSeedType::SEED_COBCANNON;
-
-	return (StoreItemType *)aStoreItemType;
-});
-
-const auto &IMITATER = Registries::STORE_ITEMS.Register([]() {
-	StoreItemAttributes anAttributes;
-	anAttributes.mCost = 3000;
-	anAttributes.mUnlockLevel = 50;
-	auto *aStoreItemType = new SeedPacketStoreItemType("PVZ", "IMITATER", anAttributes);
-	aStoreItemType->mSeedType = OldSeedType::SEED_IMITATER;
-
-	return (StoreItemType *)aStoreItemType;
-});
+const auto &IMITATER = RegisterTypeOf<StoreItem>(
+	"PVZ", "IMITATER",
+	{
+		.mCost = 3000,
+		.mUnlockLevel = 50
+	},
+	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	{
+		theType.MakeSeedPacketStoreItem(OldSeedType::SEED_IMITATER);
+	}
+);
 
 const auto &BONUS_LAWN_MOWER = Registries::STORE_ITEMS.Register([]() {
 	StoreItemAttributes anAttributes;
@@ -248,11 +279,8 @@ const auto &WHEEL_BARROW = RegisterTypeOf<StoreItem>(
 	{
 		theType.mGroup = StoreItemGroups::ZEN_GARDEN;
 		theType.mBaseIcon = {"PVZ", "IMAGE_ZEN_WHEELBARROW"};
-		aStoreItemType->mModifiers.Add([](StoreItemModifierContext &theContext) {
-			if (!theContext.mPlayerInfo.GetStoreItemData(MUSHROOM_GARDEN).mPurchases &&
-				!theContext.mPlayerInfo.GetStoreItemData(AQUARIUM_GARDEN).mPurchases)
-				theContext.mAttributes.mComingSoon = true;
-		});
+
+		theType.mBehaviors.Add(StoreItemBehaviorTypes::COMING_SOON_BEFORE_NEW_GARDENS);
 	}
 );
 
