@@ -5,15 +5,8 @@
 #include "StoreItemBehaviorTypes.h"
 #include "StoreItemGroups.h"
 #include "Behaviors/ComingSoonBeforeOthersStoreItemBehavior.h"
-
-#include "../System/PlayerInfo.h"
-#include "../Widget/StoreScreen.h"
-#include "../../Sexy.TodLib/TodStringFile.h"
-#include "../../SexyAppFramework/Dialog.h"
-#include "../Board.h"
-#include "../Seed/SeedPacket.h"
-#include "../Widget/LawnDialog.h"
-#include "../Widget/GameButton.h"
+#include "Behaviors/TreeOfWisdomShowDialogStoreItemBehavior.h"
+#include "Behaviors/PacketUpgradeStoreItemBehavior.h"
 
 namespace StoreItemTypes
 {
@@ -315,32 +308,9 @@ const auto &PACKET_UPGRADE = RegisterTypeOf<StoreItem>(
 		theType.mGroup = StoreItemGroups::UPGRADES;
 		theType.mInsertion = ListInsertion<StoreItemType>::First();
 		theType.mBaseIcon = {"PVZ", "IMAGE_STORE_PACKETUPGRADE"};
-		aStoreItemType->mModifiers.Add([](StoreItemModifierContext &theContext) {
-			int aPurchase = theContext.mStoreItemData.mPurchases;
-			int aTargetPrice = aPurchase == 0 ? 75 : aPurchase == 1 ? 500 : aPurchase == 2 ? 2000 : 8000;
-			theContext.mAttributes.mCost *= aTargetPrice / 75.0f;
-		});
-		aStoreItemType->mOnPurchase.Add([](StoreItemPurchaseContext &theContext) {
-			LawnApp &anApp = *theContext.mStoreScreen->mApp;
-
-			auto *aStoreScreen = theContext.mStoreScreen;
-			if (aStoreScreen)
-			{
-				SexyString aDialogLines = StrFormat(TodStringTranslate("[NOW_YOU_CAN_CHOOSE_X_SEEDS]").c_str(),
-													6 + theContext.mStoreItemData.mPurchases);
-				Dialog *aDialog = anApp.DoDialog(DIALOG_UPGRADED, true, "[MORE_SLOTS]", aDialogLines, "[DIALOG_BUTTON_OK]",
-												 Dialog::BUTTONS_FOOTER);
-
-				aStoreScreen->mWaitForDialog = true;
-				aDialog->WaitForResult(true);
-				aStoreScreen->mWaitForDialog = false;
-			}
-
-			if (anApp.mBoard)
-			{
-				anApp.mBoard->mSeedBank->UpdateWidth();
-			}
-		});
+		theType.mBehaviors.Add(
+			RegisterTypeOf<PacketUpgradeStoreItemBehavior>("PVZ", "PACKET_UPGRADE", {})
+		);
 	}
 );
 
@@ -426,27 +396,9 @@ const auto &TREE_OF_WISDOM = RegisterTypeOf<StoreItem>(
 	{
 		theType.mGroup = StoreItemGroups::ZEN_GARDEN;
 		theType.mBaseIcon = {"PVZ", "IMAGE_STORE_TREEOFWISDOMICON"};
-		aStoreItemType->mOnPurchase.Add([](StoreItemPurchaseContext &theContext) {
-			theContext.mApp.mPlayerInfo->mChallengeRecords[GAMEMODE_TREE_OF_WISDOM] = 1;
-			auto *aStoreScreen = theContext.mStoreScreen;
-			if (aStoreScreen)
-			{
-				LawnDialog *aDialog = (LawnDialog *)aStoreScreen->mApp->DoDialog(
-					DIALOG_STORE_PURCHASE, true, "[VISIT_TREE_HEADER]", "[VISIT_TREE_BODY]", "", Dialog::BUTTONS_YES_NO);
-				aDialog->mLawnYesButton->SetLabel("[DIALOG_BUTTON_YES]");
-				aDialog->mLawnNoButton->SetLabel("[DIALOG_BUTTON_NO]");
-
-				aStoreScreen->mWaitForDialog = true;
-				int aResult = aDialog->WaitForResult(true);
-				aStoreScreen->mWaitForDialog = false;
-
-				if (aResult == Dialog::ID_OK)
-				{
-					aStoreScreen->mGoToTreeNow = true;
-					aStoreScreen->mResult = aResult;
-				}
-			}
-		});
+		theType.mBehaviors.Add(
+			RegisterTypeOf<TreeOfWisdomShowDialogStoreItemBehavior>("PVZ", "TREE_DIALOG", {})
+		);
 	}
 );
 
