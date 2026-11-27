@@ -1,6 +1,6 @@
 #pragma once
 
-#include "StoreItemBehavior.h"
+#include "../StoreItemBehavior.h"
 #include <memory>
 
 class StoreItemBehaviorType;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "StoreItemType.h"
+#include "../StoreItemType.h"
 
 class BLOOM_API PacketUpgradeStoreItemType : public StoreItemType
 {

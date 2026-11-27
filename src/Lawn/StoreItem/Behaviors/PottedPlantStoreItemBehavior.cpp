@@ -1,10 +1,10 @@
 #include "PottedPlantStoreItemBehavior.h"
-#include "../Board.h"
-#include "../ZenGarden.h"
-#include "../Widget/StoreScreen.h"
-#include "../Actor/PlantTypes.h"
-#include "../../LawnApp.h"
-#include "../SexyAppFramework/Graphics.h"
+#include "../../Board.h"
+#include "../../ZenGarden.h"
+#include "../../Widget/StoreScreen.h"
+#include "../../Actor/PlantTypes.h"
+#include "../../../LawnApp.h"
+#include "../../../SexyAppFramework/Graphics.h"
 
 PottedPlantStoreItemBehavior::PottedPlantStoreItemBehavior(const StoreItemBehaviorType &theType)
 	: StoreItemBehavior(theType), mPottedPlant(std::make_unique<PottedPlant>())

@@ -1,7 +1,7 @@
 #include "SeedPacketStoreItemBehavior.h"
-#include "../Seed/SeedPacket.h"
-#include "../SexyAppFramework/Graphics.h"
-#include "../Resources.h"
+#include "../../Seed/SeedPacket.h"
+#include "../../../SexyAppFramework/Graphics.h"
+#include "../../../Resources.h"
 
 void SeedPacketStoreItemBehavior::Draw(DrawContext &theContext)
 {

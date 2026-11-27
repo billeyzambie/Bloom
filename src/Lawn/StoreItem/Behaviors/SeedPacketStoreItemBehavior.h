@@ -1,7 +1,7 @@
 #pragma once
 
-#include "StoreItemBehavior.h"
-#include "../ConstEnums.h"
+#include "../StoreItemBehavior.h"
+#include "../../../ConstEnums.h"
 
 class SeedPacketStoreItemBehaviorType;
 

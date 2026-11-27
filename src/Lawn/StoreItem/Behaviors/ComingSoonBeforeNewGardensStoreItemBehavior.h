@@ -1,8 +1,8 @@
 #pragma once
 
-#include "StoreItemBehavior.h"
+#include "../StoreItemBehavior.h"
 
-class BLOOM_API ComingSoonBeforeLevelStoreItemBehavior : public StoreItemBehavior
+class BLOOM_API ComingSoonBeforeNewGardensStoreItemBehavior : public StoreItemBehavior
 {
   public:
 	using StoreItemBehavior::StoreItemBehavior;

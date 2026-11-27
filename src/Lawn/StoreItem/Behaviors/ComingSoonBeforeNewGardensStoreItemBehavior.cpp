@@ -1,7 +1,7 @@
 #include "ComingSoonBeforeNewGardensStoreItemBehavior.h"
-#include "../Board.h"
-#include "../../LawnApp.h"
-#include "StoreItemTypes.h"
+#include "../../Board.h"
+#include "../../../LawnApp.h"
+#include "../StoreItemTypes.h"
 
 void ComingSoonBeforeNewGardensStoreItemBehavior::VirtualUpdate(UpdateContext &theContext)
 {

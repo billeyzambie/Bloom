@@ -1,9 +1,9 @@
 #include "PacketUpgradeStoreItemType.h"
-#include "../SexyAppFramework/Graphics.h"
-#include "../Resources.h"
-#include "../LawnApp.h"
-#include "../Widget/StoreScreen.h"
-#include "../Sexy.TodLib/TodStringFile.h"
+#include "../../SexyAppFramework/Graphics.h"
+#include "../../Resources.h"
+#include "../../LawnApp.h"
+#include "../../Widget/StoreScreen.h"
+#include "../../Sexy.TodLib/TodStringFile.h"
 
 PacketUpgradeStoreItemType::PacketUpgradeStoreItemType(std::string theModName, std::string theTypeName,
 										  const StoreItemAttributes &theAttributes)

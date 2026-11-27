@@ -1,11 +1,10 @@
 #include "StoreItemTypes.h"
 #include "StoreItem.h"
 #include "../Registries.h"
-#include "PacketUpgradeStoreItemType.h"
+#include "Behaviors/PacketUpgradeStoreItemType.h"
 #include "StoreItemBehaviorTypes.h"
-#include "StoreItemModifiers.h"
 #include "StoreItemGroups.h"
-#include "ComingSoonBeforeNewGardensStoreItemBehavior.h"
+#include "Behaviors/ComingSoonBeforeOthersStoreItemBehavior.h"
 
 #include "../System/PlayerInfo.h"
 #include "../Widget/StoreScreen.h"
@@ -15,8 +14,6 @@
 #include "../Seed/SeedPacket.h"
 #include "../Widget/LawnDialog.h"
 #include "../Widget/GameButton.h"
-
-using namespace StoreItemModifiers;
 
 namespace StoreItemTypes
 {
@@ -301,7 +298,6 @@ const auto &STINKY_THE_SNAIL = RegisterTypeOf<StoreItem>(
 	{
 		theType.mGroup = StoreItemGroups::ZEN_GARDEN;
 		theType.mBaseIcon = {"PVZ", "IMAGE_REANIM_STINKY_TURN3"};
-		aStoreItemType->mOnPurchase.Add(OnPurchaseSetPurchasesToCurrentTime);
 	}
 );
 
@@ -415,9 +411,6 @@ const auto &CHOCOLATE = RegisterTypeOf<StoreItem>(
 	"PVZ", "CHOCOLATE",
 	{
 		.mUnavailable = true
-	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
-	{
 	}
 );
 
@@ -470,13 +463,23 @@ const auto &TREE_FOOD = RegisterTypeOf<StoreItem>(
 	{
 		theType.mGroup = StoreItemGroups::ZEN_GARDEN;
 		theType.mBaseIcon = {"PVZ", "IMAGE_TREEFOOD"};
-		aStoreItemType->mModifiers.Add(
-			[](StoreItemModifierContext &theContext) {
-				if (!theContext.mPlayerInfo.GetStoreItemData(TREE_OF_WISDOM).mPurchases ||
-				   !theContext.mPlayerInfo.GetStoreItemData(TREE_FOOD).mTotalPurchasesEver)
-				   theContext.mAttributes.mComingSoon = true;
+		theType.mBehaviors.Add(RegisterTypeOf<ComingSoonBeforeOthersStoreItemBehavior>(
+			"PVZ",
+			"TREE_FOOD_COMING_SOON_BEFORE_TREE",
+			{},
+			[](TypeOf<ComingSoonBeforeOthersStoreItemBehavior> &theType, auto &lol) 
+			{
+				theType.mOthers.push_back(TREE_OF_WISDOM);
 			}
-		);
+		));
+
+		//aStoreItemType->mModifiers.Add(
+		//	[](StoreItemModifierContext &theContext) {
+		//		if (!theContext.mPlayerInfo.GetStoreItemData(TREE_OF_WISDOM).mPurchases ||
+		//		   !theContext.mPlayerInfo.GetStoreItemData(TREE_FOOD).mTotalPurchasesEver)
+		//		   theContext.mAttributes.mComingSoon = true;
+		//	}
+		//);
 	}
 );
 

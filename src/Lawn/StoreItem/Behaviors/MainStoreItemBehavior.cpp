@@ -1,7 +1,7 @@
 #include "MainStoreItemBehavior.h"
-#include "../Board.h"
-#include "../../LawnApp.h"
-#include "../SexyAppFramework/Graphics.h"
+#include "../../Board.h"
+#include "../../../LawnApp.h"
+#include "../../SexyAppFramework/Graphics.h"
 
 void MainStoreItemBehavior::VirtualUpdate(UpdateContext &theContext)
 {

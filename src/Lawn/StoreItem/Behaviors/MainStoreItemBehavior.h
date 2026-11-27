@@ -1,6 +1,6 @@
 #pragma once
 
-#include "StoreItemBehavior.h"
+#include "../StoreItemBehavior.h"
 
 class BLOOM_API MainStoreItemBehavior : public StoreItemBehavior
 {

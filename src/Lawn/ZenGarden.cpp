@@ -1272,7 +1272,7 @@ void ZenGarden::AddStinky()
 	if (!mApp->mPlayerInfo->mHasSeenStinky)
 	{
 		mApp->mPlayerInfo->mHasSeenStinky = 1;
-		mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::STINKY_THE_SNAIL).mPurchases = time(nullptr);
+		mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::STINKY_THE_SNAIL).mLastPurchaseTime = time(nullptr);
 	}
 
 	GridItem *aStinky = mBoard->mGridItems.DataArrayAlloc();
@@ -1506,7 +1506,7 @@ void ZenGarden::StinkyAnimRateUpdate(GridItem *theStinky)
 
 void ZenGarden::ResetStinkyTimers()
 {
-	mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::STINKY_THE_SNAIL).mPurchases = 2;
+	mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::STINKY_THE_SNAIL).mLastPurchaseTime = 2;
 	mApp->mPlayerInfo->mLastStinkyChocolateTime = 0;
 }
 
@@ -1516,7 +1516,7 @@ void ZenGarden::StinkyUpdate(GridItem *theStinky)
 
 	time_t aNow = time(nullptr);
 	if (mApp->mPlayerInfo->mLastStinkyChocolateTime > aNow ||
-		mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::STINKY_THE_SNAIL).mPurchases > aNow)
+		mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::STINKY_THE_SNAIL).mLastPurchaseTime > aNow)
 	{
 		ResetStinkyTimers();
 	}
@@ -2334,7 +2334,7 @@ void ZenGarden::DrawPlantOverlay(Graphics *g, Plant *thePlant)
 
 void ZenGarden::WakeStinky()
 {
-	mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::STINKY_THE_SNAIL).mPurchases = time(nullptr);
+	mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::STINKY_THE_SNAIL).mLastPurchaseTime = time(nullptr);
 	mApp->PlaySample(SOUND_TAP);
 	mBoard->ClearAdvice(AdviceType::ADVICE_STINKY_SLEEPING);
 	gLawnApp->mPlayerInfo->mHasWokenStinky = true;
@@ -2362,7 +2362,7 @@ bool ZenGarden::ShouldStinkyBeAwake()
 	{
 		return true;
 	}
-	return time(nullptr) - mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::STINKY_THE_SNAIL).mPurchases < 180;
+	return time(nullptr) - mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::STINKY_THE_SNAIL).mLastPurchaseTime < 180;
 }
 
 void ZenGarden::OpenStore()

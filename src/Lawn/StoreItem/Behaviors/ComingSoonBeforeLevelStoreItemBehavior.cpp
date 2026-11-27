@@ -1,7 +1,7 @@
 #include "ComingSoonBeforeLevelStoreItemBehavior.h"
-#include "../Board.h"
-#include "../../LawnApp.h"
-#include "../SexyAppFramework/Graphics.h"
+#include "../../Board.h"
+#include "../../../LawnApp.h"
+#include "../../../SexyAppFramework/Graphics.h"
 
 void ComingSoonBeforeLevelStoreItemBehavior::VirtualUpdate(UpdateContext &theContext)
 {
