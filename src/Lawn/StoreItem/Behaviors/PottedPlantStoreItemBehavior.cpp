@@ -46,7 +46,7 @@ void PottedPlantStoreItemBehavior::OnPurchase(PurchaseContext &theContext)
 	StoreItem &aStoreItem = theContext.mStoreItem;
 
 	if (theContext.mApp.mZenGarden->IsZenGardenFull(true) ||
-		theContext.mApp.mPlayerInfo->GetStoreItemData(aStoreItem.mType).mPurchases == GetCurrentDaysSince2000())
+		theContext.mApp.mPlayerInfo->GetStoreItem(aStoreItem.mType).mPurchases == GetCurrentDaysSince2000())
 		aStoreItem.mAttributes.mSoldOut = true;
 	
 	theContext.mApp.mZenGarden->AddPottedPlant(mPottedPlant.get());

@@ -28,7 +28,6 @@ class BLOOM_API StoreItem final
 	Sexy::Image *GetIcon() const;
 	void Update(const LawnApp &theLawnApp);
 	void Draw(
-		StoreScreen *theStoreScreen, 
 		Sexy::Graphics *g, 
 		int thePosX, 
 		int thePosY,

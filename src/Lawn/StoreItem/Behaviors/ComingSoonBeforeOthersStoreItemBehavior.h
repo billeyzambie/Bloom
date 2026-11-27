@@ -18,8 +18,7 @@ class BLOOM_API ComingSoonBeforeOthersStoreItemBehaviorType
 	: public StoreItemBehaviorTypeT<ComingSoonBeforeOthersStoreItemBehavior>
 {
   public:
-	using StoreItemBehaviorTypeT<ComingSoonBeforeOthersStoreItemBehavior>
-		::StoreItemBehaviorTypeT<ComingSoonBeforeOthersStoreItemBehavior>;
+	using StoreItemBehaviorTypeT<ComingSoonBeforeOthersStoreItemBehavior>::StoreItemBehaviorTypeT;
 	//Any of, not all of
 	std::vector<const StoreItemType *> mOthers;
 };

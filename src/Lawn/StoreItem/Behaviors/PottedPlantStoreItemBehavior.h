@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../StoreItemBehavior.h"
+#include "../../System/PlayerInfo.h"
 #include <memory>
 
 class StoreItemBehaviorType;
@@ -31,7 +32,6 @@ class BLOOM_API PottedPlantStoreItemBehaviorType
 	: public StoreItemBehaviorTypeT<PottedPlantStoreItemBehavior>
 {
   public:
-	using StoreItemBehaviorTypeT<PottedPlantStoreItemBehavior>
-		::StoreItemBehaviorTypeT<PottedPlantStoreItemBehavior>;
+	using StoreItemBehaviorTypeT<PottedPlantStoreItemBehavior>::StoreItemBehaviorTypeT;
 	const PlantType *mPlantType = nullptr;
 };

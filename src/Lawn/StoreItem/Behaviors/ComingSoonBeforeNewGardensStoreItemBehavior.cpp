@@ -6,8 +6,8 @@
 void ComingSoonBeforeNewGardensStoreItemBehavior::VirtualUpdate(UpdateContext &theContext)
 {
 	bool anAnyAvailable = 
-		theContext.mPlayerInfo.GetStoreItemData(StoreItemTypes::MUSHROOM_GARDEN).mPurchases 
-		|| theContext.mPlayerInfo.GetStoreItemData(StoreItemTypes::AQUARIUM_GARDEN).mPurchases;
+		theContext.mPlayerInfo.GetStoreItem(StoreItemTypes::MUSHROOM_GARDEN).mPurchases 
+		|| theContext.mPlayerInfo.GetStoreItem(StoreItemTypes::AQUARIUM_GARDEN).mPurchases;
 	if (!anAnyAvailable)
 		theContext.mStoreItem.mAttributes.mComingSoon = true;
 }

@@ -17,7 +17,7 @@ void ComingSoonBeforeOthersStoreItemBehavior::VirtualUpdate(UpdateContext &theCo
 			"nullptr got added to ComingSoonBeforeOthersStoreItemBehaviorType::mOthers"
 		);
 
-		if (!theContext.mPlayerInfo.GetStoreItemData(*anItemType).mAttributes.mUnavailable)
+		if (!theContext.mPlayerInfo.GetStoreItem(*anItemType).mAttributes.mUnavailable)
 			anAnyAvailable = true;
 	}
 

@@ -5336,7 +5336,7 @@ void Challenge::TreeOfWisdomInit()
 		mApp->mPlayerInfo->mChallengeRecords[mApp->GetCurrentChallengeIndex()] = 1;
 	int aTreeSize = ClampInt(TreeOfWisdomGetSize(), 1, 50);
 	aReanimTree->PlayReanim(StrFormat("anim_grow%d", aTreeSize).c_str(), REANIM_PLAY_ONCE_AND_HOLD, 0, 18.0f);
-	if (aTreeSize == 1 && !mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::TREE_FOOD).mTotalPurchasesEver)
+	if (aTreeSize == 1 && !mApp->mPlayerInfo->GetStoreItem(StoreItemTypes::TREE_FOOD).mTotalPurchasesEver)
 	{
 		aReanimTree->mFrameCount += aReanimTree->mFrameStart;
 		aReanimTree->mFrameStart = 0;
@@ -5406,7 +5406,7 @@ void Challenge::TreeOfWisdomFertilize()
 	aTreeFood->mGridItemState = GRIDITEM_STATE_ZEN_TOOL_FERTILIZER;
 
 	mApp->PlayFoley(FOLEY_FERTILIZER);
-	mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::TREE_FOOD).mPurchases--;
+	mApp->mPlayerInfo->GetStoreItem(StoreItemTypes::TREE_FOOD).mPurchases--;
 	mChallengeState = STATECHALLENGE_NORMAL;
 	mBoard->ClearCursor();
 }

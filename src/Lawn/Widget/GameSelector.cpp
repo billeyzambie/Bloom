@@ -1416,7 +1416,7 @@ void GameSelector::AddPreviewProfiles()
 		aProfile->mLevel = 21;
 		aProfile->mHasUnlockedMinigames = 1;
 		aProfile->mCoins = 400;
-		aProfile->GetStoreItemData(StoreItemTypes::PACKET_UPGRADE).mPurchases = 1;
+		aProfile->GetStoreItem(StoreItemTypes::PACKET_UPGRADE).mPurchases = 1;
 		aProfile->SaveDetails();
 	}
 
@@ -1425,8 +1425,8 @@ void GameSelector::AddPreviewProfiles()
 	{
 		aProfile->mLevel = 31;
 		aProfile->mHasUnlockedMinigames = true;
-		aProfile->GetStoreItemData(StoreItemTypes::PACKET_UPGRADE).mPurchases = 2;
-		aProfile->GetStoreItemData(StoreItemTypes::POOL_CLEANER).mPurchases = 1;
+		aProfile->GetStoreItem(StoreItemTypes::PACKET_UPGRADE).mPurchases = 2;
+		aProfile->GetStoreItem(StoreItemTypes::POOL_CLEANER).mPurchases = 1;
 		aProfile->mCoins = 400;
 		aProfile->SaveDetails();
 	}
@@ -1437,8 +1437,8 @@ void GameSelector::AddPreviewProfiles()
 		aProfile->mLevel = 41;
 		aProfile->mHasUnlockedMinigames = true;
 		aProfile->mHasUnlockedPuzzleMode = true;
-		aProfile->GetStoreItemData(StoreItemTypes::PACKET_UPGRADE).mPurchases = 2;
-		aProfile->GetStoreItemData(StoreItemTypes::POOL_CLEANER).mPurchases = 1;
+		aProfile->GetStoreItem(StoreItemTypes::PACKET_UPGRADE).mPurchases = 2;
+		aProfile->GetStoreItem(StoreItemTypes::POOL_CLEANER).mPurchases = 1;
 		aProfile->mCoins = 500;
 		aProfile->SaveDetails();
 	}
@@ -1451,9 +1451,9 @@ void GameSelector::AddPreviewProfiles()
 		aProfile->mHasUnlockedMinigames = true;
 		aProfile->mHasUnlockedPuzzleMode = true;
 		aProfile->mHasUnlockedSurvivalMode = true;
-		aProfile->GetStoreItemData(StoreItemTypes::PACKET_UPGRADE).mPurchases = 2;
-		aProfile->GetStoreItemData(StoreItemTypes::POOL_CLEANER).mPurchases = 1;
-		aProfile->GetStoreItemData(StoreItemTypes::ROOF_CLEANER).mPurchases = 1;
+		aProfile->GetStoreItem(StoreItemTypes::PACKET_UPGRADE).mPurchases = 2;
+		aProfile->GetStoreItem(StoreItemTypes::POOL_CLEANER).mPurchases = 1;
+		aProfile->GetStoreItem(StoreItemTypes::ROOF_CLEANER).mPurchases = 1;
 		aProfile->mCoins = 1000;
 		aProfile->SaveDetails();
 	}
@@ -1464,30 +1464,30 @@ void GameSelector::AddPreviewProfiles()
 		aProfile->mLevel = 1;
 		aProfile->mFinishedAdventure = true;
 		aProfile->AddCoins(50000);
-		aProfile->GetStoreItemData(StoreItemTypes::FERTILIZER).AddPurchases(5);
-		aProfile->GetStoreItemData(StoreItemTypes::BUG_SPRAY).AddPurchases(5);
-		aProfile->GetStoreItemData(StoreItemTypes::CHOCOLATE).AddPurchases(5);
-		aProfile->GetStoreItemData(StoreItemTypes::TREE_FOOD).AddPurchases(5);
-		aProfile->GetStoreItemData(StoreItemTypes::GATLING_PEA).mPurchases = 1;
-		aProfile->GetStoreItemData(StoreItemTypes::TWIN_SUNFLOWER).mPurchases = 1;
+		aProfile->GetStoreItem(StoreItemTypes::FERTILIZER).AddPurchases(5);
+		aProfile->GetStoreItem(StoreItemTypes::BUG_SPRAY).AddPurchases(5);
+		aProfile->GetStoreItem(StoreItemTypes::CHOCOLATE).AddPurchases(5);
+		aProfile->GetStoreItem(StoreItemTypes::TREE_FOOD).AddPurchases(5);
+		aProfile->GetStoreItem(StoreItemTypes::GATLING_PEA).mPurchases = 1;
+		aProfile->GetStoreItem(StoreItemTypes::TWIN_SUNFLOWER).mPurchases = 1;
 		aProfile->mHasUnlockedMinigames = true;
 		aProfile->mHasUnlockedPuzzleMode = true;
-		aProfile->GetStoreItemData(StoreItemTypes::GLOOM_SHROOM).mPurchases = 1;
-		aProfile->GetStoreItemData(StoreItemTypes::CATTAIL).mPurchases = 1;
-		aProfile->GetStoreItemData(StoreItemTypes::WINTER_MELON).mPurchases = 1;
-		aProfile->GetStoreItemData(StoreItemTypes::GOLD_MAGNET).mPurchases = 1;
-		aProfile->GetStoreItemData(StoreItemTypes::SPIKEROCK).mPurchases = 1;
-		aProfile->GetStoreItemData(StoreItemTypes::COB_CANNON).mPurchases = 1;
-		aProfile->GetStoreItemData(StoreItemTypes::IMITATER).mPurchases = 1;
-		aProfile->GetStoreItemData(StoreItemTypes::PACKET_UPGRADE).mPurchases = 3;
-		aProfile->GetStoreItemData(StoreItemTypes::POOL_CLEANER).mPurchases = 1;
-		aProfile->GetStoreItemData(StoreItemTypes::ROOF_CLEANER).mPurchases = 1;
-		aProfile->GetStoreItemData(StoreItemTypes::PHONOGRAPH).mPurchases = 1;
-		aProfile->GetStoreItemData(StoreItemTypes::GARDENING_GLOVE).mPurchases = 1;
-		aProfile->GetStoreItemData(StoreItemTypes::MUSHROOM_GARDEN).mPurchases = 1;
-		aProfile->GetStoreItemData(StoreItemTypes::WHEEL_BARROW).mPurchases = 1;
-		aProfile->GetStoreItemData(StoreItemTypes::AQUARIUM_GARDEN).mPurchases = 1;
-		aProfile->GetStoreItemData(StoreItemTypes::TREE_OF_WISDOM).mPurchases = 1;
+		aProfile->GetStoreItem(StoreItemTypes::GLOOM_SHROOM).mPurchases = 1;
+		aProfile->GetStoreItem(StoreItemTypes::CATTAIL).mPurchases = 1;
+		aProfile->GetStoreItem(StoreItemTypes::WINTER_MELON).mPurchases = 1;
+		aProfile->GetStoreItem(StoreItemTypes::GOLD_MAGNET).mPurchases = 1;
+		aProfile->GetStoreItem(StoreItemTypes::SPIKEROCK).mPurchases = 1;
+		aProfile->GetStoreItem(StoreItemTypes::COB_CANNON).mPurchases = 1;
+		aProfile->GetStoreItem(StoreItemTypes::IMITATER).mPurchases = 1;
+		aProfile->GetStoreItem(StoreItemTypes::PACKET_UPGRADE).mPurchases = 3;
+		aProfile->GetStoreItem(StoreItemTypes::POOL_CLEANER).mPurchases = 1;
+		aProfile->GetStoreItem(StoreItemTypes::ROOF_CLEANER).mPurchases = 1;
+		aProfile->GetStoreItem(StoreItemTypes::PHONOGRAPH).mPurchases = 1;
+		aProfile->GetStoreItem(StoreItemTypes::GARDENING_GLOVE).mPurchases = 1;
+		aProfile->GetStoreItem(StoreItemTypes::MUSHROOM_GARDEN).mPurchases = 1;
+		aProfile->GetStoreItem(StoreItemTypes::WHEEL_BARROW).mPurchases = 1;
+		aProfile->GetStoreItem(StoreItemTypes::AQUARIUM_GARDEN).mPurchases = 1;
+		aProfile->GetStoreItem(StoreItemTypes::TREE_OF_WISDOM).mPurchases = 1;
 
 		aProfile->mChallengeRecords[(int)GameMode::GAMEMODE_TREE_OF_WISDOM - 1] = 1;
 		for (int i = 1; i < NUM_GAME_MODES; i++)

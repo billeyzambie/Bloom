@@ -258,7 +258,7 @@ void Coin::CoinInitialize(int theX, int theY, CoinType theCoinType, CoinMotion t
 		{
 			OldSeedType aSeedType = mApp->mZenGarden->PickRandomPlantType();
 		}
-		mPottedPlantSpec.InitializePottedPlant(&PlantTypes::FromOldSeedType(aSeedType));
+		mPottedPlantSpec.InitializePottedPlant(PlantTypes::FromOldSeedType(aSeedType));
 	}
 	else if (mType == CoinType::COIN_AWARD_MONEY_BAG || mType == CoinType::COIN_AWARD_BAG_DIAMOND)
 	{
@@ -1170,15 +1170,15 @@ void Coin::Collect()
 		mBoard->mChocolateCollected++;
 		mApp->AddTodParticle(mPosX + 30.0f, mPosY + 30.0f, mRenderOrder + 1, ParticleEffect::PARTICLE_PRESENT_PICKUP);
 
-		if (!mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).mTotalPurchasesEver)
+		if (!mApp->mPlayerInfo->GetStoreItem(StoreItemTypes::CHOCOLATE).mTotalPurchasesEver)
 		{
 			mBoard->DisplayAdvice("[ADVICE_FOUND_CHOCOLATE]", MessageStyle::MESSAGE_STYLE_HINT_TALL_FAST,
 								  AdviceType::ADVICE_NONE);
-			mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).AddPurchases(1);
+			mApp->mPlayerInfo->GetStoreItem(StoreItemTypes::CHOCOLATE).AddPurchases(1);
 		}
 		else
 		{
-			mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::CHOCOLATE).AddPurchases(1);
+			mApp->mPlayerInfo->GetStoreItem(StoreItemTypes::CHOCOLATE).AddPurchases(1);
 		}
 
 		mDisappearCounter = 0;

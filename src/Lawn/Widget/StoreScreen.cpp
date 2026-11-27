@@ -23,7 +23,6 @@
 #include "../../SexyAppFramework/WidgetManager.h"
 
 #include "../StoreItem/StoreItemTypes.h"
-#include "../StoreItem/SeedPacketStoreItemType.h"
 #include "../Actor/PlantTypes.h"
 
 StoreScreenOverlay::StoreScreenOverlay(StoreScreen *theParent)
@@ -61,10 +60,6 @@ StoreScreen::StoreScreen(LawnApp *theApp)
 	mCoins.DataArrayInitialize(1024U, "coins");
 	TodLoadResources({"PVZ", "DelayLoad_Store"});
 	Resize(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
-	mPottedPlantSpecs.InitializePottedPlant(PlantTypes::MARIGOLD);
-	mPottedPlantSpecs.mDrawVariation =
-		(DrawVariation)RandRangeInt(VARIATION_MARIGOLD_WHITE, VARIATION_MARIGOLD_LIGHT_GREEN);
-
 	mBackButton = new NewLawnButton(nullptr, StoreScreen::StoreScreen_Back, this);
 	mBackButton->mDoFinger = true;
 	mBackButton->SetLabel("[STORE_MAIN_MENU_BUTTON]");
@@ -136,16 +131,19 @@ StoreScreen::~StoreScreen()
 		delete mOverlayWidget;
 }
 
-const StoreItemType *StoreScreen::GetStoreItemType(int theSpotIndex)
+StoreItem *StoreScreen::GetStoreItem(int theSpotIndex)
 {
 	if (mPage == STORE_PAGE_SLOT_UPGRADES && theSpotIndex == 6 && mApp->IsTrialStageLocked())
 	{
-		return StoreItemTypes::PVZ;
+		return &mApp->mPlayerInfo->GetStoreItem(StoreItemTypes::PVZ);
 	}
 
 	const StoreItemType *aResult = mStoreItemSpots[mPage * 8 + theSpotIndex];
 
-	return aResult;
+	if (!aResult)
+		return nullptr;
+
+	return &mApp->mPlayerInfo->GetStoreItem(*aResult);
 }
 
 bool StoreScreen::IsFullVersionOnly(const StoreItemType &theStoreItem)
@@ -155,7 +153,7 @@ bool StoreScreen::IsFullVersionOnly(const StoreItemType &theStoreItem)
 
 	if (
 		theStoreItem == StoreItemTypes::PACKET_UPGRADE 
-		&& mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::PACKET_UPGRADE).mPurchases >= 2
+		&& mApp->mPlayerInfo->GetStoreItem(StoreItemTypes::PACKET_UPGRADE).mPurchases >= 2
 	)
 		return true;
 
@@ -168,24 +166,24 @@ bool StoreScreen::IsFullVersionOnly(const StoreItemType &theStoreItem)
 //		   theStoreItem == STORE_ITEM_POTTED_MARIGOLD_3;
 //}
 
-bool StoreScreen::IsComingSoon(const StoreItemType &theStoreItem)
+bool StoreScreen::IsComingSoon(StoreItem &theStoreItem)
 {
-	return IsFullVersionOnly(theStoreItem) || theStoreItem.mAttributes.mComingSoon;
+	return IsFullVersionOnly(theStoreItem.mType) || theStoreItem.mAttributes.mComingSoon;
 }
 
-bool StoreScreen::IsItemSoldOut(const StoreItemType &theStoreItem)
+bool StoreScreen::IsItemSoldOut(StoreItem &theStoreItem)
 {
 	return theStoreItem.mAttributes.mSoldOut;
 }
 
-bool StoreScreen::IsItemUnavailable(const StoreItemType &theStoreItem)
+bool StoreScreen::IsItemUnavailable(StoreItem &theStoreItem)
 {
 	if (mEasyBuyingCheat)
 		return false;
 
 	if (mApp->IsTrialStageLocked() &&
-		(theStoreItem == STORE_ITEM_ROOF_CLEANER || theStoreItem == STORE_ITEM_PLANT_GLOOMSHROOM ||
-		 theStoreItem == STORE_ITEM_PLANT_CATTAIL))
+		(theStoreItem.mType == StoreItemTypes::ROOF_CLEANER || theStoreItem.mType == StoreItemTypes::GLOOM_SHROOM ||
+		 theStoreItem.mType == StoreItemTypes::CATTAIL))
 		return true;
 
 	return theStoreItem.mAttributes.mUnavailable;
@@ -205,7 +203,7 @@ void StoreScreen::GetStorePosition(int theSpotIndex, int &thePosX, int &thePosY)
 	}
 }
 
-void StoreScreen::DrawItemIcon(Graphics *g, int theItemPosition, const StoreItemType &theItemType, bool theIsForHighlight)
+void StoreScreen::DrawItemIcon(Graphics *g, int theItemPosition, StoreItem &theItem, bool theIsForHighlight)
 {
 	if (theIsForHighlight)
 	{
@@ -217,9 +215,9 @@ void StoreScreen::DrawItemIcon(Graphics *g, int theItemPosition, const StoreItem
 	int aPosX, aPosY;
 	GetStorePosition(theItemPosition, aPosX, aPosY);
 
-	theItemType.Draw(this, g, aPosX, aPosY, theIsForHighlight);
+	theItem.Draw(g, aPosX, aPosY, theIsForHighlight);
 
-	//if (theItemType == STORE_ITEM_PACKET_UPGRADE)
+	//if (theItem == STORE_ITEM_PACKET_UPGRADE)
 	//{
 	//	g->SetColor(Color(255, 255, 255, 32));
 	//	g->DrawImage(Sexy::IMAGE_STORE_PACKETUPGRADE, aPosX - 7, aPosY + 7);
@@ -235,108 +233,108 @@ void StoreScreen::DrawItemIcon(Graphics *g, int theItemPosition, const StoreItem
 	//	TodDrawStringWrapped(g, aSlotText, aRect, Sexy::FONT_HOUSEOFTERROR16, Color::White,
 	//						 DS_ALIGN_CENTER_VERTICAL_MIDDLE);
 	//}
-	//else if (theItemType == STORE_ITEM_POOL_CLEANER)
+	//else if (theItem == STORE_ITEM_POOL_CLEANER)
 	//{
 	//	g->DrawImage(Sexy::IMAGE_ICON_POOLCLEANER, aPosX + 1, aPosY + 7);
 	//}
-	//else if (theItemType == STORE_ITEM_RAKE)
+	//else if (theItem == STORE_ITEM_RAKE)
 	//{
 	//	g->DrawImage(Sexy::IMAGE_ICON_RAKE, aPosX - 5, aPosY + 10);
 	//}
-	//else if (theItemType == STORE_ITEM_ROOF_CLEANER)
+	//else if (theItem == STORE_ITEM_ROOF_CLEANER)
 	//{
 	//	g->DrawImage(Sexy::IMAGE_ICON_ROOFCLEANER, aPosX, aPosY + 28);
 	//}
-	//else if (theItemType == STORE_ITEM_PLANT_IMITATER)
+	//else if (theItem == STORE_ITEM_PLANT_IMITATER)
 	//{
 	//	g->DrawImage(Sexy::IMAGE_IMITATERSEED, aPosX, aPosY);
 	//}
-	//else if (theItemType == STORE_ITEM_MUSHROOM_GARDEN)
+	//else if (theItem == STORE_ITEM_MUSHROOM_GARDEN)
 	//{
 	//	g->DrawImage(Sexy::IMAGE_STORE_MUSHROOMGARDENICON, aPosX - 8, aPosY + 2);
 	//}
-	//else if (theItemType == STORE_ITEM_AQUARIUM_GARDEN)
+	//else if (theItem == STORE_ITEM_AQUARIUM_GARDEN)
 	//{
 	//	g->DrawImage(Sexy::IMAGE_STORE_AQUARIUMGARDENICON, aPosX - 8, aPosY + 2);
 	//}
-	//else if (theItemType == STORE_ITEM_TREE_OF_WISDOM)
+	//else if (theItem == STORE_ITEM_TREE_OF_WISDOM)
 	//{
 	//	g->DrawImage(Sexy::IMAGE_STORE_TREEOFWISDOMICON, aPosX - 8, aPosY + 2);
 	//}
-	//else if (theItemType == STORE_ITEM_FIRSTAID)
+	//else if (theItem == STORE_ITEM_FIRSTAID)
 	//{
 	//	g->DrawImage(Sexy::IMAGE_STORE_FIRSTAIDWALLNUTICON, aPosX - 1, aPosY + 13);
 	//}
-	//else if (theItemType == STORE_ITEM_PVZ)
+	//else if (theItem == STORE_ITEM_PVZ)
 	//{
 	//	g->DrawImage(Sexy::IMAGE_STORE_PVZICON, aPosX, aPosY - 9);
 	//}
-	//else if (theItemType == STORE_ITEM_TREE_FOOD)
+	//else if (theItem == STORE_ITEM_TREE_FOOD)
 	//{
 	//	g->DrawImage(Sexy::IMAGE_TREEFOOD, aPosX - 8, aPosY - 2);
 	//}
-	//else if (theItemType == STORE_ITEM_STINKY_THE_SNAIL)
+	//else if (theItem == STORE_ITEM_STINKY_THE_SNAIL)
 	//{
 	//	g->DrawImage(Sexy::IMAGE_REANIM_STINKY_TURN3, aPosX - 24, aPosY + 14);
 	//}
-	//else if (theItemType == STORE_ITEM_GOLD_WATERINGCAN)
+	//else if (theItem == STORE_ITEM_GOLD_WATERINGCAN)
 	//{
 	//	g->DrawImage(Sexy::IMAGE_WATERINGCANGOLD, aPosX - 14, aPosY - 4);
 	//}
-	//else if (theItemType == STORE_ITEM_FERTILIZER)
+	//else if (theItem == STORE_ITEM_FERTILIZER)
 	//{
 	//	g->DrawImage(Sexy::IMAGE_FERTILIZER, aPosX - 11, aPosY - 2);
 	//	TodDrawString(g, "x5", aPosX + 56, aPosY + 62, Sexy::FONT_HOUSEOFTERROR16, Color::White, DS_ALIGN_RIGHT);
 	//}
-	//else if (theItemType == STORE_ITEM_PHONOGRAPH)
+	//else if (theItem == STORE_ITEM_PHONOGRAPH)
 	//{
 	//	g->DrawImage(Sexy::IMAGE_PHONOGRAPH, aPosX - 12, aPosY + 3);
 	//}
-	//else if (theItemType == STORE_ITEM_BUG_SPRAY)
+	//else if (theItem == STORE_ITEM_BUG_SPRAY)
 	//{
 	//	g->DrawImage(Sexy::IMAGE_BUG_SPRAY, aPosX - 12, aPosY + 3);
 	//	TodDrawString(g, "x5", aPosX + 56, aPosY + 62, Sexy::FONT_HOUSEOFTERROR16, Color::White, DS_ALIGN_RIGHT);
 	//}
-	//else if (theItemType == STORE_ITEM_GARDENING_GLOVE)
+	//else if (theItem == STORE_ITEM_GARDENING_GLOVE)
 	//{
 	//	g->DrawImage(Sexy::IMAGE_ZEN_GARDENGLOVE, aPosX - 12, aPosY + 3);
 	//}
-	//else if (theItemType == STORE_ITEM_WHEEL_BARROW)
+	//else if (theItem == STORE_ITEM_WHEEL_BARROW)
 	//{
 	//	g->DrawImage(Sexy::IMAGE_ZEN_WHEELBARROW, aPosX - 12, aPosY + 3);
 	//}
-	//else if (IsPottedPlant(theItemType))
+	//else if (IsPottedPlant(theItem))
 	//{
 	//	mApp->mZenGarden->DrawPottedPlantIcon(g, aPosX, aPosY, &mPottedPlantSpecs);
 	//}
 	//else
 	//{
-	//	DrawSeedPacket(g, aPosX, aPosY, (SeedType)(theItemType + 40), SEED_NONE, 0, 255, false, false);
+	//	DrawSeedPacket(g, aPosX, aPosY, (SeedType)(theItem + 40), SEED_NONE, 0, 255, false, false);
 	//}
 
 	g->SetDrawMode(Graphics::DRAWMODE_NORMAL);
 	g->SetColorizeImages(false);
 }
 
-void StoreScreen::DrawItem(Graphics *g, int theItemPosition, const StoreItemType &theItemType)
+void StoreScreen::DrawItem(Graphics *g, int theItemPosition, StoreItem &theItem)
 {
-	if (IsItemUnavailable(theItemType))
+	if (IsItemUnavailable(theItem))
 		return;
 
-	DrawItemIcon(g, theItemPosition, theItemType, false);
+	DrawItemIcon(g, theItemPosition, theItem, false);
 
 	int aPosX, aPosY;
 	GetStorePosition(theItemPosition, aPosX, aPosY);
-	if (theItemType != StoreItemTypes::PVZ)
+	if (theItem.mType != StoreItemTypes::PVZ)
 	{
 		g->DrawImage(Sexy::IMAGE_STORE_PRICETAG, aPosX - 3, aPosY + 70);
-		SexyString aCostString = LawnApp::GetMoneyString(theItemType.GetCost());
+		SexyString aCostString = LawnApp::GetMoneyString(theItem.mAttributes.mCost);
 		TodDrawString(g, aCostString, aPosX + 23, aPosY + 85, Sexy::FONT_BRIANNETOD12, Color::Black, DS_ALIGN_CENTER);
 	}
-	if (IsComingSoon(theItemType))
+	if (IsComingSoon(theItem))
 	{
 		Rect aRect(aPosX, aPosY, 60, 70);
-		if (theItemType == StoreItemTypes::TWIN_SUNFLOWER || theItemType == StoreItemTypes::PACKET_UPGRADE)
+		if (theItem.mType == StoreItemTypes::TWIN_SUNFLOWER || theItem.mType == StoreItemTypes::PACKET_UPGRADE)
 		{
 			aRect.mX -= 4;
 		}
@@ -347,15 +345,15 @@ void StoreScreen::DrawItem(Graphics *g, int theItemPosition, const StoreItemType
 							 Color(255, 0, 0),
 							 DS_ALIGN_CENTER_VERTICAL_MIDDLE);
 	}
-	else if (IsItemSoldOut(theItemType))
+	else if (IsItemSoldOut(theItem))
 	{
 		Rect aRect(aPosX, aPosY, 50, 70);
 		TodDrawStringWrapped(
 			g, "[SOLD_OUT]", aRect, Sexy::FONT_HOUSEOFTERROR16, Color(255, 0, 0), DS_ALIGN_CENTER_VERTICAL_MIDDLE);
 	}
-	else if (mMouseOverItem == &theItemType)
+	else if (mMouseOverItem == &theItem)
 	{
-		DrawItemIcon(g, theItemPosition, theItemType, true);
+		DrawItemIcon(g, theItemPosition, theItem, true);
 	}
 }
 
@@ -403,7 +401,7 @@ void StoreScreen::Draw(Graphics *g)
 	{
 		for (int i = 0; i < MAX_PAGE_SPOTS; i++)
 		{
-			auto *aStoreItem = GetStoreItemType(i);
+			auto *aStoreItem = GetStoreItem(i);
 			if (aStoreItem)
 			{
 				DrawItem(g, i, *aStoreItem);
@@ -463,16 +461,16 @@ void StoreScreen::UpdateMouse()
 	bool aShowFinger = false;
 	for (int aItemPos = 0; aItemPos < MAX_PAGE_SPOTS; aItemPos++)
 	{
-		auto *aItemType = GetStoreItemType(aItemPos);
-		if (aItemType && !IsItemUnavailable(*aItemType))
+		auto *anItem = GetStoreItem(aItemPos);
+		if (anItem && !IsItemUnavailable(*anItem))
 		{
 			int aItemX, aItemY;
 			GetStorePosition(aItemPos, aItemX, aItemY);
 			if (Rect(aItemX, aItemY, 50, 87).Contains(aMouseX, aMouseY))
 			{
-				mMouseOverItem = aItemType;
+				mMouseOverItem = anItem;
 
-				const std::string &aMessage = aItemType->GetStoreMessage(*this->mApp);
+				const std::string &aMessage = anItem->mType.GetStoreMessage(*this->mApp);
 				
 				std::string aTranslatedMessage = TodStringTranslate(aMessage);
 
@@ -482,8 +480,8 @@ void StoreScreen::UpdateMouse()
 					mBubbleClickToContinue = false;
 				}
 				mBubbleCountDown = 100;
-				if (IsFullVersionOnly(*aItemType) ||
-					(!IsItemSoldOut(*aItemType) && !IsItemUnavailable(*aItemType) && !IsComingSoon(*aItemType)))
+				if (IsFullVersionOnly(anItem->mType) ||
+					(!IsItemSoldOut(*anItem) && !IsItemUnavailable(*anItem) && !IsComingSoon(*anItem)))
 					aShowFinger = true;
 				break;
 			}
@@ -819,12 +817,12 @@ void StoreScreen::KeyChar(SexyChar theChar)
 //	}
 //}
 
-bool StoreScreen::CanAffordItem(const StoreItemType &theStoreItem)
+bool StoreScreen::CanAffordItem(StoreItem &theStoreItem)
 {
-	return mApp->mPlayerInfo->mCoins >= theStoreItem.GetCost();
+	return mApp->mPlayerInfo->mCoins >= theStoreItem.mAttributes.mCost;
 }
 
-void StoreScreen::PurchaseItem(const StoreItemType &theStoreItem)
+void StoreScreen::PurchaseItem(StoreItem &theStoreItem)
 {
 	mApp->SetCursor(CURSOR_POINTER);
 	mBubbleCountDown = 0;
@@ -859,16 +857,14 @@ void StoreScreen::PurchaseItem(const StoreItemType &theStoreItem)
 
 		if (aComfirmResult == ID_OK)
 		{
-			mApp->mPlayerInfo->AddCoins(-theStoreItem.GetCost());
+			mApp->mPlayerInfo->AddCoins(-theStoreItem.mAttributes.mCost);
 
-			auto &aStoreItemData = mApp->mPlayerInfo->GetStoreItemData(theStoreItem);
-			aStoreItemData.AddPurchases(theStoreItem.mAttributes.mBuyCount);
-			aStoreItemData.mLastPurchaseTime = time(nullptr);
+			theStoreItem.AddPurchases(theStoreItem.mAttributes.mBuyCount);
+			theStoreItem.mLastPurchaseTime = time(nullptr);
 
-			StoreItemPurchaseContext aContext{false, theStoreItem, this, *mApp,
-				mApp->mPlayerInfo->GetStoreItemData(theStoreItem)};
+			StoreItemBehavior::PurchaseContext aContext{false, theStoreItem, this, *mApp};
 
-			theStoreItem.mOnPurchase.Fire(aContext);
+			theStoreItem.mBehaviors.Fire(&StoreItemBehavior::OnPurchase, aContext);
 
 			//if (theStoreItem == STORE_ITEM_PACKET_UPGRADE)
 			//{
@@ -950,7 +946,7 @@ void StoreScreen::PurchaseItem(const StoreItemType &theStoreItem)
 			//}
 
 			//TODO: Custom on buy text
-			if (theStoreItem == StoreItemTypes::FIRST_AID)
+			if (theStoreItem.mType == StoreItemTypes::FIRST_AID)
 			{
 				SetBubbleText(3400, 800, false);
 			}
@@ -960,21 +956,18 @@ void StoreScreen::PurchaseItem(const StoreItemType &theStoreItem)
 				mApp->mSeedChooserScreen->UpdateAfterPurchase();
 			}
 
-			//TODO: Replace dynamic cast with tag
-			if (dynamic_cast<const SeedPacketStoreItemType *>(&theStoreItem))
+			//TODO: Replace with a plant unlocked event or whatever when custom plants come
+			bool aHasAllPlants = true;
+			for (int i = OldSeedType::SEED_GATLINGPEA; i <= OldSeedType::SEED_IMITATER; i++)
 			{
-				bool aHasAllPlants = true;
-				for (int i = OldSeedType::SEED_GATLINGPEA; i <= OldSeedType::SEED_IMITATER; i++)
-				{
-					if (!mApp->SeedTypeAvailable(OldSeedType(i)))
-						aHasAllPlants = false;
-				}
-				if (aHasAllPlants)
-				{
-					mInCutscene = true;
-					SetBubbleText(4000, 300, false);
-					EnableButtons(false);
-				}
+				if (!mApp->SeedTypeAvailable(OldSeedType(i)))
+					aHasAllPlants = false;
+			}
+			if (aHasAllPlants)
+			{
+				mInCutscene = true;
+				SetBubbleText(4000, 300, false);
+				EnableButtons(false);
 			}
 
 			mApp->WriteCurrentUserConfig();
@@ -1042,14 +1035,14 @@ void StoreScreen::MouseDown(int x, int y, int theClickCount)
 		return;
 	for (int aItemPos = 0; aItemPos < MAX_PAGE_SPOTS; aItemPos++)
 	{
-		auto *aItemType = GetStoreItemType(aItemPos);
-		if (!aItemType)
+		auto *anItem = GetStoreItem(aItemPos);
+		if (!anItem)
 			continue;
 		int aItemX, aItemY;
 		GetStorePosition(aItemPos, aItemX, aItemY);
 		if (Rect(aItemX, aItemY, 50, 87).Contains(x, y))
 		{
-			if (IsFullVersionOnly(*aItemType))
+			if (IsFullVersionOnly(anItem->mType))
 			{
 				mWaitForDialog = true;
 				mApp->LawnMessageBox(DIALOG_MESSAGE,
@@ -1060,7 +1053,7 @@ void StoreScreen::MouseDown(int x, int y, int theClickCount)
 									 BUTTONS_FOOTER);
 				mWaitForDialog = false;
 			}
-			else if (aItemType == StoreItemTypes::PVZ)
+			else if (anItem->mType == StoreItemTypes::PVZ)
 			{
 				mWaitForDialog = true;
 				int aResult = mApp->LawnMessageBox(DIALOG_MESSAGE,
@@ -1078,8 +1071,8 @@ void StoreScreen::MouseDown(int x, int y, int theClickCount)
 					#endif
 				}
 			}
-			else if (!IsItemSoldOut(*aItemType) && !IsItemUnavailable(*aItemType) && !IsComingSoon(*aItemType))
-				PurchaseItem(*aItemType);
+			else if (!IsItemSoldOut(*anItem) && !IsItemUnavailable(*anItem) && !IsComingSoon(*anItem))
+				PurchaseItem(*anItem);
 			break;
 		}
 	}

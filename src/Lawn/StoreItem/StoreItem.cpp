@@ -29,13 +29,12 @@ void StoreItem::Update(const LawnApp &theLawnApp)
 }
 
 void StoreItem::Draw(
-	StoreScreen *theStoreScreen, 
 	Sexy::Graphics *g, 
 	int thePosX, 
 	int thePosY,
 	bool theIsForHighlight
 )
 {
-	StoreItemBehavior::DrawContext aContext = {*this, theStoreScreen, *g, thePosX, thePosY, theIsForHighlight};
+	StoreItemBehavior::DrawContext aContext = {*this, *g, thePosX, thePosY, theIsForHighlight};
 	mBehaviors.Fire(&StoreItemBehavior::Draw, aContext);
 }

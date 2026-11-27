@@ -3,10 +3,10 @@
 #include "../Registries.h"
 #include "../Actor/PlantTypes.h"
 
-#include "MainStoreItemBehavior.h"
-#include "ComingSoonBeforeNewGardensStoreItemBehavior.h"
-#include "ComingSoonBeforeLevelStoreItemBehavior.h"
-#include "PottedPlantStoreItemBehavior.h"
+#include "Behaviors/MainStoreItemBehavior.h"
+#include "Behaviors/ComingSoonBeforeNewGardensStoreItemBehavior.h"
+#include "Behaviors/ComingSoonBeforeLevelStoreItemBehavior.h"
+#include "Behaviors/PottedPlantStoreItemBehavior.h"
 
 namespace StoreItemBehaviorTypes
 {

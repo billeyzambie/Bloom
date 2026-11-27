@@ -213,7 +213,7 @@ void SeedChooserScreen::CrazyDavePickSeeds()
 	{
 		aSeedArray[aSeedType].mItem = aSeedType;
 		unsigned int aRecFlags = SeedNotRecommendedToPick(aSeedType);
-		if ((aSeedType == SEED_GATLINGPEA && !mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::GATLING_PEA).mPurchases) ||
+		if ((aSeedType == SEED_GATLINGPEA && !mApp->mPlayerInfo->GetStoreItem(StoreItemTypes::GATLING_PEA).mPurchases) ||
 			!mApp->SeedTypeAvailable(aSeedType) || SeedNotAllowedToPick(aSeedType) || Plant::IsUpgrade(PlantTypes::FromOldSeedType(aSeedType)) ||
 			aSeedType == SEED_IMITATER || aSeedType == SEED_UMBRELLA || aSeedType == SEED_BLOVER)
 		{
@@ -262,7 +262,7 @@ void SeedChooserScreen::CrazyDavePickSeeds()
 bool SeedChooserScreen::Has7Rows()
 {
 	PlayerInfo *aPlayer = mApp->mPlayerInfo;
-	if (mApp->HasFinishedAdventure() || mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::GATLING_PEA).mPurchases)
+	if (mApp->HasFinishedAdventure() || mApp->mPlayerInfo->GetStoreItem(StoreItemTypes::GATLING_PEA).mPurchases)
 		return true;
 	for (OldSeedType aSeedType = SEED_TWINSUNFLOWER; aSeedType < SEED_COBCANNON; aSeedType = (OldSeedType)(aSeedType + 1))
 		if (aSeedType != SEED_SPIKEROCK && mApp->SeedTypeAvailable(aSeedType))

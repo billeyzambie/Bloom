@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ProjectileBehavior.h"
+#include "../ConstEnums.h"
 
 class BLOOM_API HomingProjectileBehavior : public ProjectileBehavior
 {

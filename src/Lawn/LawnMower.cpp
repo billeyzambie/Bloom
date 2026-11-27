@@ -31,7 +31,7 @@ void LawnMower::LawnMowerInitialize(int theRow)
 		aReanimType = ReanimationTypes::ROOF_CLEANER;
 	}
 	else if (mBoard->mPlantRow[mRow] == PlantRowType::PLANTROW_POOL &&
-			 mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::POOL_CLEANER).mPurchases
+			 mApp->mPlayerInfo->GetStoreItem(StoreItemTypes::POOL_CLEANER).mPurchases
 		)
 	{
 		mMowerType = LawnMowerType::LAWNMOWER_POOL;

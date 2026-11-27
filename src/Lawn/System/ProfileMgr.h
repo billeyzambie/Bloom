@@ -7,7 +7,6 @@
 
 class ProfileSyncer;
 class PlayerInfo;
-typedef std::pair<SexyString, PlayerInfo> ProfilePair;
 typedef std::map<SexyString, PlayerInfo, Sexy::StringLessNoCase> ProfileMap;
 
 class ProfileMgr

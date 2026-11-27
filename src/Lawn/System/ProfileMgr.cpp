@@ -51,7 +51,7 @@ void ProfileMgr::SyncState(ProfileSyncer &theSync)
 			if (aProfile.mUseSeq > aMaxUseSeq)
 				aMaxUseSeq = aProfile.mUseSeq;
 
-			mProfileMap[aProfile.mName] = aProfile;
+			mProfileMap[aProfile.mName] = std::move(aProfile);
 		}
 
 		mNextProfileId = aMaxProfileId + 1;
@@ -149,7 +149,7 @@ bool ProfileMgr::RenameProfile(const SexyString &theOldName, const SexyString &t
 			anOldItr->second.mName = theNewName;
 		else
 		{
-			auto aRet = mProfileMap.emplace(theNewName, anOldItr->second);
+			auto aRet = mProfileMap.emplace(theNewName, std::move(anOldItr->second));
 			if (!aRet.second)
 				return false;
 			else

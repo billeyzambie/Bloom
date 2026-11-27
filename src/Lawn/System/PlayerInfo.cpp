@@ -68,7 +68,7 @@ void PlayerInfo::SyncDetails(ProfileSyncer &theSync)
 				const StoreItemType *anItemType = Registries::STORE_ITEMS.GetByResourceId(aStoreItemId);
 				if (anItemType)
 				{
-					from_json(aKeyValuePair.value(), GetStoreItemData(*anItemType));
+					from_json(aKeyValuePair.value(), GetStoreItem(*anItemType));
 				}
 				else
 				{
@@ -87,7 +87,7 @@ void PlayerInfo::SyncDetails(ProfileSyncer &theSync)
 
 		for (const StoreItemType *aStoreItemType : Registries::STORE_ITEMS)
 		{
-			aJson[aStoreItemType->mResourceId.AsString()] = GetStoreItemData(*aStoreItemType);
+			aJson[aStoreItemType->mResourceId.AsString()] = GetStoreItem(*aStoreItemType);
 		}
 
 		theSync.mJSON["store_items"] = aJson;
@@ -245,11 +245,11 @@ void PlayerInfo::ResetChallengeRecord(GameMode theGameMode)
 	mChallengeRecords[aGameMode] = 0;
 }
 
-StoreItem &PlayerInfo::GetStoreItemData(const StoreItemType &theStoreItemType)
+StoreItem &PlayerInfo::GetStoreItem(const StoreItemType &theStoreItemType)
 {
 	return mStoreItemData[theStoreItemType.GetNumericalId()];
 }
-const StoreItem &PlayerInfo::GetStoreItemData(const StoreItemType &theStoreItemType) const
+const StoreItem &PlayerInfo::GetStoreItem(const StoreItemType &theStoreItemType) const
 {
 	return mStoreItemData[theStoreItemType.GetNumericalId()];
 }

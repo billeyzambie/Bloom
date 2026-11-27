@@ -1,7 +1,6 @@
 #include "StoreItemTypes.h"
 #include "StoreItem.h"
 #include "../Registries.h"
-#include "Behaviors/PacketUpgradeStoreItemType.h"
 #include "StoreItemBehaviorTypes.h"
 #include "StoreItemGroups.h"
 #include "Behaviors/ComingSoonBeforeOthersStoreItemBehavior.h"
@@ -42,18 +41,6 @@ const auto &GLOOM_SHROOM = RegisterTypeOf<StoreItem>(
 	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
 	{
 		theType.MakeSeedPacketStoreItem(OldSeedType::SEED_GLOOMSHROOM);
-	}
-);
-
-const auto &CATTAIL = RegisterTypeOf<StoreItem>(
-	"PVZ", "CATTAIL",
-	{
-		.mCost = 1000,
-		.mUnlockLevel = 34
-	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
-	{
-		theType.MakeSeedPacketStoreItem(OldSeedType::SEED_CATTAIL);
 	}
 );
 
@@ -427,8 +414,8 @@ const auto &TREE_FOOD = RegisterTypeOf<StoreItem>(
 
 		//aStoreItemType->mModifiers.Add(
 		//	[](StoreItemModifierContext &theContext) {
-		//		if (!theContext.mPlayerInfo.GetStoreItemData(TREE_OF_WISDOM).mPurchases ||
-		//		   !theContext.mPlayerInfo.GetStoreItemData(TREE_FOOD).mTotalPurchasesEver)
+		//		if (!theContext.mPlayerInfo.GetStoreItem(TREE_OF_WISDOM).mPurchases ||
+		//		   !theContext.mPlayerInfo.GetStoreItem(TREE_FOOD).mTotalPurchasesEver)
 		//		   theContext.mAttributes.mComingSoon = true;
 		//	}
 		//);

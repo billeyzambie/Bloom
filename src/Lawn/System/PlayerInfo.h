@@ -131,8 +131,13 @@ class BLOOM_API PlayerInfo
 		mLevel = theLevel;
 	}
 	void ResetChallengeRecord(GameMode theGameMode);
-	StoreItem &GetStoreItemData(const StoreItemType &theStoreItemType);
-	const StoreItem &GetStoreItemData(const StoreItemType &theStoreItemType) const;
+	StoreItem &GetStoreItem(const StoreItemType &theStoreItemType);
+	const StoreItem &GetStoreItem(const StoreItemType &theStoreItemType) const;
+	
+	PlayerInfo &operator=(const PlayerInfo& theCopied) = delete;
+	PlayerInfo(const PlayerInfo& theCopied) = delete;
+	PlayerInfo &operator=(PlayerInfo&& theMoved) = default;
+	PlayerInfo(PlayerInfo&& theMoved) = default;
 };
 
 #endif

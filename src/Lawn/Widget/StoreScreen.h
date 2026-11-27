@@ -43,7 +43,7 @@ class StoreScreen : public Dialog
 	int mAmbientSpeechCountDown;
 	int mPreviousAmbientSpeechIndex;
 	int mPage;
-	const StoreItemType *mMouseOverItem;
+	StoreItem *mMouseOverItem;
 	int mHatchTimer;
 	bool mHatchOpen;
 	int mShakeX;
@@ -64,15 +64,15 @@ class StoreScreen : public Dialog
 	StoreScreen(LawnApp *theApp);
 	virtual ~StoreScreen();
 
-	const StoreItemType *GetStoreItemType(int theSpotIndex);
+	StoreItem *GetStoreItem(int theSpotIndex);
 	bool IsFullVersionOnly(const StoreItemType &theStoreItem);
 	//static bool IsPottedPlant(OldStoreItemType theStoreItem);
-	bool IsComingSoon(const StoreItemType &theStoreItem);
-	bool IsItemSoldOut(const StoreItemType &theStoreItem);
-	bool IsItemUnavailable(const StoreItemType &theStoreItem);
+	bool IsComingSoon(StoreItem &theStoreItem);
+	bool IsItemSoldOut(StoreItem &theStoreItem);
+	bool IsItemUnavailable(StoreItem &theStoreItem);
 	static void GetStorePosition(int theSpotIndex, int &thePosX, int &thePosY);
-	void DrawItemIcon(Graphics *g, int theItemPosition, const StoreItemType &theItemType, bool theIsForHighlight);
-	void DrawItem(Graphics *g, int theItemPosition, const StoreItemType &theItemType);
+	void DrawItemIcon(Graphics *g, int theItemPosition, StoreItem &theItem, bool theIsForHighlight);
+	void DrawItem(Graphics *g, int theItemPosition, StoreItem &theItem);
 	virtual void Draw(Graphics *g);
 	virtual void DrawOverlay(Graphics *g);
 	void SetBubbleText(int theCrazyDaveMessage, int theTime, bool theClickToContinue);
@@ -86,8 +86,8 @@ class StoreScreen : public Dialog
 	virtual void ButtonDepress(int theId);
 	virtual void KeyChar(SexyChar theChar);
 	//static int GetItemCost(OldStoreItemType theStoreItem);
-	bool CanAffordItem(const StoreItemType &theStoreItem);
-	void PurchaseItem(const StoreItemType &theStoreItem);
+	bool CanAffordItem(StoreItem &theStoreItem);
+	void PurchaseItem(StoreItem &theStoreItem);
 	void AdvanceCrazyDaveDialog();
 	virtual void MouseDown(int x, int y, int theClickCount);
 	void EnableButtons(bool theEnable);

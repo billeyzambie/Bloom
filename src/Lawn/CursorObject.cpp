@@ -84,7 +84,7 @@ void CursorObject::Draw(Graphics *g)
 		break;
 
 	case CursorType::CURSOR_TYPE_WATERING_CAN:
-		if (mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::GOLD_WATERING_CAN).mPurchases)
+		if (mApp->mPlayerInfo->GetStoreItem(StoreItemTypes::GOLD_WATERING_CAN).mPurchases)
 		{
 			g->DrawImage(IMAGE_ZEN_GOLDTOOLRETICLE, -62, -37);
 			g->DrawImage(IMAGE_WATERINGCANGOLD, -3, 12);

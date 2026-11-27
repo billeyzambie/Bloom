@@ -2,7 +2,7 @@
 #include "StoreItemTypes.h"
 #include "StoreItemGroups.h"
 #include "StoreItemBehaviorTypes.h"
-#include "SeedPacketStoreItemBehavior.h"
+#include "Behaviors/SeedPacketStoreItemBehavior.h"
 #include "../Sexy.TodLib/TodDebug.h"
 #include "../LawnApp.h"
 #include "../Registries.h"
@@ -75,8 +75,8 @@ static std::string CreateStoreMessage(const StoreItemType &theItemType)
 		aMessageIndex = 2025;
 		break;
 	//case STORE_ITEM_PACKET_UPGRADE:
-	//	if (mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::PACKET_UPGRADE).mPurchases < 4)
-	//		aMessageIndex = mApp->mPlayerInfo->GetStoreItemData(StoreItemTypes::PACKET_UPGRADE).mPurchases + 2011;
+	//	if (mApp->mPlayerInfo->GetStoreItem(StoreItemTypes::PACKET_UPGRADE).mPurchases < 4)
+	//		aMessageIndex = mApp->mPlayerInfo->GetStoreItem(StoreItemTypes::PACKET_UPGRADE).mPurchases + 2011;
 	//	else
 	//		aMessageIndex = 2014;
 	//	break;
