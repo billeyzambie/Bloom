@@ -27,6 +27,7 @@ ReanimationType::operator OldReanimationType() const
 void ReanimationType::CopyFrom(const ReanimationType &theOther)
 {
 	mAttributeBaseValues = theOther.mAttributeBaseValues;
+	mFile = theOther.mFile;
 }
 
 void ReanimationType::Update(const LawnApp &theLawnApp)

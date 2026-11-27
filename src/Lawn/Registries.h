@@ -33,19 +33,13 @@ const auto &RegisterTypeOf(
 	const std::string &theModId,
 	const std::string &theTypeId,
 	const typename S::RegistryType::Attributes &theAttributes,
-	const std::function<void(
-		TypeOf<S> &,
-		typename S::RegistryType::Attributes &
-	)> &theInitializationModifier = [](
-		TypeOf<S> &,
-		typename S::RegistryType::Attributes &
-	) {}
+	std::function<void(TypeOf<S> &)> theInitializer = [](TypeOf<S> &) {}
 )
 {
 	return Registry<typename S::RegistryType>::gInstance->Register<S>(
 		theModId,
 		theTypeId,
 		theAttributes,
-		theInitializationModifier
+		std::move(theInitializer)
 	);
 }

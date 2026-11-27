@@ -21,4 +21,5 @@ class BLOOM_API ComingSoonBeforeOthersStoreItemBehaviorType
 	using StoreItemBehaviorTypeT<ComingSoonBeforeOthersStoreItemBehavior>::StoreItemBehaviorTypeT;
 	//Any of, not all of
 	std::vector<const StoreItemType *> mOthers;
+	virtual void CopyFrom(const StoreItemBehaviorType &theOther);
 };

@@ -12,3 +12,12 @@ void SeedPacketStoreItemBehavior::Draw(DrawContext &theContext)
 	else 
 		theContext.mGraphics.DrawImage(Sexy::IMAGE_SEEDPACKETFLASH, theContext.mPosX, theContext.mPosY);
 }
+
+void SeedPacketStoreItemBehaviorType::CopyFrom(const StoreItemBehaviorType &theOther)
+{
+	//this is a mess...
+	StoreItemBehaviorTypeT<SeedPacketStoreItemBehavior>::CopyFrom(theOther);
+	auto *aType = dynamic_cast<const SeedPacketStoreItemBehaviorType *>(&theOther);
+	if (aType)
+		mSeedType = aType->mSeedType;
+}

@@ -24,3 +24,12 @@ void ComingSoonBeforeOthersStoreItemBehavior::VirtualUpdate(UpdateContext &theCo
 	if (!anAnyAvailable)
 		aStoreItem.mAttributes.mComingSoon = true;
 }
+
+void ComingSoonBeforeOthersStoreItemBehaviorType::CopyFrom(const StoreItemBehaviorType &theOther)
+{
+	//this is a mess...
+	StoreItemBehaviorTypeT<ComingSoonBeforeOthersStoreItemBehavior>::CopyFrom(theOther);
+	auto *aType = dynamic_cast<const ComingSoonBeforeOthersStoreItemBehaviorType *>(&theOther);
+	if (aType)
+		mOthers = aType->mOthers;
+}

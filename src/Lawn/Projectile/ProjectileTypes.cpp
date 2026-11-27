@@ -14,7 +14,7 @@ const auto &PEA = RegisterTypeOf<Projectile>(
 		.mShadowOffsetX = 3.0f,
 		.mDamage = 20
 	},
-	[](ProjectileType &theType, ProjectileAttributes &theAttributes)
+	[](ProjectileType &theType)
 	{
 		theType.mBaseImage = {"PVZ", "IMAGE_PROJECTILEPEA"};
 	}
@@ -27,10 +27,10 @@ const auto &SNOWPEA = RegisterTypeOf<Projectile>(
 		.mShadowScale = 1.3f,
 		.mDamage = 20
 	},
-	[](ProjectileType &theType, ProjectileAttributes &theAttributes)
+	[](ProjectileType &theType)
 	{
 		theType.mBaseImage = {"PVZ", "IMAGE_PROJECTILESNOWPEA"};
-		SetBit(theAttributes.mDamageFlags, (int)DamageFlags::DAMAGE_FREEZE, true);
+		SetBit(theType.mAttributeBaseValues.mDamageFlags, (int)DamageFlags::DAMAGE_FREEZE, true);
 	}
 );
 
@@ -41,7 +41,7 @@ const auto &CABBAGE = RegisterTypeOf<Projectile>(
 		.mShadowScale = 1.6f,
 		.mDamage = 40
 	},
-	[](ProjectileType &theType, ProjectileAttributes &theAttributes)
+	[](ProjectileType &theType)
 	{
 		theType.mBaseImage = {"PVZ", "IMAGE_REANIM_CABBAGEPULT_CABBAGE"};
 	}
@@ -54,7 +54,7 @@ const auto &MELON = RegisterTypeOf<Projectile>(
 		.mShadowScale = 1.6f,
 		.mDamage = 80
 	},
-	[](ProjectileType &theType, ProjectileAttributes &theAttributes)
+	[](ProjectileType &theType)
 	{
 		theType.mBaseImage = {"PVZ", "IMAGE_REANIM_MELONPULT_MELON"};
 		theType.mBehaviors.Add(ProjectileBehaviorTypes::MELON_SPLASH);
@@ -66,7 +66,7 @@ const auto &PUFF = RegisterTypeOf<Projectile>(
 	{
 		.mDamage = 20
 	},
-	[](ProjectileType &theType, ProjectileAttributes &theAttributes)
+	[](ProjectileType &theType)
 	{
 		theType.mBaseImage = {"PVZ", "IMAGE_PUFFSHROOM_PUFF1"};
 	}
@@ -79,9 +79,9 @@ const auto &WINTERMELON = RegisterTypeOf<Projectile>(
 		.mShadowScale = 1.6f,
 		.mDamage = 80
 	},
-	[](ProjectileType &theType, ProjectileAttributes &theAttributes)
+	[](ProjectileType &theType)
 	{
-		SetBit(theAttributes.mDamageFlags, (int)DamageFlags::DAMAGE_FREEZE, true);
+		SetBit(theType.mAttributeBaseValues.mDamageFlags, (int)DamageFlags::DAMAGE_FREEZE, true);
 		theType.mBaseImage = {"PVZ", "IMAGE_REANIM_WINTERMELON_PROJECTILE"};
 		theType.mBehaviors.Add(ProjectileBehaviorTypes::MELON_SPLASH);
 	}
@@ -93,7 +93,7 @@ const auto &FIREBALL = RegisterTypeOf<Projectile>(
 		.mShadowScale = 1.4f,
 		.mDamage = 40
 	},
-	[](ProjectileType &theType, ProjectileAttributes &theAttributes)
+	[](ProjectileType &theType)
 	{
 		theType.mBehaviors.Add(ProjectileBehaviorTypes::FIRE);
 	}
@@ -105,7 +105,7 @@ const auto &STAR = RegisterTypeOf<Projectile>(
 		.mShadowOffsetX = 7.0f,
 		.mDamage = 20
 	},
-	[](ProjectileType &theType, ProjectileAttributes &theAttributes)
+	[](ProjectileType &theType)
 	{
 		theType.mBaseImage = {"PVZ", "IMAGE_PROJECTILE_STAR"};
 	}
@@ -116,7 +116,7 @@ const auto &SPIKE = RegisterTypeOf<Projectile>(
 	{
 		.mDamage = 20
 	},
-	[](ProjectileType &theType, ProjectileAttributes &theAttributes)
+	[](ProjectileType &theType)
 	{
 		theType.mBaseImage = {"PVZ", "IMAGE_PROJECTILECACTUS"};
 		theType.mBehaviors.Add(
@@ -132,7 +132,7 @@ const auto &BASKETBALL = RegisterTypeOf<Projectile>(
 		.mVisualScale = 1.1f,
 		.mDamage = 75
 	},
-	[](ProjectileType &theType, ProjectileAttributes &theAttributes)
+	[](ProjectileType &theType)
 	{
 		theType.mBaseImage = {"PVZ", "IMAGE_REANIM_ZOMBIE_CATAPULT_BASKETBALL"};
 	}
@@ -146,7 +146,7 @@ const auto &KERNEL = RegisterTypeOf<Projectile>(
 		.mShadowScale = 1.6f,
 		.mDamage = 20
 	},
-	[](ProjectileType &theType, ProjectileAttributes &theAttributes)
+	[](ProjectileType &theType)
 	{
 		theType.mBaseImage = {"PVZ", "IMAGE_REANIM_CORNPULT_KERNAL"};
 	}
@@ -167,7 +167,7 @@ const auto &COBBIG = RegisterTypeOf<Projectile>(
 			GetBit(DamageRangeFlags::DAMAGES_DYING) | GetBit(DamageRangeFlags::DAMAGES_UNDERGROUND) |
 			GetBit(DamageRangeFlags::DAMAGES_OFF_GROUND)
 	},
-	[](ProjectileType &theType, ProjectileAttributes &theAttributes)
+	[](ProjectileType &theType)
 	{
 		theType.mBaseImage = {"PVZ", "IMAGE_REANIM_COBCANNON_COB"};
 	}
@@ -181,7 +181,7 @@ const auto &BUTTER = RegisterTypeOf<Projectile>(
 		.mShadowScale = 1.6f,
 		.mDamage = 40
 	},
-	[](ProjectileType &theType, ProjectileAttributes &theAttributes)
+	[](ProjectileType &theType)
 	{
 		theType.mBaseImage = {"PVZ", "IMAGE_REANIM_CORNPULT_BUTTER"};
 		theType.mBehaviors.Add(ProjectileBehaviorTypes::APPLY_BUTTER);
@@ -194,7 +194,7 @@ const auto &ZOMBIE_PEA = RegisterTypeOf<Projectile>(
 		.mShadowOffsetX = 3.0f,
 		.mDamage = 20
 	},
-	[](ProjectileType &theType, ProjectileAttributes &theAttributes)
+	[](ProjectileType &theType)
 	{
 		theType.mBaseImage = {"PVZ", "IMAGE_PROJECTILEPEA"};
 	}
@@ -207,11 +207,11 @@ const auto &CUSTOM_TEST = RegisterTypeOf<Projectile>(
 		.mShadowOffsetX = 3.0f,
 		.mDamage = 30
 	},
-	[](ProjectileType &theType, ProjectileAttributes &theAttributes)
+	[](ProjectileType &theType)
 	{
 		theType.mBaseImage = {"PVZ", "IMAGE_BRAIN"};
 		theType.mBehaviors.Add(
-			RegisterTypeOf<TestProjectileBehavior>("PVZ", "FIRE", {}),
+			RegisterTypeOf<TestProjectileBehavior>("PVZ", "CUSTOM_TEST", {}),
 			ListInsertion<ProjectileBehaviorType>::Before(ProjectileBehaviorTypes::MAIN)
 		);
 	}

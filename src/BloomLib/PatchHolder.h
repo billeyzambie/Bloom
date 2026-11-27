@@ -16,11 +16,17 @@ template <class T> class BLOOM_API PatchHolder
 
 	bool mDirty = false;
 
-	PatchHolder(const std::function<T *()> &theSupplier) 
+	PatchHolder(
+		const std::function<T *()> &theSupplier,
+		const std::function<void(T &)> &theInitializer
+	) 
 		: mOriginal(theSupplier()), mCurrent(theSupplier())
 	{
 		mOriginal->mPatchHolder = this;
 		mCurrent->mPatchHolder = this;
+
+		theInitializer(*mOriginal);
+		mCurrent->CopyFrom(*mOriginal);
 	}
 
   public:

@@ -168,7 +168,7 @@ void StoreItemType::MakeSeedPacketStoreItem(OldSeedType theSeedType)
 		"PVZ",
 		mResourceId.CreateBarePathString() + "_SEED_PACKET",
 		{},
-		[=](TypeOf<SeedPacketStoreItemBehavior> &theType, StoreItemBehaviorAttributes &theAttributes) 
+		[=](TypeOf<SeedPacketStoreItemBehavior> &theType) 
 		{
 			theType.mSeedType = theSeedType;
 		}

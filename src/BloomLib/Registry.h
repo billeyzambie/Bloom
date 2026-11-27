@@ -68,14 +68,20 @@ template <class T> class BLOOM_API Registry : public IRegistry
 	Registry &operator=(const Registry &theCopied) = delete;
 
 	template <class S>
-	const auto &Register(std::function<TypeOf<S> *()> theSupplier)
+	const auto &Register(
+		std::function<TypeOf<S> *()> theSupplier,
+		std::function<void(TypeOf<S> &)> theInitializer = [](TypeOf<S> &) {}
+	)
 	{
 		TOD_ASSERT(mState != FROZEN, "Type registered too late");
 		int anId = mNextId++;
 		TOD_ASSERT(anId == mHolders.size());
 		if constexpr (std::is_final_v<S>)
 		{
-			auto aHolder = std::make_unique<RegistryHolder<T>>(std::move(theSupplier));
+			auto aHolder = std::make_unique<RegistryHolder<T>>(
+				std::move(theSupplier),
+				std::move(theInitializer)
+			);
 			auto *aHolderPtr = aHolder.get();
 			mHolders.push_back(std::move(aHolder));
 			if (mState == RAN)
@@ -86,7 +92,13 @@ template <class T> class BLOOM_API Registry : public IRegistry
 		}
 		else
 		{
-			auto aHolder = std::make_unique<RegistryTypeHolder<S, T>>(std::move(theSupplier));
+			auto aHolder = std::make_unique<RegistryTypeHolder<S, T>>(
+				std::move(theSupplier),
+				[anInitializer = std::move(theInitializer)](T &theT) 
+				{
+					anInitializer(static_cast<TypeOf<S> &>(theT));
+				}
+			);
 			auto *aHolderPtr = aHolder.get();
 			mHolders.push_back(std::move(aHolder));
 			if (mState == RAN)
@@ -102,20 +114,13 @@ template <class T> class BLOOM_API Registry : public IRegistry
 		const std::string &theModId,
 		const std::string &theTypeId,
 		const typename T::Attributes &theAttributes,
-		const std::function<void(
-			TypeOf<S> &,
-			typename S::RegistryType::Attributes &
-		)> &theInitializationModifier = [](
-			TypeOf<S> &,
-			typename S::RegistryType::Attributes &
-		) {}
+		std::function<void(TypeOf<S> &)> theInitializer = [](TypeOf<S> &) {}
 	)
 	{
 		return Register<S>([=]() {
 			auto *aType = new TypeOf<S>(theModId, theTypeId, theAttributes);
-			theInitializationModifier(*aType, aType->mAttributeBaseValues);
 			return aType;
-		});
+		}, std::move(theInitializer));
 	}
 
 	const T *GetByResourceId(const ResourceId &theResourceId) const

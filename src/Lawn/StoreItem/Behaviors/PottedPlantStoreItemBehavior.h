@@ -34,4 +34,5 @@ class BLOOM_API PottedPlantStoreItemBehaviorType
   public:
 	using StoreItemBehaviorTypeT<PottedPlantStoreItemBehavior>::StoreItemBehaviorTypeT;
 	const PlantType *mPlantType = nullptr;
+	virtual void CopyFrom(const StoreItemBehaviorType &theOther);
 };

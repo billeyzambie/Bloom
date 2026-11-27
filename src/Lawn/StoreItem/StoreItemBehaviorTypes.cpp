@@ -33,7 +33,7 @@ const auto &POTTED_MARIGOLD = RegisterTypeOf<PottedPlantStoreItemBehavior>(
 	"PVZ",
 	"POTTED_MARIGOLD", 
 	{},
-	[](TypeOf<PottedPlantStoreItemBehavior> &theType, StoreItemBehaviorAttributes &theAttributes)
+	[](TypeOf<PottedPlantStoreItemBehavior> &theType)
 	{
 		theType.mPlantType = PlantTypes::MARIGOLD;
 	}

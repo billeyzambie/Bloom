@@ -11,7 +11,7 @@ const auto &PEASHOOTER = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 150
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::PEASHOOTER;
 		theType.mSunCost = 100;
@@ -24,7 +24,7 @@ const auto &SUNFLOWER = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 2500
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::SUNFLOWER;
 		theType.mSunCost = 50;
@@ -36,7 +36,7 @@ const auto &CHERRY_BOMB = RegisterTypeOf<Plant>(
 	"PVZ", "CHERRY_BOMB",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::CHERRY_BOMB;
 		theType.mSunCost = 150;
@@ -48,7 +48,7 @@ const auto &WALL_NUT = RegisterTypeOf<Plant>(
 	"PVZ", "WALL_NUT",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::WALL_NUT;
 		theType.mSunCost = 50;
@@ -60,7 +60,7 @@ const auto &POTATO_MINE = RegisterTypeOf<Plant>(
 	"PVZ", "POTATO_MINE",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::POTATO_MINE;
 		theType.mSunCost = 25;
@@ -73,7 +73,7 @@ const auto &SNOW_PEA = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 150
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::SNOW_PEA;
 		theType.mSunCost = 175;
@@ -85,7 +85,7 @@ const auto &CHOMPER = RegisterTypeOf<Plant>(
 	"PVZ", "CHOMPER",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::CHOMPER;
 		theType.mSunCost = 150;
@@ -98,7 +98,7 @@ const auto &REPEATER = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 150
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::REPEATER;
 		theType.mSunCost = 200;
@@ -111,7 +111,7 @@ const auto &PUFF_SHROOM = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 150
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::PUFF_SHROOM;
 		theType.mSunCost = 0;
@@ -124,7 +124,7 @@ const auto &SUN_SHROOM = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 2500
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::SUN_SHROOM;
 		theType.mSunCost = 25;
@@ -137,7 +137,7 @@ const auto &FUME_SHROOM = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 150
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::FUME_SHROOM;
 		theType.mSunCost = 75;
@@ -149,7 +149,7 @@ const auto &GRAVE_BUSTER = RegisterTypeOf<Plant>(
 	"PVZ", "GRAVE_BUSTER",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::FUME_SHROOM;
 		theType.mSunCost = 75;
@@ -161,7 +161,7 @@ const auto &HYPNO_SHROOM = RegisterTypeOf<Plant>(
 	"PVZ", "HYPNO_SHROOM",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::HYPNO_SHROOM;
 		theType.mSunCost = 75;
@@ -174,7 +174,7 @@ const auto &SCAREDY_SHROOM = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 150
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::SCAREDY_SHROOM;
 		theType.mSunCost = 25;
@@ -186,7 +186,7 @@ const auto &ICE_SHROOM = RegisterTypeOf<Plant>(
 	"PVZ", "ICE_SHROOM",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::ICE_SHROOM;
 		theType.mSunCost = 75;
@@ -198,7 +198,7 @@ const auto &DOOM_SHROOM = RegisterTypeOf<Plant>(
 	"PVZ", "DOOM_SHROOM",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::DOOM_SHROOM;
 		theType.mSunCost = 125;
@@ -210,7 +210,7 @@ const auto &LILY_PAD = RegisterTypeOf<Plant>(
 	"PVZ", "LILY_PAD",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::LILY_PAD;
 		theType.mSunCost = 25;
@@ -222,7 +222,7 @@ const auto &SQUASH = RegisterTypeOf<Plant>(
 	"PVZ", "SQUASH",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::SQUASH;
 		theType.mSunCost = 50;
@@ -235,7 +235,7 @@ const auto &THREEPEATER = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 150
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::THREEPEATER;
 		theType.mSunCost = 125;
@@ -247,7 +247,7 @@ const auto &TANGLE_KELP = RegisterTypeOf<Plant>(
 	"PVZ", "TANGLE_KELP",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::TANGLE_KELP;
 		theType.mSunCost = 25;
@@ -259,7 +259,7 @@ const auto &JALAPENO = RegisterTypeOf<Plant>(
 	"PVZ", "JALAPENO",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::JALAPENO;
 		theType.mSunCost = 125;
@@ -271,7 +271,7 @@ const auto &SPIKEWEED = RegisterTypeOf<Plant>(
 	"PVZ", "SPIKEWEED",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::SPIKEWEED;
 		theType.mSunCost = 100;
@@ -283,7 +283,7 @@ const auto &TORCHWOOD = RegisterTypeOf<Plant>(
 	"PVZ", "TORCHWOOD",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::TORCHWOOD;
 		theType.mSunCost = 175;
@@ -295,7 +295,7 @@ const auto &TALL_NUT = RegisterTypeOf<Plant>(
 	"PVZ", "TALL_NUT",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::TALL_NUT;
 		theType.mSunCost = 125;
@@ -308,7 +308,7 @@ const auto &SEA_SHROOM = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 150
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::SEA_SHROOM;
 		theType.mSunCost = 0;
@@ -321,7 +321,7 @@ const auto &PLANTERN = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 2500
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::PLANTERN;
 		theType.mSunCost = 25;
@@ -334,7 +334,7 @@ const auto &CACTUS = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 150
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::CACTUS;
 		theType.mSunCost = 125;
@@ -346,7 +346,7 @@ const auto &BLOVER = RegisterTypeOf<Plant>(
 	"PVZ", "BLOVER",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::BLOVER;
 		theType.mSunCost = 100;
@@ -359,7 +359,7 @@ const auto &SPLIT_PEA = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 150
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::SPLIT_PEA;
 		theType.mSunCost = 125;
@@ -372,7 +372,7 @@ const auto &STARFRUIT = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 150
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::STARFRUIT;
 		theType.mSunCost = 125;
@@ -384,7 +384,7 @@ const auto &PUMPKIN = RegisterTypeOf<Plant>(
 	"PVZ", "PUMPKIN",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::PUMPKIN;
 		theType.mSunCost = 125;
@@ -396,7 +396,7 @@ const auto &MAGNET_SHROOM = RegisterTypeOf<Plant>(
 	"PVZ", "MAGNET_SHROOM",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::MAGNET_SHROOM;
 		theType.mSunCost = 100;
@@ -409,7 +409,7 @@ const auto &CABBAGE_PULT = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 300
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::CABBAGE_PULT;
 		theType.mSunCost = 100;
@@ -421,7 +421,7 @@ const auto &FLOWER_POT = RegisterTypeOf<Plant>(
 	"PVZ", "FLOWER_POT",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::FLOWER_POT;
 		theType.mSunCost = 25;
@@ -434,7 +434,7 @@ const auto &KERNEL_PULT = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 300
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::KERNEL_PULT;
 		theType.mSunCost = 100;
@@ -447,7 +447,7 @@ const auto &COFFEE_BEAN = RegisterTypeOf<Plant>(
 	{
 		.mIsFlying = true
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::COFFEE_BEAN;
 		theType.mSunCost = 75;
@@ -459,7 +459,7 @@ const auto &GARLIC = RegisterTypeOf<Plant>(
 	"PVZ", "GARLIC",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::GARLIC;
 		theType.mSunCost = 50;
@@ -471,7 +471,7 @@ const auto &UMBRELLA_LEAF = RegisterTypeOf<Plant>(
 	"PVZ", "UMBRELLA_LEAF",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::UMBRELLA_LEAF;
 		theType.mSunCost = 100;
@@ -484,7 +484,7 @@ const auto &MARIGOLD = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 250
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::MARIGOLD;
 		theType.mSunCost = 50;
@@ -497,7 +497,7 @@ const auto &MELON_PULT = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 300
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::MELON_PULT;
 		theType.mSunCost = 300;
@@ -510,7 +510,7 @@ const auto &GATLING_PEA = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 150
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::GATLING_PEA;
 		theType.mSunCost = 250;
@@ -523,7 +523,7 @@ const auto &TWIN_SUNFLOWER = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 2500
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::TWIN_SUNFLOWER;
 		theType.mSunCost = 150;
@@ -536,7 +536,7 @@ const auto &GLOOM_SHROOM = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 200
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::TWIN_SUNFLOWER;
 		theType.mSunCost = 150;
@@ -549,7 +549,7 @@ const auto &CATTAIL = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 150
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::TWIN_SUNFLOWER;
 		theType.mSunCost = 225;
@@ -562,7 +562,7 @@ const auto &WINTER_MELON =  RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 300
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::WINTER_MELON;
 		theType.mSunCost = 200;
@@ -574,7 +574,7 @@ const auto &GOLD_MAGNET = RegisterTypeOf<Plant>(
 	"PVZ", "GOLD_MAGNET",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::GOLD_MAGNET;
 		theType.mSunCost = 50;
@@ -586,7 +586,7 @@ const auto &SPIKEROCK = RegisterTypeOf<Plant>(
 	"PVZ", "SPIKEROCK",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::SPIKEROCK;
 		theType.mSunCost = 125;
@@ -599,7 +599,7 @@ const auto &COB_CANNON = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 600
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::COB_CANNON;
 		theType.mSunCost = 500;
@@ -611,7 +611,7 @@ const auto &IMITATER = RegisterTypeOf<Plant>(
 	"PVZ", "IMITATER",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::IMITATER;
 		theType.mSunCost = 0;
@@ -623,7 +623,7 @@ const auto &EXPLODE_O_NUT = RegisterTypeOf<Plant>(
 	"PVZ", "EXPLODE_O_NUT",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::WALL_NUT;
 		theType.mSunCost = 0;
@@ -635,7 +635,7 @@ const auto &GIANT_WALL_NUT = RegisterTypeOf<Plant>(
 	"PVZ", "GIANT_WALL_NUT",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::WALL_NUT;
 		theType.mSunCost = 0;
@@ -647,7 +647,7 @@ const auto &SPROUT = RegisterTypeOf<Plant>(
 	"PVZ", "SPROUT",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::ZEN_GARDEN_SPROUT;
 		theType.mSunCost = 0;
@@ -660,7 +660,7 @@ const auto &LEFTPEATER = RegisterTypeOf<Plant>(
 	{
 		.mLaunchRate = 150
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::REPEATER;
 		theType.mSunCost = 200;
@@ -672,7 +672,7 @@ const auto &CUSTOM_TEST = RegisterTypeOf<Plant>(
 	"PVZ", "CUSTOM_TEST",
 	{
 	},
-	[](PlantType &theType, PlantAttributes &theAttributes)
+	[](PlantType &theType)
 	{
 		theType.mBaseReanim = ReanimationTypes::GOLD_BLOOM;
 		theType.mSunCost = 150;

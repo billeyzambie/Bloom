@@ -53,3 +53,12 @@ void PottedPlantStoreItemBehavior::OnPurchase(PurchaseContext &theContext)
 	InitializePottedPlant();
 	mLastDayBought = GetCurrentDaysSince2000();
 }
+
+void PottedPlantStoreItemBehaviorType::CopyFrom(const StoreItemBehaviorType &theOther)
+{
+	//this is a mess...
+	StoreItemBehaviorTypeT<PottedPlantStoreItemBehavior>::CopyFrom(theOther);
+	auto *aType = dynamic_cast<const PottedPlantStoreItemBehaviorType *>(&theOther);
+	if (aType)
+		mPlantType = aType->mPlantType;
+}

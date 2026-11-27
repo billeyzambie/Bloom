@@ -9,7 +9,7 @@ const auto &LOAD_BAR_SPROUT = RegisterTypeOf<Reanimation>(
 	"PVZ", "LOADBAR_SPROUT",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -19,7 +19,7 @@ const auto &LOAD_BAR_ZOMBIE_HEAD = RegisterTypeOf<Reanimation>(
 	"PVZ", "LOADBAR_ZOMBIEHEAD",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -35,7 +35,7 @@ const auto &FINAL_WAVE = RegisterTypeOf<Reanimation>(
 	"PVZ", "FINALWAVE",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -45,7 +45,7 @@ const auto &PEASHOOTER = RegisterTypeOf<Reanimation>(
 	"PVZ", "PEASHOOTER",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mFile = {"PVZ", "reanim/PeaShooterSingle.reanim"};
 		theType.mPlantHasSeparateHead = true;
@@ -80,7 +80,7 @@ const auto &READY_SET_PLANT = RegisterTypeOf<Reanimation>(
 	"PVZ", "READY_SET_PLANT",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mFile = {"PVZ", "reanim/StartReadySetPlant.reanim"};
 		theType.mNoAtlas = true;
@@ -109,7 +109,7 @@ const auto &SNOW_PEA = RegisterTypeOf<Reanimation>(
 	"PVZ", "SNOWPEA",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mPlantHasSeparateHead = true;
 	}
@@ -119,7 +119,7 @@ const auto &REPEATER = RegisterTypeOf<Reanimation>(
 	"PVZ", "REPEATER",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mFile = {"PVZ", "reanim/PeaShooter.reanim"};
 		theType.mPlantHasSeparateHead = true;
@@ -244,7 +244,7 @@ const auto &JALAPENO_FIRE = RegisterTypeOf<Reanimation>(
 	"PVZ", "JALAPENO_FIRE",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mFile = {"PVZ", "reanim/fire.reanim"};
 	}
@@ -350,7 +350,7 @@ const auto &DANCER = RegisterTypeOf<Reanimation>(
 	"PVZ", "DANCER",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mFile = {"PVZ", "reanim/Zombie_disco.reanim"};
 	}
@@ -480,7 +480,7 @@ const auto &ZOMBIES_WON = RegisterTypeOf<Reanimation>(
 	"PVZ", "ZOMBIESWON",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -520,7 +520,7 @@ const auto &COFFEE_BEAN = RegisterTypeOf<Reanimation>(
 	"PVZ", "COFFEEBEAN",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -536,7 +536,7 @@ const auto &GATLING_PEA = RegisterTypeOf<Reanimation>(
 	"PVZ", "GATLINGPEA",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mPlantHasSeparateHead = true;
 	}
@@ -558,7 +558,7 @@ const auto &BOSS_ICEBALL = RegisterTypeOf<Reanimation>(
 	"PVZ", "ZOMBIE_BOSS_ICEBALL",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -568,7 +568,7 @@ const auto &BOSS_FIREBALL = RegisterTypeOf<Reanimation>(
 	"PVZ", "ZOMBIE_BOSS_FIREBALL",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -650,7 +650,7 @@ const auto &CRAZY_DAVE = RegisterTypeOf<Reanimation>(
 	"PVZ", "CRAZYDAVE",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -678,7 +678,7 @@ const auto &CREDITS_FOOTBALL = RegisterTypeOf<Reanimation>(
 	"PVZ", "CREDITS_FOOTBALL",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -688,7 +688,7 @@ const auto &CREDITS_JACKBOX = RegisterTypeOf<Reanimation>(
 	"PVZ", "CREDITS_JACKBOX",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -698,7 +698,7 @@ const auto &SELECTOR_SCREEN = RegisterTypeOf<Reanimation>(
 	"PVZ", "SELECTORSCREEN",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -728,7 +728,7 @@ const auto &ZEN_GARDEN_WATERING_CAN = RegisterTypeOf<Reanimation>(
 	//can't bother uppercasing them now, they're case insensitive anyway
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -738,7 +738,7 @@ const auto &ZEN_GARDEN_FERTILIZER = RegisterTypeOf<Reanimation>(
 	"PVZ", "ZenGarden_fertilizer",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -748,7 +748,7 @@ const auto &ZEN_GARDEN_BUG_SPRAY = RegisterTypeOf<Reanimation>(
 	"PVZ", "ZenGarden_bugspray",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -758,7 +758,7 @@ const auto &ZEN_GARDEN_PHONOGRAPH = RegisterTypeOf<Reanimation>(
 	"PVZ", "ZenGarden_phonograph",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -774,7 +774,7 @@ const auto &ZOMBIE_HAND = RegisterTypeOf<Reanimation>(
 	"PVZ", "Zombie_hand",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -820,7 +820,7 @@ const auto &TREE_OF_WISDOM = RegisterTypeOf<Reanimation>(
 	"PVZ", "TreeOfWisdom",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -830,7 +830,7 @@ const auto &TREE_OF_WISDOM_CLOUDS = RegisterTypeOf<Reanimation>(
 	"PVZ", "TreeOfWisdomClouds",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -840,7 +840,7 @@ const auto &TREE_OF_WISDOM_TREE_FOOD = RegisterTypeOf<Reanimation>(
 	"PVZ", "TreeFood",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -850,7 +850,7 @@ const auto &CREDITS_MAIN = RegisterTypeOf<Reanimation>(
 	"PVZ", "Credits_Main",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -860,7 +860,7 @@ const auto &CREDITS_MAIN_2 = RegisterTypeOf<Reanimation>(
 	"PVZ", "Credits_Main2",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -870,7 +870,7 @@ const auto &CREDITS_MAIN_3 = RegisterTypeOf<Reanimation>(
 	"PVZ", "Credits_Main3",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -886,7 +886,7 @@ const auto &CREDITS_STAGE = RegisterTypeOf<Reanimation>(
 	"PVZ", "Credits_stage",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -896,7 +896,7 @@ const auto &CREDITS_BIG_BRAIN = RegisterTypeOf<Reanimation>(
 	"PVZ", "Credits_BigBrain",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -906,7 +906,7 @@ const auto &CREDITS_FLOWER_PETALS = RegisterTypeOf<Reanimation>(
 	"PVZ", "Credits_Flower_petals",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -916,7 +916,7 @@ const auto &CREDITS_INFANTRY = RegisterTypeOf<Reanimation>(
 	"PVZ", "Credits_Infantry",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -926,7 +926,7 @@ const auto &CREDITS_THROAT = RegisterTypeOf<Reanimation>(
 	"PVZ", "Credits_Throat",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -936,7 +936,7 @@ const auto &CREDITS_CRAZY_DAVE = RegisterTypeOf<Reanimation>(
 	"PVZ", "Credits_CrazyDave",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -946,7 +946,7 @@ const auto &CREDITS_BOSS_DANCE = RegisterTypeOf<Reanimation>(
 	"PVZ", "Credits_Bossdance",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -956,7 +956,7 @@ const auto &ZOMBIE_CREDITS_SCREEN_DOOR = RegisterTypeOf<Reanimation>(
 	"PVZ", "Zombie_Credits_Screendoor",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -966,7 +966,7 @@ const auto &ZOMBIE_CREDITS_CONEHEAD = RegisterTypeOf<Reanimation>(
 	"PVZ", "Zombie_Credits_Conehead",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -976,7 +976,7 @@ const auto &CREDITS_ZOMBIE_ARMY_1 = RegisterTypeOf<Reanimation>(
 	"PVZ", "Credits_ZombieArmy1",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -986,7 +986,7 @@ const auto &CREDITS_ZOMBIE_ARMY_2 = RegisterTypeOf<Reanimation>(
 	"PVZ", "Credits_ZombieArmy2",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -996,7 +996,7 @@ const auto &CREDITS_TOMB_STONES = RegisterTypeOf<Reanimation>(
 	"PVZ", "Credits_Tombstones",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -1006,7 +1006,7 @@ const auto &CREDITS_SOLAR_POWER = RegisterTypeOf<Reanimation>(
 	"PVZ", "Credits_SolarPower",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -1016,7 +1016,7 @@ const auto &CREDITS_ANY_HOUR = RegisterTypeOf<Reanimation>(
 	"PVZ", "Credits_Anyhour",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -1026,7 +1026,7 @@ const auto &CREDITS_WE_ARE_THE_UNDEAD = RegisterTypeOf<Reanimation>(
 	"PVZ", "Credits_WeAreTheUndead",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -1036,7 +1036,7 @@ const auto &CREDITS_DISCO_LIGHTS = RegisterTypeOf<Reanimation>(
 	"PVZ", "Credits_DiscoLights",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}
@@ -1052,7 +1052,7 @@ const auto &ZOMBATAR_HEAD = RegisterTypeOf<Reanimation>(
 	"PVZ", "zombatar_zombie_head",
 	{
 	},
-	[](ReanimationType &theType, ReanimationAttributes &theAttributes)
+	[](ReanimationType &theType)
 	{
 		theType.mNoAtlas = true;
 	}

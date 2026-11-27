@@ -12,9 +12,15 @@ template <class T> class RegistryHolder
   protected:
 	T *mType = nullptr;
 	std::function<T *()> mSupplier;
+	std::function<void(T &)> mInitializer;
 
   public:
-	RegistryHolder(std::function<T *()> theSupplier) : mSupplier(std::move(theSupplier))
+	RegistryHolder(
+		std::function<T *()> theSupplier,
+		std::function<void(T &)> theInitializer
+	) 
+		: mSupplier(std::move(theSupplier)),
+		mInitializer(std::move(theInitializer))
 	{
 	}
 	RegistryHolder() = default;
@@ -53,7 +59,7 @@ template <class T> class RegistryHolder
 		if (mType)
 			return {nullptr, nullptr};
 
-		auto *aPatchHolder = new PatchHolder<T>(mSupplier);
+		auto *aPatchHolder = new PatchHolder<T>(mSupplier, mInitializer);
 
 		mType = aPatchHolder->mCurrent;
 

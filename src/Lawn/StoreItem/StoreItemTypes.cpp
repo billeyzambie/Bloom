@@ -15,7 +15,7 @@ const auto &GATLING_PEA = RegisterTypeOf<StoreItem>(
 	{
 		.mCost = 500
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.MakeSeedPacketStoreItem(OldSeedType::SEED_GATLINGPEA);
 	}
@@ -26,7 +26,7 @@ const auto &TWIN_SUNFLOWER = RegisterTypeOf<StoreItem>(
 	{
 		.mCost = 500
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.MakeSeedPacketStoreItem(OldSeedType::SEED_TWINSUNFLOWER);
 	}
@@ -38,7 +38,7 @@ const auto &GLOOM_SHROOM = RegisterTypeOf<StoreItem>(
 		.mCost = 750,
 		.mUnlockLevel = 34
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.MakeSeedPacketStoreItem(OldSeedType::SEED_GLOOMSHROOM);
 	}
@@ -50,7 +50,7 @@ const auto &CATTAIL = RegisterTypeOf<StoreItem>(
 		.mCost = 1000,
 		.mUnlockLevel = 34
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.MakeSeedPacketStoreItem(OldSeedType::SEED_CATTAIL);
 	}
@@ -62,7 +62,7 @@ const auto &WINTER_MELON = RegisterTypeOf<StoreItem>(
 		.mCost = 1000,
 		.mUnlockLevel = 50
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.MakeSeedPacketStoreItem(OldSeedType::SEED_WINTERMELON);
 	}
@@ -74,7 +74,7 @@ const auto &GOLD_MAGNET = RegisterTypeOf<StoreItem>(
 		.mCost = 300,
 		.mUnlockLevel = 41
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.MakeSeedPacketStoreItem(OldSeedType::SEED_GOLD_MAGNET);
 	}
@@ -86,7 +86,7 @@ const auto &SPIKEROCK = RegisterTypeOf<StoreItem>(
 		.mCost = 750,
 		.mUnlockLevel = 41
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.MakeSeedPacketStoreItem(OldSeedType::SEED_SPIKEROCK);
 	}
@@ -98,7 +98,7 @@ const auto &COB_CANNON = RegisterTypeOf<StoreItem>(
 		.mCost = 2000,
 		.mUnlockLevel = 50
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.MakeSeedPacketStoreItem(OldSeedType::SEED_COBCANNON);
 	}
@@ -110,7 +110,7 @@ const auto &IMITATER = RegisterTypeOf<StoreItem>(
 		.mCost = 3000,
 		.mUnlockLevel = 50
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.MakeSeedPacketStoreItem(OldSeedType::SEED_IMITATER);
 	}
@@ -129,7 +129,7 @@ const auto &POTTED_MARIGOLD_1 = RegisterTypeOf<StoreItem>(
 	{
 		.mCost = 250
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.mGroup = StoreItemGroups::ZEN_GARDEN;
 		theType.mBehaviors.Add(StoreItemBehaviorTypes::POTTED_MARIGOLD);
@@ -141,7 +141,7 @@ const auto &POTTED_MARIGOLD_2 = RegisterTypeOf<StoreItem>(
 	{
 		.mCost = 250
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.mGroup = StoreItemGroups::ZEN_GARDEN;
 		theType.mBehaviors.Add(StoreItemBehaviorTypes::POTTED_MARIGOLD);
@@ -153,7 +153,7 @@ const auto &POTTED_MARIGOLD_3 = RegisterTypeOf<StoreItem>(
 	{
 		.mCost = 250
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.mGroup = StoreItemGroups::ZEN_GARDEN;
 		theType.mBehaviors.Add(StoreItemBehaviorTypes::POTTED_MARIGOLD);
@@ -167,7 +167,7 @@ const auto &GOLD_WATERING_CAN = RegisterTypeOf<StoreItem>(
 		.mDrawOffsetX = -14,
 		.mDrawOffsetY = -4
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.mGroup = StoreItemGroups::ZEN_GARDEN;
 		theType.mBaseIcon = {"PVZ", "IMAGE_WATERINGCANGOLD"};
@@ -183,7 +183,7 @@ const auto &FERTILIZER = RegisterTypeOf<StoreItem>(
 		.mDrawOffsetX = -11,
 		.mDrawOffsetY = -2
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.mGroup = StoreItemGroups::ZEN_GARDEN;
 		theType.mBaseIcon = {"PVZ", "IMAGE_FERTILIZER"};
@@ -199,7 +199,7 @@ const auto &BUG_SPRAY = RegisterTypeOf<StoreItem>(
 		.mDrawOffsetX = -12,
 		.mDrawOffsetY = 3
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.mGroup = StoreItemGroups::ZEN_GARDEN;
 		theType.mBaseIcon = {"PVZ", "IMAGE_BUG_SPRAY"};
@@ -213,7 +213,7 @@ const auto &PHONOGRAPH = RegisterTypeOf<StoreItem>(
 		.mDrawOffsetX = -12,
 		.mDrawOffsetY = 3
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.mGroup = StoreItemGroups::ZEN_GARDEN;
 		theType.mBaseIcon = {"PVZ", "IMAGE_PHONOGRAPH"};
@@ -227,7 +227,7 @@ const auto &GARDENING_GLOVE = RegisterTypeOf<StoreItem>(
 		.mDrawOffsetX = -12,
 		.mDrawOffsetY = 3
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.mGroup = StoreItemGroups::ZEN_GARDEN;
 		theType.mBaseIcon = {"PVZ", "IMAGE_ZEN_GARDENGLOVE"};
@@ -242,7 +242,7 @@ const auto &MUSHROOM_GARDEN = RegisterTypeOf<StoreItem>(
 		.mDrawOffsetX = -8,
 		.mDrawOffsetY = 2
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.mGroup = StoreItemGroups::ZEN_GARDEN;
 		theType.mBaseIcon = {"PVZ", "IMAGE_STORE_MUSHROOMGARDENICON"};
@@ -257,7 +257,7 @@ const auto &WHEEL_BARROW = RegisterTypeOf<StoreItem>(
 		.mDrawOffsetX = -12,
 		.mDrawOffsetY = 3
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.mGroup = StoreItemGroups::ZEN_GARDEN;
 		theType.mBaseIcon = {"PVZ", "IMAGE_ZEN_WHEELBARROW"};
@@ -274,7 +274,7 @@ const auto &STINKY_THE_SNAIL = RegisterTypeOf<StoreItem>(
 		.mDrawOffsetX = -24,
 		.mDrawOffsetY = 14
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.mGroup = StoreItemGroups::ZEN_GARDEN;
 		theType.mBaseIcon = {"PVZ", "IMAGE_REANIM_STINKY_TURN3"};
@@ -290,7 +290,7 @@ const auto &PACKET_UPGRADE = RegisterTypeOf<StoreItem>(
 		.mDrawOffsetX = -7,
 		.mDrawOffsetY = 7
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.mGroup = StoreItemGroups::UPGRADES;
 		theType.mInsertion = ListInsertion<StoreItemType>::First();
@@ -308,7 +308,7 @@ const auto &POOL_CLEANER = RegisterTypeOf<StoreItem>(
 		.mDrawOffsetX = 1,
 		.mDrawOffsetY = 7
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.mGroup = StoreItemGroups::UPGRADES;
 		theType.mInsertion = ListInsertion<StoreItemType>::After(PACKET_UPGRADE);
@@ -324,7 +324,7 @@ const auto &ROOF_CLEANER = RegisterTypeOf<StoreItem>(
 		.mDrawOffsetX = 0,
 		.mDrawOffsetY = 28
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.mGroup = StoreItemGroups::UPGRADES;
 		theType.mInsertion = ListInsertion<StoreItemType>::After(POOL_CLEANER);
@@ -340,7 +340,7 @@ const auto &RAKE = RegisterTypeOf<StoreItem>(
 		.mDrawOffsetX = -5,
 		.mDrawOffsetY = 10
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.mGroup = StoreItemGroups::UPGRADES;
 		theType.mInsertion = ListInsertion<StoreItemType>::Before(GATLING_PEA);
@@ -356,7 +356,7 @@ const auto &AQUARIUM_GARDEN = RegisterTypeOf<StoreItem>(
 		.mDrawOffsetX = -8,
 		.mDrawOffsetY = 2
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.mGroup = StoreItemGroups::ZEN_GARDEN;
 		theType.mInsertion = ListInsertion<StoreItemType>::Before(MUSHROOM_GARDEN);
@@ -379,7 +379,7 @@ const auto &TREE_OF_WISDOM = RegisterTypeOf<StoreItem>(
 		.mDrawOffsetX = -8,
 		.mDrawOffsetY = 2
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.mGroup = StoreItemGroups::ZEN_GARDEN;
 		theType.mBaseIcon = {"PVZ", "IMAGE_STORE_TREEOFWISDOMICON"};
@@ -398,7 +398,7 @@ const auto &TREE_FOOD = RegisterTypeOf<StoreItem>(
 		.mDrawOffsetX = -8,
 		.mDrawOffsetY = -2
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.mGroup = StoreItemGroups::ZEN_GARDEN;
 		theType.mBaseIcon = {"PVZ", "IMAGE_TREEFOOD"};
@@ -406,7 +406,7 @@ const auto &TREE_FOOD = RegisterTypeOf<StoreItem>(
 			"PVZ",
 			"TREE_FOOD_COMING_SOON_BEFORE_TREE",
 			{},
-			[](TypeOf<ComingSoonBeforeOthersStoreItemBehavior> &theType, auto &lol) 
+			[](TypeOf<ComingSoonBeforeOthersStoreItemBehavior> &theType) 
 			{
 				theType.mOthers.push_back(TREE_OF_WISDOM);
 			}
@@ -430,7 +430,7 @@ const auto &FIRST_AID = RegisterTypeOf<StoreItem>(
 		.mDrawOffsetX = -1,
 		.mDrawOffsetY = 13
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.mGroup = StoreItemGroups::UPGRADES;
 		theType.mBaseIcon = {"PVZ", "IMAGE_STORE_FIRSTAIDWALLNUTICON"};
@@ -445,7 +445,7 @@ const auto &PVZ = RegisterTypeOf<StoreItem>(
 		.mDrawOffsetY = -9,
 		.mUnavailable = true
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.mBaseIcon = {"PVZ", "IMAGE_STORE_PVZICON"};
 	}
@@ -459,7 +459,7 @@ const auto &CUSTOM_TEST = RegisterTypeOf<StoreItem>(
 		.mDrawOffsetY = 37,
 		.mUnavailable = true
 	},
-	[](StoreItemType &theType, StoreItemAttributes &theAttributes)
+	[](StoreItemType &theType)
 	{
 		theType.mBaseIcon = {"PVZ", "IMAGE_BRAIN"};
 	}
